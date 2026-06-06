@@ -1,0 +1,43 @@
+{
+  "allowed": true,
+  "can-bypass": true,
+  "decision": "allow",
+  "enforcement-mode": "soft",
+  "hard-stop": false,
+  "outcome-hash": "67184564196487a8e7927e3d5edda43ab7e19a3309e83eeeda109b7d806b8ebf",
+  "outcome-summary": {
+    "algo-deltas": [
+      {
+        "address": "7IEI4SIQGNQ5L3Y5HX3XI37P3ZDVNOXKVFKRCOH7DB7I4WNJAVEFVORHHY",
+        "delta": 100000
+      },
+      {
+        "address": "POKZP5FH4H4P7PZQDEYEJ6Z3IDMK4GPJLTASPZVBFQENLHBAXOJSTWBUOI",
+        "delta": -101000
+      }
+    ],
+    "algo-transfers": [
+      {
+        "amount": 100000,
+        "from": "POKZP5FH4H4P7PZQDEYEJ6Z3IDMK4GPJLTASPZVBFQENLHBAXOJSTWBUOI",
+        "kind": "pay",
+        "to": "7IEI4SIQGNQ5L3Y5HX3XI37P3ZDVNOXKVFKRCOH7DB7I4WNJAVEFVORHHY"
+      }
+    ],
+    "app-ids-touched": [],
+    "app-state-changes": null,
+    "asset-deltas": [],
+    "asset-transfers": null,
+    "auth-changes": [],
+    "human-summary": [
+      "Algo transfer: 100000 microAlgos from POKZP5FH4H4P7PZQDEYEJ6Z3IDMK4GPJLTASPZVBFQENLHBAXOJSTWBUOI to 7IEI4SIQGNQ5L3Y5HX3XI37P3ZDVNOXKVFKRCOH7DB7I4WNJAVEFVORHHY",
+      "No deterministic risk signals detected"
+    ],
+    "inner-txn-count": 0,
+    "resource-lifecycle": null,
+    "risk-signals": [],
+    "round": 269
+  },
+  "verification-status": "verified",
+  "violations": []
+}

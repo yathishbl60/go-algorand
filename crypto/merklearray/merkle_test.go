@@ -21,6 +21,7 @@ import (
 	"fmt"
 	"hash"
 	"runtime"
+	"sync/atomic"
 	"testing"
 
 	"github.com/stretchr/testify/require"
@@ -71,6 +72,31 @@ func (a TestArray) Marshal(pos uint64) (crypto.Hashable, error) {
 type TestRepeatingArray struct {
 	item  crypto.Hashable
 	count uint64
+}
+
+type countingHashIntoArray struct {
+	data          TestArray
+	marshalCalls  atomic.Int64
+	hashIntoCalls atomic.Int64
+}
+
+func (a *countingHashIntoArray) Length() uint64 {
+	return uint64(len(a.data))
+}
+
+func (a *countingHashIntoArray) Marshal(pos uint64) (crypto.Hashable, error) {
+	a.marshalCalls.Add(1)
+	return a.data.Marshal(pos)
+}
+
+func (a *countingHashIntoArray) HashInto(pos uint64, h hash.Hash, out []byte) error {
+	a.hashIntoCalls.Add(1)
+	leaf, err := a.data.Marshal(pos)
+	if err != nil {
+		return err
+	}
+	copy(out, crypto.GenericHashObj(h, leaf))
+	return nil
 }
 
 func (a TestRepeatingArray) Length() uint64 {
@@ -785,6 +811,48 @@ func testMerkleTreeKATsAux(t *testing.T, KATs []KATElement, hashType crypto.Hash
 		root2 := hex.EncodeToString(tree.Root())
 		require.Equal(t, root, root2, "mismatched roots on KATs %s index %d", hashType.String(), j)
 	}
+}
+
+func TestBuildPrefersHashInto(t *testing.T) {
+	partitiontest.PartitionTest(t)
+	t.Parallel()
+
+	data := make(TestArray, 8)
+	for i := range data {
+		crypto.RandBytes(data[i][:])
+	}
+
+	factory := crypto.HashFactory{HashType: crypto.Sha512_256}
+	plainTree, err := Build(data, factory)
+	require.NoError(t, err)
+
+	tracked := &countingHashIntoArray{data: append(TestArray(nil), data...)}
+	tree, err := Build(tracked, factory)
+	require.NoError(t, err)
+	require.Equal(t, plainTree.Root(), tree.Root())
+	require.EqualValues(t, 0, tracked.marshalCalls.Load())
+	require.EqualValues(t, len(data), tracked.hashIntoCalls.Load())
+}
+
+func TestBuildVectorCommitmentPrefersHashInto(t *testing.T) {
+	partitiontest.PartitionTest(t)
+	t.Parallel()
+
+	data := make(TestArray, 3)
+	for i := range data {
+		crypto.RandBytes(data[i][:])
+	}
+
+	factory := crypto.HashFactory{HashType: crypto.Sha256}
+	plainTree, err := BuildVectorCommitmentTree(data, factory)
+	require.NoError(t, err)
+
+	tracked := &countingHashIntoArray{data: append(TestArray(nil), data...)}
+	tree, err := BuildVectorCommitmentTree(tracked, factory)
+	require.NoError(t, err)
+	require.Equal(t, plainTree.Root(), tree.Root())
+	require.EqualValues(t, 0, tracked.marshalCalls.Load())
+	require.EqualValues(t, len(data), tracked.hashIntoCalls.Load())
 }
 
 func TestVCKATs(t *testing.T) {

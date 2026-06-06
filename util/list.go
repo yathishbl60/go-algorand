@@ -67,11 +67,12 @@ func (l *List[T]) getNewNode() *ListNode[T] {
 
 // AllocateFreeNodes adds N nodes to the free list
 func (l *List[T]) AllocateFreeNodes(numAllocs int) *List[T] {
-	if l.freeList == nil {
+	if l.freeList == nil || numAllocs <= 0 {
 		return l
 	}
-	for i := 0; i < numAllocs; i++ {
-		l.insertNodeToFreeList(new(ListNode[T]))
+	nodes := make([]ListNode[T], numAllocs)
+	for i := range nodes {
+		l.insertNodeToFreeList(&nodes[i])
 	}
 
 	return l

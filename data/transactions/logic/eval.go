@@ -424,6 +424,16 @@ func copyWithClearAD(txgroup []transactions.SignedTxnWithAD) []transactions.Sign
 	return copy
 }
 
+func needsApplyDataClear(txgroup []transactions.SignedTxnWithAD) bool {
+	var zero transactions.ApplyData
+	for i := range txgroup {
+		if !txgroup[i].ApplyData.Equal(zero) {
+			return true
+		}
+	}
+	return false
+}
+
 // NewSigEvalParams creates an EvalParams to be used while evaluating a group's logicsigs
 func NewSigEvalParams(txgroup []transactions.SignedTxn, proto *config.ConsensusParams, ls LedgerForSignature) *EvalParams {
 	lsigs := 0
@@ -461,9 +471,16 @@ func NewAppEvalParams(txgroup []transactions.SignedTxnWithAD, proto *config.Cons
 		}
 	}
 
+	txnGroupView := txgroup
+	if needsApplyDataClear(txgroup) {
+		txnGroupView = copyWithClearAD(txgroup)
+	}
+
 	var pooledApplicationBudget *int
 	var pooledAllowedInners *int
 	var credit *basics.MicroAlgos
+	var appAddrCache map[basics.AppIndex]basics.Address
+	var evalConstants EvalConstants
 	if apps > 0 { // none of these allocations needed if no apps
 		credit = new(basics.MicroAlgos)
 		*credit = feeCredit(txgroup, proto.MinFee())
@@ -477,11 +494,14 @@ func NewAppEvalParams(txgroup []transactions.SignedTxnWithAD, proto *config.Cons
 			pooledAllowedInners = new(int)
 			*pooledAllowedInners = proto.MaxTxGroupSize * proto.MaxInnerTransactions
 		}
+
+		appAddrCache = make(map[basics.AppIndex]basics.Address)
+		evalConstants = RuntimeEvalConstants()
 	}
 
 	return &EvalParams{
 		runMode:                 ModeApp,
-		TxnGroup:                copyWithClearAD(txgroup),
+		TxnGroup:                txnGroupView,
 		Proto:                   proto,
 		Specials:                specials,
 		minAvmVersion:           computeMinAvmVersion(txgroup),
@@ -489,8 +509,8 @@ func NewAppEvalParams(txgroup []transactions.SignedTxnWithAD, proto *config.Cons
 		CostMultiplier:          1e6,
 		PooledApplicationBudget: pooledApplicationBudget,
 		pooledAllowedInners:     pooledAllowedInners,
-		appAddrCache:            make(map[basics.AppIndex]basics.Address),
-		EvalConstants:           RuntimeEvalConstants(),
+		appAddrCache:            appAddrCache,
+		EvalConstants:           evalConstants,
 	}
 }
 

@@ -1302,6 +1302,46 @@ func (c *Client) SimulateTransactions(request v2.PreEncodedSimulateRequest) (res
 	return c.SimulateTransactionsRaw(protocol.EncodeReflect(&request))
 }
 
+// SimulateSafetyRaw simulates a transaction group and returns safety metadata from the API.
+func (c *Client) SimulateSafetyRaw(encodedRequest []byte) (result v2.PreEncodedSafetySimulateResponse, err error) {
+	algod, err := c.ensureAlgodClient()
+	if err != nil {
+		return
+	}
+	var resp []byte
+	resp, err = algod.RawSimulateSafety(encodedRequest)
+	if err != nil {
+		return
+	}
+	err = protocol.DecodeReflect(resp, &result)
+	return
+}
+
+// SimulateSafety simulates transactions and returns deterministic safety metadata.
+func (c *Client) SimulateSafety(request v2.PreEncodedSafetySimulateRequest) (result v2.PreEncodedSafetySimulateResponse, err error) {
+	return c.SimulateSafetyRaw(protocol.EncodeReflect(&request))
+}
+
+// EvaluateSafetyRaw simulates a transaction group and evaluates the provided safety policy.
+func (c *Client) EvaluateSafetyRaw(encodedRequest []byte) (result v2.PreEncodedSafetyEvaluateResponse, err error) {
+	algod, err := c.ensureAlgodClient()
+	if err != nil {
+		return
+	}
+	var resp []byte
+	resp, err = algod.RawEvaluateSafety(encodedRequest)
+	if err != nil {
+		return
+	}
+	err = protocol.DecodeReflect(resp, &result)
+	return
+}
+
+// EvaluateSafety evaluates a policy against simulated transaction outcomes.
+func (c *Client) EvaluateSafety(request v2.PreEncodedSafetyEvaluateRequest) (result v2.PreEncodedSafetyEvaluateResponse, err error) {
+	return c.EvaluateSafetyRaw(protocol.EncodeReflect(&request))
+}
+
 // TransactionProof returns a Merkle proof for a transaction in a block.
 func (c *Client) TransactionProof(txid string, round basics.Round, hashType crypto.HashType) (resp model.TransactionProofResponse, err error) {
 	algod, err := c.ensureAlgodClient()

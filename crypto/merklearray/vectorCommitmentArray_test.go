@@ -204,3 +204,27 @@ func TestVcArrayPadding(t *testing.T) {
 	require.NoError(t, err)
 	require.Equal(t, leafHash, leafVcHash)
 }
+
+func TestVectorCommitmentHashIntoMatchesMarshal(t *testing.T) {
+	partitiontest.PartitionTest(t)
+	t.Parallel()
+
+	testArray := make(TestArray, 3)
+	for i := range testArray {
+		crypto.RandBytes(testArray[i][:])
+	}
+
+	vc := generateVectorCommitmentArray(testArray)
+	h := crypto.HashFactory{HashType: crypto.Sha256}.NewHash()
+	out := make([]byte, h.Size())
+
+	for pos := uint64(0); pos < vc.Length(); pos++ {
+		leaf, err := vc.Marshal(pos)
+		require.NoError(t, err)
+
+		expected := crypto.GenericHashObj(h, leaf)
+		err = vc.HashInto(pos, h, out)
+		require.NoError(t, err)
+		require.Equal(t, expected, out)
+	}
+}

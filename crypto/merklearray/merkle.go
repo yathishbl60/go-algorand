@@ -87,6 +87,8 @@ func buildWorker(ws *workerState, array Array, leaves Layer, h crypto.HashFactor
 	ws.started()
 	batchSize := uint64(1)
 	hash := h.NewHash()
+	hashIntoArray, hasDirectHashInto := array.(HashableArrayInto)
+	hashableArray, hasDirectHash := array.(HashableArray)
 
 	for {
 		off := ws.next(batchSize)
@@ -95,6 +97,25 @@ func buildWorker(ws *workerState, array Array, leaves Layer, h crypto.HashFactor
 		}
 
 		for i := off; i < off+batchSize && i < ws.maxidx; i++ {
+			if hasDirectHashInto {
+				err := hashIntoArray.HashInto(i, hash, leaves[i])
+				if err != nil {
+					errs.nonBlockingSend(err)
+					return
+				}
+				continue
+			}
+
+			if hasDirectHash {
+				leaf, err := hashableArray.Hash(i, hash)
+				if err != nil {
+					errs.nonBlockingSend(err)
+					return
+				}
+				leaves[i] = leaf
+				continue
+			}
+
 			m, err := array.Marshal(i)
 			if err != nil {
 				errs.nonBlockingSend(err)
@@ -129,10 +150,19 @@ func BuildVectorCommitmentTree(array Array, factory crypto.HashFactory) (*Tree, 
 // is required
 func Build(array Array, factory crypto.HashFactory) (*Tree, error) {
 	arraylen := array.Length()
+	if hashIntoArray, ok := array.(HashableArrayInto); ok {
+		_ = hashIntoArray
+		leaves := makeLayer(int(arraylen), factory.NewHash().Size())
+		return build(array, factory, leaves)
+	}
 	leaves := make(Layer, arraylen)
+	return build(array, factory, leaves)
+}
+
+func build(array Array, factory crypto.HashFactory, leaves Layer) (*Tree, error) {
 	errs := make(chan error, 1)
 
-	ws := newWorkerState(arraylen)
+	ws := newWorkerState(uint64(len(leaves)))
 	for ws.nextWorker() {
 		go buildWorker(ws, array, leaves, factory, errs)
 	}
@@ -300,7 +330,7 @@ func (tree *Tree) createEmptyProof() (*Proof, error) {
 func (tree *Tree) buildNextLayer() {
 	l := tree.topLayer()
 	n := len(l)
-	newLayer := make(Layer, (uint64(n)+1)/2)
+	newLayer := makeLayer((n+1)/2, tree.Hash.NewHash().Size())
 
 	ws := newWorkerState(uint64(n))
 	for ws.nextWorker() {

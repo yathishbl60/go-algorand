@@ -1,0 +1,53 @@
+{
+  "allowed": true,
+  "can-bypass": true,
+  "decision": "allow",
+  "enforcement-mode": "soft",
+  "hard-stop": false,
+  "outcome-hash": "4ebf1bd9ff0759927cf413d07911fc3f502d374e4efd48e25bc65ac811dbf01e",
+  "outcome-summary": {
+    "algo-deltas": [
+      {
+        "address": "7IEI4SIQGNQ5L3Y5HX3XI37P3ZDVNOXKVFKRCOH7DB7I4WNJAVEFVORHHY",
+        "delta": 100000
+      },
+      {
+        "address": "HO3KLLWNSY4WF3R77PP6E45E4PZQWFKT6BT73CGFRXDVXLWUBZT6PMFB6U",
+        "delta": 200000
+      },
+      {
+        "address": "POKZP5FH4H4P7PZQDEYEJ6Z3IDMK4GPJLTASPZVBFQENLHBAXOJSTWBUOI",
+        "delta": -302000
+      }
+    ],
+    "algo-transfers": [
+      {
+        "amount": 100000,
+        "from": "POKZP5FH4H4P7PZQDEYEJ6Z3IDMK4GPJLTASPZVBFQENLHBAXOJSTWBUOI",
+        "kind": "pay",
+        "to": "7IEI4SIQGNQ5L3Y5HX3XI37P3ZDVNOXKVFKRCOH7DB7I4WNJAVEFVORHHY"
+      },
+      {
+        "amount": 200000,
+        "from": "POKZP5FH4H4P7PZQDEYEJ6Z3IDMK4GPJLTASPZVBFQENLHBAXOJSTWBUOI",
+        "kind": "pay",
+        "to": "HO3KLLWNSY4WF3R77PP6E45E4PZQWFKT6BT73CGFRXDVXLWUBZT6PMFB6U"
+      }
+    ],
+    "app-ids-touched": [],
+    "app-state-changes": null,
+    "asset-deltas": [],
+    "asset-transfers": null,
+    "auth-changes": [],
+    "human-summary": [
+      "Algo transfer: 100000 microAlgos from POKZP5FH4H4P7PZQDEYEJ6Z3IDMK4GPJLTASPZVBFQENLHBAXOJSTWBUOI to 7IEI4SIQGNQ5L3Y5HX3XI37P3ZDVNOXKVFKRCOH7DB7I4WNJAVEFVORHHY",
+      "No deterministic risk signals detected"
+    ],
+    "inner-txn-count": 0,
+    "resource-lifecycle": null,
+    "risk-signals": [],
+    "round": 271
+  },
+  "verification-status": "verified",
+  "violations": []
+}

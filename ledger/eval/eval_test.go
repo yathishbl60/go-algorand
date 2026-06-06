@@ -230,6 +230,95 @@ func TestPrivateTransactionGroup(t *testing.T) {
 	require.ErrorContains(t, err, "group size")
 }
 
+func TestReservePaysetCapacity(t *testing.T) {
+	partitiontest.PartitionTest(t)
+	t.Parallel()
+
+	genesisInitState, _, _ := ledgertesting.Genesis(10)
+	genesisBalances := bookkeeping.GenesisBalances{
+		Balances:    genesisInitState.Accounts,
+		FeeSink:     testSinkAddr,
+		RewardsPool: testPoolAddr,
+		Timestamp:   0,
+	}
+	l := newTestLedger(t, genesisBalances)
+
+	genesisBlockHeader, err := l.BlockHdr(basics.Round(0))
+	require.NoError(t, err)
+	newBlock := bookkeeping.MakeBlock(genesisBlockHeader)
+	eval, err := l.StartEvaluator(newBlock.BlockHeader, 0, 0, nil)
+	require.NoError(t, err)
+
+	require.Zero(t, len(eval.block.Payset))
+	eval.ReservePaysetCapacity(8)
+	require.Zero(t, len(eval.block.Payset))
+	require.GreaterOrEqual(t, cap(eval.block.Payset), 8)
+
+	prevCap := cap(eval.block.Payset)
+	eval.ReservePaysetCapacity(4)
+	require.Equal(t, prevCap, cap(eval.block.Payset))
+}
+
+func TestTransactionGroupRollbackResetsPayset(t *testing.T) {
+	partitiontest.PartitionTest(t)
+	t.Parallel()
+
+	genesisInitState, addrs, _ := ledgertesting.Genesis(10)
+	genesisBalances := bookkeeping.GenesisBalances{
+		Balances:    genesisInitState.Accounts,
+		FeeSink:     testSinkAddr,
+		RewardsPool: testPoolAddr,
+		Timestamp:   0,
+	}
+	l := newTestLedger(t, genesisBalances)
+
+	genesisBlockHeader, err := l.BlockHdr(basics.Round(0))
+	require.NoError(t, err)
+	newBlock := bookkeeping.MakeBlock(genesisBlockHeader)
+	eval, err := l.StartEvaluator(newBlock.BlockHeader, 0, 0, nil)
+	require.NoError(t, err)
+	eval.validate = true
+	eval.generate = true
+
+	minFee := basics.MicroAlgos{Raw: eval.proto.MinTxnFee}
+	genHash := l.GenesisHash()
+	groupA := crypto.Digest{1}
+	groupB := crypto.Digest{2}
+
+	txn1 := txntest.Txn{
+		Type:        protocol.PaymentTx,
+		Sender:      addrs[0],
+		Receiver:    addrs[1],
+		Amount:      1_000,
+		Group:       groupA,
+		FirstValid:  newBlock.Round(),
+		LastValid:   newBlock.Round() + 1000,
+		Fee:         minFee,
+		GenesisHash: genHash,
+	}
+	txn2 := txntest.Txn{
+		Type:        protocol.PaymentTx,
+		Sender:      addrs[0],
+		Receiver:    addrs[2],
+		Amount:      2_000,
+		Group:       groupB,
+		FirstValid:  newBlock.Round(),
+		LastValid:   newBlock.Round() + 1000,
+		Fee:         minFee,
+		GenesisHash: genHash,
+	}
+
+	eval.ReservePaysetCapacity(2)
+	err = eval.TransactionGroup(
+		txn1.SignedTxn().WithAD(),
+		txn2.SignedTxn().WithAD(),
+	)
+	require.ErrorContains(t, err, "inconsistent group values")
+	require.Zero(t, eval.PaySetSize())
+	require.Empty(t, eval.block.Payset)
+	require.Zero(t, eval.blockTxBytes)
+}
+
 func TestTransactionGroupWithTracer(t *testing.T) {
 	partitiontest.PartitionTest(t)
 	t.Parallel()

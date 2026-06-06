@@ -52,12 +52,14 @@ const (
 
 // rawRequestPaths is a set of paths where the body should not be urlencoded
 var rawRequestPaths = map[string]bool{
-	"/v2/transactions":          true,
-	"/v2/transactions/async":    true,
-	"/v2/teal/dryrun":           true,
-	"/v2/teal/compile":          true,
-	"/v2/participation":         true,
-	"/v2/transactions/simulate": true,
+	"/v2/transactions":                 true,
+	"/v2/transactions/async":           true,
+	"/v2/teal/dryrun":                  true,
+	"/v2/teal/compile":                 true,
+	"/v2/participation":                true,
+	"/v2/transactions/simulate":        true,
+	"/v2/transactions/simulate/safety": true,
+	"/v2/transactions/safety/evaluate": true,
 }
 
 // unauthorizedRequestError is generated when we receive 401 error from the server. This error includes the inner error
@@ -801,6 +803,22 @@ func (client RestClient) RawDryrun(data []byte) (response []byte, err error) {
 func (client RestClient) RawSimulateRawTransaction(data []byte) (response []byte, err error) {
 	var blob Blob
 	err = client.submitForm(&blob, "/v2/transactions/simulate", rawFormat{Format: "msgpack"}, data, "POST", false /* encodeJSON */, false /* decodeJSON */, false)
+	response = blob
+	return
+}
+
+// RawSimulateSafety simulates transactions and returns safety metadata as raw bytes.
+func (client RestClient) RawSimulateSafety(data []byte) (response []byte, err error) {
+	var blob Blob
+	err = client.submitForm(&blob, "/v2/transactions/simulate/safety", rawFormat{Format: "msgpack"}, data, "POST", false /* encodeJSON */, false /* decodeJSON */, false)
+	response = blob
+	return
+}
+
+// RawEvaluateSafety simulates transactions and evaluates a safety policy as raw bytes.
+func (client RestClient) RawEvaluateSafety(data []byte) (response []byte, err error) {
+	var blob Blob
+	err = client.submitForm(&blob, "/v2/transactions/safety/evaluate", rawFormat{Format: "msgpack"}, data, "POST", false /* encodeJSON */, false /* decodeJSON */, false)
 	response = blob
 	return
 }

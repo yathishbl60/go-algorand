@@ -139,11 +139,14 @@ func NewRouter(logger logging.Logger, node APINodeInterface, shutdown <-chan str
 		Log:           logger,
 		Shutdown:      shutdown,
 		KeygenLimiter: semaphore.NewWeighted(1),
+		SafetyCache:   v2.NewDefaultSafetyCache(),
 	}
 	nppublic.RegisterHandlers(e, &v2Handler, publicMiddleware...)
 	npprivate.RegisterHandlers(e, &v2Handler, adminMiddleware...)
 	ppublic.RegisterHandlers(e, &v2Handler, publicMiddleware...)
 	pprivate.RegisterHandlers(e, &v2Handler, adminMiddleware...)
+	e.POST("/v2/transactions/simulate/safety", v2Handler.SimulateSafety, publicMiddleware...)
+	e.POST("/v2/transactions/safety/evaluate", v2Handler.EvaluateSafety, publicMiddleware...)
 
 	if node.Config().EnableFollowMode {
 		data.RegisterHandlers(e, &v2Handler, publicMiddleware...)

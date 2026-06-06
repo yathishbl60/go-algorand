@@ -1,0 +1,45 @@
+goos: darwin
+goarch: arm64
+pkg: github.com/algorand/go-algorand/node
+cpu: Apple M5 Max
+BenchmarkAssembleBlockSteadyState-18    	       1	  64131084 ns/op	169649576 B/op	  303752 allocs/op
+--- BENCH: BenchmarkAssembleBlockSteadyState-18
+    testingLogger.go:40: time="2026-05-14T21:39:43.331014 +0700" level=debug msg="Initializing Ledger(BenchmarkAssembleBlockSteadyState-steady-mem-1-1455402824469545969)" file=ledger.go function="github.com/algorand/go-algorand/data.LoadLedger[...]" line=110
+    testingLogger.go:40: time="2026-05-14T21:39:43.336348 +0700" level=info msg="trackerDBInitialize upgrading database schema from version 0 to version 11" file=trackerdbV2.go function=github.com/algorand/go-algorand/ledger/store/trackerdb/sqlitedriver.RunMigrations line=72
+    testingLogger.go:40: time="2026-05-14T21:39:43.336404 +0700" level=info msg="trackerDBInitialize performing upgrade from version 0" file=trackerdbV2.go function=github.com/algorand/go-algorand/ledger/store/trackerdb/sqlitedriver.RunMigrations line=76
+    testingLogger.go:40: time="2026-05-14T21:39:43.336412 +0700" level=info msg="upgradeDatabaseSchema0 initializing schema" file=trackerdbV2.go function="github.com/algorand/go-algorand/ledger/store/trackerdb/sqlitedriver.(*trackerDBSchemaInitializer).upgradeDatabaseSchema0" line=189
+    testingLogger.go:40: time="2026-05-14T21:39:43.336966 +0700" level=info msg="trackerDBInitialize performing upgrade from version 1" file=trackerdbV2.go function=github.com/algorand/go-algorand/ledger/store/trackerdb/sqlitedriver.RunMigrations line=76
+    testingLogger.go:40: time="2026-05-14T21:39:43.336982 +0700" level=info msg="trackerDBInitialize performing upgrade from version 2" file=trackerdbV2.go function=github.com/algorand/go-algorand/ledger/store/trackerdb/sqlitedriver.RunMigrations line=76
+    testingLogger.go:40: time="2026-05-14T21:39:43.336993 +0700" level=info msg="trackerDBInitialize performing upgrade from version 3" file=trackerdbV2.go function=github.com/algorand/go-algorand/ledger/store/trackerdb/sqlitedriver.RunMigrations line=76
+    testingLogger.go:40: time="2026-05-14T21:39:43.337425 +0700" level=info msg="trackerDBInitialize performing upgrade from version 4" file=trackerdbV2.go function=github.com/algorand/go-algorand/ledger/store/trackerdb/sqlitedriver.RunMigrations line=76
+    testingLogger.go:40: time="2026-05-14T21:39:43.337435 +0700" level=info msg="upgradeDatabaseSchema4: deleted 0 rows" file=trackerdbV2.go function="github.com/algorand/go-algorand/ledger/store/trackerdb/sqlitedriver.(*trackerDBSchemaInitializer).upgradeDatabaseSchema4" line=338
+    testingLogger.go:40: time="2026-05-14T21:39:43.337448 +0700" level=info msg="trackerDBInitialize performing upgrade from version 5" file=trackerdbV2.go function=github.com/algorand/go-algorand/ledger/store/trackerdb/sqlitedriver.RunMigrations line=76
+	... [output truncated]
+BenchmarkAssembleBlockSteadyState-18    	       1	  63545083 ns/op	169821552 B/op	  303665 allocs/op
+--- BENCH: BenchmarkAssembleBlockSteadyState-18
+    testingLogger.go:40: time="2026-05-14T21:39:43.566577 +0700" level=debug msg="Initializing Ledger(BenchmarkAssembleBlockSteadyState-steady-mem-1-15494764101570275013)" file=ledger.go function="github.com/algorand/go-algorand/data.LoadLedger[...]" line=110
+    testingLogger.go:40: time="2026-05-14T21:39:43.567513 +0700" level=info msg="trackerDBInitialize upgrading database schema from version 0 to version 11" file=trackerdbV2.go function=github.com/algorand/go-algorand/ledger/store/trackerdb/sqlitedriver.RunMigrations line=72
+    testingLogger.go:40: time="2026-05-14T21:39:43.567523 +0700" level=info msg="trackerDBInitialize performing upgrade from version 0" file=trackerdbV2.go function=github.com/algorand/go-algorand/ledger/store/trackerdb/sqlitedriver.RunMigrations line=76
+    testingLogger.go:40: time="2026-05-14T21:39:43.567529 +0700" level=info msg="upgradeDatabaseSchema0 initializing schema" file=trackerdbV2.go function="github.com/algorand/go-algorand/ledger/store/trackerdb/sqlitedriver.(*trackerDBSchemaInitializer).upgradeDatabaseSchema0" line=189
+    testingLogger.go:40: time="2026-05-14T21:39:43.567897 +0700" level=info msg="trackerDBInitialize performing upgrade from version 1" file=trackerdbV2.go function=github.com/algorand/go-algorand/ledger/store/trackerdb/sqlitedriver.RunMigrations line=76
+    testingLogger.go:40: time="2026-05-14T21:39:43.567907 +0700" level=info msg="trackerDBInitialize performing upgrade from version 2" file=trackerdbV2.go function=github.com/algorand/go-algorand/ledger/store/trackerdb/sqlitedriver.RunMigrations line=76
+    testingLogger.go:40: time="2026-05-14T21:39:43.567921 +0700" level=info msg="trackerDBInitialize performing upgrade from version 3" file=trackerdbV2.go function=github.com/algorand/go-algorand/ledger/store/trackerdb/sqlitedriver.RunMigrations line=76
+    testingLogger.go:40: time="2026-05-14T21:39:43.568246 +0700" level=info msg="trackerDBInitialize performing upgrade from version 4" file=trackerdbV2.go function=github.com/algorand/go-algorand/ledger/store/trackerdb/sqlitedriver.RunMigrations line=76
+    testingLogger.go:40: time="2026-05-14T21:39:43.568252 +0700" level=info msg="upgradeDatabaseSchema4: deleted 0 rows" file=trackerdbV2.go function="github.com/algorand/go-algorand/ledger/store/trackerdb/sqlitedriver.(*trackerDBSchemaInitializer).upgradeDatabaseSchema4" line=338
+    testingLogger.go:40: time="2026-05-14T21:39:43.568264 +0700" level=info msg="trackerDBInitialize performing upgrade from version 5" file=trackerdbV2.go function=github.com/algorand/go-algorand/ledger/store/trackerdb/sqlitedriver.RunMigrations line=76
+	... [output truncated]
+BenchmarkAssembleBlockSteadyState-18    	       1	  67194750 ns/op	169632072 B/op	  303687 allocs/op
+--- BENCH: BenchmarkAssembleBlockSteadyState-18
+    testingLogger.go:40: time="2026-05-14T21:39:43.794778 +0700" level=debug msg="Initializing Ledger(BenchmarkAssembleBlockSteadyState-steady-mem-1-1552402089725279701)" file=ledger.go function="github.com/algorand/go-algorand/data.LoadLedger[...]" line=110
+    testingLogger.go:40: time="2026-05-14T21:39:43.795722 +0700" level=info msg="trackerDBInitialize upgrading database schema from version 0 to version 11" file=trackerdbV2.go function=github.com/algorand/go-algorand/ledger/store/trackerdb/sqlitedriver.RunMigrations line=72
+    testingLogger.go:40: time="2026-05-14T21:39:43.795735 +0700" level=info msg="trackerDBInitialize performing upgrade from version 0" file=trackerdbV2.go function=github.com/algorand/go-algorand/ledger/store/trackerdb/sqlitedriver.RunMigrations line=76
+    testingLogger.go:40: time="2026-05-14T21:39:43.795741 +0700" level=info msg="upgradeDatabaseSchema0 initializing schema" file=trackerdbV2.go function="github.com/algorand/go-algorand/ledger/store/trackerdb/sqlitedriver.(*trackerDBSchemaInitializer).upgradeDatabaseSchema0" line=189
+    testingLogger.go:40: time="2026-05-14T21:39:43.796072 +0700" level=info msg="trackerDBInitialize performing upgrade from version 1" file=trackerdbV2.go function=github.com/algorand/go-algorand/ledger/store/trackerdb/sqlitedriver.RunMigrations line=76
+    testingLogger.go:40: time="2026-05-14T21:39:43.796083 +0700" level=info msg="trackerDBInitialize performing upgrade from version 2" file=trackerdbV2.go function=github.com/algorand/go-algorand/ledger/store/trackerdb/sqlitedriver.RunMigrations line=76
+    testingLogger.go:40: time="2026-05-14T21:39:43.796092 +0700" level=info msg="trackerDBInitialize performing upgrade from version 3" file=trackerdbV2.go function=github.com/algorand/go-algorand/ledger/store/trackerdb/sqlitedriver.RunMigrations line=76
+    testingLogger.go:40: time="2026-05-14T21:39:43.796393 +0700" level=info msg="trackerDBInitialize performing upgrade from version 4" file=trackerdbV2.go function=github.com/algorand/go-algorand/ledger/store/trackerdb/sqlitedriver.RunMigrations line=76
+    testingLogger.go:40: time="2026-05-14T21:39:43.796400 +0700" level=info msg="upgradeDatabaseSchema4: deleted 0 rows" file=trackerdbV2.go function="github.com/algorand/go-algorand/ledger/store/trackerdb/sqlitedriver.(*trackerDBSchemaInitializer).upgradeDatabaseSchema4" line=338
+    testingLogger.go:40: time="2026-05-14T21:39:43.796411 +0700" level=info msg="trackerDBInitialize performing upgrade from version 5" file=trackerdbV2.go function=github.com/algorand/go-algorand/ledger/store/trackerdb/sqlitedriver.RunMigrations line=76
+	... [output truncated]
+PASS
+ok  	github.com/algorand/go-algorand/node	1.172s

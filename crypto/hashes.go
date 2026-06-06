@@ -131,6 +131,9 @@ func (z *HashFactory) Validate() error {
 
 // GenericHashObj Makes it easier to sum using hash interface and Hashable interface
 func GenericHashObj[H Hashable](hsh hash.Hash, h H) []byte {
+	if fast, ok := any(h).(GenericHashable); ok {
+		return fast.GenericHash(hsh)
+	}
 	rep := HashRep(h)
 	return hashBytes(hsh, rep)
 }

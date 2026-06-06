@@ -1,0 +1,6 @@
+To group two transaction files (tx1.tx and tx2.tx):
+1. Concatenate them: cat tx1.tx tx2.tx > combined.tx
+2. Run group command: goal clerk group -i combined.tx -o grouped.tx
+
+To sign the grouped output:
+1. Run sign command: goal clerk sign -i grouped.tx -o signed.tx

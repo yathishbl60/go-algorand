@@ -1332,3 +1332,123 @@ func BenchmarkUnmarshalTxGroup(b *testing.B) {
 		}
 	}
 }
+
+func TestMarshalUnmarshalsafetyHashEnvelope(t *testing.T) {
+	partitiontest.PartitionTest(t)
+	v := safetyHashEnvelope{}
+	bts := v.MarshalMsg(nil)
+	left, err := v.UnmarshalMsg(bts)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if len(left) > 0 {
+		t.Errorf("%d bytes left over after UnmarshalMsg(): %q", len(left), left)
+	}
+
+	left, err = msgp.Skip(bts)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if len(left) > 0 {
+		t.Errorf("%d bytes left over after Skip(): %q", len(left), left)
+	}
+}
+
+func TestRandomizedEncodingsafetyHashEnvelope(t *testing.T) {
+	protocol.RunEncodingTest(t, &safetyHashEnvelope{})
+}
+
+func BenchmarkMarshalMsgsafetyHashEnvelope(b *testing.B) {
+	v := safetyHashEnvelope{}
+	b.ReportAllocs()
+	b.ResetTimer()
+	for i := 0; i < b.N; i++ {
+		v.MarshalMsg(nil)
+	}
+}
+
+func BenchmarkAppendMsgsafetyHashEnvelope(b *testing.B) {
+	v := safetyHashEnvelope{}
+	bts := make([]byte, 0, v.Msgsize())
+	bts = v.MarshalMsg(bts[0:0])
+	b.SetBytes(int64(len(bts)))
+	b.ReportAllocs()
+	b.ResetTimer()
+	for i := 0; i < b.N; i++ {
+		bts = v.MarshalMsg(bts[0:0])
+	}
+}
+
+func BenchmarkUnmarshalsafetyHashEnvelope(b *testing.B) {
+	v := safetyHashEnvelope{}
+	bts := v.MarshalMsg(nil)
+	b.ReportAllocs()
+	b.SetBytes(int64(len(bts)))
+	b.ResetTimer()
+	for i := 0; i < b.N; i++ {
+		_, err := v.UnmarshalMsg(bts)
+		if err != nil {
+			b.Fatal(err)
+		}
+	}
+}
+
+func TestMarshalUnmarshalsafetyHashTxn(t *testing.T) {
+	partitiontest.PartitionTest(t)
+	v := safetyHashTxn{}
+	bts := v.MarshalMsg(nil)
+	left, err := v.UnmarshalMsg(bts)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if len(left) > 0 {
+		t.Errorf("%d bytes left over after UnmarshalMsg(): %q", len(left), left)
+	}
+
+	left, err = msgp.Skip(bts)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if len(left) > 0 {
+		t.Errorf("%d bytes left over after Skip(): %q", len(left), left)
+	}
+}
+
+func TestRandomizedEncodingsafetyHashTxn(t *testing.T) {
+	protocol.RunEncodingTest(t, &safetyHashTxn{})
+}
+
+func BenchmarkMarshalMsgsafetyHashTxn(b *testing.B) {
+	v := safetyHashTxn{}
+	b.ReportAllocs()
+	b.ResetTimer()
+	for i := 0; i < b.N; i++ {
+		v.MarshalMsg(nil)
+	}
+}
+
+func BenchmarkAppendMsgsafetyHashTxn(b *testing.B) {
+	v := safetyHashTxn{}
+	bts := make([]byte, 0, v.Msgsize())
+	bts = v.MarshalMsg(bts[0:0])
+	b.SetBytes(int64(len(bts)))
+	b.ReportAllocs()
+	b.ResetTimer()
+	for i := 0; i < b.N; i++ {
+		bts = v.MarshalMsg(bts[0:0])
+	}
+}
+
+func BenchmarkUnmarshalsafetyHashTxn(b *testing.B) {
+	v := safetyHashTxn{}
+	bts := v.MarshalMsg(nil)
+	b.ReportAllocs()
+	b.SetBytes(int64(len(bts)))
+	b.ResetTimer()
+	for i := 0; i < b.N; i++ {
+		_, err := v.UnmarshalMsg(bts)
+		if err != nil {
+			b.Fatal(err)
+		}
+	}
+}

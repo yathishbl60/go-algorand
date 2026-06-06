@@ -19,6 +19,7 @@ package merklearray
 import (
 	"errors"
 	"fmt"
+	"hash"
 	"math/bits"
 
 	"github.com/algorand/go-algorand/crypto"
@@ -71,6 +72,42 @@ func (vc *vectorCommitmentArray) Marshal(pos uint64) (crypto.Hashable, error) {
 	}
 
 	return &bottomElement{}, nil
+}
+
+func (vc *vectorCommitmentArray) HashInto(pos uint64, h hash.Hash, out []byte) error {
+	lsbIndex, err := merkleTreeToVectorCommitmentIndex(pos, vc.pathLen)
+	if err != nil {
+		return err
+	}
+	if lsbIndex >= vc.paddedLen {
+		return fmt.Errorf("vectorCommitmentArray.Get(%d): out of bounds, full size %d: %w", pos, vc.paddedLen, ErrGetOutOfBound)
+	}
+
+	if lsbIndex < vc.array.Length() {
+		if hashIntoArray, ok := vc.array.(HashableArrayInto); ok {
+			return hashIntoArray.HashInto(lsbIndex, h, out)
+		}
+		if hashableArray, ok := vc.array.(HashableArray); ok {
+			leaf, err := hashableArray.Hash(lsbIndex, h)
+			if err != nil {
+				return err
+			}
+			copy(out, leaf)
+			return nil
+		}
+
+		leaf, err := vc.array.Marshal(lsbIndex)
+		if err != nil {
+			return err
+		}
+		copy(out, crypto.GenericHashObj(h, leaf))
+		return nil
+	}
+
+	h.Reset()
+	_, _ = h.Write([]byte(protocol.MerkleVectorCommitmentBottomLeaf))
+	h.Sum(out[:0])
+	return nil
 }
 
 // merkleTreeToVectorCommitmentIndex Translate an index of an element on a merkle tree to an index on the vector commitment.

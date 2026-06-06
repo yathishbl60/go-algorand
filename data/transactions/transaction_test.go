@@ -254,5 +254,5 @@ func TestHeaderFieldCount(t *testing.T) {
 
 	// Such a new field should probably also be consensus flagged at the end of
 	// transaction.WellFormed()
-	assert.Equal(t, 11, reflect.TypeFor[Header]().NumField())
+	assert.Equal(t, 13, reflect.TypeFor[Header]().NumField())
 }

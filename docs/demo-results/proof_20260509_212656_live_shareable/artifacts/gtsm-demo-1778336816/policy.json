@@ -1,0 +1,13 @@
+{
+  "enforcement-mode": "soft",
+  "allow-rekey": false,
+  "blocked-receivers": [],
+  "allow-app-global-deletes": false,
+  "allow-bypass-if-unavailable": true,
+  "required-risk-signals-absent": [
+    "rekeyChange",
+    "closeRemainderToUsed",
+    "assetCloseToUsed",
+    "appGlobalStateDelete"
+  ]
+}
