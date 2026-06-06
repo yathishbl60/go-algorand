@@ -23,28 +23,15 @@ import (
 
 	"github.com/spf13/cobra"
 
-	"github.com/algorand/go-algorand/crypto"
-	"github.com/algorand/go-algorand/data/basics"
+	"github.com/algorand/go-algorand/cmd/util/rekeysafety"
 	"github.com/algorand/go-algorand/data/transactions"
 	"github.com/algorand/go-algorand/protocol"
 )
 
 var allowRekey bool
 
-type rekeyTxnInfo struct {
-	Index        int
-	Sender       basics.Address
-	RekeyTo      basics.Address
-	Type         protocol.TxType
-	Group        crypto.Digest
-	AssetOptIn   bool
-	SameGroupKey string
-}
-
-type rekeyScanReport struct {
-	Rekeys                []rekeyTxnInfo
-	HasAssetOptInAndRekey bool
-}
+type rekeyTxnInfo = rekeysafety.RekeyTxnInfo
+type rekeyScanReport = rekeysafety.ScanReport
 
 func addAllowRekeyFlag(cmd *cobra.Command) {
 	cmd.Flags().BoolVar(&allowRekey, "allow-rekey", false, "Acknowledge and allow signing a transaction that changes an account's spending authority")
@@ -91,53 +78,5 @@ func validateSafeToSign(stxns []transactions.SignedTxn, source string) error {
 }
 
 func scanForRekey(stxns []transactions.SignedTxn) rekeyScanReport {
-	report := rekeyScanReport{}
-	groupHasRekey := make(map[string]bool)
-	groupHasAssetOptIn := make(map[string]bool)
-
-	for idx, stxn := range stxns {
-		groupKey := rekeyGroupKey(stxn.Txn.Group, idx)
-		if isAssetOptInTxn(stxn.Txn) {
-			groupHasAssetOptIn[groupKey] = true
-		}
-		if stxn.Txn.RekeyTo == (basics.Address{}) {
-			continue
-		}
-
-		groupHasRekey[groupKey] = true
-		report.Rekeys = append(report.Rekeys, rekeyTxnInfo{
-			Index:        idx,
-			Sender:       stxn.Txn.Sender,
-			RekeyTo:      stxn.Txn.RekeyTo,
-			Type:         stxn.Txn.Type,
-			Group:        stxn.Txn.Group,
-			AssetOptIn:   isAssetOptInTxn(stxn.Txn),
-			SameGroupKey: groupKey,
-		})
-	}
-
-	for _, txn := range report.Rekeys {
-		if groupHasAssetOptIn[txn.SameGroupKey] && groupHasRekey[txn.SameGroupKey] {
-			report.HasAssetOptInAndRekey = true
-			break
-		}
-	}
-
-	return report
-}
-
-func rekeyGroupKey(group crypto.Digest, index int) string {
-	if group == (crypto.Digest{}) {
-		return fmt.Sprintf("ungrouped-%d", index)
-	}
-	return group.String()
-}
-
-func isAssetOptInTxn(txn transactions.Transaction) bool {
-	return txn.Type == protocol.AssetTransferTx &&
-		txn.XferAsset != 0 &&
-		txn.AssetAmount == 0 &&
-		txn.AssetSender == (basics.Address{}) &&
-		txn.AssetReceiver == txn.Sender &&
-		txn.AssetCloseTo == (basics.Address{})
+	return rekeysafety.Scan(stxns)
 }
