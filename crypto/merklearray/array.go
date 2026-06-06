@@ -16,7 +16,11 @@
 
 package merklearray
 
-import "github.com/algorand/go-algorand/crypto"
+import (
+	"hash"
+
+	"github.com/algorand/go-algorand/crypto"
+)
 
 // An Array represents a dense array of leaf elements that are
 // combined into a Merkle tree. The Marshal method returns a byte slice that represents the object
@@ -31,4 +35,15 @@ type Array interface {
 
 	// Marshal Returns a hash representation of the element located in position pos
 	Marshal(pos uint64) (crypto.Hashable, error)
+}
+
+// HashableArray can hash a leaf directly into the supplied hash function
+// without materializing an intermediate Hashable wrapper.
+type HashableArray interface {
+	Hash(pos uint64, h hash.Hash) (crypto.GenericDigest, error)
+}
+
+// HashableArrayInto can hash a leaf directly into the provided output buffer.
+type HashableArrayInto interface {
+	HashInto(pos uint64, h hash.Hash, out []byte) error
 }

@@ -34,10 +34,19 @@ type Hashable interface {
 	ToBeHashed() (protocol.HashID, []byte)
 }
 
+// GenericHashable can hash itself into the supplied hash function without
+// first materializing a combined hash-representation buffer.
+type GenericHashable interface {
+	GenericHash(hash.Hash) []byte
+}
+
 // HashRep appends the correct hashid before the message to be hashed.
 func HashRep[H Hashable](h H) []byte {
 	hashid, data := h.ToBeHashed()
-	return append([]byte(hashid), data...)
+	rep := make([]byte, len(hashid)+len(data))
+	copy(rep, hashid)
+	copy(rep[len(hashid):], data)
+	return rep
 }
 
 // HashRepToBuff appends the correct hashid before the message to be hashed into the provided buffer

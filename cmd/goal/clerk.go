@@ -18,6 +18,7 @@ package main
 
 import (
 	"encoding/base64"
+	"encoding/hex"
 	"encoding/json"
 	"fmt"
 	"io"
@@ -82,6 +83,9 @@ var (
 	simulateScratchChange         bool
 	simulateAppStateChange        bool
 	simulateAllowUnnamedResources bool
+
+	sendExpectedOutcomeHash string
+	sendSafetyMode          uint8
 )
 
 func init() {
@@ -112,6 +116,8 @@ func init() {
 	sendCmd.Flags().StringSliceVar(&argB64Strings, "argb64", nil, "Base64 encoded args to pass to transaction logic")
 	sendCmd.Flags().StringVarP(&logicSigFile, "logic-sig", "L", "", "LogicSig to apply to transaction")
 	sendCmd.Flags().StringVar(&msigParams, "msig-params", "", "Multisig preimage parameters - [threshold] [Address 1] [Address 2] ...\nUsed to add the necessary fields in case the account was rekeyed to a multisig account")
+	sendCmd.Flags().StringVar(&sendExpectedOutcomeHash, "expected-outcome-hash", "", "Hex-encoded 32-byte expected safety outcome hash")
+	sendCmd.Flags().Uint8Var(&sendSafetyMode, "safety-mode", 0, "Safety mode for attestation (0=off, 1=hash, 2=hash-and-no-risk-signals)")
 	sendCmd.MarkFlagRequired("to")
 	sendCmd.MarkFlagRequired("amount")
 
@@ -433,6 +439,27 @@ var sendCmd = &cobra.Command{
 		explicitFee := cmd.Flags().Changed("fee")
 		if explicitFee {
 			payment.Fee = basics.MicroAlgos{Raw: fee}
+		}
+
+		if sendSafetyMode > transactions.SafetyModeHashAndRiskEnforced {
+			reportErrorf("invalid safety mode %d", sendSafetyMode)
+		}
+		payment.SafetyMode = sendSafetyMode
+		if sendExpectedOutcomeHash != "" {
+			hashBytes, decodeErr := hex.DecodeString(sendExpectedOutcomeHash)
+			if decodeErr != nil {
+				reportErrorf("invalid expected outcome hash hex: %v", decodeErr)
+			}
+			if len(hashBytes) != len(payment.ExpectedOutcomeHash) {
+				reportErrorf("expected outcome hash must be %d bytes, got %d", len(payment.ExpectedOutcomeHash), len(hashBytes))
+			}
+			copy(payment.ExpectedOutcomeHash[:], hashBytes)
+		}
+		if payment.SafetyMode != 0 && payment.ExpectedOutcomeHash.IsZero() {
+			reportErrorf("--expected-outcome-hash is required when --safety-mode is enabled")
+		}
+		if payment.SafetyMode == 0 && !payment.ExpectedOutcomeHash.IsZero() {
+			reportErrorf("--safety-mode must be set when --expected-outcome-hash is provided")
 		}
 
 		var authAddr basics.Address

@@ -116,6 +116,9 @@ type Handlers struct {
 
 	// KeygenLimiter is used to limit the number of concurrent key generation requests.
 	KeygenLimiter *semaphore.Weighted
+
+	// SafetyCache stores recent safety simulation/evaluation responses.
+	SafetyCache *safetyCache
 }
 
 // LedgerForAPI describes the Ledger methods used by the v2 API.

@@ -21,6 +21,7 @@ import (
 	"errors"
 	"fmt"
 	"math"
+	"slices"
 	"sync"
 
 	"github.com/algorand/go-algorand/agreement"
@@ -892,6 +893,15 @@ func (eval *BlockEvaluator) PaySetSize() int {
 	return len(eval.block.Payset)
 }
 
+// ReservePaysetCapacity ensures the payset can hold the requested total number
+// of top-level transactions without additional slice growth.
+func (eval *BlockEvaluator) ReservePaysetCapacity(capacity int) {
+	if capacity <= cap(eval.block.Payset) {
+		return
+	}
+	eval.block.Payset = slices.Grow(eval.block.Payset, capacity-len(eval.block.Payset))
+}
+
 // Round returns the round number of the block being evaluated by the BlockEvaluator.
 func (eval *BlockEvaluator) Round() basics.Round {
 	return eval.block.Round()
@@ -1059,17 +1069,26 @@ func (eval *BlockEvaluator) TransactionGroup(txgroup ...transactions.SignedTxnWi
 	}
 
 	// Evaluate each transaction in the group
-	txibs := make([]transactions.SignedTxnInBlock, 0, len(txgroup))
+	startPayset := len(eval.block.Payset)
+	eval.block.Payset = slices.Grow(eval.block.Payset, len(txgroup))
+	eval.block.Payset = eval.block.Payset[:startPayset+len(txgroup)]
+	txibs := eval.block.Payset[startPayset : startPayset+len(txgroup)]
+	defer func() {
+		if err != nil {
+			eval.block.Payset = eval.block.Payset[:startPayset]
+		}
+	}()
+
 	var groupTxBytes int
 	var group transactions.TxGroup
 	for gi, txad := range txgroup {
-		var txib transactions.SignedTxnInBlock
+		txib := &txibs[gi]
 
 		if eval.Tracer != nil {
 			eval.Tracer.BeforeTxn(evalParams, gi)
 		}
 
-		err := eval.transaction(txad.SignedTxn, evalParams, gi, txad.ApplyData, cow, &txib)
+		err := eval.transaction(txad.SignedTxn, evalParams, gi, txad.ApplyData, cow, txib)
 
 		if eval.Tracer != nil {
 			eval.Tracer.AfterTxn(evalParams, gi, txib.ApplyData, err)
@@ -1078,8 +1097,6 @@ func (eval *BlockEvaluator) TransactionGroup(txgroup ...transactions.SignedTxnWi
 		if err != nil {
 			return err
 		}
-
-		txibs = append(txibs, txib)
 
 		if eval.validate {
 			groupTxBytes += txib.GetEncodedLength()
@@ -1131,7 +1148,10 @@ func (eval *BlockEvaluator) TransactionGroup(txgroup ...transactions.SignedTxnWi
 		return err
 	}
 
-	eval.block.Payset = append(eval.block.Payset, txibs...)
+	if err := validateGroupSafetyAttestation(txgroup, txibs); err != nil {
+		return err
+	}
+
 	eval.blockTxBytes += groupTxBytes
 	cow.commitToParent()
 

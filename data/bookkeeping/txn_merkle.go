@@ -18,6 +18,7 @@ package bookkeeping
 
 import (
 	"fmt"
+	"hash"
 
 	"github.com/algorand/go-algorand/crypto"
 	"github.com/algorand/go-algorand/crypto/merklearray"
@@ -83,6 +84,35 @@ func (tma *txnMerkleArray) Marshal(pos uint64) (crypto.Hashable, error) {
 	return &elem, nil
 }
 
+func (tma *txnMerkleArray) Hash(pos uint64, h hash.Hash) (crypto.GenericDigest, error) {
+	if pos >= uint64(len(tma.block.Payset)) {
+		return nil, fmt.Errorf("txnMerkleArray.Get(%d): out of bounds, payset size %d", pos, len(tma.block.Payset))
+	}
+
+	stib := tma.block.Payset[pos]
+	stxn, _, err := tma.block.DecodeSignedTxn(stib)
+	if err != nil {
+		return nil, err
+	}
+
+	return hashTxnMerkleLeaf(h, tma.hashType, stxn.Txn, stib), nil
+}
+
+func (tma *txnMerkleArray) HashInto(pos uint64, h hash.Hash, out []byte) error {
+	if pos >= uint64(len(tma.block.Payset)) {
+		return fmt.Errorf("txnMerkleArray.Get(%d): out of bounds, payset size %d", pos, len(tma.block.Payset))
+	}
+
+	stib := tma.block.Payset[pos]
+	stxn, _, err := tma.block.DecodeSignedTxn(stib)
+	if err != nil {
+		return err
+	}
+
+	hashTxnMerkleLeafTo(h, tma.hashType, stxn.Txn, stib, out)
+	return nil
+}
+
 func txnMerkleToRaw(txid [crypto.DigestSize]byte, stib [crypto.DigestSize]byte) (buf []byte) {
 	buf = make([]byte, 2*crypto.DigestSize)
 	copy(buf[:], txid[:])
@@ -124,4 +154,35 @@ func (tme *txnMerkleElem) HashRepresentation() []byte {
 	s = append(s, protocol.TxnMerkleLeaf...)
 	s = append(s, tme.RawLeaf()...)
 	return s
+}
+
+func (tme *txnMerkleElem) GenericHash(h hash.Hash) []byte {
+	return hashTxnMerkleLeaf(h, tme.hashType, tme.txn, tme.stib)
+}
+
+func hashTxnMerkleLeaf(h hash.Hash, hashType crypto.HashType, tx transactions.Transaction, stib transactions.SignedTxnInBlock) []byte {
+	return hashTxnMerkleLeafTo(h, hashType, tx, stib, nil)
+}
+
+func hashTxnMerkleLeafTo(h hash.Hash, hashType crypto.HashType, tx transactions.Transaction, stib transactions.SignedTxnInBlock, out []byte) []byte {
+	var buf [len(protocol.TxnMerkleLeaf) + 2*crypto.DigestSize]byte
+	n := len(protocol.TxnMerkleLeaf) + 2*crypto.DigestSize
+	copy(buf[:], protocol.TxnMerkleLeaf)
+	if hashType == crypto.Sha512_256 {
+		txid := tx.ID()
+		stibHash := stib.Hash()
+		copy(buf[len(protocol.TxnMerkleLeaf):len(protocol.TxnMerkleLeaf)+crypto.DigestSize], txid[:])
+		copy(buf[len(protocol.TxnMerkleLeaf)+crypto.DigestSize:n], stibHash[:])
+	} else {
+		txid := tx.IDSha256()
+		stibHash := stib.HashSHA256()
+		copy(buf[len(protocol.TxnMerkleLeaf):len(protocol.TxnMerkleLeaf)+crypto.DigestSize], txid[:])
+		copy(buf[len(protocol.TxnMerkleLeaf)+crypto.DigestSize:n], stibHash[:])
+	}
+	h.Reset()
+	_, _ = h.Write(buf[:n])
+	if out != nil {
+		return h.Sum(out[:0])
+	}
+	return h.Sum(nil)
 }

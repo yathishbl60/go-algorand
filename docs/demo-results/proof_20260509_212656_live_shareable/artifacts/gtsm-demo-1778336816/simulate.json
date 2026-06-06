@@ -1,0 +1,69 @@
+{
+  "outcome-hash": "67184564196487a8e7927e3d5edda43ab7e19a3309e83eeeda109b7d806b8ebf",
+  "outcome-summary": {
+    "algo-deltas": [
+      {
+        "address": "7IEI4SIQGNQ5L3Y5HX3XI37P3ZDVNOXKVFKRCOH7DB7I4WNJAVEFVORHHY",
+        "delta": 100000
+      },
+      {
+        "address": "POKZP5FH4H4P7PZQDEYEJ6Z3IDMK4GPJLTASPZVBFQENLHBAXOJSTWBUOI",
+        "delta": -101000
+      }
+    ],
+    "algo-transfers": [
+      {
+        "amount": 100000,
+        "from": "POKZP5FH4H4P7PZQDEYEJ6Z3IDMK4GPJLTASPZVBFQENLHBAXOJSTWBUOI",
+        "kind": "pay",
+        "to": "7IEI4SIQGNQ5L3Y5HX3XI37P3ZDVNOXKVFKRCOH7DB7I4WNJAVEFVORHHY"
+      }
+    ],
+    "app-ids-touched": [],
+    "app-state-changes": null,
+    "asset-deltas": [],
+    "asset-transfers": null,
+    "auth-changes": [],
+    "human-summary": [
+      "Algo transfer: 100000 microAlgos from POKZP5FH4H4P7PZQDEYEJ6Z3IDMK4GPJLTASPZVBFQENLHBAXOJSTWBUOI to 7IEI4SIQGNQ5L3Y5HX3XI37P3ZDVNOXKVFKRCOH7DB7I4WNJAVEFVORHHY",
+      "No deterministic risk signals detected"
+    ],
+    "inner-txn-count": 0,
+    "resource-lifecycle": null,
+    "risk-signals": [],
+    "round": 269
+  },
+  "risk-level": "low",
+  "risk-signals": [],
+  "simulation": {
+    "last-round": 269,
+    "txn-groups": [
+      {
+        "txn-results": [
+          {
+            "txn-result": {
+              "pool-error": "",
+              "txn": {
+                "sig": "wYTJN4hTkDUyCsDJZAulaueTORA0grh3BiUvNPVQO3v0JlUmFlW3c+p0Irf+NSiD9NP0/43oNmzLw3VQ0wO7Aw==",
+                "txn": {
+                  "amt": 100000,
+                  "fee": 1000,
+                  "fv": 269,
+                  "gen": "testnet-v1",
+                  "gh": "u5T+5GIQ6zmv/Gpo0bEpTECa+rWRObKJO92LNoCctaw=",
+                  "lv": 769,
+                  "note": "Z3RzbS1kZW1vLW5vdGU=",
+                  "rcv": "7IEI4SIQGNQ5L3Y5HX3XI37P3ZDVNOXKVFKRCOH7DB7I4WNJAVEFVORHHY",
+                  "snd": "POKZP5FH4H4P7PZQDEYEJ6Z3IDMK4GPJLTASPZVBFQENLHBAXOJSTWBUOI",
+                  "type": "pay"
+                }
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "version": 2
+  },
+  "verification-status": "verified"
+}

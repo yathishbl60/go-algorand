@@ -79,6 +79,15 @@ type Header struct {
 	// This allows "re-keying" a long-lived account -- rotating the signing key, changing
 	// membership of a multisig account, etc.
 	RekeyTo basics.Address `codec:"rekey"`
+
+	// ExpectedOutcomeHash optionally commits a transaction group to a deterministic
+	// post-apply outcome summary hash. If SafetyMode is enabled and this value does not
+	// match the evaluated group, the group is rejected.
+	ExpectedOutcomeHash crypto.Digest `codec:"safh"`
+
+	// SafetyMode controls outcome attestation checks at group apply time.
+	// 0 = disabled, 1 = enforce hash match, 2 = enforce hash match and reject on risk signals.
+	SafetyMode uint8 `codec:"safm"`
 }
 
 // Transaction describes a transaction that can appear in a block.

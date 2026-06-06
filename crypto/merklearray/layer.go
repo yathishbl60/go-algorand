@@ -37,6 +37,19 @@ type pair struct {
 	hashDigestSize int
 }
 
+func makeLayer(size int, digestSize int) Layer {
+	if size == 0 {
+		return nil
+	}
+	layer := make(Layer, size)
+	data := make([]byte, size*digestSize)
+	for i := range layer {
+		start := i * digestSize
+		layer[i] = data[start : start+digestSize]
+	}
+	return layer
+}
+
 func (p pair) ToBeHashed() (protocol.HashID, []byte) {
 	// hashing of internal node will always be fixed length.
 	// If one of the children is missing we use [0...0].
@@ -45,6 +58,24 @@ func (p pair) ToBeHashed() (protocol.HashID, []byte) {
 	copy(buf[:], p.l[:])
 	copy(buf[len(p.l):], p.r[:])
 	return protocol.MerkleArrayNode, buf
+}
+
+func hashPair(h hash.Hash, p pair) crypto.GenericDigest {
+	return hashPairTo(h, p, nil)
+}
+
+func hashPairTo(h hash.Hash, p pair, out []byte) crypto.GenericDigest {
+	var buf [len(protocol.MerkleArrayNode) + 2*crypto.MaxHashDigestSize]byte
+	n := len(protocol.MerkleArrayNode) + 2*p.hashDigestSize
+	copy(buf[:], protocol.MerkleArrayNode)
+	copy(buf[len(protocol.MerkleArrayNode):len(protocol.MerkleArrayNode)+p.hashDigestSize], p.l)
+	copy(buf[len(protocol.MerkleArrayNode)+p.hashDigestSize:n], p.r)
+	h.Reset()
+	_, _ = h.Write(buf[:n])
+	if out != nil {
+		return h.Sum(out[:0])
+	}
+	return h.Sum(nil)
 }
 
 func upWorker(ws *workerState, in Layer, out Layer, h hash.Hash) {
@@ -69,7 +100,7 @@ func upWorker(ws *workerState, in Layer, out Layer, h hash.Hash) {
 				p.r = in[i+1]
 			}
 
-			out[i/2] = crypto.GenericHashObj(h, p)
+			hashPairTo(h, p, out[i/2])
 		}
 
 		batchSize += 2

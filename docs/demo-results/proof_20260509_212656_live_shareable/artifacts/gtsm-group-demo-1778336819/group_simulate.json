@@ -1,0 +1,101 @@
+{
+  "outcome-hash": "4ebf1bd9ff0759927cf413d07911fc3f502d374e4efd48e25bc65ac811dbf01e",
+  "outcome-summary": {
+    "algo-deltas": [
+      {
+        "address": "7IEI4SIQGNQ5L3Y5HX3XI37P3ZDVNOXKVFKRCOH7DB7I4WNJAVEFVORHHY",
+        "delta": 100000
+      },
+      {
+        "address": "HO3KLLWNSY4WF3R77PP6E45E4PZQWFKT6BT73CGFRXDVXLWUBZT6PMFB6U",
+        "delta": 200000
+      },
+      {
+        "address": "POKZP5FH4H4P7PZQDEYEJ6Z3IDMK4GPJLTASPZVBFQENLHBAXOJSTWBUOI",
+        "delta": -302000
+      }
+    ],
+    "algo-transfers": [
+      {
+        "amount": 100000,
+        "from": "POKZP5FH4H4P7PZQDEYEJ6Z3IDMK4GPJLTASPZVBFQENLHBAXOJSTWBUOI",
+        "kind": "pay",
+        "to": "7IEI4SIQGNQ5L3Y5HX3XI37P3ZDVNOXKVFKRCOH7DB7I4WNJAVEFVORHHY"
+      },
+      {
+        "amount": 200000,
+        "from": "POKZP5FH4H4P7PZQDEYEJ6Z3IDMK4GPJLTASPZVBFQENLHBAXOJSTWBUOI",
+        "kind": "pay",
+        "to": "HO3KLLWNSY4WF3R77PP6E45E4PZQWFKT6BT73CGFRXDVXLWUBZT6PMFB6U"
+      }
+    ],
+    "app-ids-touched": [],
+    "app-state-changes": null,
+    "asset-deltas": [],
+    "asset-transfers": null,
+    "auth-changes": [],
+    "human-summary": [
+      "Algo transfer: 100000 microAlgos from POKZP5FH4H4P7PZQDEYEJ6Z3IDMK4GPJLTASPZVBFQENLHBAXOJSTWBUOI to 7IEI4SIQGNQ5L3Y5HX3XI37P3ZDVNOXKVFKRCOH7DB7I4WNJAVEFVORHHY",
+      "No deterministic risk signals detected"
+    ],
+    "inner-txn-count": 0,
+    "resource-lifecycle": null,
+    "risk-signals": [],
+    "round": 271
+  },
+  "risk-level": "low",
+  "risk-signals": [],
+  "simulation": {
+    "last-round": 271,
+    "txn-groups": [
+      {
+        "txn-results": [
+          {
+            "txn-result": {
+              "pool-error": "",
+              "txn": {
+                "sig": "rz861+i2TbEeZyvvilNQI9m4i30IRVrM+jSjPLrHwpIEVZTil/QeBt+hR+RV5kpiPXT4EJWwCO596sQhZK8IAw==",
+                "txn": {
+                  "amt": 100000,
+                  "fee": 1000,
+                  "fv": 271,
+                  "gen": "testnet-v1",
+                  "gh": "u5T+5GIQ6zmv/Gpo0bEpTECa+rWRObKJO92LNoCctaw=",
+                  "grp": "9Wj7nUiNlgBuFHqLJ9PdTCp2BXWaiwZn+RgI+DphAaw=",
+                  "lv": 771,
+                  "note": "4aNpuO2yMe4=",
+                  "rcv": "7IEI4SIQGNQ5L3Y5HX3XI37P3ZDVNOXKVFKRCOH7DB7I4WNJAVEFVORHHY",
+                  "snd": "POKZP5FH4H4P7PZQDEYEJ6Z3IDMK4GPJLTASPZVBFQENLHBAXOJSTWBUOI",
+                  "type": "pay"
+                }
+              }
+            }
+          },
+          {
+            "txn-result": {
+              "pool-error": "",
+              "txn": {
+                "sig": "KVg921UFh4Zq6wW2uGZFrqc8RujHykjQ9dbdDxrlozDg5kTFXBbMjR5JUVXWpECZUV30eFygdIi9hwBlCL0LBQ==",
+                "txn": {
+                  "amt": 200000,
+                  "fee": 1000,
+                  "fv": 271,
+                  "gen": "testnet-v1",
+                  "gh": "u5T+5GIQ6zmv/Gpo0bEpTECa+rWRObKJO92LNoCctaw=",
+                  "grp": "9Wj7nUiNlgBuFHqLJ9PdTCp2BXWaiwZn+RgI+DphAaw=",
+                  "lv": 771,
+                  "note": "gT+3EilEsc4=",
+                  "rcv": "HO3KLLWNSY4WF3R77PP6E45E4PZQWFKT6BT73CGFRXDVXLWUBZT6PMFB6U",
+                  "snd": "POKZP5FH4H4P7PZQDEYEJ6Z3IDMK4GPJLTASPZVBFQENLHBAXOJSTWBUOI",
+                  "type": "pay"
+                }
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "version": 2
+  },
+  "verification-status": "verified"
+}

@@ -94,3 +94,29 @@ func TestNewAppEvalParams(t *testing.T) {
 		}
 	}
 }
+
+func TestNewAppEvalParamsClearsApplyData(t *testing.T) {
+	partitiontest.PartitionTest(t)
+	t.Parallel()
+
+	group := []transactions.SignedTxnWithAD{
+		{
+			SignedTxn: txntest.Txn{
+				Type:     protocol.PaymentTx,
+				Sender:   basics.Address{1, 2, 3, 4},
+				Receiver: basics.Address{4, 3, 2, 1},
+				Amount:   100,
+			}.SignedTxn(),
+			ApplyData: transactions.ApplyData{
+				ApplicationID: 7,
+			},
+		},
+	}
+
+	params := config.Consensus[protocol.ConsensusCurrentVersion]
+	ep := logic.NewAppEvalParams(group, &params, nil)
+	require.NotNil(t, ep)
+	require.Len(t, ep.TxnGroup, 1)
+	require.Equal(t, group[0].SignedTxn, ep.TxnGroup[0].SignedTxn)
+	require.True(t, ep.TxnGroup[0].ApplyData.Equal(transactions.ApplyData{}))
+}

@@ -24,8 +24,6 @@ import (
 	"sync/atomic"
 	"time"
 
-	"github.com/algorand/go-deadlock"
-
 	"github.com/algorand/go-algorand/config"
 	"github.com/algorand/go-algorand/data/basics"
 	"github.com/algorand/go-algorand/data/bookkeeping"
@@ -59,7 +57,7 @@ type TransactionPool struct {
 	txPoolMaxSize        int
 	ledger               *ledger.Ledger
 
-	mu                     deadlock.Mutex
+	mu                     sync.Mutex
 	cond                   sync.Cond
 	pendingBlockEvaluator  BlockEvaluator
 	evalTracer             logic.EvalTracer
@@ -68,7 +66,7 @@ type TransactionPool struct {
 	feeThresholdMultiplier uint64
 	statusCache            *statusCache
 
-	assemblyMu       deadlock.Mutex
+	assemblyMu       sync.Mutex
 	assemblyCond     sync.Cond
 	assemblyDeadline time.Time
 	// assemblyRound indicates which round number we're currently waiting for or waited for last.
@@ -76,7 +74,7 @@ type TransactionPool struct {
 	assemblyResults poolAsmResults
 
 	// pendingMu protects pendingTxGroups and pendingTxids
-	pendingMu       deadlock.RWMutex
+	pendingMu       sync.RWMutex
 	pendingTxGroups [][]transactions.SignedTxn
 	pendingTxids    map[transactions.Txid]transactions.SignedTxn
 
@@ -109,6 +107,7 @@ type BlockEvaluator interface {
 	TestTransactionGroup(txgroup []transactions.SignedTxn) error
 	Round() basics.Round
 	PaySetSize() int
+	ReservePaysetCapacity(capacity int)
 	TransactionGroup(txads ...transactions.SignedTxnWithAD) error
 	GenerateBlock(addrs []basics.Address) (*ledgercore.UnfinishedBlock, error)
 	ResetTxnBytes()
@@ -706,6 +705,9 @@ func (pool *TransactionPool) recomputeBlockEvaluator(committedTxIDs map[transact
 	}
 	pool.assemblyMu.Unlock()
 
+	pool.rememberedTxGroups = make([][]transactions.SignedTxn, 0, len(txgroups))
+	pool.rememberedTxids = make(map[transactions.Txid]transactions.SignedTxn, pendingCount)
+
 	next := bookkeeping.MakeBlock(prev)
 	pool.numPendingWholeBlocks = 0
 	hint := pendingCount - int(knownCommitted)
@@ -728,6 +730,7 @@ func (pool *TransactionPool) recomputeBlockEvaluator(committedTxIDs map[transact
 		pool.log.Warnf("TransactionPool.recomputeBlockEvaluator: cannot start evaluator: %v", err)
 		return
 	}
+	pool.pendingBlockEvaluator.ReservePaysetCapacity(hint)
 
 	var asmStats telemetryspec.AssembleBlockMetrics
 	asmStats.StartCount = len(txgroups)
