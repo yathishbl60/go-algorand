@@ -11,11 +11,11 @@ completed components below do not substitute for it.
 | NAP-01 profile | Pinned candidate documented; complete relation, security argument, vectors and measurements missing |
 | NAP-02 consensus specification | Draft obligations/accounting/candidate layouts; complete normative protocol and sibling specs changes missing |
 | NAP-03 types/gates | Consensus flag added, false in every version; transaction/witness types and codecs missing |
-| NAP-04 cryptography | Hiding backend, ownership/nullifier/32-level membership AIRs, integer gadget and local encryption implemented; full transfer relation/verifier missing |
-| NAP-05 native state | COW supply, spent markers and persistent commitment tree implemented; policy/key records, accepted-root history, output streams and storage charges missing |
+| NAP-04 cryptography | Ownership/nullifier/membership and fixed2-in/2-out conservation/group-context AIR implemented; encryption/control constraints and native verifier missing |
+| NAP-05 native state | COW supply, policy records, spent markers, commitment tree and accepted-root history implemented; authority epochs, output streams and storage charges missing |
 | NAP-06 verification | Missing bounded proof decoder, deterministic native verifier, work limits and cache integration |
-| NAP-07 lifecycle | Policy checks and destruction guard implemented; native create/adopt/register/convert/spend/control operations missing |
-| NAP-08 groups/pool/AVM | Full-body group digest API implemented; proof public-input/native wiring, pool accounting and gated AVM inspection missing |
+| NAP-07 lifecycle | Policy persistence/adoption/update helpers and destruction guard implemented; authenticated native transaction lifecycle still missing |
+| NAP-08 groups/pool/AVM | Group digest API and transfer public-input layout implemented; native verifier wiring, pool accounting and gated AVM inspection missing |
 | NAP-09 recovery | Existing KV path reused; privacy replay/restart/catchpoint/catchup behavior unverified |
 | NAP-10 APIs | Public streams, witness queries, decoding, simulation and error contracts missing |
 | NAP-11 SDK/wallet | Local note/encryption primitives exist; SDK, scanning, proving, receipts and encrypted recovery missing |
@@ -44,6 +44,7 @@ private transaction execution or privacy-state cleanup.
 - [Native tree](../../internal/assetprivacy/tree/README.md), [spent markers](../../internal/assetprivacy/nullifier/README.md), and [group context](../../internal/assetprivacy/statement/README.md).
 - [Proof relation and group-binding requirements](PROOF_RELATIONS.md).
 - [Native accounting and destruction behavior](NATIVE_ACCOUNTING.md).
+- [Canonical policy records and lifecycle ordering](POLICY_RECORDS.md).
 - [Local note API](../../internal/assetprivacy/note/README.md).
 - [Envelope API](../../internal/assetprivacy/envelope/README.md).
 - [Pinned Rust backend/build commands](../../internal/assetprivacy/stark/README.md).
@@ -55,8 +56,9 @@ private transaction execution or privacy-state cleanup.
 Go builds and static analysis passed for the modified packages with the feature
 enabled; native default builds also passed. Rust feature-enabled compilation and
 Clippy passed. Ownership/nullifier/membership AIRs compile; no proofs have been executed.
-Membership alone has a ~641 MB base matrix before proving/assembly overhead;
-resource feasibility and optimized layout remain unresolved.
+Membership alone has a ~641 MB base matrix; streaming assembly reduces its
+static matrix overlap from~1.28 GB to~671 MB. Full-transfer proving memory and
+resource feasibility remain unmeasured. No tests or proofs ran.
 Formatting and authored file/function limits were checked.
 These are not proof correctness, privacy, anonymity, interoperability or protocol
 validation. No tests have been added or run, as requested.

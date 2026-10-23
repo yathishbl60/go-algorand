@@ -69,14 +69,16 @@ These are in-process witness interfaces. Never serialize their traces to node RP
 levels. Only nullifier and root are public; directions, siblings, input commitment
 and intermediate hashes stay private. Node hashing matches the Go tree contract.
 See [membership details](../../internal/assetprivacy/stark/src/membership_air/README.md).
-The current horizontal membership matrix is ~641 MB before proving overhead.
+The membership matrix remains~641 MB; assembly now retains one stage at a time.
+`TransferAir` composes2 member inputs,2 outputs and exact conservation, with
+conversion/group context in232 public scalars. [Layout](../../internal/assetprivacy/stark/src/transfer_air/README.md).
 
 ## Remaining composition
 
 The complete relation still needs current eligibility/control authorization,
 output encryption correctness,
-mandatory disclosure, amount conservation across all inputs/outputs and final-group
-public-input wiring. The group digest and scalar-encoding API are implemented. The owner component is not the controller recovery path;
+mandatory disclosure, operation-specific arities and native group-verifier wiring.
+Fixed2-in/2-out conservation and group-context public inputs are implemented. The owner component is not the controller recovery path;
 both paths must eventually consume the same canonical nullifier.
 
 There is no node verifier/decoder, proof transport, Go/Rust native adapter or

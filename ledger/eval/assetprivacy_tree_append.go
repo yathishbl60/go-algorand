@@ -30,7 +30,7 @@ func (cs *roundCowState) AppendAssetPrivacyCommitment(aidx basics.AssetIndex, po
 	if err != nil {
 		return 0, tree.Hash{}, err
 	}
-	return state.Append(leaf)
+	return state.AppendAtRound(leaf, uint64(cs.Round()), cs.proto.NativeAssetPrivacyRootHistory)
 }
 
 // AssetPrivacyMembership reads private path data for an already appended leaf.

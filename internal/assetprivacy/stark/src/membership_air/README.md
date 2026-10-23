@@ -26,12 +26,24 @@ all 32 output digests are constrained by SHA3 and constant across rows.
 Its 64 public limbs are the nullifier followed by the root. It exposes private
 value bits for later transfer-conservation composition.
 
-This composition allocates 32 SHA3 traces horizontally. From the pinned Keccak
-column layout, the membership matrix alone contains 156,384 columns by 512 rows
-(640,548,864 bytes of Goldilocks elements). Trace assembly additionally retains
-the 32 source matrices. These are static allocation counts, not measured prover
-memory. FFTs, hiding, commitments and ownership composition add further memory.
-Production resource limits and a more efficient layout remain required.
+The final matrix composes 32 SHA3 hashes horizontally. From the pinned Keccak
+column layout, it contains 156,384 columns by 512 rows, occupying 640,548,864
+bytes of Goldilocks elements. Assembly allocates this destination once, then
+generates, copies and drops one source hash at a time. No 32-element collection
+of source matrices is retained. The 512-row hiding budget and constraints are
+unchanged.
+
+The previous join simultaneously retained the destination and 32 source matrices:
+`640,548,864 + 32 * 19,877,888 = 1,276,641,280` bytes of matrix elements. The new
+largest matrix overlap is during source generation, when the destination, one
+source SHA3 matrix and its temporary Keccak matrix coexist:
+`640,548,864 + 19,877,888 + 10,784,768 = 671,211,520` bytes. This removes
+605,429,760 bytes from that static overlap. These counts describe matrix elements
+only; small message buffers, allocator overhead, concurrency and process memory
+are excluded. No runtime memory benchmark has been performed.
+
+FFTs, hiding, commitments, ownership and transfer composition add further memory.
+Production resource limits and a more efficient final layout remain required.
 
 The components do not check root acceptance, nullifier freshness, transaction
 group binding, transfer conservation, ciphertext correctness or issuer controls.

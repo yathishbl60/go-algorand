@@ -624,6 +624,10 @@ type ConsensusParams struct {
 	// until the complete privacy protocol and cryptographic profile are ready.
 	EnableNativeAssetPrivacy bool
 
+	// NativeAssetPrivacyRootHistory bounds accepted pre-append roots by rounds.
+	// Zero disables history; no current consensus version sets a positive value.
+	NativeAssetPrivacyRootHistory uint64
+
 	// RequireLogicSigArgAccess requires that a LogicSig carry no argument it did
 	// not read: nothing above the highest index it read, and nothing unread
 	// below that index unless it is empty. Args are covered by no signature, and

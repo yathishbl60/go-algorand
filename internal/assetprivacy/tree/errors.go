@@ -22,6 +22,7 @@ import "errors"
 
 var (
 	ErrCommitment = errors.New("reserved empty asset privacy commitment")
+	ErrHistory    = errors.New("invalid native asset privacy root history")
 	ErrDomain     = errors.New("invalid asset privacy tree domain")
 	ErrEncoding   = errors.New("invalid asset privacy tree record")
 	ErrCapacity   = errors.New("asset privacy tree capacity exceeded")

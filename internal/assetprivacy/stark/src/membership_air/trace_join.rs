@@ -4,19 +4,30 @@
 use super::{MembershipAir, trace::Stage};
 use crate::Value;
 use p3_field::PrimeCharacteristicRing;
-use p3_matrix::{Matrix, dense::RowMajorMatrix};
+use p3_matrix::Matrix;
 
 impl MembershipAir {
-    pub(super) fn join(&self, stages: Vec<Stage>, leaf: [Value; 32]) -> RowMajorMatrix<Value> {
-        let height = stages[0].hash.height();
+    pub(super) fn empty_trace(&self, height: usize, leaf: [Value; 32]) -> Vec<Value> {
         let mut values = Value::zero_vec(height * self.width());
-        for (r, row) in values.chunks_exact_mut(self.width()).enumerate() {
-            for (level, stage) in stages.iter().enumerate() {
-                self.write_stage(row, r, level, stage);
-            }
+        for row in values.chunks_exact_mut(self.width()) {
             row[self.leaf_start()..].copy_from_slice(&leaf);
         }
-        RowMajorMatrix::new(values, self.width())
+        values
+    }
+
+    pub(super) fn copy_stage(
+        &self,
+        values: &mut [Value],
+        level: usize,
+        stage: &Stage,
+    ) -> Option<()> {
+        if values.len() != stage.hash.height() * self.width() {
+            return None;
+        }
+        for (r, row) in values.chunks_exact_mut(self.width()).enumerate() {
+            self.write_stage(row, r, level, stage);
+        }
+        Some(())
     }
 
     fn write_stage(&self, row: &mut [Value], r: usize, level: usize, stage: &Stage) {

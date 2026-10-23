@@ -31,6 +31,8 @@ mod private_output_builder;
 #[cfg(feature = "native-privacy")]
 pub mod sha3_air;
 #[cfg(feature = "native-privacy")]
+pub mod transfer_air;
+#[cfg(feature = "native-privacy")]
 mod types;
 
 #[cfg(feature = "native-privacy")]

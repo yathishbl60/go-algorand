@@ -37,8 +37,10 @@ asset privacy. See [candidate choices](CANDIDATE_PROFILE.md) and
 [native accounting](NATIVE_ACCOUNTING.md).
 
 7. Persistent content-addressed depth-32 commitment tree, atomic COW appends and
-   membership reads; native spent-marker access/consumption; full-body group digest
-   and injective public-scalar encoding. Native transaction callers remain absent.
+   membership reads, bounded accepted-root history; spent-marker and policy-record
+   access/mutations; full-body group digest and public-scalar encoding. Fixed2-in/
+   2-out transfer AIR now composes membership, conservation and group context.
+   Native transaction callers remain absent.
 
 ## Verification scope
 
@@ -50,8 +52,9 @@ multi-node demo have run. No security review has been supplied or completed.
 
 ## Next work
 
-Compose membership/ownership/nullifiers with encryption correctness, issuer
-controls and conservation; optimize the current ~641 MB membership base matrix. Bind the finalized ordered group
+Complete proof-constrained encryption and issuer controls, operation-specific
+arities and native transaction verification/execution. Membership assembly now
+retains one stage at a time; proving resource feasibility remains unmeasured. Bind the finalized ordered group
 and current authorization state; define bounded proof encoding and verification.
 Then complete native transaction/types/state, API/SDK/wallet/CLI and the real-node
 scenarios. Maintain the full [work-package scope](IMPLEMENTATION.md).

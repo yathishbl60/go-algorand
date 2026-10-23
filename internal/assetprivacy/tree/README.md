@@ -38,7 +38,7 @@ Metadata is 169 bytes; nodes are 130 bytes. Nondefault nodes must exist and
 match their content hash and level. Wrong sizes, versions, domains and counts
 fail closed. Empty subtrees need no node records. Node records are content
 addressed and retained, so appends preserve nodes belonging to historical roots.
-This does not define which historical roots native spending may accept.
+Accepted roots use the round-bounded history described below.
 
 ## Usage and atomicity
 
@@ -52,7 +52,34 @@ Tree snapshots advance only after successful application. The COW adapter stages
 all writes in a child, commits it on success, and discards it on error. A later
 group failure still requires discarding that group's parent COW as usual.
 
-Persistence includes 32 node writes plus metadata per append. Fees, storage
-funding, pruning, accepted-root history, RPC witness privacy, recovery validation,
-and transaction execution remain integration work. No tests have been added or
-run, as requested; builds and vet provide only static verification.
+## Accepted-root history
+
+`AppendAtRound(leaf, round, slots)` atomically stores the first pre-append root
+and count for that round together with the append. Subsequent appends in the
+same round preserve this first snapshot. This keeps a confirmed root usable
+through a busy round. `AcceptRoot(root, count, currentRound, slots)` accepts the
+current root/count or a stored snapshot with `currentRound - snapshotRound < slots`.
+An unchanged current root remains accepted even after many idle rounds.
+
+Slots come from the consensus parameter `NativeAssetPrivacyRootHistory`, never
+from the transaction or local configuration. Every current consensus version
+leaves this parameter zero and privacy disabled. Zero slots fail closed. Changing
+the slot count in place is rejected; a future upgrade must define ring migration.
+Native COW appends always use `AppendAtRound`, with the evaluator round and
+consensus slot count. Generic `Append` is history-free and is not the native path.
+
+The native key suffix `h` stores the newest pre-append snapshot; `r` plus an
+8-byte big-endian slot stores each ring entry at `snapshotRound % slots`.
+Both contain 185 bytes: the 169-byte metadata shape, roundBE8, slotsBE8.
+The count must precede the current count; domains must match. Wrong versions,
+lengths, future rounds, slot counts, aliased slots, missing newest entries and
+inconsistent snapshot counts fail closed. Nonempty roots must have a valid
+content-addressed top node. Expired entries may remain stored but cannot authorize
+a root. All ring slots are checked; old snapshots and tree nodes are retained
+until overwritten ring entries expire. Historical tree nodes are never pruned.
+
+The first append in a round writes two history records plus 32 nodes and metadata;
+later same-round appends write only the nodes and metadata. Fees, storage funding,
+pruning, RPC witness privacy, recovery validation and transaction execution remain
+integration work. No tests have been added or run, as requested; builds and vet
+provide only static verification.
