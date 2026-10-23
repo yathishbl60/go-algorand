@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
 use super::MlKemNttAir;
-use crate::mlkem_field::Q;
+use crate::mlkem_field::ntt_twiddle;
 
 pub(super) struct Operation {
     pub left: usize,
@@ -49,20 +49,6 @@ impl MlKemNttAir {
         } else {
             (1 << stage) + group
         };
-        root((index as u8).reverse_bits() >> 1)
+        ntt_twiddle(index as u8).expect("fixed NTT twiddle index")
     }
-}
-
-// FIPS 203 twiddles are 17^BitRev7(k) mod 3329, without Montgomery factors.
-const fn root(mut exponent: u8) -> u16 {
-    let mut value = 1u32;
-    let mut power = 17u32;
-    while exponent != 0 {
-        if exponent & 1 != 0 {
-            value = value * power % Q as u32;
-        }
-        power = power * power % Q as u32;
-        exponent >>= 1;
-    }
-    value as u16
 }

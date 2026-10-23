@@ -23,6 +23,9 @@ Call the matching `eval_*` function on the actual allocated wires. Each type's
 `witness` rejects noncanonical inputs; these helpers construct columns without
 evaluating or proving them. A parent must bind shared operands, NTT constants,
 matrix/noise generation, byte packing and ciphertext/public-key encodings.
+`ntt_twiddle(index)` and `ntt_gamma(index)` derive trusted canonical NTT constants
+for indices 0–127 and reject larger indices. They are shared by transform/product
+schedules; proof authors cannot replace the verifier's exact preprocessing.
 
 Compilation, strict Clippy, formatting and size checks only. No arithmetic tests,
 vectors, constraint evaluation or proofs ran; full KEM composition remains pending.

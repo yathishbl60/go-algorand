@@ -9,11 +9,13 @@ mod canonical;
 mod compression;
 mod mul;
 mod sub;
+mod twiddle;
 
 pub use add::{Add, eval_add};
 pub use canonical::{Canonical, eval_canonical};
 pub use compression::{Compression, eval_compression};
 pub use mul::{Mul, eval_mul};
 pub use sub::{Sub, eval_sub};
+pub use twiddle::{ntt_gamma, ntt_twiddle};
 
 pub const Q: u16 = 3329;

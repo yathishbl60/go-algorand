@@ -63,6 +63,10 @@ asset privacy. See [candidate choices](CANDIDATE_PROFILE.md) and
     REST/SDK/wallet scanning, storage charges and accepted transactions remain.
 16. Complete private vertical forward/inverse NTT with bounded modular operations,
     fixed addressing/twiddles and inverse scaling. Full KEM composition remains.
+17. Private NTT-domain product constrains all 128 quadratic coefficient pairs with
+    trusted gamma constants, bounded intermediate products and Boolean sum carries.
+18. Private canonical D=12 key packing, D=10/4 compressed ciphertext packing and
+    exact D=1 message decoding. SHAKE128 matrix sampling/full KEM binding remain.
 
 ## Verification scope
 
