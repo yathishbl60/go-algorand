@@ -5,6 +5,8 @@
 #![forbid(unsafe_code)]
 
 #[cfg(feature = "native-privacy")]
+pub mod aes_air;
+#[cfg(feature = "native-privacy")]
 mod amount_witness;
 #[cfg(feature = "native-privacy")]
 pub mod amounts;
@@ -29,7 +31,11 @@ mod prefix_builder;
 #[cfg(feature = "native-privacy")]
 mod private_output_builder;
 #[cfg(feature = "native-privacy")]
+mod public_segment_builder;
+#[cfg(feature = "native-privacy")]
 pub mod sha3_air;
+#[cfg(feature = "native-privacy")]
+pub mod shield_air;
 #[cfg(feature = "native-privacy")]
 pub mod transfer_air;
 #[cfg(feature = "native-privacy")]
