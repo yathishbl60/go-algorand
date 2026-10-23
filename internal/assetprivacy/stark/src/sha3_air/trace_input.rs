@@ -5,18 +5,18 @@ use p3_keccak::KeccakF;
 use p3_keccak_air::NUM_ROUNDS;
 use p3_symmetric::Permutation;
 
-use super::{RATE_BYTES, Sha3Air};
+use super::Sha3Air;
 use crate::MIN_TRACE_ROWS;
 
 impl Sha3Air {
     pub(super) fn permutation_inputs(&self, message: &[u8]) -> Vec<[u64; 25]> {
-        let mut padded = vec![0u8; self.blocks() * RATE_BYTES];
+        let mut padded = vec![0u8; self.blocks() * self.rate_bytes()];
         padded[..message.len()].copy_from_slice(message);
         padded[message.len()] = 0x06;
         *padded.last_mut().expect("one padding block") |= 0x80;
         let mut state = [0u64; 25];
         let mut inputs = Vec::with_capacity(self.blocks());
-        for block in padded.as_chunks::<RATE_BYTES>().0 {
+        for block in padded.chunks_exact(self.rate_bytes()) {
             absorb(&mut state, block);
             inputs.push(state);
             KeccakF {}.permute_mut(&mut state);

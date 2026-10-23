@@ -6,7 +6,7 @@ use p3_air::{AirBuilder, WindowAccess};
 use p3_field::PrimeCharacteristicRing;
 use p3_keccak_air::{KeccakCols, NUM_KECCAK_COLS};
 
-use super::{RATE_BYTES, Sha3Air};
+use super::Sha3Air;
 use crate::Value;
 
 impl Sha3Air {
@@ -22,7 +22,7 @@ impl Sha3Air {
     }
 
     fn initial_limb<AB: AirBuilder<F = Value>>(&self, row: &[AB::Var], limb: usize) -> AB::Expr {
-        if limb >= RATE_BYTES / 2 {
+        if limb >= self.rate_bytes() / 2 {
             return AB::Expr::ZERO;
         }
         (0..16).rev().fold(AB::Expr::ZERO, |value, bit| {
@@ -35,7 +35,7 @@ impl Sha3Air {
         let row: &KeccakCols<AB::Var> = main.current_slice()[..NUM_KECCAK_COLS].borrow();
         let last_block = main.current_slice()[self.block_offset() + self.blocks() - 1];
         let gate = last_block * row.step_flags[23];
-        for limb in 0..32 {
+        for limb in 0..self.digest_bytes / 2 {
             let expected = builder.public_values()[limb];
             let value = row.a_prime_prime_prime(limb / 20, limb / 4 % 5, limb % 4);
             builder.when(gate.clone()).assert_eq(value, expected);

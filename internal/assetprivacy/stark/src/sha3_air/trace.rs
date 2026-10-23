@@ -42,3 +42,10 @@ pub fn digest_values(digest: [u8; 64]) -> [Value; 32] {
         Value::from_u16(u16::from_le_bytes([digest[2 * i], digest[2 * i + 1]]))
     })
 }
+
+/// SHA3-256 uses 16 little-endian uint16 limbs, with no zero extension.
+pub fn digest256_values(digest: [u8; 32]) -> [Value; 16] {
+    core::array::from_fn(|i| {
+        Value::from_u16(u16::from_le_bytes([digest[2 * i], digest[2 * i + 1]]))
+    })
+}

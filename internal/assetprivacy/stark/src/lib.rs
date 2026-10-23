@@ -19,6 +19,10 @@ pub mod ghash_air;
 #[cfg(feature = "native-privacy")]
 mod hash;
 #[cfg(feature = "native-privacy")]
+pub mod hkdf_air;
+#[cfg(feature = "native-privacy")]
+pub mod hmac_air;
+#[cfg(feature = "native-privacy")]
 pub mod member_note_air;
 #[cfg(feature = "native-privacy")]
 pub mod membership_air;

@@ -49,10 +49,11 @@ AES key `k = T1[0:32]`. Both HMAC keys are 64 bytes, zero-padded to 72 bytes bef
 XOR with ipad `0x36` or opad `0x5c`; no long-key hashing branch is needed here.
 The four SHA3-512 HMAC messages have lengths 104, 136, 115, 136 bytes respectively.
 
-Required constrained helpers still include SHA3-256, SHAKE128/256 and the ML-KEM
-samplers/arithmetic, plus private-digest SHA3/HMAC composition. Existing
-`Sha3Air` supports fixed messages only through 1024 bytes; the 2528-byte AAD hash
-and 1184-byte public-key hash require additional bounded hash constructions.
+SHA3-256/512, private HMAC and the exact candidate HKDF are now constrained.
+`Sha3Air` supports fixed messages through 4096 bytes, covering the AAD and
+public-key hashes. The AAD hash needs 1024 rows; current note relations use 512,
+so a consistent enclosing schedule remains required. SHAKE128/256 and ML-KEM
+samplers/arithmetic remain missing.
 Their intermediate bits and digest limbs must connect directly to KEM, HKDF,
 AES and the authoritative key bindings, rather than host-only witness checks.
 

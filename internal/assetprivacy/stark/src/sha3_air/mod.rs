@@ -1,7 +1,7 @@
 // Copyright (C) 2026 Algorand Foundation Ltd.
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
-//! Fixed-length SHA3-512 preimage constraints, to compose with the note relation.
+//! Fixed-length SHA3-256/512 constraints, to compose with the complete relation.
 //! A hash preimage proof alone never authorizes a transfer.
 
 mod absorption;
@@ -9,31 +9,35 @@ mod blocks;
 mod boundary;
 mod message;
 mod output_bits;
+mod shape;
 mod trace;
 mod trace_input;
 
-pub use trace::digest_values;
+pub use trace::{digest_values, digest256_values};
 
 use p3_air::{Air, AirBuilder, BaseAir};
 use p3_keccak_air::{KeccakAir, NUM_KECCAK_COLS};
 
 use crate::{Value, prefix_builder::PrefixBuilder};
 
-pub const MAX_MESSAGE_BYTES: usize = 1024;
-pub(crate) const RATE_BYTES: usize = 72;
+pub const MAX_MESSAGE_BYTES: usize = 4096;
 
 /// The verifier fixes the message length; proof data cannot choose it.
 #[derive(Clone, Copy)]
 pub struct Sha3Air {
     message_len: usize,
+    digest_bytes: usize,
 }
 
 impl Sha3Air {
     pub fn new(message_len: usize) -> Option<Self> {
-        (message_len <= MAX_MESSAGE_BYTES).then_some(Self { message_len })
+        Self::with_digest_length(message_len, 64)
+    }
+    pub fn new256(message_len: usize) -> Option<Self> {
+        Self::with_digest_length(message_len, 32)
     }
     pub(crate) fn blocks(&self) -> usize {
-        self.message_len / RATE_BYTES + 1
+        self.message_len / self.rate_bytes() + 1
     }
     pub(crate) fn block_offset(&self) -> usize {
         NUM_KECCAK_COLS + self.message_len * 8
@@ -48,7 +52,7 @@ impl BaseAir<Value> for Sha3Air {
         self.width()
     }
     fn num_public_values(&self) -> usize {
-        32
+        self.digest_bytes / 2
     }
 }
 

@@ -5,7 +5,7 @@ use p3_air::{AirBuilder, WindowAccess};
 use p3_field::PrimeCharacteristicRing;
 use p3_keccak_air::NUM_KECCAK_COLS;
 
-use super::{RATE_BYTES, Sha3Air};
+use super::Sha3Air;
 use crate::Value;
 
 impl Sha3Air {
@@ -30,7 +30,7 @@ impl Sha3Air {
         }
         let byte = bit / 8;
         let suffix = if byte == self.message_len { 0x06 } else { 0 };
-        let last = if byte + 1 == self.blocks() * RATE_BYTES {
+        let last = if byte + 1 == self.blocks() * self.rate_bytes() {
             0x80
         } else {
             0

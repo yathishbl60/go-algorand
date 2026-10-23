@@ -47,6 +47,8 @@ asset privacy. See [candidate choices](CANDIDATE_PROFILE.md) and
    Embedded proof decoding, complete encryption and native acceptance are absent.
 9. Account freeze/control epochs, close-out preservation and current eligibility;
    anonymous eligibility proofs and authenticated administrative ingress remain.
+10. SHA3-256/512 messages through 4096 bytes and private HMAC/HKDF constraints;
+    full KEM/GCM binding and practical enclosing schedules remain unfinished.
 
 ## Verification scope
 

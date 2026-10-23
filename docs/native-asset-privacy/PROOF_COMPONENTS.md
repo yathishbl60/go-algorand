@@ -4,28 +4,28 @@ Updated 2026-10-23. These components implement portions of the native spending
 relation. None is an accepted transaction proof or a complete privacy protocol.
 They use the [pinned candidate backend](CANDIDATE_PROFILE.md) and remain opt-in.
 
-## SHA3-512 message constraints
+## SHA3 message constraints
 
-`stark::sha3_air::Sha3Air` accepts a verifier-selected message length up to 1024
-bytes. Its private trace includes the message bits and pinned Keccak permutation
-columns. The 32 public values are little-endian uint16 limbs of the digest.
+`Sha3Air` accepts a verifier-selected variant and length through 4096 bytes.
+Its private trace includes message bits and Keccak permutation columns.
+SHA3-512 has 32 public uint16 digest limbs; SHA3-256 has 16, both little endian.
 
 The AIR constrains:
 
 - Boolean message bits, constant across trace rows.
 - A zero initial capacity and the first padded message block.
-- SHA3's 72-byte rate and `0x06`/final `0x80` padding, including a shared last byte.
+- SHA3's 72/136-byte rates and `0x06`/final `0x80` padding, including shared bytes.
 - Every Keccak round through the upstream `KeccakAir`.
 - XOR absorption into the rate and unchanged capacity between message blocks.
 - A deterministic block schedule with all active-block flags cleared at the end.
-- The first 64 output bytes of the final message permutation against the digest.
+- The selected 64/32 output bytes of the final permutation against the digest.
 
 Requiring the schedule to finish prevents a shorter trace from avoiding the final
 digest constraint. Subsequent padding permutations do not contribute to the hash.
-The local generator currently creates 512 rows for all supported message lengths.
-That is an implementation shape, not a measured network resource budget.
+`trace_rows()` gives 512–2048 rows by variant/length; existing note hashes stay at 512 rows.
+See [hash composition requirements](../../internal/assetprivacy/stark/src/sha3_air/README.md).
 
-The 1024-byte limit is for this component, not a protocol payload limit. Message
+The 4096-byte limit is for this component, not a protocol payload limit. Message
 length comes from the fixed composed relation, never from an untrusted proof.
 The future node adapter must independently bound encoded proof dimensions/work.
 
@@ -80,7 +80,7 @@ output encryption correctness, mandatory disclosure and native verifier wiring.
 [ShieldAir](../../internal/assetprivacy/stark/src/shield_air/README.md) has zero private inputs/two outputs;
 [UnshieldAir](../../internal/assetprivacy/stark/src/unshield_air/README.md) has two inputs/zero outputs.
 Neither uses dummy notes. [AES byte constraints](../../internal/assetprivacy/stark/src/aes_air/README.md)
-and [AES-256](../../internal/assetprivacy/stark/src/aes256_air/README.md)/[GHASH](../../internal/assetprivacy/stark/src/ghash_air/README.md) exist; [full encryption composition](ENCRYPTION_RELATION.md) remains pending.
+AES-256/GHASH and private [HMAC](../../internal/assetprivacy/stark/src/hmac_air/README.md)/[HKDF](../../internal/assetprivacy/stark/src/hkdf_air/README.md) exist; [full encryption composition](ENCRYPTION_RELATION.md) remains pending.
 The owner component is not the controller recovery path;
 both paths must eventually consume the same canonical nullifier.
 

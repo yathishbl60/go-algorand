@@ -44,6 +44,7 @@ writable `GOCACHE` or Cargo target/cache directory when using a sandbox.
 | Two private inputs, two outputs | [TransferAir](../../internal/assetprivacy/stark/src/transfer_air/README.md) |
 | Two private inputs, no private outputs | [UnshieldAir](../../internal/assetprivacy/stark/src/unshield_air/README.md) |
 | Remaining encryption composition | [Exact byte/binding contract](ENCRYPTION_RELATION.md) |
+| Private candidate key derivation | [HKDF constraints](../../internal/assetprivacy/stark/src/hkdf_air/README.md) |
 
 ## Required transaction order
 

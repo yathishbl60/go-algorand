@@ -11,7 +11,7 @@ completed components below do not substitute for it.
 | NAP-01 profile | Pinned candidate documented; complete relation, security argument, vectors and measurements missing |
 | NAP-02 consensus specification | Draft obligations/accounting/candidate layouts; complete normative protocol and sibling specs changes missing |
 | NAP-03 types/gates | Consensus flag added, false in every version; transaction/witness types and codecs missing |
-| NAP-04 cryptography | Ownership/nullifier/membership, shield/transfer/unshield conservation, AES-256 and GHASH constraints implemented; full encryption/control composition and native verifier missing |
+| NAP-04 cryptography | Ownership/nullifier/membership, shield/transfer/unshield, AES-256/GHASH and SHA3/HMAC/HKDF constraints implemented; full encryption/control composition and native verifier missing |
 | NAP-05 native state | COW supply, policy/key/control epochs, spent markers, commitment tree and root history implemented; authenticated eligibility roots, output streams and storage charges missing |
 | NAP-06 verification | Bounded opaque proof frame implemented; embedded STARK decoder, deterministic native verifier, work limits and cache integration missing |
 | NAP-07 lifecycle | Policy lifecycle, destruction guard and public holding freeze persistence implemented; PQ administrative ingress and authenticated native transactions still missing |
