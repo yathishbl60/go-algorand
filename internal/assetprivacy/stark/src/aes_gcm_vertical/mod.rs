@@ -13,8 +13,8 @@ mod view;
 mod witness;
 mod write;
 
-pub use layout::{Wires, wires};
 use crate::Value;
+pub use layout::{Wires, wires};
 use p3_air::{Air, AirBuilder, BaseAir};
 use p3_matrix::dense::RowMajorMatrix;
 
@@ -37,10 +37,18 @@ const MASK: usize = 11088;
 pub struct AesGcmAir;
 
 impl BaseAir<Value> for AesGcmAir {
-    fn width(&self) -> usize { WIDTH }
-    fn num_public_values(&self) -> usize { PUBLIC_VALUES }
-    fn preprocessed_width(&self) -> usize { SCHEDULE }
-    fn preprocessed_trace(&self) -> Option<RowMajorMatrix<Value>> { Some(self.schedule()) }
+    fn width(&self) -> usize {
+        WIDTH
+    }
+    fn num_public_values(&self) -> usize {
+        PUBLIC_VALUES
+    }
+    fn preprocessed_width(&self) -> usize {
+        SCHEDULE
+    }
+    fn preprocessed_trace(&self) -> Option<RowMajorMatrix<Value>> {
+        Some(self.schedule())
+    }
 }
 
 impl<AB: AirBuilder<F = Value>> Air<AB> for AesGcmAir {

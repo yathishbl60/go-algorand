@@ -50,6 +50,8 @@ writable `GOCACHE` or Cargo target/cache directory when using a sandbox.
 | Private vertical field multiplication | [GHASH product](../../internal/assetprivacy/stark/src/ghash_vertical/README.md) |
 | Complete vertical GHASH stage | [Fixed chain](../../internal/assetprivacy/stark/src/ghash_chain/README.md) |
 | ML-KEM private noise polynomials | [PRF/CBD constraints](../../internal/assetprivacy/stark/src/mlkem_noise_air/README.md) |
+| All 34 envelope cipher blocks | [Vertical AES](../../internal/assetprivacy/stark/src/aes_gcm_vertical/README.md) |
+| Canonical ML-KEM field arithmetic | [Bounded coefficients](../../internal/assetprivacy/stark/src/mlkem_field/README.md) |
 
 ## Required transaction order
 

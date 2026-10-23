@@ -50,6 +50,9 @@ The [37-block chain](../../internal/assetprivacy/stark/src/ghash_chain/README.md
 now has 1,537 columns/8,192 rows: 100,728,832 main bytes plus 10,813,440 preprocessed bytes.
 Both exclude prover overhead. Its public ciphertext is 256 uint16 limbs; H/AAD/result
 stay private. Noise PRF/CBD uses 5,522 columns/512 rows, or 22,618,112 base-element bytes.
+The [vertical AES stage](../../internal/assetprivacy/stark/src/aes_gcm_vertical/README.md)
+uses 11,216 columns/512 rows: 45,940,736 main plus 249,856 preprocessed bytes.
+It covers all 34 blocks; composing it with GHASH/KDF/KEM remains pending.
 
 Before selecting protocol limits, measure completed relations across shield,
 transfer, unshield and controller recovery, including each mandatory disclosure.

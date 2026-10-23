@@ -55,6 +55,9 @@ asset privacy. See [candidate choices](CANDIDATE_PROFILE.md) and
     Final hiding/resource budgets remain unfinished.
 13. Full 37-block vertical GHASH with public ciphertext/private H/AAD/result;
     fixed SHAKE256 PRF and 256 ML-KEM eta=2 CBD coefficients. KEM/AEAD binding remains.
+14. Vertical AES covers all 34 GCM cipher blocks with one constrained key schedule;
+    canonical ML-KEM coefficient arithmetic and D=4/10 compression are implemented.
+    These buildable components still require complete private composition.
 
 ## Verification scope
 

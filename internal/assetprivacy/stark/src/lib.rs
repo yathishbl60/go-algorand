@@ -9,6 +9,8 @@ pub mod aes256_air;
 #[cfg(feature = "native-privacy")]
 pub mod aes_air;
 #[cfg(feature = "native-privacy")]
+pub mod aes_gcm_vertical;
+#[cfg(feature = "native-privacy")]
 mod amount_witness;
 #[cfg(feature = "native-privacy")]
 pub mod amounts;
@@ -32,6 +34,8 @@ pub mod hmac_air;
 pub mod member_note_air;
 #[cfg(feature = "native-privacy")]
 pub mod membership_air;
+#[cfg(feature = "native-privacy")]
+pub mod mlkem_field;
 #[cfg(feature = "native-privacy")]
 pub mod mlkem_noise_air;
 #[cfg(feature = "native-privacy")]

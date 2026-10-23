@@ -26,6 +26,13 @@ pub fn eval_compression<AB: AirBuilder<F = Value>, const D: usize>(
     eval_canonical(builder, &value.remainder);
     builder.assert_bools(value.compressed);
     builder.assert_bool(value.rollover);
+    eval_rounding(builder, value);
+}
+
+fn eval_rounding<AB: AirBuilder<F = Value>, const D: usize>(
+    builder: &mut AB,
+    value: &Compression<AB::Var, D>,
+) {
     let compressed = value
         .compressed
         .into_iter()

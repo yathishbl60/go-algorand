@@ -7,10 +7,14 @@ use p3_field::PrimeCharacteristicRing;
 
 impl AesGcmAir {
     pub(super) fn eval_key<AB: AirBuilder<F = Value>>(&self, builder: &mut AB) {
-        for word in 8..60 {
-            if word % 4 != 0 { self.eval_regular(builder, word); }
+        for word in 8usize..60 {
+            if !word.is_multiple_of(4) {
+                self.eval_regular(builder, word);
+            }
         }
-        for stage in 0..13 { self.eval_subword(builder, stage); }
+        for stage in 0..13 {
+            self.eval_subword(builder, stage);
+        }
     }
 
     fn eval_regular<AB: AirBuilder<F = Value>>(&self, builder: &mut AB, word: usize) {
@@ -26,20 +30,44 @@ impl AesGcmAir {
     }
 
     fn eval_subword<AB: AirBuilder<F = Value>>(&self, builder: &mut AB, stage: usize) {
-        let main = builder.main();
-        let row = main.current_slice();
-        let flag = builder.preprocessed().current_slice()[stage];
-        let word = 8 + 4 * stage;
         for byte in 0..4 {
-            let box_value = view::sbox(row, byte);
-            let source = if word % 8 == 0 { (byte + 1) % 4 } else { byte };
-            for bit in 0..8 {
-                builder.when(flag).assert_eq(box_value.inversion.left[bit], view::key(row, word - 1, source)[bit]);
-                let rcon = word % 8 == 0 && byte == 0 && bit == word / 8 - 1;
-                let temp = AB::Expr::from(box_value.output[bit]).xor(&AB::Expr::from_bool(rcon));
-                let prior = AB::Expr::from(view::key(row, word - 8, byte)[bit]);
-                builder.when(flag).assert_eq(view::key(row, word, byte)[bit], prior.xor(&temp));
-            }
+            eval_input(builder, stage, byte);
+            eval_output(builder, stage, byte);
         }
+    }
+}
+
+fn eval_input<AB: AirBuilder<F = Value>>(builder: &mut AB, stage: usize, byte: usize) {
+    let main = builder.main();
+    let row = main.current_slice();
+    let flag = builder.preprocessed().current_slice()[stage];
+    let word = 8 + 4 * stage;
+    let source = if word.is_multiple_of(8) {
+        (byte + 1) % 4
+    } else {
+        byte
+    };
+    let box_value = view::sbox(row, byte);
+    for bit in 0..8 {
+        let expected = view::key(row, word - 1, source)[bit];
+        builder
+            .when(flag)
+            .assert_eq(box_value.inversion.left[bit], expected);
+    }
+}
+
+fn eval_output<AB: AirBuilder<F = Value>>(builder: &mut AB, stage: usize, byte: usize) {
+    let main = builder.main();
+    let row = main.current_slice();
+    let flag = builder.preprocessed().current_slice()[stage];
+    let word = 8 + 4 * stage;
+    let box_value = view::sbox(row, byte);
+    for bit in 0..8 {
+        let rcon = word.is_multiple_of(8) && byte == 0 && bit == word / 8 - 1;
+        let temp = AB::Expr::from(box_value.output[bit]).xor(&AB::Expr::from_bool(rcon));
+        let prior = AB::Expr::from(view::key(row, word - 8, byte)[bit]);
+        builder
+            .when(flag)
+            .assert_eq(view::key(row, word, byte)[bit], prior.xor(&temp));
     }
 }

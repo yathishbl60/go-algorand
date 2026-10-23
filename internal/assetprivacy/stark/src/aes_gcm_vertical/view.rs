@@ -1,7 +1,10 @@
 // Copyright (C) 2026 Algorand Foundation Ltd.
 // SPDX-License-Identifier: AGPL-3.0-or-later
 use super::{BOXES, KEY, MIX};
-use crate::{aes_air::{Byte, GfMul, SBox}, aes256_air::MixColumn};
+use crate::{
+    aes_air::{Byte, GfMul, SBox},
+    aes256_air::MixColumn,
+};
 
 pub(super) fn byte<T: Copy>(row: &[T], offset: usize) -> Byte<T> {
     row[offset..offset + 8].try_into().expect("eight byte bits")
@@ -15,7 +18,8 @@ pub(super) fn sbox<T: Copy>(row: &[T], index: usize) -> SBox<T> {
     let start = BOXES + index * 241;
     SBox {
         inversion: GfMul {
-            left: byte(row, start), right: byte(row, start + 8),
+            left: byte(row, start),
+            right: byte(row, start + 8),
             powers: core::array::from_fn(|i| byte(row, start + 16 + i * 8)),
             selected: core::array::from_fn(|i| byte(row, start + 72 + i * 8)),
             sums: core::array::from_fn(|i| byte(row, start + 136 + i * 8)),

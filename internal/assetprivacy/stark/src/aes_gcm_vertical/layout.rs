@@ -12,7 +12,9 @@ pub struct Wires<'a, T> {
 
 pub fn wires<T>(row: &[T]) -> Option<Wires<'_, T>> {
     (row.len() == WIDTH).then(|| Wires {
-        key: &row[KEY..KEY + 256], plaintext: &row[PT..PT + 4096],
-        hash_subkey: &row[H..H + 128], tag_mask: &row[MASK..MASK + 128],
+        key: &row[KEY..KEY + 256],
+        plaintext: &row[PT..PT + 4096],
+        hash_subkey: &row[H..H + 128],
+        tag_mask: &row[MASK..MASK + 128],
     })
 }
