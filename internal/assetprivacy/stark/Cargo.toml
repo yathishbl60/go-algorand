@@ -1,0 +1,40 @@
+[package]
+name = "algorand-asset-privacy-stark"
+version = "0.1.0"
+edition = "2024"
+rust-version = "1.99"
+license = "AGPL-3.0-or-later"
+publish = false
+
+[features]
+default = []
+native-privacy = [
+  "dep:p3-air",
+  "dep:p3-keccak", "dep:p3-keccak-air", "dep:p3-matrix",
+  "dep:p3-challenger", "dep:p3-commit", "dep:p3-dft", "dep:p3-field",
+  "dep:p3-fri", "dep:p3-goldilocks", "dep:p3-merkle-tree",
+  "dep:p3-symmetric", "dep:p3-uni-stark", "dep:rand", "dep:sha3",
+]
+
+[dependencies]
+p3-keccak = { git = "https://github.com/Plonky3/Plonky3", rev = "1abcaa0795bc30ded29d54d0bc2cf495b6a20c2f", optional = true }
+p3-keccak-air = { git = "https://github.com/Plonky3/Plonky3", rev = "1abcaa0795bc30ded29d54d0bc2cf495b6a20c2f", optional = true }
+p3-matrix = { git = "https://github.com/Plonky3/Plonky3", rev = "1abcaa0795bc30ded29d54d0bc2cf495b6a20c2f", optional = true }
+p3-air = { git = "https://github.com/Plonky3/Plonky3", rev = "1abcaa0795bc30ded29d54d0bc2cf495b6a20c2f", optional = true }
+p3-challenger = { git = "https://github.com/Plonky3/Plonky3", rev = "1abcaa0795bc30ded29d54d0bc2cf495b6a20c2f", optional = true }
+p3-commit = { git = "https://github.com/Plonky3/Plonky3", rev = "1abcaa0795bc30ded29d54d0bc2cf495b6a20c2f", optional = true }
+p3-dft = { git = "https://github.com/Plonky3/Plonky3", rev = "1abcaa0795bc30ded29d54d0bc2cf495b6a20c2f", optional = true }
+p3-field = { git = "https://github.com/Plonky3/Plonky3", rev = "1abcaa0795bc30ded29d54d0bc2cf495b6a20c2f", optional = true }
+p3-fri = { git = "https://github.com/Plonky3/Plonky3", rev = "1abcaa0795bc30ded29d54d0bc2cf495b6a20c2f", optional = true }
+p3-goldilocks = { git = "https://github.com/Plonky3/Plonky3", rev = "1abcaa0795bc30ded29d54d0bc2cf495b6a20c2f", optional = true }
+p3-merkle-tree = { git = "https://github.com/Plonky3/Plonky3", rev = "1abcaa0795bc30ded29d54d0bc2cf495b6a20c2f", optional = true }
+p3-symmetric = { git = "https://github.com/Plonky3/Plonky3", rev = "1abcaa0795bc30ded29d54d0bc2cf495b6a20c2f", optional = true }
+p3-uni-stark = { git = "https://github.com/Plonky3/Plonky3", rev = "1abcaa0795bc30ded29d54d0bc2cf495b6a20c2f", optional = true }
+rand = { version = "=0.10.1", optional = true }
+sha3 = { version = "=0.12.0", optional = true }
+
+[lints.rust]
+unsafe_code = "forbid"
+
+[profile.release]
+overflow-checks = true

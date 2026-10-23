@@ -145,6 +145,9 @@ func AssetConfig(cc transactions.AssetConfigTxnFields, header transactions.Heade
 		if assetHolding.Amount != params.Total {
 			return fmt.Errorf("cannot destroy asset: creator is holding only %d/%d", assetHolding.Amount, params.Total)
 		}
+		if err = checkAssetPrivacyDestruction(balances, cc.ConfigAsset, assetHolding.Amount); err != nil {
+			return err
+		}
 
 		record.TotalAssetParams = basics.SubSaturate(record.TotalAssetParams, 1)
 		record.TotalAssets = basics.SubSaturate(record.TotalAssets, 1)

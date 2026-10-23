@@ -619,6 +619,11 @@ type ConsensusParams struct {
 	// authorization for the f5 PQ scheme.
 	EnablePQSchemeFalcon512 bool
 
+	// EnableNativeAssetPrivacy permits native privacy state access in builds
+	// compiled with algorand_native_privacy. No consensus version enables it
+	// until the complete privacy protocol and cryptographic profile are ready.
+	EnableNativeAssetPrivacy bool
+
 	// RequireLogicSigArgAccess requires that a LogicSig carry no argument it did
 	// not read: nothing above the highest index it read, and nothing unread
 	// below that index unless it is empty. Args are covered by no signature, and

@@ -1,0 +1,37 @@
+// Copyright (C) 2026 Algorand Foundation Ltd.
+// SPDX-License-Identifier: AGPL-3.0-or-later
+
+//! Candidate hiding-STARK backend. No transfer relation or consensus adapter yet.
+#![forbid(unsafe_code)]
+
+#[cfg(feature = "native-privacy")]
+mod amount_witness;
+#[cfg(feature = "native-privacy")]
+pub mod amounts;
+#[cfg(feature = "native-privacy")]
+mod config;
+#[cfg(feature = "native-privacy")]
+mod hash;
+#[cfg(feature = "native-privacy")]
+pub mod note_air;
+#[cfg(feature = "native-privacy")]
+pub mod nullified_note_air;
+#[cfg(feature = "native-privacy")]
+pub mod owned_note_air;
+#[cfg(feature = "native-privacy")]
+mod parameters;
+#[cfg(feature = "native-privacy")]
+mod prefix_builder;
+#[cfg(feature = "native-privacy")]
+mod private_output_builder;
+#[cfg(feature = "native-privacy")]
+pub mod sha3_air;
+#[cfg(feature = "native-privacy")]
+mod types;
+
+#[cfg(feature = "native-privacy")]
+pub use config::prover_config;
+#[cfg(feature = "native-privacy")]
+pub use parameters::{MIN_TRACE_ROWS, NUM_QUERIES, RANDOM_CODEWORDS};
+#[cfg(feature = "native-privacy")]
+pub use types::{Challenge, Config, Value};
