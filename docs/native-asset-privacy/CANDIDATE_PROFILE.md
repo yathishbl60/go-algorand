@@ -1,6 +1,6 @@
 # Candidate privacy profile, revision 1
 
-Updated 2026-10-22. Implementation choice, not a frozen network suite or security
+Updated 2026-10-23. Implementation choice, not a frozen network suite or security
 approval. The user authorized implementation without supplying a reviewed profile.
 The 128-bit post-quantum target remains; this document does not establish it.
 
@@ -52,8 +52,8 @@ The [note API](../../internal/assetprivacy/note/README.md) defines a canonical
 separate commitments, spending-key commitments and nullifiers. Private spending
 secrets, serials and blindings each use 32 fresh random bytes. Nullifiers bind the
 network, asset, policy and serial; holder/controller paths must consume the same
-marker. Note-opening and private ownership AIRs are now implemented; nullifier
-and membership constraints remain pending. See [proof components](PROOF_COMPONENTS.md).
+marker. Note-opening, ownership, nullifier and membership AIRs are implemented; complete
+transfer composition and resource feasibility remain pending. See [proof components](PROOF_COMPONENTS.md).
 
 ## Note-encryption component
 
@@ -79,8 +79,8 @@ Final profile work must track errata and justify this complete composition.
 
 ## Next integration work
 
-Compose the implemented note/ownership constraints with nullifiers, membership
-and current spending/control authorization;
+Compose the implemented membership/ownership/nullifier constraints with current
+spending/control authorization;
 proof-constrained encryption and disclosures; exact statement/group binding;
 bounded proof decoding and deterministic verification; then native dispatch,
 storage funding and lifecycle transitions. The feature remains disabled in every

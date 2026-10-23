@@ -13,6 +13,10 @@ mod config;
 #[cfg(feature = "native-privacy")]
 mod hash;
 #[cfg(feature = "native-privacy")]
+pub mod member_note_air;
+#[cfg(feature = "native-privacy")]
+pub mod membership_air;
+#[cfg(feature = "native-privacy")]
 pub mod note_air;
 #[cfg(feature = "native-privacy")]
 pub mod nullified_note_air;

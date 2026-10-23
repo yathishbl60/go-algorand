@@ -1,6 +1,6 @@
 # Candidate proof components
 
-Updated 2026-10-22. These components implement portions of the native spending
+Updated 2026-10-23. These components implement portions of the native spending
 relation. None is an accepted transaction proof or a complete privacy protocol.
 They use the [pinned candidate backend](CANDIDATE_PROFILE.md) and remain opt-in.
 
@@ -62,12 +62,21 @@ owner key or consumed-note commitment as a shortcut for composition.
 constraints; `value_bits` exposes the committed private amount to conservation.
 These are in-process witness interfaces. Never serialize their traces to node RPC.
 
+## Nullifiers and membership
+
+`NullifiedNoteAir` binds the marker to the exact serial in the owned note.
+`MemberNoteAir` composes ownership, nullifier derivation and all 32 membership
+levels. Only nullifier and root are public; directions, siblings, input commitment
+and intermediate hashes stay private. Node hashing matches the Go tree contract.
+See [membership details](../../internal/assetprivacy/stark/src/membership_air/README.md).
+The current horizontal membership matrix is ~641 MB before proving overhead.
+
 ## Remaining composition
 
-The complete relation still needs note membership, nullifiers tied to the same
-serials, current eligibility/control authorization, output encryption correctness,
-mandatory disclosure, amount conservation across all inputs/outputs and exact
-final-group binding. The owner component is not the controller recovery path;
+The complete relation still needs current eligibility/control authorization,
+output encryption correctness,
+mandatory disclosure, amount conservation across all inputs/outputs and final-group
+public-input wiring. The group digest and scalar-encoding API are implemented. The owner component is not the controller recovery path;
 both paths must eventually consume the same canonical nullifier.
 
 There is no node verifier/decoder, proof transport, Go/Rust native adapter or
