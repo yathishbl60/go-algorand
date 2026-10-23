@@ -17,4 +17,4 @@ mod witness_round;
 
 pub use key::{ExpandedKey, eval_key};
 pub use mix::{MixColumn, eval_mix};
-pub use round::{Aes256, MixRounds, States, eval_cipher};
+pub use round::{Aes256, CipherBlock, MixRounds, States, eval_block, eval_cipher};

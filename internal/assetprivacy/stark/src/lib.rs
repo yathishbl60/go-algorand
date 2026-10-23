@@ -15,7 +15,11 @@ pub mod amounts;
 #[cfg(feature = "native-privacy")]
 mod config;
 #[cfg(feature = "native-privacy")]
+pub mod gcm_air;
+#[cfg(feature = "native-privacy")]
 pub mod ghash_air;
+#[cfg(feature = "native-privacy")]
+pub mod ghash_vertical;
 #[cfg(feature = "native-privacy")]
 mod hash;
 #[cfg(feature = "native-privacy")]

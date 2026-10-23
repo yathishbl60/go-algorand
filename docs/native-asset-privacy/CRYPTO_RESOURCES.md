@@ -40,6 +40,14 @@ and a new security analysis; optimizing witness code cannot replace that work.
 
 ## Required measurements and limits
 
+The fixed GCM component has 4,025,556 logical fields including GHASH/external
+bits; a naive 512-row allocation would require 16,488,677,376 base-element bytes.
+See [private trace scheduling](TRACE_ARCHITECTURE.md) for the implementation path
+and the observed privacy obstacle to cross-AIR lookup buses.
+The [vertical product](../../internal/assetprivacy/stark/src/ghash_vertical/README.md)
+now uses 769 main columns and 512 rows: 3,149,824 main bytes plus 524,288 preprocessed bytes.
+These static sizes exclude proving overhead and do not complete the 37-block chain.
+
 Before selecting protocol limits, measure completed relations across shield,
 transfer, unshield and controller recovery, including each mandatory disclosure.
 Record trace height/width, polynomial degrees, quotient chunks, disclosure budget,

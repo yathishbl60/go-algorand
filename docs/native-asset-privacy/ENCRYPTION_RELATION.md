@@ -59,6 +59,7 @@ AES and the authoritative key bindings, rather than host-only witness checks.
 
 ## GCM and native public bindings
 
+GCM convention: [NIST SP800-38D](https://doi.org/10.6028/NIST.SP.800-38D), sections 6–7.
 For the public 12-byte GCM nonce `N`, `J0 = N || 0x00000001`.
 Constrain `H = AES256(k, 0^128)` and tag mask `AES256(k, J0)`.
 Payload blocks 0..31 use `AES256(k, N || BE32(2 + block))`; XOR those bytes with
@@ -85,5 +86,9 @@ One 512-byte envelope needs 34 AES block evaluations: hash subkey, tag mask and
 rows and eight bytes per field element, before GHASH, hashes, KEM, masking or
 prover overhead. This is a static layout calculation, not measured memory or a
 production limit. A vertical/shared schedule is needed for practical composition.
-The byte primitives and AES block constraints do not complete this relation.
+The [GCM component](../../internal/assetprivacy/stark/src/gcm_air/README.md) now
+constrains the AEAD bindings under one shared key, with witness helpers. It has
+no practical trace wrapper or full KEM/KDF/note composition. Its naive layout
+totals 4,025,556 logical columns including GHASH/external bits; see
+[resource constraints](CRYPTO_RESOURCES.md). It is not an accepted native proof.
 No tests, proof generation or proof verification were performed for this document.

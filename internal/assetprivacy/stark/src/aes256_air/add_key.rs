@@ -1,16 +1,20 @@
 // Copyright (C) 2026 Algorand Foundation Ltd.
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
-use super::{Aes256, ExpandedKey, byte::eval_xor};
+use super::{CipherBlock, ExpandedKey, byte::eval_xor};
 use crate::{Value, aes_air::Byte};
 use p3_air::AirBuilder;
 
-pub(super) fn eval_initial<AB: AirBuilder<F = Value>>(builder: &mut AB, value: &Aes256<AB::Var>) {
+pub(super) fn eval_initial<AB: AirBuilder<F = Value>>(
+    builder: &mut AB,
+    key: &ExpandedKey<AB::Var>,
+    value: &CipherBlock<AB::Var>,
+) {
     for byte in 0..16 {
         eval_xor(
             builder,
             value.plaintext[byte],
-            key_byte(&value.key, 0, byte),
+            key_byte(key, 0, byte),
             value.state[0][byte],
         );
     }
@@ -18,7 +22,8 @@ pub(super) fn eval_initial<AB: AirBuilder<F = Value>>(builder: &mut AB, value: &
 
 pub(super) fn eval_round_key<AB: AirBuilder<F = Value>>(
     builder: &mut AB,
-    value: &Aes256<AB::Var>,
+    key: &ExpandedKey<AB::Var>,
+    value: &CipherBlock<AB::Var>,
     round: usize,
     shifted: [Byte<AB::Var>; 16],
 ) {
@@ -28,7 +33,7 @@ pub(super) fn eval_round_key<AB: AirBuilder<F = Value>>(
         } else {
             shifted
         };
-        let key = key_byte(&value.key, round + 1, byte);
+        let key = key_byte(key, round + 1, byte);
         eval_xor(builder, input, key, value.state[round + 1][byte]);
     }
 }

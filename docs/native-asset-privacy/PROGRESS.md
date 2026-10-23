@@ -49,6 +49,10 @@ asset privacy. See [candidate choices](CANDIDATE_PROFILE.md) and
    anonymous eligibility proofs and authenticated administrative ingress remain.
 10. SHA3-256/512 messages through 4096 bytes and private HMAC/HKDF constraints;
     full KEM/GCM binding and practical enclosing schedules remain unfinished.
+11. Shared-key AES blocks and fixed GCM counter/CTR/GHASH/tag constraints with
+    witness helpers; KEM/note binding, scheduling and native verification remain.
+12. Private vertical GHASH product with trusted preprocessing, 769 columns/512 rows.
+    Full-chain composition and final hiding/resource budgets remain unfinished.
 
 ## Verification scope
 

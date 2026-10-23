@@ -80,7 +80,7 @@ output encryption correctness, mandatory disclosure and native verifier wiring.
 [ShieldAir](../../internal/assetprivacy/stark/src/shield_air/README.md) has zero private inputs/two outputs;
 [UnshieldAir](../../internal/assetprivacy/stark/src/unshield_air/README.md) has two inputs/zero outputs.
 Neither uses dummy notes. [AES byte constraints](../../internal/assetprivacy/stark/src/aes_air/README.md)
-AES-256/GHASH and private [HMAC](../../internal/assetprivacy/stark/src/hmac_air/README.md)/[HKDF](../../internal/assetprivacy/stark/src/hkdf_air/README.md) exist; [full encryption composition](ENCRYPTION_RELATION.md) remains pending.
+[GCM](../../internal/assetprivacy/stark/src/gcm_air/README.md) and private [HMAC](../../internal/assetprivacy/stark/src/hmac_air/README.md)/[HKDF](../../internal/assetprivacy/stark/src/hkdf_air/README.md) exist; [full encryption composition](ENCRYPTION_RELATION.md) remains pending.
 The owner component is not the controller recovery path;
 both paths must eventually consume the same canonical nullifier.
 

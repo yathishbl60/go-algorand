@@ -15,7 +15,7 @@ inputs explicitly bound to the selected prior-word bytes.
 `eval_cipher` constrains initial AddRoundKey, then 14 SubBytes and ShiftRows
 stages. The first 13 rounds include MixColumns; the final round omits it. Every
 round key is taken from the same constrained schedule, and every SubBytes input
-is bound to the previous state. Ciphertext bits are `state[14]`.
+is bound to the previous state. Ciphertext bits are `block.state[14]`.
 
 `MixColumn` uses the standard equivalent construction for input bytes a, b, c, d:
 form their XOR total, then XOR each byte with that total and with xtime of its
@@ -36,8 +36,10 @@ its 52 S-boxes, 128 plaintext bits, 1,920 state bits, 53,984 round S-box columns
 row occupies 627,104 bytes of elements. Repeating it over 512 rows would consume
 321,077,248 bytes before hiding, commitments or prover temporaries. This is
 static element arithmetic; no runtime benchmark or proof was executed.
-Multi-block constructions can share the constrained key schedule using modular
-evaluators rather than allocating a fresh schedule for each block.
+`CipherBlock` contains only the 63,936 block columns, with no second key schedule.
+`eval_block(builder, &expanded_key, &block)` requires the parent to call `eval_key`
+on that same key. `CipherBlock::witness` borrows it. Complete `eval_cipher` still
+checks its owned key before evaluating `block`. GCM shares one key across 34 blocks.
 
 Every ungated constraint has degree at most two. Current backend parameters
 remain unchanged. Adding gates or new composition must re-evaluate degree,

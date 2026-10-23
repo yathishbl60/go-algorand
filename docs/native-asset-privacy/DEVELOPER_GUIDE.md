@@ -45,6 +45,9 @@ writable `GOCACHE` or Cargo target/cache directory when using a sandbox.
 | Two private inputs, no private outputs | [UnshieldAir](../../internal/assetprivacy/stark/src/unshield_air/README.md) |
 | Remaining encryption composition | [Exact byte/binding contract](ENCRYPTION_RELATION.md) |
 | Private candidate key derivation | [HKDF constraints](../../internal/assetprivacy/stark/src/hkdf_air/README.md) |
+| Fixed envelope AEAD constraints | [GCM component](../../internal/assetprivacy/stark/src/gcm_air/README.md) |
+| Practical private trace layout | [Scheduling direction](TRACE_ARCHITECTURE.md) |
+| Private vertical field multiplication | [GHASH product](../../internal/assetprivacy/stark/src/ghash_vertical/README.md) |
 
 ## Required transaction order
 
