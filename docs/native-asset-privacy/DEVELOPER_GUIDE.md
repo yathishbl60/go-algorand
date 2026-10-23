@@ -53,6 +53,7 @@ writable `GOCACHE` or Cargo target/cache directory when using a sandbox.
 | ML-KEM private noise polynomials | [PRF/CBD constraints](../../internal/assetprivacy/stark/src/mlkem_noise_air/README.md) |
 | All 34 envelope cipher blocks | [Vertical AES](../../internal/assetprivacy/stark/src/aes_gcm_vertical/README.md) |
 | Canonical ML-KEM field arithmetic | [Bounded coefficients](../../internal/assetprivacy/stark/src/mlkem_field/README.md) |
+| Complete forward/inverse polynomial transforms | [Private NTT](../../internal/assetprivacy/stark/src/mlkem_ntt_air/README.md) |
 
 ## Required transaction order
 

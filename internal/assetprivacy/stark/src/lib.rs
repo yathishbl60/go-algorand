@@ -39,6 +39,8 @@ pub mod mlkem_field;
 #[cfg(feature = "native-privacy")]
 pub mod mlkem_noise_air;
 #[cfg(feature = "native-privacy")]
+pub mod mlkem_ntt_air;
+#[cfg(feature = "native-privacy")]
 pub mod note_air;
 #[cfg(feature = "native-privacy")]
 pub mod nullified_note_air;

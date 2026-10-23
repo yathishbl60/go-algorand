@@ -53,6 +53,8 @@ stay private. Noise PRF/CBD uses 5,522 columns/512 rows, or 22,618,112 base-elem
 The [vertical AES stage](../../internal/assetprivacy/stark/src/aes_gcm_vertical/README.md)
 uses 11,216 columns/512 rows: 45,940,736 main plus 249,856 preprocessed bytes.
 It covers all 34 blocks; composing it with GHASH/KDF/KEM remains pending.
+Private NTT uses 7,016 columns: forward 1,024 rows/57,475,072 main bytes;
+inverse 2,048 rows/114,950,144. Preprocessing adds 4,210,688/8,421,376 bytes.
 
 Before selecting protocol limits, measure completed relations across shield,
 transfer, unshield and controller recovery, including each mandatory disclosure.

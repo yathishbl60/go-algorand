@@ -61,6 +61,8 @@ asset privacy. See [candidate choices](CANDIDATE_PROFILE.md) and
 15. Canonical public encrypted-output records, bounded pages and local role/epoch
     recovery; native child-COW append couples output records and commitment leaves.
     REST/SDK/wallet scanning, storage charges and accepted transactions remain.
+16. Complete private vertical forward/inverse NTT with bounded modular operations,
+    fixed addressing/twiddles and inverse scaling. Full KEM composition remains.
 
 ## Verification scope
 
