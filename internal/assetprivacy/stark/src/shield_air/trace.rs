@@ -11,24 +11,30 @@ use p3_matrix::{Matrix, dense::RowMajorMatrix};
 
 impl ShieldAir {
     pub fn trace(&self, openings: &[[u8; 512]; 2]) -> Option<RowMajorMatrix<Value>> {
-        let output = openings
-            .each_ref()
-            .map(|opening| u64::from_be_bytes(opening[169..177].try_into().expect("uint64 value")));
-        let carry = Amounts::witness(
-            [0, 0],
-            output,
-            PublicValue {
-                debit: self.debit,
-                credit: 0,
-            },
-        )?
-        .carry;
+        let carry = self.carry(openings)?;
         let a = self.output.trace(&openings[0])?;
         let b = self.output.trace(&openings[1])?;
         if a.height() != MIN_TRACE_ROWS || b.height() != MIN_TRACE_ROWS {
             return None;
         }
         Some(self.join(a, b, carry))
+    }
+
+    fn carry(&self, openings: &[[u8; 512]; 2]) -> Option<[Value; 3]> {
+        let output = openings
+            .each_ref()
+            .map(|opening| u64::from_be_bytes(opening[169..177].try_into().expect("uint64 value")));
+        Some(
+            Amounts::witness(
+                [0, 0],
+                output,
+                PublicValue {
+                    debit: self.debit,
+                    credit: 0,
+                },
+            )?
+            .carry,
+        )
     }
 
     fn join(

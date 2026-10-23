@@ -41,6 +41,12 @@ asset privacy. See [candidate choices](CANDIDATE_PROFILE.md) and
    access/mutations; full-body group digest and public-scalar encoding. Fixed2-in/
    2-out transfer AIR now composes membership, conservation and group context.
    Native transaction callers remain absent.
+8. Role-separated key epochs with canonical ML-KEM/Falcon key checks and owner
+   commitments; bounded opaque proof framing; zero-input shield and zero-output
+   unshield relations. AES-256 block rounds/key expansion and GHASH are constrained.
+   Embedded proof decoding, complete encryption and native acceptance are absent.
+9. Account freeze/control epochs, close-out preservation and current eligibility;
+   anonymous eligibility proofs and authenticated administrative ingress remain.
 
 ## Verification scope
 
@@ -52,9 +58,9 @@ multi-node demo have run. No security review has been supplied or completed.
 
 ## Next work
 
-Complete proof-constrained encryption and issuer controls, operation-specific
+Complete proof-constrained encryption and issuer controls, remaining operation
 arities and native transaction verification/execution. Membership assembly now
 retains one stage at a time; proving resource feasibility remains unmeasured. Bind the finalized ordered group
-and current authorization state; define bounded proof encoding and verification.
+and current authorization state; finish embedded proof decoding and verification.
 Then complete native transaction/types/state, API/SDK/wallet/CLI and the real-node
 scenarios. Maintain the full [work-package scope](IMPLEMENTATION.md).

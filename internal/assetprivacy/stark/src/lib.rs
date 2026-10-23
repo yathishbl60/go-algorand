@@ -1,9 +1,11 @@
 // Copyright (C) 2026 Algorand Foundation Ltd.
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
-//! Candidate hiding-STARK backend. No transfer relation or consensus adapter yet.
+//! Candidate hiding-STARK relations. No accepted native consensus verifier yet.
 #![forbid(unsafe_code)]
 
+#[cfg(feature = "native-privacy")]
+pub mod aes256_air;
 #[cfg(feature = "native-privacy")]
 pub mod aes_air;
 #[cfg(feature = "native-privacy")]
@@ -12,6 +14,8 @@ mod amount_witness;
 pub mod amounts;
 #[cfg(feature = "native-privacy")]
 mod config;
+#[cfg(feature = "native-privacy")]
+pub mod ghash_air;
 #[cfg(feature = "native-privacy")]
 mod hash;
 #[cfg(feature = "native-privacy")]
@@ -40,6 +44,8 @@ pub mod shield_air;
 pub mod transfer_air;
 #[cfg(feature = "native-privacy")]
 mod types;
+#[cfg(feature = "native-privacy")]
+pub mod unshield_air;
 
 #[cfg(feature = "native-privacy")]
 pub use config::prover_config;

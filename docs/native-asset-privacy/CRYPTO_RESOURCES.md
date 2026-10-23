@@ -1,0 +1,53 @@
+# Candidate proving resource constraints
+
+Updated 2026-10-23. These are static column/element counts, not benchmark results.
+No proofs, timings or peak-memory measurements have run. The candidate must not
+be activated before realistic prover and deterministic verifier budgets exist.
+
+## Existing components
+
+One 32-level membership base matrix contains 640,548,864 bytes of Goldilocks
+elements. Generating/copying/dropping one hash stage at a time reduces matrix
+overlap during assembly from 1,276,641,280 to 671,211,520 bytes. Allocator overhead,
+hash state, commitments, hiding expansion and prover temporaries are additional.
+
+Transfer and unshield builders now allocate their destination once, then generate,
+copy and drop each component separately. Transfer no longer holds all four source
+matrices alongside the destination. Its final horizontal matrix is unchanged;
+this optimization alone does not establish practical proving requirements.
+
+The [AES-256 component](../../internal/assetprivacy/stark/src/aes256_air/README.md)
+uses 78,388 field columns per block, including 14,452 for its expanded key.
+At eight bytes per element that is 627,104 bytes per witness row. Repeating the
+block over the candidate minimum 512 rows would occupy 321,077,248 bytes before
+any proving overhead. These typed components are not yet a multi-block AIR.
+
+## Complete encryption implications
+
+A 512-byte GCM payload requires 32 counter-mode block encryptions. Computing the
+GHASH subkey and tag mask requires two more AES block encryptions. Allocating a
+complete independent 512-row AES matrix for each of those 34 blocks would use
+10,916,626,432 bytes of field elements for one envelope's AES alone. This is an
+illustrative rejected layout, not an implemented prover or proposed node limit.
+Required auditor/controller disclosures would add further encryption work.
+
+Share a constrained expanded key across blocks. Evaluate scheduling, vertical
+trace reuse and appropriate hash/cipher layouts before committing to the full
+encryption AIR. Any redesign must preserve exact cross-component bindings,
+bounded polynomial degree and the backend's actual hiding/opening budget.
+Changing the encryption construction would require a documented profile change
+and a new security analysis; optimizing witness code cannot replace that work.
+
+## Required measurements and limits
+
+Before selecting protocol limits, measure completed relations across shield,
+transfer, unshield and controller recovery, including each mandatory disclosure.
+Record trace height/width, polynomial degrees, quotient chunks, disclosure budget,
+proof size, prover peak memory/time and verifier allocations/time. Re-evaluate
+security for those dimensions and the full Fiat-Shamir composition.
+
+Only trusted profile/consensus values may bound proof bytes, decoded dimensions,
+verification work, group resources and state growth. The current outer witness
+length bound is not a bound on nested proof allocation or verification cost.
+Builds and Clippy establish compilation/static properties only. Test, vector,
+adversarial and benchmark work remains deferred until the user requests it.

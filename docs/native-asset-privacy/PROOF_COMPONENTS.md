@@ -76,13 +76,17 @@ conversion/group context in232 public scalars. [Layout](../../internal/assetpriv
 ## Remaining composition
 
 The complete relation still needs current eligibility/control authorization,
-output encryption correctness,
-mandatory disclosure, operation-specific arities and native group-verifier wiring.
-Fixed2-in/2-out conservation and group-context public inputs are implemented. The owner component is not the controller recovery path;
+output encryption correctness, mandatory disclosure and native verifier wiring.
+[ShieldAir](../../internal/assetprivacy/stark/src/shield_air/README.md) has zero private inputs/two outputs;
+[UnshieldAir](../../internal/assetprivacy/stark/src/unshield_air/README.md) has two inputs/zero outputs.
+Neither uses dummy notes. [AES byte constraints](../../internal/assetprivacy/stark/src/aes_air/README.md)
+and [AES-256](../../internal/assetprivacy/stark/src/aes256_air/README.md)/[GHASH](../../internal/assetprivacy/stark/src/ghash_air/README.md) exist; [full encryption composition](ENCRYPTION_RELATION.md) remains pending.
+The owner component is not the controller recovery path;
 both paths must eventually consume the same canonical nullifier.
 
-There is no node verifier/decoder, proof transport, Go/Rust native adapter or
-transaction dispatch yet. Resource measurements, cryptographic review, vectors
+[Opaque witness framing](../../internal/assetprivacy/witness/README.md) bounds outer bytes only.
+There is no embedded STARK decoder, Go/Rust native verifier or transaction dispatch.
+Resource measurements, cryptographic review, vectors
 and adversarial validation remain missing. Tests are deferred by user instruction.
 
 ## Checks performed

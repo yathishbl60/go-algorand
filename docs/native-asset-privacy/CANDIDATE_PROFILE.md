@@ -70,6 +70,8 @@ context. Recipient public keys are not carried as routing metadata.
 This is a KEM/DEM candidate, not a recipient-anonymity proof. The complete proof
 relation must constrain encryption of the exact committed note and all required
 role disclosures. It must bind finalized group bodies after ciphertext creation.
+AES byte arithmetic and full AES-256 block constraints are implemented; see
+[encryption components](../../internal/assetprivacy/stark/src/aes256_air/README.md).
 Fresh randomness, fixed payload size and omission of public routing keys do not
 alone establish shielded anonymity.
 

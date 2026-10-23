@@ -154,7 +154,7 @@ func (cs *roundCowState) putAppLocalState(addr basics.Address, aidx basics.AppIn
 }
 
 func (cs *roundCowState) PutAssetHolding(addr basics.Address, aidx basics.AssetIndex, data basics.AssetHolding) error {
-	return cs.putAssetHolding(addr, aidx, ledgercore.AssetHoldingDelta{Holding: &data})
+	return cs.putAssetHoldingWithPrivacy(addr, aidx, ledgercore.AssetHoldingDelta{Holding: &data})
 }
 
 func (cs *roundCowState) putAssetHolding(addr basics.Address, aidx basics.AssetIndex, data ledgercore.AssetHoldingDelta) error {
@@ -200,7 +200,7 @@ func (cs *roundCowState) DeleteAssetHolding(addr basics.Address, aidx basics.Ass
 		return fmt.Errorf("DeleteAssetHolding: %s not found in deltas for %d", addr.String(), aidx)
 	}
 
-	return cs.putAssetHolding(addr, aidx, ledgercore.AssetHoldingDelta{Deleted: true})
+	return cs.putAssetHoldingWithPrivacy(addr, aidx, ledgercore.AssetHoldingDelta{Deleted: true})
 }
 
 func (cs *roundCowState) DeleteAssetParams(addr basics.Address, aidx basics.AssetIndex) error {

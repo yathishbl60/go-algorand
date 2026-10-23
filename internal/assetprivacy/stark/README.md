@@ -43,6 +43,7 @@ links the spending-secret hash to the note owner while retaining input commitmen
 and owner keys in private columns. See [proof components](../../../docs/native-asset-privacy/PROOF_COMPONENTS.md)
 for exact boundaries and the composition still required.
 
-No proof byte format, decoder, consensus verification adapter, performance
-budget or security-level claim is exposed yet. The source pin and lockfile make
+The [outer proof frame](../witness/README.md) carries opaque bytes only. No embedded
+STARK decoder, consensus verifier, performance budget or security claim is exposed.
+The source pin and lockfile make
 the implementation reproducible; they do not provide a security audit.
