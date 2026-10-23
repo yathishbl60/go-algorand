@@ -12,13 +12,13 @@ completed components below do not substitute for it.
 | NAP-02 consensus specification | Draft obligations/accounting/candidate layouts; complete normative protocol and sibling specs changes missing |
 | NAP-03 types/gates | Consensus flag added, false in every version; transaction/witness types and codecs missing |
 | NAP-04 cryptography | Note/conservation, fixed GCM, vertical AES/GHASH, hash/KDF, ML-KEM noise and bounded coefficient arithmetic implemented; full KEM, practical composition, controls and native verifier missing |
-| NAP-05 native state | COW supply, policy/key/control epochs, spent markers, commitment tree and root history implemented; authenticated eligibility roots, output streams and storage charges missing |
+| NAP-05 native state | COW supply, policy/key/control epochs, spent markers, tree/root history and atomic encrypted outputs implemented; authenticated eligibility roots and storage charges missing |
 | NAP-06 verification | Bounded opaque proof frame implemented; embedded STARK decoder, deterministic native verifier, work limits and cache integration missing |
 | NAP-07 lifecycle | Policy lifecycle, destruction guard and public holding freeze persistence implemented; PQ administrative ingress and authenticated native transactions still missing |
 | NAP-08 groups/pool/AVM | Group digest API and transfer public-input layout implemented; native verifier wiring, pool accounting and gated AVM inspection missing |
 | NAP-09 recovery | Existing KV path reused; privacy replay/restart/catchpoint/catchup behavior unverified |
-| NAP-10 APIs | Public streams, witness queries, decoding, simulation and error contracts missing |
-| NAP-11 SDK/wallet | Local note/encryption primitives exist; SDK, scanning, proving, receipts and encrypted recovery missing |
+| NAP-10 APIs | Bounded internal output pages exist; REST streams, witness queries, decoding, simulation and error contracts missing |
+| NAP-11 SDK/wallet | Local note/encryption/output-recovery primitives exist; SDK, scanning, proving, receipts and wallet backup/recovery missing |
 | NAP-12 demo | All six real-node scenarios missing |
 | NAP-13 validation | Tests intentionally deferred; adversarial/benchmark/recovery/upgrade evidence missing |
 | NAP-14 release | Coordinated specs/node/SDK/indexer package and external review evidence missing |
@@ -51,6 +51,7 @@ private transaction execution or privacy-state cleanup.
 - [Bounded outer witness framing](../../internal/assetprivacy/witness/README.md).
 - [Local note API](../../internal/assetprivacy/note/README.md).
 - [Envelope API](../../internal/assetprivacy/envelope/README.md).
+- [Encrypted output stream and local recovery](../../internal/assetprivacy/outputs/README.md).
 - [Pinned Rust backend/build commands](../../internal/assetprivacy/stark/README.md).
 - [Evidence bundle preparation](../../cmd/algoprivacybundle/README.md) and
   [integrity checking](../../cmd/algoprivacy/README.md), support tooling only.

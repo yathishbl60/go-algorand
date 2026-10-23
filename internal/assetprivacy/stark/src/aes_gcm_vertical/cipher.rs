@@ -9,12 +9,13 @@ impl AesGcmAir {
     pub(super) fn eval_cipher<AB: AirBuilder<F = Value>>(&self, builder: &mut AB) {
         self.eval_initial(builder);
         self.eval_substitutions(builder);
-        let row = builder.main().current_slice().to_vec();
-        let shifted = view::shifted(&row);
+        let main = builder.main();
+        let row = main.current_slice();
+        let shifted = view::shifted(row);
         for column in 0..4 {
             let input = core::array::from_fn(|r| shifted[4 * column + r]);
             let active = rounds(builder, 13);
-            eval_mix(&mut builder.when(active), input, &view::mix(&row, column));
+            eval_mix(&mut builder.when(active), input, &view::mix(row, column));
         }
         for round in 0..14 {
             self.eval_round(builder, round);

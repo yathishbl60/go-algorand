@@ -58,6 +58,9 @@ asset privacy. See [candidate choices](CANDIDATE_PROFILE.md) and
 14. Vertical AES covers all 34 GCM cipher blocks with one constrained key schedule;
     canonical ML-KEM coefficient arithmetic and D=4/10 compression are implemented.
     These buildable components still require complete private composition.
+15. Canonical public encrypted-output records, bounded pages and local role/epoch
+    recovery; native child-COW append couples output records and commitment leaves.
+    REST/SDK/wallet scanning, storage charges and accepted transactions remain.
 
 ## Verification scope
 
