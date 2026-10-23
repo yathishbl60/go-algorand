@@ -11,10 +11,10 @@ completed components below do not substitute for it.
 | NAP-01 profile | Pinned candidate documented; complete relation, security argument, vectors and measurements missing |
 | NAP-02 consensus specification | Draft obligations/accounting/candidate layouts; complete normative protocol and sibling specs changes missing |
 | NAP-03 types/gates | Consensus flag added, false in every version; transaction/witness types and codecs missing |
-| NAP-04 cryptography | Note/conservation, GCM, vertical AES/GHASH, hash/KDF, ML-KEM noise/arithmetic/NTT/products/packing implemented; full KEM, practical composition, controls and native verifier missing |
+| NAP-04 cryptography | Note/conservation, GCM, vertical AES/GHASH, hash/KDF, ML-KEM polynomial operations and bounded matrix sampling implemented; full KEM, practical composition, controls and native verifier missing |
 | NAP-05 native state | COW supply, policy/key/control epochs, spent markers, tree/root history and atomic encrypted outputs implemented; authenticated eligibility roots and storage charges missing |
 | NAP-06 verification | Bounded opaque proof frame implemented; embedded STARK decoder, deterministic native verifier, work limits and cache integration missing |
-| NAP-07 lifecycle | Policy lifecycle, destruction guard and public holding freeze persistence implemented; PQ administrative ingress and authenticated native transactions still missing |
+| NAP-07 lifecycle | Policy lifecycle, bounded viewing-key admission, destruction guard and public holding freeze persistence implemented; PQ administrative ingress and authenticated native transactions missing |
 | NAP-08 groups/pool/AVM | Group digest API and transfer public-input layout implemented; native verifier wiring, pool accounting and gated AVM inspection missing |
 | NAP-09 recovery | Existing KV path reused; privacy replay/restart/catchpoint/catchup behavior unverified |
 | NAP-10 APIs | Bounded internal output pages exist; REST streams, witness queries, decoding, simulation and error contracts missing |
@@ -51,6 +51,7 @@ private transaction execution or privacy-state cleanup.
 - [Bounded outer witness framing](../../internal/assetprivacy/witness/README.md).
 - [Local note API](../../internal/assetprivacy/note/README.md).
 - [Envelope API](../../internal/assetprivacy/envelope/README.md).
+- [Bounded matrix relation and matching key-admission rule](MATRIX_SAMPLING.md).
 - [Encrypted output stream and local recovery](../../internal/assetprivacy/outputs/README.md).
 - [Pinned Rust backend/build commands](../../internal/assetprivacy/stark/README.md).
 - [Evidence bundle preparation](../../cmd/algoprivacybundle/README.md) and

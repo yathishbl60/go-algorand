@@ -59,6 +59,10 @@ The complete NTT-domain product has 1,195 columns/512 rows: 4,894,720 main
 bytes plus 528,384 preprocessed bytes. All counts exclude proving overhead.
 Private polynomial packing uses 512 rows and 575/1,343/2,879/3,391 columns for
 D=1/4/10/12 respectively; every variant adds 1,048,576 preprocessed bytes.
+Candidate matrix sampling combines SHAKE128 and rejection in shared columns:
+24,932 columns/2048 rows, or 408,485,888 main plus 29,622,272 preprocessed bytes.
+The direct writer's Keccak temporary adds 43,139,072 element bytes during
+generation; allocator/hiding/prover overhead remains additional and unmeasured.
 
 Before selecting protocol limits, measure completed relations across shield,
 transfer, unshield and controller recovery, including each mandatory disclosure.

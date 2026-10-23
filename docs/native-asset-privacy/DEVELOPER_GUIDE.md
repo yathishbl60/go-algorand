@@ -56,6 +56,7 @@ writable `GOCACHE` or Cargo target/cache directory when using a sandbox.
 | Complete forward/inverse polynomial transforms | [Private NTT](../../internal/assetprivacy/stark/src/mlkem_ntt_air/README.md) |
 | Polynomial product in the NTT domain | [Private product](../../internal/assetprivacy/stark/src/mlkem_product_air/README.md) |
 | Canonical key/ciphertext packing and message decoding | [Private encoding](../../internal/assetprivacy/stark/src/mlkem_encoding_air/README.md) |
+| Private seed-to-matrix polynomial with matched admission | [Composed matrix relation](MATRIX_SAMPLING.md) |
 
 ## Required transaction order
 

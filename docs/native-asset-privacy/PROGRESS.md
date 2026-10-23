@@ -66,7 +66,11 @@ asset privacy. See [candidate choices](CANDIDATE_PROFILE.md) and
 17. Private NTT-domain product constrains all 128 quadratic coefficient pairs with
     trusted gamma constants, bounded intermediate products and Boolean sum carries.
 18. Private canonical D=12 key packing, D=10/4 compressed ciphertext packing and
-    exact D=1 message decoding. SHAKE128 matrix sampling/full KEM binding remain.
+    exact D=1 message decoding. Full KEM binding remains.
+19. Multi-block private SHAKE128 and exact first-256 rejection sampling compose
+    through shared columns in one AIR. Go viewing-key admission enforces the
+    same fixed 16-block bound for all nine entries before standard key parsing.
+    Full KEM/key/vector/encryption bindings and native verification remain.
 
 ## Verification scope
 

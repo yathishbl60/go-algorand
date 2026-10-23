@@ -75,6 +75,14 @@ AES byte arithmetic and full AES-256 block constraints are implemented; see
 Fresh randomness, fixed payload size and omission of public routing keys do not
 alone establish shielded anonymity.
 
+Candidate viewing-key admission fixes every matrix entry to at most 16 SHAKE128
+rate blocks. All nine ordered coordinate entries must contain 256 accepted
+coefficients. `CheckPublicKey` enforces this before standard key parsing;
+otherwise standard-valid keys fail admission if a prefix exhausts. Coverage of
+all standard keys is unproven. The same fixed bound is used by the composed
+private [matrix relation](MATRIX_SAMPLING.md); no transaction-selected bounds.
+This candidate rule still requires full KEM integration and review.
+
 [NIST FIPS 203](https://csrc.nist.gov/pubs/fips/203/final) defines ML-KEM;
 [SP 800-227](https://csrc.nist.gov/pubs/sp/800/227/final) discusses KEM use.
 Final profile work must track errata and justify this complete composition.

@@ -19,6 +19,12 @@ pub(crate) struct SegmentWindow<W> {
     columns: Range<usize>,
 }
 
+impl<W> SegmentWindow<W> {
+    pub(crate) fn new(inner: W, columns: Range<usize>) -> Self {
+        Self { inner, columns }
+    }
+}
+
 impl<T, W: WindowAccess<T>> WindowAccess<T> for SegmentWindow<W> {
     fn current_slice(&self) -> &[T] {
         &self.inner.current_slice()[self.columns.clone()]

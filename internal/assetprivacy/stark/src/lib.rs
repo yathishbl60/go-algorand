@@ -39,11 +39,15 @@ pub mod mlkem_encoding_air;
 #[cfg(feature = "native-privacy")]
 pub mod mlkem_field;
 #[cfg(feature = "native-privacy")]
+pub mod mlkem_matrix_air;
+#[cfg(feature = "native-privacy")]
 pub mod mlkem_noise_air;
 #[cfg(feature = "native-privacy")]
 pub mod mlkem_ntt_air;
 #[cfg(feature = "native-privacy")]
 pub mod mlkem_product_air;
+#[cfg(feature = "native-privacy")]
+pub mod mlkem_sample_air;
 #[cfg(feature = "native-privacy")]
 pub mod note_air;
 #[cfg(feature = "native-privacy")]
@@ -59,7 +63,11 @@ mod private_output_builder;
 #[cfg(feature = "native-privacy")]
 mod public_segment_builder;
 #[cfg(feature = "native-privacy")]
+mod segment_builder;
+#[cfg(feature = "native-privacy")]
 pub mod sha3_air;
+#[cfg(feature = "native-privacy")]
+pub mod shake128_matrix_air;
 #[cfg(feature = "native-privacy")]
 pub mod shake_air;
 #[cfg(feature = "native-privacy")]

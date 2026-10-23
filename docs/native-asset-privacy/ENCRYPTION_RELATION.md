@@ -55,7 +55,7 @@ public-key hashes. The AAD hash needs 1024 rows; current note relations use 512,
 so a consistent enclosing schedule remains required. Fixed-output SHAKE256 and
 [eta=2 noise](../../internal/assetprivacy/stark/src/mlkem_noise_air/README.md) now exist.
 [Forward/inverse NTT](../../internal/assetprivacy/stark/src/mlkem_ntt_air/README.md) and bounded coefficient/compression constraints now exist.
-[NTT-domain products](../../internal/assetprivacy/stark/src/mlkem_product_air/README.md) and [canonical packing](../../internal/assetprivacy/stark/src/mlkem_encoding_air/README.md) now exist; SHAKE128 matrix sampling and full KEM remain.
+[NTT-domain products](../../internal/assetprivacy/stark/src/mlkem_product_air/README.md), [canonical packing](../../internal/assetprivacy/stark/src/mlkem_encoding_air/README.md) and [bounded matrix sampling](MATRIX_SAMPLING.md) exist; full KEM composition remains.
 Their intermediate bits and digest limbs must connect directly to KEM, HKDF,
 AES and the authoritative key bindings, rather than host-only witness checks.
 

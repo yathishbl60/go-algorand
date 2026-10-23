@@ -44,5 +44,5 @@ inverse main 114,950,144/preprocessing 8,421,376. These exclude witness/prover
 temporaries, hiding expansion and commitments; no memory measurements ran.
 
 Source review, builds, strict Clippy, formatting and size checks only. No traces,
-vectors, round trips, constraint evaluation or proofs ran. Matrix sampling,
-NTT-domain products, canonical packing and full encapsulation composition remain.
+vectors, round trips, constraint evaluation or proofs ran. The implemented matrix,
+NTT-domain product and packing components still require full KEM composition.

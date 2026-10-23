@@ -55,10 +55,14 @@ No new lookup dependency or acceptance path has been added.
    is implemented: private operands/output, 128 shift/select/XOR steps and padding.
 2. The [37-block chain](../../internal/assetprivacy/stark/src/ghash_chain/README.md)
    now uses direct accumulator transitions and 1,537 columns over 8,192 rows.
-3. Reuse AES round state and key registers across scheduled blocks; keep the
-   exact existing GCM nonce, counter, ciphertext and tag bindings.
+3. [Vertical AES](../../internal/assetprivacy/stark/src/aes_gcm_vertical/README.md)
+   reuses round/key registers for all 34 blocks; full GCM/KDF joining remains.
 4. Schedule KDF/hash/KEM/note operations and all shared private values coherently;
    avoid globally repeating entire paths or expanded block witnesses.
+5. [Matrix sampling](MATRIX_SAMPLING.md) now joins SHAKE128 and rejection in one
+   AIR with physically shared private prefix columns and sliced preprocessing.
+   Direct writers avoid retaining separate full component matrices. The enclosing
+   KEM must still bind all key seeds, coordinates and polynomial operations.
 
 Recalculate polynomial degree, quotient chunks, masking/opening budgets and
 trusted dimensions after each composition. Builds and static counts do not

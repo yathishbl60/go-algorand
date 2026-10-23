@@ -8,6 +8,9 @@ Use `GenerateKey` for an ML-KEM-768 recipient key. Store the key's `Bytes()` see
 only in encrypted local wallet storage; `RestoreKey` accepts that canonical
 64-byte seed. Publish only `key.EncapsulationKey().Bytes()`. Viewing keys do not
 grant spending authority; the future note relation must preserve that separation.
+These helpers generate or restore standard ML-KEM keys without resampling.
+Call `CheckPublicKey(key.EncapsulationKey().Bytes())` before candidate key
+registration or use; generation and restoration do not imply admission.
 
 To encrypt:
 
@@ -29,7 +32,25 @@ authentication failure. Treat plaintext and decapsulation seeds as secrets.
 The package does not log them or send them over RPC. Clearing temporary derived
 keys is best effort, not a guarantee of complete Go heap erasure.
 
-Public keys undergo ML-KEM length/modulus validation before encapsulation.
+`CheckPublicKey` requires 1184 bytes, checks all 768 packed 12-bit public
+coefficients are below 3329, and checks the final 32-byte seed's nine matrix
+polynomials. For each `first,second` in `0..2`, it reads exactly
+`MatrixPrefixBlocks * 168` bytes of SHAKE128(seed || first || second), with
+`MatrixPrefixBlocks=16`, and requires at least 256 contiguous 12-bit candidates
+below 3329. The fixed bound cannot come from a proof or caller. The work is
+bounded to nine 2688-byte prefixes, each containing 1792 candidates; no partial
+polynomial, padding or alternate rejection rule is accepted.
+
+Matrix-prefix exhaustion is rejected even for otherwise standard-valid keys.
+This candidate protocol admits only keys whose nine matrices finish within the
+fixed prefix. The bounded matrix relation covers admitted keys; coverage of all
+standard keys is not established.
+The native proof profile must fix the same maximum 16 blocks and bind the
+key's seed, ordered matrix coordinates, exact SHAKE prefix and first-accepted
+sampling semantics. Admission does not prove the whole encryption relation.
+`ParsePublicKey` runs `CheckPublicKey` before standard ML-KEM parsing, bounding
+that parser's internal SampleNTT work. Viewing-key records use this parser.
+
 Envelope size and version are checked before decapsulation. All altered-envelope,
 wrong-key and AEAD authentication failures return `ErrCiphertext`. Invalid caller
 context and nil keys have separate errors. Use `errors.Is` to classify errors.
