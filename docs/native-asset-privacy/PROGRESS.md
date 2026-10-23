@@ -52,7 +52,9 @@ asset privacy. See [candidate choices](CANDIDATE_PROFILE.md) and
 11. Shared-key AES blocks and fixed GCM counter/CTR/GHASH/tag constraints with
     witness helpers; KEM/note binding, scheduling and native verification remain.
 12. Private vertical GHASH product with trusted preprocessing, 769 columns/512 rows.
-    Full-chain composition and final hiding/resource budgets remain unfinished.
+    Final hiding/resource budgets remain unfinished.
+13. Full 37-block vertical GHASH with public ciphertext/private H/AAD/result;
+    fixed SHAKE256 PRF and 256 ML-KEM eta=2 CBD coefficients. KEM/AEAD binding remains.
 
 ## Verification scope
 

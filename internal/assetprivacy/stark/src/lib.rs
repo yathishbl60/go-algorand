@@ -19,6 +19,8 @@ pub mod gcm_air;
 #[cfg(feature = "native-privacy")]
 pub mod ghash_air;
 #[cfg(feature = "native-privacy")]
+pub mod ghash_chain;
+#[cfg(feature = "native-privacy")]
 pub mod ghash_vertical;
 #[cfg(feature = "native-privacy")]
 mod hash;
@@ -30,6 +32,8 @@ pub mod hmac_air;
 pub mod member_note_air;
 #[cfg(feature = "native-privacy")]
 pub mod membership_air;
+#[cfg(feature = "native-privacy")]
+pub mod mlkem_noise_air;
 #[cfg(feature = "native-privacy")]
 pub mod note_air;
 #[cfg(feature = "native-privacy")]
@@ -46,6 +50,8 @@ mod private_output_builder;
 mod public_segment_builder;
 #[cfg(feature = "native-privacy")]
 pub mod sha3_air;
+#[cfg(feature = "native-privacy")]
+pub mod shake_air;
 #[cfg(feature = "native-privacy")]
 pub mod shield_air;
 #[cfg(feature = "native-privacy")]

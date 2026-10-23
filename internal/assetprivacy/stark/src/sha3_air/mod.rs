@@ -27,6 +27,8 @@ pub const MAX_MESSAGE_BYTES: usize = 4096;
 pub struct Sha3Air {
     message_len: usize,
     digest_bytes: usize,
+    rate_bytes: usize,
+    domain_suffix: u8,
 }
 
 impl Sha3Air {

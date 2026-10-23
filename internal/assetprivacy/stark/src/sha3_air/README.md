@@ -25,6 +25,7 @@ components do not automatically compose with longer hashes. The future proof
 decoder must enforce trusted dimensions and work budgets.
 
 4096 bytes is a component cap, not a consensus payload limit. It covers the
-candidate AAD and ML-KEM public-key hashes. SHAKE/XOF squeezing and KEM
+candidate AAD and ML-KEM public-key hashes. The fixed-output [SHAKE256 wrapper](../shake_air/README.md)
+reuses the core with its own trusted rate/suffix. Longer XOF output and full KEM
 constraints remain separate. No tests, vectors, proofs or measurements ran.
 Builds and Clippy establish static properties, not security approval.

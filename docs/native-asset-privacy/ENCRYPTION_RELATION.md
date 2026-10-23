@@ -52,8 +52,9 @@ The four SHA3-512 HMAC messages have lengths 104, 136, 115, 136 bytes respective
 SHA3-256/512, private HMAC and the exact candidate HKDF are now constrained.
 `Sha3Air` supports fixed messages through 4096 bytes, covering the AAD and
 public-key hashes. The AAD hash needs 1024 rows; current note relations use 512,
-so a consistent enclosing schedule remains required. SHAKE128/256 and ML-KEM
-samplers/arithmetic remain missing.
+so a consistent enclosing schedule remains required. Fixed-output SHAKE256 and
+[eta=2 noise](../../internal/assetprivacy/stark/src/mlkem_noise_air/README.md) now exist.
+SHAKE128 matrix sampling, polynomial/NTT, compression/packing and full KEM remain.
 Their intermediate bits and digest limbs must connect directly to KEM, HKDF,
 AES and the authoritative key bindings, rather than host-only witness checks.
 

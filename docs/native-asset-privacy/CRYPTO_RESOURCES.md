@@ -46,7 +46,10 @@ See [private trace scheduling](TRACE_ARCHITECTURE.md) for the implementation pat
 and the observed privacy obstacle to cross-AIR lookup buses.
 The [vertical product](../../internal/assetprivacy/stark/src/ghash_vertical/README.md)
 now uses 769 main columns and 512 rows: 3,149,824 main bytes plus 524,288 preprocessed bytes.
-These static sizes exclude proving overhead and do not complete the 37-block chain.
+The [37-block chain](../../internal/assetprivacy/stark/src/ghash_chain/README.md)
+now has 1,537 columns/8,192 rows: 100,728,832 main bytes plus 10,813,440 preprocessed bytes.
+Both exclude prover overhead. Its public ciphertext is 256 uint16 limbs; H/AAD/result
+stay private. Noise PRF/CBD uses 5,522 columns/512 rows, or 22,618,112 base-element bytes.
 
 Before selecting protocol limits, measure completed relations across shield,
 transfer, unshield and controller recovery, including each mandatory disclosure.

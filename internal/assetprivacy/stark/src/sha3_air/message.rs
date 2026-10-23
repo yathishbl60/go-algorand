@@ -29,7 +29,7 @@ impl Sha3Air {
             return row[NUM_KECCAK_COLS + bit].into();
         }
         let byte = bit / 8;
-        let suffix = if byte == self.message_len { 0x06 } else { 0 };
+        let suffix = self.domain_suffix * u8::from(byte == self.message_len);
         let last = if byte + 1 == self.blocks() * self.rate_bytes() {
             0x80
         } else {

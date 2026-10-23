@@ -12,7 +12,7 @@ impl Sha3Air {
     pub(super) fn permutation_inputs(&self, message: &[u8]) -> Vec<[u64; 25]> {
         let mut padded = vec![0u8; self.blocks() * self.rate_bytes()];
         padded[..message.len()].copy_from_slice(message);
-        padded[message.len()] = 0x06;
+        padded[message.len()] = self.domain_suffix;
         *padded.last_mut().expect("one padding block") |= 0x80;
         let mut state = [0u64; 25];
         let mut inputs = Vec::with_capacity(self.blocks());

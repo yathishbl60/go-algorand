@@ -11,7 +11,7 @@ completed components below do not substitute for it.
 | NAP-01 profile | Pinned candidate documented; complete relation, security argument, vectors and measurements missing |
 | NAP-02 consensus specification | Draft obligations/accounting/candidate layouts; complete normative protocol and sibling specs changes missing |
 | NAP-03 types/gates | Consensus flag added, false in every version; transaction/witness types and codecs missing |
-| NAP-04 cryptography | Ownership/nullifier/membership, shield/transfer/unshield, fixed GCM and SHA3/HMAC/HKDF constraints implemented; practical encryption/control composition and native verifier missing |
+| NAP-04 cryptography | Note/conservation, fixed GCM, vertical GHASH chain, hash/KDF and ML-KEM eta=2 noise constraints implemented; full KEM, practical composition, controls and native verifier missing |
 | NAP-05 native state | COW supply, policy/key/control epochs, spent markers, commitment tree and root history implemented; authenticated eligibility roots, output streams and storage charges missing |
 | NAP-06 verification | Bounded opaque proof frame implemented; embedded STARK decoder, deterministic native verifier, work limits and cache integration missing |
 | NAP-07 lifecycle | Policy lifecycle, destruction guard and public holding freeze persistence implemented; PQ administrative ingress and authenticated native transactions still missing |
@@ -64,7 +64,7 @@ Membership alone has a ~641 MB base matrix; streaming assembly reduces its
 static matrix overlap from~1.28 GB to~671 MB. Transfer assembly also releases
 each component before generating the next. AES-256 uses 78,388 field columns per
 block; [resource implications](CRYPTO_RESOURCES.md) remain unresolved. No tests or proofs ran.
-The vertical GHASH product uses 769 columns; full-chain/encryption scheduling remains.
+Vertical GHASH now covers the full chain; vertical AES/full encryption scheduling remains.
 Formatting and authored file/function limits were checked.
 These are not proof correctness, privacy, anonymity, interoperability or protocol
 validation. No tests have been added or run, as requested.

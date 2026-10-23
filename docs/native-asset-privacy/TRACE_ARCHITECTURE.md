@@ -53,7 +53,8 @@ No new lookup dependency or acceptance path has been added.
 
 1. [Vertical GHASH multiplication](../../internal/assetprivacy/stark/src/ghash_vertical/README.md)
    is implemented: private operands/output, 128 shift/select/XOR steps and padding.
-2. Extend to the fixed 37-block GHASH chain using direct accumulator transitions.
+2. The [37-block chain](../../internal/assetprivacy/stark/src/ghash_chain/README.md)
+   now uses direct accumulator transitions and 1,537 columns over 8,192 rows.
 3. Reuse AES round state and key registers across scheduled blocks; keep the
    exact existing GCM nonce, counter, ciphertext and tag bindings.
 4. Schedule KDF/hash/KEM/note operations and all shared private values coherently;

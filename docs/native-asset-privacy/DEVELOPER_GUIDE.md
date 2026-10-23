@@ -48,6 +48,8 @@ writable `GOCACHE` or Cargo target/cache directory when using a sandbox.
 | Fixed envelope AEAD constraints | [GCM component](../../internal/assetprivacy/stark/src/gcm_air/README.md) |
 | Practical private trace layout | [Scheduling direction](TRACE_ARCHITECTURE.md) |
 | Private vertical field multiplication | [GHASH product](../../internal/assetprivacy/stark/src/ghash_vertical/README.md) |
+| Complete vertical GHASH stage | [Fixed chain](../../internal/assetprivacy/stark/src/ghash_chain/README.md) |
+| ML-KEM private noise polynomials | [PRF/CBD constraints](../../internal/assetprivacy/stark/src/mlkem_noise_air/README.md) |
 
 ## Required transaction order
 
