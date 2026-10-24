@@ -13,8 +13,8 @@ pub(super) fn canonical(row: &mut [Value], start: usize, input: u16) {
 }
 
 pub(super) fn arithmetic(row: &mut [Value], value: &Arithmetic) {
-    row[LEFT] = Value::from_u16(value.left);
-    row[RIGHT] = Value::from_u16(value.right);
+    canonical(row, LEFT, value.left);
+    canonical(row, RIGHT, value.right);
     for (start, input) in [
         (PRODUCT, value.product),
         (QUOTIENT, value.quotient),

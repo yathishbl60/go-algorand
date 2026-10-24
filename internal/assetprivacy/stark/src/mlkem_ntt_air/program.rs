@@ -27,6 +27,8 @@ impl MlKemNttAir {
         None
     }
 
+    // Stage zero touches every register once before it can be overwritten.
+    // Selected-operand canonical bounds rely on this trusted schedule invariant.
     fn butterfly(&self, step: usize) -> Operation {
         let stage = step / 128;
         let length = if self.inverse {

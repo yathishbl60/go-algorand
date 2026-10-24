@@ -76,6 +76,8 @@ asset privacy. See [candidate choices](CANDIDATE_PROFILE.md) and
 21. Staged GCM joins all AES/GHASH blocks and the final tag inside one AIR.
 22. Deterministic host KEM computes complete K-PKE witness data and ciphertext;
     full K-PKE proof bindings and native acceptance remain unfinished.
+23. NTT now uses 920 columns through selected-operand bounds and fixed-stage
+    coverage, reducing its raw main storage before full K-PKE composition.
 
 ## Verification scope
 

@@ -11,13 +11,12 @@ impl MlKemNttAir {
         let row = main.current_slice();
         for index in 0..256 {
             let prep = builder.preprocessed();
-            let current = row[STATE + 25 * index];
+            let current = row[STATE + index];
             let left = prep.current_slice()[index] * (row[LOW] - current);
             let right = prep.current_slice()[256 + index] * (row[HIGH] - current);
-            builder.when_transition().assert_eq(
-                main.next_slice()[STATE + 25 * index],
-                current + left + right,
-            );
+            builder
+                .when_transition()
+                .assert_eq(main.next_slice()[STATE + index], current + left + right);
         }
     }
 }

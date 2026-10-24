@@ -53,8 +53,10 @@ stay private. Noise PRF/CBD uses 5,522 columns/512 rows, or 22,618,112 base-elem
 The [vertical AES stage](../../internal/assetprivacy/stark/src/aes_gcm_vertical/README.md)
 uses 11,216 columns/512 rows: 45,940,736 main plus 249,856 preprocessed bytes.
 It covers all 34 blocks; composing it with GHASH/KDF/KEM remains pending.
-Private NTT uses 7,016 columns: forward 1,024 rows/57,475,072 main bytes;
-inverse 2,048 rows/114,950,144. Preprocessing adds 4,210,688/8,421,376 bytes.
+Private NTT now uses 920 columns: forward 1024 rows/7,536,640 main bytes;
+inverse 2048 rows/15,073,280. Preprocessing adds 4,210,688/8,421,376 bytes.
+Selected-operand bounds and fixed first-stage coverage replace per-register
+range repetition; this saves 6096 main columns, without measured prover claims.
 The complete NTT-domain product has 1,195 columns/512 rows: 4,894,720 main
 bytes plus 528,384 preprocessed bytes. All counts exclude proving overhead.
 Private polynomial packing uses 512 rows and 575/1,343/2,879/3,391 columns for

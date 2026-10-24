@@ -16,8 +16,8 @@ indices. Twiddles are 17^BitRev7(k) modulo 3329. The inverse also constrains all
 `wires(row)` exposes input/output scalar coefficients for direct parent bindings.
 Each slice has 256 values in the canonical 0–3328 range. Input/output are constant
 across rows, equal to the initial/final state respectively. Intermediate state
-has 256 canonical decompositions on every row. Selected operands are constrained
-from the trusted address flags; all other coefficients persist unchanged.
+uses 256 scalar registers. The two selected operands have canonical decompositions
+on every row; all other coefficients persist unchanged.
 
 Forward butterflies constrain t=zeta*b, low=a+t, high=a-t modulo q. Inverse
 butterflies constrain low=a+b, d=b-a, high=zeta*d modulo q. Products have bounded
@@ -27,8 +27,17 @@ The final inverse scaling uses the same bounded quotient/remainder construction.
 Padding has no selected addresses and preserves state. Maximum source polynomial
 degree is 3, including row-transition selectors; quotient/proof budgets are pending.
 
-The layout uses 7016 main columns: 6400 state, 256 input, 256 output, two operands,
-four 25-column canonical arithmetic values and two Boolean carry/borrow columns.
+The range invariant depends on the trusted stage-zero schedule. Forward pairs
+are (j,j+128), j=0..127. Inverse groups of four pair positions 0/2 then 1/3. Thus
+all 256 initial registers are selected exactly once before their first overwrite.
+An untouched register equals its initial input by transition constraints; its
+first read is range checked. Every write comes from a canonical low/high output.
+This establishes bounded input/state/output coefficients for every satisfying
+trace without repeating 256 range decompositions on every row. Changing the
+schedule requires preserving that invariant or adding explicit input checks.
+
+The layout uses 920 main columns: 256 state, 256 input, 256 output, six 25-column
+canonical operands/arithmetic values and two Boolean carry/borrow columns.
 Preprocessing has 514 columns: 256 left addresses, 256 right addresses, one twiddle
 and one scaling flag. Forward has 896 operations plus padding to 1024 rows;
 inverse has 896 butterflies and 256 scaling operations plus padding to 2048 rows.
@@ -39,8 +48,8 @@ to 11/12 by the candidate hiding configuration. Trusted artifact preparation and
 the complete KEM composition remain unfinished. Do not expose private wires or
 use unreviewed cross-AIR lookup terminals to connect them.
 
-Static base-element bytes: forward main 57,475,072/preprocessing 4,210,688;
-inverse main 114,950,144/preprocessing 8,421,376. These exclude witness/prover
+Static base-element bytes: forward main 7,536,640/preprocessing 4,210,688;
+inverse main 15,073,280/preprocessing 8,421,376. These exclude witness/prover
 temporaries, hiding expansion and commitments; no memory measurements ran.
 
 Source review, builds, strict Clippy, formatting and size checks only. No traces,

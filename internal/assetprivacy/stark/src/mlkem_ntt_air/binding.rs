@@ -13,16 +13,15 @@ impl MlKemNttAir {
         let main = builder.main();
         let row = main.current_slice();
         for index in 0..256 {
-            eval_canonical(builder, &view::canonical(row, STATE + 25 * index));
             builder
                 .when_first_row()
-                .assert_eq(row[INPUT + index], row[STATE + 25 * index]);
+                .assert_eq(row[INPUT + index], row[STATE + index]);
             builder
                 .when_last_row()
-                .assert_eq(row[OUTPUT + index], row[STATE + 25 * index]);
+                .assert_eq(row[OUTPUT + index], row[STATE + index]);
         }
         self.eval_constants(builder);
-        for start in [PRODUCT, QUOTIENT, LOW, HIGH] {
+        for start in [LEFT, RIGHT, PRODUCT, QUOTIENT, LOW, HIGH] {
             eval_canonical(builder, &view::canonical(row, start));
         }
         builder.assert_bool(row[CARRY]);
@@ -46,10 +45,10 @@ impl MlKemNttAir {
         let row = main.current_slice();
         let prep = builder.preprocessed();
         let left: AB::Expr = (0..256)
-            .map(|i| row[STATE + 25 * i] * prep.current_slice()[i])
+            .map(|i| row[STATE + i] * prep.current_slice()[i])
             .sum();
         let right: AB::Expr = (0..256)
-            .map(|i| row[STATE + 25 * i] * prep.current_slice()[256 + i])
+            .map(|i| row[STATE + i] * prep.current_slice()[256 + i])
             .sum();
         builder.assert_eq(row[LEFT], left);
         builder.assert_eq(row[RIGHT], right);

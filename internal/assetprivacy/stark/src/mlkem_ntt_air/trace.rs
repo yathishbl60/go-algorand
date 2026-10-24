@@ -19,7 +19,7 @@ impl MlKemNttAir {
             let arithmetic = self.arithmetic(&state, op.as_ref());
             write_fixed(row, &input, &output);
             for (index, value) in state.into_iter().enumerate() {
-                write::canonical(row, STATE + 25 * index, value);
+                row[STATE + index] = Value::from_u16(value);
             }
             write::arithmetic(row, &arithmetic);
             advance(&mut state, op.as_ref(), &arithmetic);
