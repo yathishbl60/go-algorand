@@ -7,9 +7,12 @@
 mod binding;
 mod components;
 mod layout;
+mod prepared;
 mod trace;
 mod trace_join;
 mod value;
+mod writer;
+pub(crate) use prepared::derive_output;
 
 use crate::{Value, sha3_air::Sha3Air};
 use p3_air::{Air, AirBuilder, BaseAir};

@@ -6,6 +6,7 @@
 mod constraints;
 mod trace;
 mod value;
+mod writer;
 
 use p3_air::{Air, AirBuilder, BaseAir};
 

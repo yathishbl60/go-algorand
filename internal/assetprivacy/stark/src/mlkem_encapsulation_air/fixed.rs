@@ -8,23 +8,39 @@ use crate::{
 };
 use p3_field::PrimeCharacteristicRing;
 
-pub(super) fn write(values: &mut [Value], input: &Encapsulation, dots: &[Polynomial; 4]) {
+pub(super) fn write(
+    values: &mut [Value],
+    input: &Encapsulation,
+    dots: &[Polynomial; 4],
+    target: (usize, usize, usize),
+    rows: usize,
+) {
     let matrix = input.encryption.matrix.concat();
-    for row in values.as_chunks_mut::<WIDTH>().0 {
-        polynomials(row, 0, &matrix);
-        polynomials(row, 2304, &input.encryption.public_polynomials);
-        polynomials(row, 3072, &input.encryption.r_hat);
-        polynomials(row, 3840, dots);
-        polynomials(row, 6161, &input.encryption.noise);
-        polynomials(row, 8209, &input.encryption.u);
-        polynomials(row, 8977, &[input.encryption.v]);
-        for (index, &value) in input.encryption.message.iter().enumerate() {
-            row[7953 + index] = Value::from_bool(value == 1665);
-        }
-        bits(row, RHO, &input.encryption.matrix_seed);
-        bits(row, KEY, &input.shared_key);
-        bits(row, COINS, &input.coins);
+    let (stride, column, first) = target;
+    for row in values.chunks_exact_mut(stride).skip(first).take(rows) {
+        write_row(&mut row[column..column + WIDTH], input, dots, &matrix);
     }
+}
+
+fn write_row(
+    row: &mut [Value],
+    input: &Encapsulation,
+    dots: &[Polynomial; 4],
+    matrix: &[Polynomial],
+) {
+    polynomials(row, 0, matrix);
+    polynomials(row, 2304, &input.encryption.public_polynomials);
+    polynomials(row, 3072, &input.encryption.r_hat);
+    polynomials(row, 3840, dots);
+    polynomials(row, 6161, &input.encryption.noise);
+    polynomials(row, 8209, &input.encryption.u);
+    polynomials(row, 8977, &[input.encryption.v]);
+    for (index, &value) in input.encryption.message.iter().enumerate() {
+        row[7953 + index] = Value::from_bool(value == 1665);
+    }
+    bits(row, RHO, &input.encryption.matrix_seed);
+    bits(row, KEY, &input.shared_key);
+    bits(row, COINS, &input.coins);
 }
 
 fn polynomials(row: &mut [Value], start: usize, polynomials: &[Polynomial]) {

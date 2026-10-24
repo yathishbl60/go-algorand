@@ -5,9 +5,11 @@
 mod binding;
 pub(crate) mod frame;
 pub(crate) mod frame_builder;
+mod frame_schedule;
 mod layout;
 mod schedule;
 mod trace;
+mod writer;
 
 use crate::{Value, aes_gcm_vertical::AesGcmAir, ghash_chain::GhashChainAir};
 pub use layout::{Wires, wires};
@@ -16,6 +18,7 @@ use p3_matrix::dense::RowMajorMatrix;
 pub use trace::GcmWitness;
 
 pub const ROWS: usize = 8192;
+pub(crate) const FRAME_ROWS: usize = 5249;
 pub const WIDTH: usize = 11728;
 pub const PUBLIC_VALUES: usize = 276;
 const AES_WIDTH: usize = 11216;

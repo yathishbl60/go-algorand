@@ -47,12 +47,13 @@ for exact boundaries and the composition still required.
 bytes to K/coins. [Deterministic host encapsulation](src/mlkem_host/README.md)
 constructs full K-PKE witness data; host computation is not proof enforcement.
 [Staged GCM](src/gcm_vertical/README.md) now constrains all cipher/hash/tag blocks
-in one AIR. Combined KEM/KDF/note/control composition remains unfinished.
+in one AIR. [Complete single-envelope constraints](src/envelope_air/README.md)
+now join KEM/AAD/HKDF/GCM to the same canonical opening/commitment; current
+authority, mandatory disclosures and spend/native composition remain unfinished.
 [Staged K-PKE arithmetic](src/mlkem_pke_air/README.md) now binds all transforms,
 dot products, error/message additions and public ciphertext packing; its matrix,
 noise, key and message inputs are now bound by [full bounded encapsulation](src/mlkem_encapsulation_air/README.md).
-That relation has only Ckem public; registry authority and complete envelope/note
-bindings remain. Public module paths remain stable through gated registries.
+That relation has only Ckem public; registry authority remains. Public module paths remain stable through gated registries.
 
 The [outer proof frame](../witness/README.md) carries opaque bytes only. No embedded
 STARK decoder, consensus verifier, performance budget or security claim is exposed.

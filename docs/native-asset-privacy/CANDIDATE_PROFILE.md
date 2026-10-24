@@ -71,7 +71,7 @@ This is a KEM/DEM candidate, not a recipient-anonymity proof. The complete proof
 relation must constrain encryption of the exact committed note and all required
 role disclosures. It must bind finalized group bodies after ciphertext creation.
 [Staged GCM](../../internal/assetprivacy/stark/src/gcm_vertical/README.md) constrains
-the complete AEAD; combined KEM/KDF/note/control composition remains unfinished.
+the complete AEAD; [single-envelope/note constraints](../../internal/assetprivacy/stark/src/envelope_air/README.md) now compose KEM/KDF/GCM; current control/spend integration remains.
 Fresh randomness, fixed payload size and omission of public routing keys do not
 alone establish shielded anonymity.
 

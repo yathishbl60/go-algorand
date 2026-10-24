@@ -14,7 +14,7 @@ Public conversions additionally bind the public accounts and integer amounts.
 
 Private witnesses include input note openings/membership paths, the required
 spending or recovery authority material, output note openings, encryption
-randomness and any private eligibility paths. Neither RPC nor node simulation
+randomness, recipient key/epoch and private eligibility paths. Neither RPC nor node simulation
 receives those witnesses. The node receives the proof and public statement.
 
 The proof establishes the following predicates as one composed relation:
@@ -53,7 +53,8 @@ An encryption associated-data value cannot include the ciphertext it produces.
 Define a domain-separated, canonical pre-encryption output context containing
 the required network, asset, policy, suite, key-role/epoch and output identifiers.
 Freeze its exact fields and any fresh transaction nonce in NAP-01/NAP-02.
-Recipient/auditor/controller contexts must bind their distinct roles.
+Recipient/auditor/controller contexts must bind their distinct roles. Key epochs
+are constrained private inputs, not serialized recipient routing metadata.
 
 Create commitments and ciphertexts, finalize transaction bodies and their normal
 group ID, then prove against the full finalized public statement. The proof

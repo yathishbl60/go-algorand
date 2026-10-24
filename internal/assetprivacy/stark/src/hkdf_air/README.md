@@ -24,3 +24,10 @@ require the exact width. Private traces must stay outside transactions/RPC/logs.
 This is not an accepted encryption proof. ML-KEM, exact AAD binding, AES/GCM
 composition, current key eligibility, mandatory disclosures and native verification
 remain. No tests or proofs ran; builds/Clippy establish static properties only.
+
+The crate-private `derive_key(shared,salt)` returns the plain 32-byte candidate
+HKDF result without allocating a trace. `write_into(shared,salt,values,target)`
+writes exactly 512 rows at `(stride,column,first)` and returns the same output.
+The extract/expand HMACs use bounded direct SHA3 writers; no complete child main
+matrix is retained. Bounds are checked before mutation. Runtime equivalence,
+trace evaluation, proofs and security review remain unperformed.

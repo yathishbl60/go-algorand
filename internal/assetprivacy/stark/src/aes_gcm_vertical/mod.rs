@@ -12,6 +12,7 @@ mod trace;
 mod view;
 mod witness;
 mod write;
+mod write_frame;
 mod writer;
 
 use crate::Value;

@@ -27,8 +27,8 @@ impl MlKemEncapsulationAir {
         let input = encapsulate(public_key, message)?;
         let dots = dots(&input.encryption)?;
         let mut values = Value::zero_vec(ROWS * WIDTH);
-        writer::write(public_key, message, &input, &mut values)?;
-        fixed::write(&mut values, &input, &dots);
+        writer::write(public_key, message, &input, &mut values, (WIDTH, 0, 0))?;
+        fixed::write(&mut values, &input, &dots, (WIDTH, 0, 0), ROWS);
         Some(EncapsulationWitness {
             trace: RowMajorMatrix::new(values, WIDTH),
             public_values: self.public_values(input.encryption.ciphertext),
@@ -36,7 +36,7 @@ impl MlKemEncapsulationAir {
     }
 }
 
-fn dots(input: &EncryptionWitness) -> Option<[[u16; 256]; 4]> {
+pub(super) fn dots(input: &EncryptionWitness) -> Option<[[u16; 256]; 4]> {
     MlKemDotAir.values(&DotInputs {
         matrix: input.matrix,
         public_polynomials: input.public_polynomials,

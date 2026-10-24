@@ -81,6 +81,10 @@ uses 15,906 columns/65,536 rows: 8,339,324,928 main plus 1,069,023,232
 preprocessed bytes. These raw totals exclude child-schedule assembly scratch,
 hiding/LDE/quotient matrices and all other prover overhead. No practical budget
 or runtime measurement is established; substantial layout work remains.
+[Complete single-envelope constraints](../../internal/assetprivacy/stark/src/envelope_air/README.md)
+use 22,885 columns/65,536 rows: 11,998,330,880 main + 1,079,508,992
+preprocessed bytes. All active KEM/AAD/HKDF/GCM/note operations are retained.
+These are raw counts only; authority/disclosure/spend composition remains.
 
 Before selecting protocol limits, measure completed relations across shield,
 transfer, unshield and controller recovery, including each mandatory disclosure.

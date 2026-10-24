@@ -73,3 +73,17 @@ final profile budgets remain unresolved; no measurements ran.
 Only builds, strict Clippy, formatting, source review and static size checks
 are allowed at this stage. No trace generation, interoperability vectors,
 constraint evaluations, proofs or tests have validated this composition.
+
+For parent composition, `FRAME_ROWS=5249` retains all 512 AES rows, all 4736
+GHASH product rows and one final carry row. `frame_preprocessed_trace()` clips
+the trusted schedule and sets the final GHASH row's last/transition flags to
+1/0. This prevents a nested child transition from reading the next parent phase.
+Standalone `ROWS=8192` and its preprocessing/API remain unchanged.
+
+The bounded `write_into(key,nonce,AAD,plaintext,values,(stride,column,first))`
+writes only this 5249-row frame and returns ciphertext/tag. Checked bounds
+precede mutation; direct AES/GHASH writers avoid a full child main matrix.
+The shortened frame needs its matching trusted schedule and enclosing frame
+flags; it is not interchangeable with the standalone schedule. Every active
+GHASH step, final product/tag binding and one carry transition are retained.
+This shortening has source-only evidence; no runtime trace or proof has run.

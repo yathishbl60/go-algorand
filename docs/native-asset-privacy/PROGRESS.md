@@ -46,7 +46,12 @@ completion checklist. The full native feature remains in progress.
    [Full bounded encapsulation](../../internal/assetprivacy/stark/src/mlkem_encapsulation_air/README.md)
    now binds canonical key hashing, all nine matrices, seven noise samples and
    K-PKE to the same private m/K/coins. Compact window/squeeze layouts reduce
-   component widths. KDF/AAD/note/authority/native composition remains unfinished.
+   component widths.
+9. [Complete single-envelope AIR](../../internal/assetprivacy/stark/src/envelope_air/README.md)
+   connects the same canonical key/Ckem/shared secret through AAD/HKDF/GCM to
+   one canonical opening and its public commitment. All operations fit within
+   65,536 rows using bounded frame writers and shared scratch. Current authority,
+   mandatory disclosures, spend/group integration and native verification remain.
 
 Go uses `algorand_native_privacy`; Rust's optional `native-privacy` feature is
 empty by default. No consensus version enables privacy. See [the candidate
@@ -65,7 +70,7 @@ independent cryptographic security review has been supplied or completed.
 
 ## Next work
 
-Complete the combined private KEM/KDF/AAD/note/disclosure relation and current eligibility,
+Complete current authority/mandatory-disclosure/spend composition and eligibility,
 freeze/recovery authority, remaining arities and group bindings. Establish actual
 prover/verifier resource feasibility, proof decoding/work limits and trusted
 profile artifacts before native transaction verification/execution. Then finish

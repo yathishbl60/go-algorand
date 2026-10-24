@@ -32,3 +32,10 @@ Static base-element storage: 45,940,736 main bytes plus 249,856 preprocessed
 bytes; this excludes witness-generation temporaries and all proving overhead.
 Builds/Clippy/format/size checks only; no trace, constraint, vector or proof runs.
 This unreviewed component is compiled only with `native-privacy`.
+
+The crate-private `write_frame` accepts `(stride,column,first,rows)`, requires at
+least the full 512-row AES schedule and writes only that bounded rectangle. It
+clears its own cells, initializes root constants across the complete frame and
+reuses one AES-block witness at a time. Surrounding parent cells are preserved.
+The existing `write_into` wrapper retains its standalone/vertical GCM behavior.
+No runtime equivalence checks or measurements have run.

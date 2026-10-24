@@ -24,3 +24,10 @@ time. Both permitted hashes fit 512 rows. The larger SHA3 cap does not increase
 this HMAC data limit. These constraints do not establish that operands came from
 the required KEM/AAD or that output drives the actual AES key; the parent must
 bind those relations. No tests or proofs ran. Build/Clippy checks are static only.
+
+The crate-private bounded `write_into(key, data, values, (stride,column,first))`
+writes exactly 512 rows and returns the 64-byte output. It validates length and
+checked matrix bounds before mutation. Both SHA3 messages write directly into
+the parent; only Keccak scratch and small host messages/digests are retained.
+Standalone trace construction delegates to this writer. No runtime equivalence
+check, trace, constraint evaluation or proof has run.

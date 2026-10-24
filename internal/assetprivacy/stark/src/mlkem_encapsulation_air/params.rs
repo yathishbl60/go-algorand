@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
 pub const ROWS: usize = 65536;
+pub(crate) const FRAME_ROWS: usize = 57856;
 pub const PUBLIC_VALUES: usize = crate::mlkem_pke_air::PUBLIC_VALUES;
 pub(super) const RHO: usize = crate::mlkem_pke_air::WIDTH;
 pub(super) const KEY: usize = RHO + 256;
@@ -21,5 +22,6 @@ const _: () = assert!(WORK_WIDTH >= crate::mlkem_stream_matrix_air::WIDTH);
 const _: () = assert!(WORK_WIDTH >= 5522);
 const _: () = assert!(crate::mlkem_stream_derivation_air::ROWS == MATRIX_ROW);
 const _: () = assert!(crate::mlkem_stream_matrix_air::ROWS == 4096);
-const _: () = assert!(END_ROW <= ROWS);
+const _: () = assert!(END_ROW == FRAME_ROWS);
+const _: () = assert!(FRAME_ROWS <= ROWS);
 const _: () = assert!(crate::mlkem_pke_air::WIDTH == 9328);

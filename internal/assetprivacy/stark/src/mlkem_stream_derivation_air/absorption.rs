@@ -23,8 +23,8 @@ impl MlKemStreamDerivationAir {
         let active = builder.preprocessed().current_slice()[END + block - 1];
         for limb in 0..100 {
             let expected = absorbed_limb::<AB>(current, next, block, limb);
+            // Trusted END flags occur strictly before the final frame row.
             builder
-                .when_transition()
                 .when(active)
                 .assert_eq(output.preimage[limb / 20][limb / 4 % 5][limb % 4], expected);
         }

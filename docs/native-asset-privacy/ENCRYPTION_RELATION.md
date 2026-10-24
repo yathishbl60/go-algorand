@@ -2,7 +2,7 @@
 
 Derived from `internal/assetprivacy/envelope/{context,aead,seal,open,format}.go`
 and the local Go standard-library HKDF, ML-KEM and random-nonce GCM sources.
-This specifies required bindings; the complete constrained relation is absent.
+[EnvelopeAir](../../internal/assetprivacy/stark/src/envelope_air/README.md) implements these bindings for one envelope. Current key authority and complete native composition remain.
 No recipient-anonymity or cryptographic-security claim follows from this contract.
 
 ## Exact context and envelope bytes
@@ -70,7 +70,7 @@ GHASH uses wire-order bits, reduction polynomial `x^128+x^7+x^2+x+1`, and 37
 blocks: four blocks of `A`, 32 ciphertext blocks, then `BE64(512)||BE64(4096)`.
 The 16-byte tag is the resulting GHASH value XOR the tag mask.
 
-The native verifier must supply/bind the genesis, asset, policy, active key epoch,
+The native verifier must supply/bind the genesis, asset, policy and private active key epoch,
 role, transaction nonce, output index, commitment and complete envelope bytes.
 The selected `P` must be authorized for the note/account and disclosure role by
 current registry/policy state; keep shielded recipient identity/key witnesses
@@ -90,7 +90,10 @@ This is complete AEAD algebraic composition, not a benchmarked full-envelope pro
 [Bounded full encapsulation](../../internal/assetprivacy/stark/src/mlkem_encapsulation_air/README.md)
 now binds canonical P/m to K/r, all nine matrices, seven noise samples and public
 1088-byte Ckem. It uses the candidate's fixed 16-block matrix admission rule.
-The private P/K and Ckem must still feed the same AAD/HKDF/GCM relation and note;
-key registry authority, role disclosures and complete native acceptance remain.
+[EnvelopeAir](../../internal/assetprivacy/stark/src/envelope_air/README.md) now feeds the same private P/K and public Ckem
+through AAD/HKDF/GCM to the canonical committed note. Key registry authority,
+mandatory role disclosures, spending integration and native acceptance remain.
+The public statement omits the key epoch; private nonzero epoch bits feed AAD
+and must be authenticated against the same private key by the registry proof.
 See [resource constraints](CRYPTO_RESOURCES.md). No accepted native proof exists.
 No tests, traces, proof generation or verification were performed.

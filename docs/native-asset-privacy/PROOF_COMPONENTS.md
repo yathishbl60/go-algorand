@@ -76,11 +76,11 @@ conversion/group context in232 public scalars. [Layout](../../internal/assetpriv
 ## Remaining composition
 
 The complete relation still needs current eligibility/control authorization,
-output encryption correctness, mandatory disclosure and native verifier wiring.
+mandatory disclosure/spend integration and native verifier wiring.
 [ShieldAir](../../internal/assetprivacy/stark/src/shield_air/README.md) has zero private inputs/two outputs;
 [UnshieldAir](../../internal/assetprivacy/stark/src/unshield_air/README.md) has two inputs/zero outputs.
 Neither uses dummy notes. [AES byte constraints](../../internal/assetprivacy/stark/src/aes_air/README.md)
-[GCM](../../internal/assetprivacy/stark/src/gcm_air/README.md) and private [HMAC](../../internal/assetprivacy/stark/src/hmac_air/README.md)/[HKDF](../../internal/assetprivacy/stark/src/hkdf_air/README.md) exist; [bounded KEM](../../internal/assetprivacy/stark/src/mlkem_encapsulation_air/README.md) exists; [full encryption composition](ENCRYPTION_RELATION.md) remains pending.
+[GCM](../../internal/assetprivacy/stark/src/gcm_air/README.md) and private [HMAC](../../internal/assetprivacy/stark/src/hmac_air/README.md)/[HKDF](../../internal/assetprivacy/stark/src/hkdf_air/README.md) exist; [bounded KEM](../../internal/assetprivacy/stark/src/mlkem_encapsulation_air/README.md) exists; [single-envelope/note constraints](../../internal/assetprivacy/stark/src/envelope_air/README.md) now join them.
 The owner component is not the controller recovery path;
 both paths must eventually consume the same canonical nullifier.
 

@@ -14,7 +14,7 @@ registration or use; generation and restoration do not imply admission.
 
 To encrypt:
 
-1. Build a `Context` from public pre-encryption values, including the network,
+1. Build a `Context` from pre-encryption values, including the network,
    asset, policy digest, key epoch, role, fresh transaction nonce, output index
    and output commitment. The caller generates the transaction nonce securely
    and never reuses an output identifier.
@@ -24,6 +24,7 @@ To encrypt:
 3. Call `Seal(recipientPublicKey, context, payload)`. Each call generates fresh
    ML-KEM encapsulation randomness and a fresh GCM nonce internally.
 4. Finalize the group using the returned ciphertext, then prove the full relation.
+   Keep the key epoch private with the recipient key; output records omit it.
    Do not include the resulting ciphertext or final group ID in `Context`.
 
 Call `Open(secretKey, context, envelope)` locally to authenticate and decrypt.

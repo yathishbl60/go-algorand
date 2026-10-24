@@ -71,7 +71,13 @@ No new lookup dependency or acceptance path has been added.
    joins compact key hashing, nine streamed matrices, seven noise samples and
    K-PKE through constant private registers. It has 65,536 rows and source degree
    at most six. Its raw main/preprocessed matrices total 9,408,348,160 bytes;
-   further resource reduction and complete envelope/note composition remain.
+   further resource reduction remains.
+8. [Single-envelope composition](../../internal/assetprivacy/stark/src/envelope_air/README.md)
+   joins complete KEM/AAD/HKDF/GCM/note binding in 65,536 rows with shared scratch
+   and only trailing padding removed. Trusted END flags make redundant hash
+   transition filters unnecessary; the full envelope source bound is seven.
+   Root constants preserve private stage bindings; current authority and spend
+   composition, trusted artifacts and measured feasibility remain unfinished.
 
 Recalculate polynomial degree, quotient chunks, masking/opening budgets and
 trusted dimensions after each composition. Builds and static counts do not

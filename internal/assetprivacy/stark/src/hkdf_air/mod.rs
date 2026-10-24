@@ -7,6 +7,8 @@
 mod binding;
 mod trace;
 mod value;
+mod writer;
+pub(crate) use writer::derive_key;
 
 use crate::{Value, hmac_air::HmacAir};
 use p3_air::{Air, AirBuilder, BaseAir};

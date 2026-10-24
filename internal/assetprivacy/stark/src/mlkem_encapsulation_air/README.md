@@ -57,6 +57,16 @@ large trace allocation. Bounded child writers fill only their own frames in
 the destination, avoiding complete child main matrices. Small Keccak scratch
 matrices and child preprocessing tables still require temporary memory.
 
+Parent composition can use crate-private `FRAME_ROWS=57856`, which ends exactly
+after the complete PKE stage. `write_into(P,m,values,(stride,column,first_row))`
+prepares key admission and all host intermediates before mutation, writes only
+that bounded rectangle and returns its secret `Encapsulation` host result.
+`write_preprocessed_into(values,target)` assembles the trusted child tables in
+that same frame directly into the parent. Neither creates a full KEM child
+matrix. The parent must set its frame's last/transition selectors at row57855;
+all nested child final-row selectors are already present there. Standalone
+65,536-row trace and preprocessing APIs retain their unchanged padding.
+
 Raw main storage is 8,339,324,928 bytes and trusted preprocessing is
 1,069,023,232 bytes. These already total about 8.76 GiB, before allocator,
 child-schedule, hiding, LDE, quotient, commitment or other prover overhead.
