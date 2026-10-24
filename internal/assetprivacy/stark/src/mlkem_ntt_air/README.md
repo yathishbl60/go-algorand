@@ -45,7 +45,7 @@ The verifier chooses direction and exact preprocessing, never the proof author.
 
 Use trusted preprocessing at base log-height 10 (forward) or 11 (inverse), extended
 to 11/12 by the candidate hiding configuration. Trusted artifact preparation and
-the complete KEM composition remain unfinished. Do not expose private wires or
+complete native proof integration remain unfinished. Do not expose private wires or
 use unreviewed cross-AIR lookup terminals to connect them.
 
 Static base-element bytes: forward main 7,536,640/preprocessing 4,210,688;
@@ -54,7 +54,7 @@ temporaries, hiding expansion and commitments; no memory measurements ran.
 
 Source review, builds, strict Clippy, formatting and size checks only. No traces,
 vectors, round trips, constraint evaluation or proofs ran. The implemented matrix,
-NTT-domain product and packing components still require full KEM composition.
+NTT-domain product and packing components now join [bounded full KEM](../mlkem_encapsulation_air/README.md).
 
 The crate-private bounded direct writer fills a parent frame without a second
 NTT matrix. It validates stride, checked column/row bounds and canonical inputs

@@ -14,6 +14,7 @@ mod trace;
 mod trace_input;
 mod writer;
 
+pub(crate) use output_bits::final_bit;
 pub use trace::{digest_values, digest256_values};
 
 use p3_air::{Air, AirBuilder, BaseAir};

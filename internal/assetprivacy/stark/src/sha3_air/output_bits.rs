@@ -8,7 +8,7 @@ use p3_keccak_air::{KeccakCols, RC};
 use crate::Value;
 
 // Valid only under the final-round selector; KeccakAir constrains all source bits.
-pub(super) fn final_bit<AB: AirBuilder<F = Value>>(
+pub(crate) fn final_bit<AB: AirBuilder<F = Value>>(
     row: &KeccakCols<AB::Var>,
     bit: usize,
 ) -> AB::Expr {

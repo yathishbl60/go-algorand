@@ -55,7 +55,7 @@ public-key hashes. The AAD hash needs 1024 rows; current note relations use 512,
 so a consistent enclosing schedule remains required. Fixed-output SHAKE256 and
 [eta=2 noise](../../internal/assetprivacy/stark/src/mlkem_noise_air/README.md) now exist.
 [Forward/inverse NTT](../../internal/assetprivacy/stark/src/mlkem_ntt_air/README.md) and bounded coefficient/compression constraints now exist.
-[NTT-domain products](../../internal/assetprivacy/stark/src/mlkem_product_air/README.md), [canonical packing](../../internal/assetprivacy/stark/src/mlkem_encoding_air/README.md) and [bounded matrix sampling](MATRIX_SAMPLING.md) exist; full KEM composition remains.
+[NTT-domain products](../../internal/assetprivacy/stark/src/mlkem_product_air/README.md), [canonical packing](../../internal/assetprivacy/stark/src/mlkem_encoding_air/README.md) and [bounded matrix sampling](MATRIX_SAMPLING.md) exist; [bounded full KEM](../../internal/assetprivacy/stark/src/mlkem_encapsulation_air/README.md) now composes them.
 Their intermediate bits and digest limbs must connect directly to KEM, HKDF,
 AES and the authoritative key bindings, rather than host-only witness checks.
 
@@ -87,11 +87,10 @@ now joins all 34 AES and 37 GHASH blocks and the tag in one AIR, with private ke
 AAD and plaintext. Its 276 public scalars encode nonce/CT/tag. The 8192-row layout
 uses 11,728 columns, or 768,606,208 raw main bytes before hiding/prover overhead.
 This is complete AEAD algebraic composition, not a benchmarked full-envelope proof.
-[Private KEM derivation](../../internal/assetprivacy/stark/src/mlkem_derivation_air/README.md)
-binds canonical P and m to K/r. [Host encapsulation](../../internal/assetprivacy/stark/src/mlkem_host/README.md)
-computes full deterministic K-PKE witness data and 1088-byte Ckem. Host computation
-is not proof enforcement. [Staged K-PKE arithmetic](../../internal/assetprivacy/stark/src/mlkem_pke_air/README.md)
-now connects transforms, matrix/key dots, errors/message and public Ckem packing;
-matrix/noise derivation must still bind those inputs before joining KDF/AAD/note.
+[Bounded full encapsulation](../../internal/assetprivacy/stark/src/mlkem_encapsulation_air/README.md)
+now binds canonical P/m to K/r, all nine matrices, seven noise samples and public
+1088-byte Ckem. It uses the candidate's fixed 16-block matrix admission rule.
+The private P/K and Ckem must still feed the same AAD/HKDF/GCM relation and note;
+key registry authority, role disclosures and complete native acceptance remain.
 See [resource constraints](CRYPTO_RESOURCES.md). No accepted native proof exists.
 No tests, traces, proof generation or verification were performed.

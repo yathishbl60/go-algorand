@@ -58,6 +58,10 @@ message shape, recomputes/compares r_hat, u/v and ciphertext using the shared
 host arithmetic. Direct writers populate the destination without keeping full
 child matrices. Those host checks are construction checks, not proof validation.
 `public_values(ciphertext)` supplies the verifier's exact body-to-field mapping.
+A crate-private `write_into(input, values, (stride, column, first_row))` performs
+the same preparation before writing exactly its 16384-row frame. Bounds and
+row shape are checked before mutation; every component cell is overwritten and
+all other rows/columns are preserved. No second full PKE matrix is allocated.
 
 There are 9328 main columns and 1967 preprocessed columns at 16384 rows:
 1,222,639,616 raw main bytes plus 257,818,624 preprocessing bytes, before hiding,
@@ -65,9 +69,9 @@ commitments, allocator and prover temporaries. No memory/time measurements ran;
 this layout is not an established practical or production resource budget.
 Trusted setup uses base log-height 14, extended to 15 by the hiding configuration.
 
-The full KEM must bind all nine matrix entries to the same key rho and ordered
-coordinates, all seven noise samples to the exact derived coins/nonces, message
-bits to the same private m, and t to canonical key bytes. Shared-secret/KDF/AAD,
+The [bounded KEM parent](../mlkem_encapsulation_air/README.md) now binds all nine
+matrices to key rho/coordinates, all seven noise samples to derived coins/nonces,
+message bits to m, and t to canonical key bytes. Shared-secret/KDF/AAD,
 the committed note, role/epoch authority, group binding and native validation
 remain separate obligations. Do not accept this arithmetic component alone.
 

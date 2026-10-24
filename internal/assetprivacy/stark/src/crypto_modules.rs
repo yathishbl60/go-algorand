@@ -1,0 +1,29 @@
+// Copyright (C) 2026 Algorand Foundation Ltd.
+// SPDX-License-Identifier: AGPL-3.0-or-later
+
+#[path = "aes256_air/mod.rs"]
+pub mod aes256_air;
+#[path = "aes_air/mod.rs"]
+pub mod aes_air;
+#[path = "aes_gcm_vertical/mod.rs"]
+pub mod aes_gcm_vertical;
+#[path = "gcm_air/mod.rs"]
+pub mod gcm_air;
+#[path = "gcm_vertical/mod.rs"]
+pub mod gcm_vertical;
+#[path = "ghash_air/mod.rs"]
+pub mod ghash_air;
+#[path = "ghash_chain/mod.rs"]
+pub mod ghash_chain;
+#[path = "ghash_vertical/mod.rs"]
+pub mod ghash_vertical;
+#[path = "hkdf_air/mod.rs"]
+pub mod hkdf_air;
+#[path = "hmac_air/mod.rs"]
+pub mod hmac_air;
+#[path = "sha3_air/mod.rs"]
+pub mod sha3_air;
+#[path = "shake128_matrix_air/mod.rs"]
+pub mod shake128_matrix_air;
+#[path = "shake_air/mod.rs"]
+pub mod shake_air;

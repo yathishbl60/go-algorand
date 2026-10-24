@@ -8,14 +8,17 @@ use crate::{
 };
 use p3_field::PrimeCharacteristicRing;
 
-pub(super) fn write(values: &mut [Value], input: &Prepared<'_>) {
+pub(super) fn write(values: &mut [Value], input: &Prepared<'_>, shape: (usize, usize, usize)) {
+    let (stride, start, first) = shape;
     for slot in 0..4 {
-        let first = INVERSE_ROW + slot * INV_SPAN + 2048;
-        for (index, row) in values.as_chunks_mut::<WIDTH>().0[first..first + 256]
-            .iter_mut()
+        let first = first + INVERSE_ROW + slot * INV_SPAN + 2048;
+        for (index, row) in values
+            .chunks_exact_mut(stride)
+            .skip(first)
+            .take(256)
             .enumerate()
         {
-            write_row(row, input, slot, index);
+            write_row(&mut row[start..start + WIDTH], input, slot, index);
         }
     }
 }

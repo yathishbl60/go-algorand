@@ -10,6 +10,7 @@ mod host;
 mod layout;
 mod trace;
 mod witness;
+mod writer;
 
 use crate::{Value, shake_air::Shake256Air};
 use p3_air::{Air, AirBuilder, BaseAir};

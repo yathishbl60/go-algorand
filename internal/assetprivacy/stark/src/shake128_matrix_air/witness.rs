@@ -12,8 +12,9 @@ impl Shake128MatrixAir {
         self.inputs(seed).1
     }
 
-    pub(crate) fn inputs(&self, seed: [u8; 32]) -> (Vec<[u64; 25]>, Vec<u8>) {
+    pub(super) fn inputs(&self, seed: [u8; 32]) -> (Vec<[u64; 25]>, Vec<u8>) {
         let (mut inputs, output) = self.stream_inputs(seed);
+        inputs.truncate(self.blocks);
         inputs.resize(self.rows / NUM_ROUNDS, [0; 25]);
         (inputs, output)
     }

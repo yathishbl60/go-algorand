@@ -34,7 +34,12 @@ to its polynomial/NTT and ciphertext construction and bind the seed to its
 derived encryption randomness. Separately constructed noise polynomials must
 share the intended seed and use the specified nonce sequence.
 
-`trace(seed)` constructs the SHAKE trace and CBD witness columns. The pinned
+`trace(seed)` constructs the SHAKE trace and CBD witness columns. A crate-private
+`write_into(seed, values, (stride, column, first_row))` writes exactly the 512-row
+component frame into a larger destination after checking bounds and row shape.
+It overwrites every component cell and preserves all other rows and columns.
+The SHA3 direct writer uses only its bounded Keccak temporary, so it avoids a
+second complete SHAKE or noise matrix during enclosing trace construction. The pinned
 sha3 crate does not export SHAKE; host witness generation therefore uses the
 existing pinned `KeccakF` permutation with the fixed 33-byte SHAKE message,
 suffix 0x1f and final rate-byte 0x80. The AIR independently constrains the whole

@@ -1,30 +1,20 @@
 // Copyright (C) 2026 Algorand Foundation Ltd.
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
-use super::{MlKemNoiseAir, witness::auxiliary};
+use super::MlKemNoiseAir;
 use crate::Value;
 use p3_air::BaseAir;
 use p3_field::PrimeCharacteristicRing;
 use p3_keccak::KeccakF;
-use p3_matrix::{Matrix, dense::RowMajorMatrix};
+use p3_matrix::dense::RowMajorMatrix;
 use p3_symmetric::Permutation;
 
 impl MlKemNoiseAir {
     pub fn trace(&self, seed: [u8; 32]) -> Option<RowMajorMatrix<Value>> {
-        let message = self.message(seed);
-        let hash = self.hash.trace(&message)?;
-        Some(self.join(hash, auxiliary(output(&message))))
-    }
-
-    fn join(&self, hash: RowMajorMatrix<Value>, auxiliary: [Value; 2624]) -> RowMajorMatrix<Value> {
         let width = <Self as BaseAir<Value>>::width(self);
-        let mut values = Value::zero_vec(hash.height() * width);
-        for (r, row) in values.chunks_exact_mut(width).enumerate() {
-            let start = self.digest_start();
-            row[..start].copy_from_slice(&hash.values[r * start..(r + 1) * start]);
-            row[start..].copy_from_slice(&auxiliary);
-        }
-        RowMajorMatrix::new(values, width)
+        let mut values = Value::zero_vec(self.trace_rows() * width);
+        self.write_into(seed, &mut values, (width, 0, 0))?;
+        Some(RowMajorMatrix::new(values, width))
     }
 }
 

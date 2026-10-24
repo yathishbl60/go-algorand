@@ -28,4 +28,5 @@ for indices 0–127 and reject larger indices. They are shared by transform/prod
 schedules; proof authors cannot replace the verifier's exact preprocessing.
 
 Compilation, strict Clippy, formatting and size checks only. No arithmetic tests,
-vectors, constraint evaluation or proofs ran; full KEM composition remains pending.
+vectors, constraint evaluation or proofs ran. [Bounded KEM composition](../mlkem_encapsulation_air/README.md)
+exists; complete native proof integration remains pending.

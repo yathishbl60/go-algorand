@@ -16,15 +16,19 @@ pub(super) struct Prepared {
 impl MlKemStreamMatrixAir {
     /// Generates the private relation; a 16-block prefix may be exhausted.
     pub fn trace(&self, seed: [u8; 32]) -> Option<RowMajorMatrix<Value>> {
-        let input = self.prepare(seed)?;
         let mut values = Value::zero_vec(ROWS * WIDTH);
-        self.write_rows(&mut values, (WIDTH, 0, 0), input);
+        self.write_into(seed, &mut values, (WIDTH, 0, 0))?;
         Some(RowMajorMatrix::new(values, WIDTH))
     }
     pub(super) fn prepare(&self, seed: [u8; 32]) -> Option<Prepared> {
         let shake = Shake128MatrixAir::new(self.first, self.second, 16)?;
         let (states, prefix) = shake.stream_inputs(seed);
         let coefficients = MlKemSampleAir::new(16)?.values(&prefix)?;
-        Some(Prepared { seed, states, prefix, coefficients })
+        Some(Prepared {
+            seed,
+            states,
+            prefix,
+            coefficients,
+        })
     }
 }

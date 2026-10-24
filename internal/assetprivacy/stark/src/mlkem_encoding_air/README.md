@@ -59,4 +59,5 @@ binding to the corresponding public ciphertext relation in the full KEM.
 values other than 0/1665, before constructing a bounded matrix. No traces,
 vectors, constraint evaluations or proofs ran; build and source inspection
 cannot establish runtime proof soundness, interoperability or side-channel
-resistance. Full encapsulation composition remains unfinished.
+resistance. [Bounded encapsulation](../mlkem_encapsulation_air/README.md) now
+composes these operations; complete native proof integration remains unfinished.

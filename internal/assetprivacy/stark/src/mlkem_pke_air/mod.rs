@@ -17,6 +17,7 @@ mod schedule_row;
 mod trace;
 mod write_add;
 mod write_fixed;
+mod writer;
 
 use crate::Value;
 pub use layout::{Wires, wires};

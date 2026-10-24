@@ -51,9 +51,9 @@ SHAKE prefix generation retains only bounded byte/permutation-state buffers.
 The admission bound matches the Go envelope parser: all nine matrices must
 finish within 16 blocks. Exhaustion is rejected even for otherwise
 standard-valid keys; coverage of all standard keys is not established.
-A future proof profile must fix this bound and bind the same key seed,
-matrix coordinates and first-accepted stream. A prover-supplied bound is
-insufficient. There are 27 stored polynomial arrays, totaling 13824 raw
+The [bounded encapsulation AIR](../mlkem_encapsulation_air/README.md) fixes this
+bound and binds the same key seed, coordinates and first-accepted stream. A
+prover-supplied bound is insufficient. There are 27 stored polynomial arrays, totaling 13824 raw
 coefficient bytes; the complete result holds 15040 raw field/byte bytes
 before compiler layout and temporary copies. These are static counts.
 
@@ -64,7 +64,7 @@ Source comparison used the installed Go reference
 to FIPS 203 Algorithms 5,6,7,8,9,10,11,14 and 17. No new dependencies are used.
 
 This host computation is witness generation, not algebraic enforcement.
-Full private proof composition must still bind every derivation, key bit,
-sample, matrix product, sum, transform, compressed output and ciphertext.
+The bounded encapsulation AIR adds those algebraic bindings. Complete envelope,
+note, key authority and native proof composition remain unfinished.
 No native acceptance path is added. Runtime vectors, traces, constraint checks,
 proofs, tests, interoperability and a cryptographic review remain unperformed.

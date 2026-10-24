@@ -1,0 +1,33 @@
+// Copyright (C) 2026 Algorand Foundation Ltd.
+// SPDX-License-Identifier: AGPL-3.0-or-later
+
+#[path = "mlkem_ciphertext_air/mod.rs"]
+pub mod mlkem_ciphertext_air;
+#[path = "mlkem_derivation_air/mod.rs"]
+pub mod mlkem_derivation_air;
+#[path = "mlkem_dot_air/mod.rs"]
+pub mod mlkem_dot_air;
+#[path = "mlkem_encapsulation_air/mod.rs"]
+pub mod mlkem_encapsulation_air;
+#[path = "mlkem_encoding_air/mod.rs"]
+pub mod mlkem_encoding_air;
+#[path = "mlkem_field/mod.rs"]
+pub mod mlkem_field;
+#[path = "mlkem_host/mod.rs"]
+pub mod mlkem_host;
+#[path = "mlkem_matrix_air/mod.rs"]
+pub mod mlkem_matrix_air;
+#[path = "mlkem_noise_air/mod.rs"]
+pub mod mlkem_noise_air;
+#[path = "mlkem_ntt_air/mod.rs"]
+pub mod mlkem_ntt_air;
+#[path = "mlkem_pke_air/mod.rs"]
+pub mod mlkem_pke_air;
+#[path = "mlkem_product_air/mod.rs"]
+pub mod mlkem_product_air;
+#[path = "mlkem_sample_air/mod.rs"]
+pub mod mlkem_sample_air;
+#[path = "mlkem_stream_derivation_air/mod.rs"]
+pub mod mlkem_stream_derivation_air;
+#[path = "mlkem_stream_matrix_air/mod.rs"]
+pub mod mlkem_stream_matrix_air;

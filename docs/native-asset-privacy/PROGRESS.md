@@ -43,8 +43,10 @@ completion checklist. The full native feature remains in progress.
    and coins. Deterministic host KEM constructs complete encryption witnesses.
 8. Staged private K-PKE arithmetic now joins forward transforms, all matrix/key
    dot products, inverse transforms, errors/message and public ciphertext packing.
-   The full KEM must still bind matrix/noise derivation, key bytes and message;
-   then join KDF/AAD, note, authority, group context and native verification.
+   [Full bounded encapsulation](../../internal/assetprivacy/stark/src/mlkem_encapsulation_air/README.md)
+   now binds canonical key hashing, all nine matrices, seven noise samples and
+   K-PKE to the same private m/K/coins. Compact window/squeeze layouts reduce
+   component widths. KDF/AAD/note/authority/native composition remains unfinished.
 
 Go uses `algorand_native_privacy`; Rust's optional `native-privacy` feature is
 empty by default. No consensus version enables privacy. See [the candidate
@@ -63,7 +65,7 @@ independent cryptographic security review has been supplied or completed.
 
 ## Next work
 
-Complete the private KEM/KDF/AAD/note/disclosure relation and current eligibility,
+Complete the combined private KEM/KDF/AAD/note/disclosure relation and current eligibility,
 freeze/recovery authority, remaining arities and group bindings. Establish actual
 prover/verifier resource feasibility, proof decoding/work limits and trusted
 profile artifacts before native transaction verification/execution. Then finish

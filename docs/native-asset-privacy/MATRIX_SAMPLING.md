@@ -1,6 +1,6 @@
 # Candidate matrix sampling and key admission
 
-Updated 2026-10-23. Disabled implementation components; no accepted native proof.
+Updated 2026-10-24. Disabled implementation components; no accepted native proof.
 This records a concrete candidate protocol choice, not a security approval.
 
 The candidate fixes a 16-block SHAKE128 prefix for each ML-KEM-768 matrix entry:
@@ -30,8 +30,10 @@ constrains comparison, first-accepted ordering, output selection and completion.
 The [composed matrix AIR](../../internal/assetprivacy/stark/src/mlkem_matrix_air/README.md)
 uses the same private prefix columns for both and trusted fixed preprocessing.
 `MlKemMatrixAir::candidate(first, second)` selects the matching 16-block bound.
-This establishes the implemented seed-to-polynomial relation at source level;
-the future complete KEM must bind the actual key/rho and all matrix coordinates.
+The [compact successor](../../internal/assetprivacy/stark/src/mlkem_stream_matrix_air/README.md)
+streams each squeeze and candidate window using 4872 columns and 4096 rows.
+[Bounded full KEM composition](../../internal/assetprivacy/stark/src/mlkem_encapsulation_air/README.md)
+now binds the actual key/rho, all nine coordinates and polynomial operations.
 
 Go's A[i,j] appends j then i. K-PKE encryption consumes A-transpose; the parent
 must preserve both conventions when connecting private products and vector sums.

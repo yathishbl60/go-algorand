@@ -61,12 +61,17 @@ No new lookup dependency or acceptance path has been added.
    avoid globally repeating entire paths or expanded block witnesses.
 5. [Matrix sampling](MATRIX_SAMPLING.md) now joins SHAKE128 and rejection in one
    AIR with physically shared private prefix columns and sliced preprocessing.
-   Direct writers avoid retaining separate full component matrices. The enclosing
-   KEM must still bind all key seeds, coordinates and polynomial operations.
+   A compact successor streams one squeeze block and sampler window at a time.
+   Direct writers avoid retaining separate full component matrices.
 6. [Staged K-PKE](../../internal/assetprivacy/stark/src/mlkem_pke_air/README.md)
    joins NTTs, dot accumulators, inverse/error additions and ciphertext packing.
    Root constants and explicit inverse-output carry preserve phase bindings;
-   matrix/noise derivation and key authorization remain enclosing obligations.
+   key authorization remains an enclosing obligation.
+7. [Full bounded KEM](../../internal/assetprivacy/stark/src/mlkem_encapsulation_air/README.md)
+   joins compact key hashing, nine streamed matrices, seven noise samples and
+   K-PKE through constant private registers. It has 65,536 rows and source degree
+   at most six. Its raw main/preprocessed matrices total 9,408,348,160 bytes;
+   further resource reduction and complete envelope/note composition remain.
 
 Recalculate polynomial degree, quotient chunks, masking/opening budgets and
 trusted dimensions after each composition. Builds and static counts do not

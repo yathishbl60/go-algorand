@@ -9,8 +9,8 @@ mod layout;
 mod sampling;
 mod schedule;
 mod trace;
-mod writer;
 mod witness;
+mod writer;
 
 use crate::Value;
 use p3_air::{Air, AirBuilder, BaseAir};
@@ -44,14 +44,20 @@ pub struct MlKemStreamMatrixAir {
 
 impl MlKemStreamMatrixAir {
     pub const fn new(first: u8, second: u8) -> Option<Self> {
-        if first >= 3 || second >= 3 { return None; }
+        if first >= 3 || second >= 3 {
+            return None;
+        }
         Some(Self { first, second })
     }
 }
 
 impl BaseAir<Value> for MlKemStreamMatrixAir {
-    fn width(&self) -> usize { WIDTH }
-    fn preprocessed_width(&self) -> usize { PREPROCESSED }
+    fn width(&self) -> usize {
+        WIDTH
+    }
+    fn preprocessed_width(&self) -> usize {
+        PREPROCESSED
+    }
     fn preprocessed_trace(&self) -> Option<RowMajorMatrix<Value>> {
         Some(schedule::schedule())
     }
@@ -60,7 +66,12 @@ impl BaseAir<Value> for MlKemStreamMatrixAir {
 impl<AB: AirBuilder<F = Value>> Air<AB> for MlKemStreamMatrixAir {
     fn eval(&self, builder: &mut AB) {
         use crate::gcm_vertical::{frame::Frame, frame_builder::FrameBuilder};
-        let frame = Frame { columns: 0..SEED, preprocessing: 0..0, public: 0..0, flags: FRAME };
+        let frame = Frame {
+            columns: 0..SEED,
+            preprocessing: 0..0,
+            public: 0..0,
+            flags: FRAME,
+        };
         KeccakAir {}.eval(&mut FrameBuilder::new(builder, frame));
         self.eval_fixed(builder);
         self.eval_initial(builder);

@@ -71,8 +71,16 @@ main plus 6,291,456 preprocessed bytes. Its direct SHA3 writer retains one
 rows: 768,606,208 main plus 15,335,424 preprocessed bytes. Neither is benchmarked.
 The staged K-PKE arithmetic relation uses 9,328 columns/16,384 rows:
 1,222,639,616 raw main bytes plus 257,818,624 preprocessed bytes. It reuses
-NTT/dot/add scratch and shares final coefficients with the codec; complete
-encapsulation and practical proof budgets remain unfinished and unmeasured.
+NTT/dot/add scratch and shares final coefficients with the codec.
+The compact matrix successor uses 4872 columns/4096 rows: 159,645,696 main
+plus 3,866,624 preprocessed bytes; one Keccak scratch is 674,048 bytes.
+Compact key derivation uses 5810 columns/1024 rows: 47,595,520 main plus
+6,488,064 preprocessed bytes, with one small Keccak scratch at a time.
+[Complete bounded encapsulation](../../internal/assetprivacy/stark/src/mlkem_encapsulation_air/README.md)
+uses 15,906 columns/65,536 rows: 8,339,324,928 main plus 1,069,023,232
+preprocessed bytes. These raw totals exclude child-schedule assembly scratch,
+hiding/LDE/quotient matrices and all other prover overhead. No practical budget
+or runtime measurement is established; substantial layout work remains.
 
 Before selecting protocol limits, measure completed relations across shield,
 transfer, unshield and controller recovery, including each mandatory disclosure.

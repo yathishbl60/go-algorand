@@ -57,12 +57,13 @@ writable `GOCACHE` or Cargo target/cache directory when using a sandbox.
 | Polynomial product in the NTT domain | [Private product](../../internal/assetprivacy/stark/src/mlkem_product_air/README.md) |
 | Canonical key/ciphertext packing and message decoding | [Private encoding](../../internal/assetprivacy/stark/src/mlkem_encoding_air/README.md) |
 | Private seed-to-matrix polynomial with matched admission | [Composed matrix relation](MATRIX_SAMPLING.md) |
-| Canonical key, shared secret and encryption coins | [Private KEM derivation](../../internal/assetprivacy/stark/src/mlkem_derivation_air/README.md) |
+| Canonical key, shared secret and encryption coins | [Private KEM derivation](../../internal/assetprivacy/stark/src/mlkem_stream_derivation_air/README.md) |
 | Full deterministic KEM witness construction | [Host encapsulation](../../internal/assetprivacy/stark/src/mlkem_host/README.md) |
 | All AES/GHASH blocks and final tag in one AIR | [Staged GCM](../../internal/assetprivacy/stark/src/gcm_vertical/README.md) |
 | Matrix/key NTT dot products | [Four-dot relation](../../internal/assetprivacy/stark/src/mlkem_dot_air/README.md) |
 | Private u/v to public ciphertext | [Ciphertext packing](../../internal/assetprivacy/stark/src/mlkem_ciphertext_air/README.md) |
 | Complete conditional K-PKE arithmetic | [Staged encryption relation](../../internal/assetprivacy/stark/src/mlkem_pke_air/README.md) |
+| Canonical key/m to shared secret/coins and public KEM ciphertext | [Full bounded encapsulation](../../internal/assetprivacy/stark/src/mlkem_encapsulation_air/README.md) |
 
 ## Required transaction order
 
