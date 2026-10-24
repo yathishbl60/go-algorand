@@ -90,7 +90,8 @@ This is complete AEAD algebraic composition, not a benchmarked full-envelope pro
 [Private KEM derivation](../../internal/assetprivacy/stark/src/mlkem_derivation_air/README.md)
 binds canonical P and m to K/r. [Host encapsulation](../../internal/assetprivacy/stark/src/mlkem_host/README.md)
 computes full deterministic K-PKE witness data and 1088-byte Ckem. Host computation
-is not proof enforcement: all matrix/noise/vector/transform/encoding operations
-must still compose privately with derivation, KDF, AAD hash and the committed note.
+is not proof enforcement. [Staged K-PKE arithmetic](../../internal/assetprivacy/stark/src/mlkem_pke_air/README.md)
+now connects transforms, matrix/key dots, errors/message and public Ckem packing;
+matrix/noise derivation must still bind those inputs before joining KDF/AAD/note.
 See [resource constraints](CRYPTO_RESOURCES.md). No accepted native proof exists.
 No tests, traces, proof generation or verification were performed.

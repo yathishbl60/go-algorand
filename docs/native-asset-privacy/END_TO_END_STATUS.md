@@ -11,7 +11,7 @@ completed components below do not substitute for it.
 | NAP-01 profile | Pinned candidate documented; complete relation, security argument, vectors and measurements missing |
 | NAP-02 consensus specification | Draft obligations/accounting/candidate layouts; complete normative protocol and sibling specs changes missing |
 | NAP-03 types/gates | Consensus flag added, false in every version; transaction/witness types and codecs missing |
-| NAP-04 cryptography | Note/conservation, staged GCM, hash/KDF, private KEM derivation, matrix/polynomial operations and full host KEM implemented; complete K-PKE/KDF/note proof composition, controls and native verifier missing |
+| NAP-04 cryptography | Note/conservation, staged GCM, hash/KDF, KEM derivation, matrix/noise and staged K-PKE arithmetic implemented; complete encapsulation/KDF/note proof composition, controls and native verifier missing |
 | NAP-05 native state | COW supply, policy/key/control epochs, spent markers, tree/root history and atomic encrypted outputs implemented; authenticated eligibility roots and storage charges missing |
 | NAP-06 verification | Bounded opaque proof frame implemented; embedded STARK decoder, deterministic native verifier, work limits and cache integration missing |
 | NAP-07 lifecycle | Policy lifecycle, bounded viewing-key admission, destruction guard and public holding freeze persistence implemented; PQ administrative ingress and authenticated native transactions missing |

@@ -4,7 +4,7 @@
 use super::Polynomial;
 use crate::mlkem_encoding_air::MlKemEncodingAir;
 
-pub(super) fn ciphertext(u: &[Polynomial; 3], v: Polynomial) -> Option<[u8; 1088]> {
+pub(crate) fn ciphertext(u: &[Polynomial; 3], v: Polynomial) -> Option<[u8; 1088]> {
     let mut output = [0; 1088];
     let encoding = MlKemEncodingAir::new(10)?;
     for (index, &polynomial) in u.iter().enumerate() {

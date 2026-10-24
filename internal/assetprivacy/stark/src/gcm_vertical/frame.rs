@@ -4,7 +4,7 @@
 use super::{AES_FLAGS, AES_SCHEDULE, AES_WIDTH, GH_FLAGS, GH_START};
 use core::ops::Range;
 
-pub(super) struct Frame {
+pub(crate) struct Frame {
     pub columns: Range<usize>,
     pub preprocessing: Range<usize>,
     pub public: Range<usize>,

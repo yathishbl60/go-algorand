@@ -63,6 +63,10 @@ No new lookup dependency or acceptance path has been added.
    AIR with physically shared private prefix columns and sliced preprocessing.
    Direct writers avoid retaining separate full component matrices. The enclosing
    KEM must still bind all key seeds, coordinates and polynomial operations.
+6. [Staged K-PKE](../../internal/assetprivacy/stark/src/mlkem_pke_air/README.md)
+   joins NTTs, dot accumulators, inverse/error additions and ciphertext packing.
+   Root constants and explicit inverse-output carry preserve phase bindings;
+   matrix/noise derivation and key authorization remain enclosing obligations.
 
 Recalculate polynomial degree, quotient chunks, masking/opening budgets and
 trusted dimensions after each composition. Builds and static counts do not

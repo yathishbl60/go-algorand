@@ -1,97 +1,72 @@
 # Native asset privacy implementation progress
 
-Updated 2026-10-24. [Current end-to-end status](END_TO_END_STATUS.md) is the
-canonical completion checklist. The full feature remains in progress.
+Updated 2026-10-24. [End-to-end status](END_TO_END_STATUS.md) is the canonical
+completion checklist. The full native feature remains in progress.
 
 ## Current user instructions
 
-- Necessary edits to existing consensus, transaction, ledger and codec files are
-  authorized; the earlier new-files-only restriction has been superseded.
+- Necessary existing-file integration edits are authorized; the earlier
+  new-files-only restriction has been superseded.
 - New functions: at most 20 physical lines, including declaration and braces.
 - New handwritten files: at most 100 lines. Generated dependency lockfiles may
-  exceed 100 lines, explicitly authorized on 2026-10-22.
-- Keep the implementation disabled by default.
+  exceed 100 lines, explicitly authorized by the user.
+- Keep all functionality disabled by default.
 - Do not write or run tests yet; builds and static analysis are permitted.
 - Proceed without a supplied cryptographer-reviewed profile. Keep the selected
-  candidate and its review status explicit; do not claim defect-free security.
+  candidate and review status explicit; do not claim defect-free security.
+- Commit verified increments and continue toward the full implementation.
 
 ## Delivered components
 
-1. Profile evidence manifest preparation and integrity checking. These commands
-   hash supplied artifacts; they do not authenticate reviewers or approve crypto.
-2. Policy lifecycle checks for allowed modes, immutable disclosures, existing-ASA
-   adoption and nonexpansion of relinquished issuer capabilities.
-3. Aggregate supply arithmetic, inactive consensus flag and native COW KV access.
-4. Native asset-destruction hook requiring zero outstanding private value; failed
-   lookups, invalid counters and missing feature implementations fail closed.
-5. Pinned Plonky3 hiding-STARK configuration, full dependency lock and uint64
-   conservation constraints. SHA3/note-opening/private-ownership AIRs now compose
-   without exposing consumed-note commitments. Nullifier and 32-level membership
-   constraints now compose; no complete transfer verifier yet.
-6. Fixed-format note openings, SHA3-512 commitment/nullifier/owner derivation,
-   ML-KEM-768/AES-256-GCM envelopes, and local context-checked encrypt/decrypt APIs.
+1. Profile evidence packaging and integrity checks. These hash supplied files;
+   they do not authenticate reviewers or approve cryptography.
+2. Native COW supply, policy/key/control epochs, spent markers, commitment tree,
+   root history and atomic encrypted output streams. Public holding changes
+   preserve freeze state; destruction checks outstanding private supply.
+   Authentication, complete native transaction handlers and storage pricing remain.
+3. Local canonical 512-byte notes, SHA3 commitments/nullifiers/ownership, fixed
+   ML-KEM/HKDF/AES-GCM envelopes, role/epoch output recovery and bounded key
+   admission. Wallet scanning, SDK integration and native acceptance remain.
+4. Full-body ordered-group statement binding and bounded opaque witness framing.
+   The embedded proof decoder, deterministic native verification, transaction
+   encoding, pool/AVM integration and public APIs remain unfinished.
+5. Pinned Plonky3 hiding configuration and exact uint64 conservation. Note,
+   ownership, nullifier and depth-32 membership constraints compose into fixed
+   transfer/shield/unshield arities. Current eligibility/control proofs remain.
+6. SHA3/SHAKE, private HMAC/HKDF, full typed GCM and staged GCM constraints.
+   Staged GCM covers all AES/GHASH blocks and the final tag in one AIR. Resource
+   feasibility and complete envelope/note/disclosure bindings remain unverified.
+7. Canonical ML-KEM coefficient arithmetic, compact NTT, products, packing,
+   private noise and bounded matrix sampling. Matrix sampling composes SHAKE128
+   and first-accepted rejection through shared columns, with matching native
+   viewing-key admission. Private canonical-key hashing derives shared secret
+   and coins. Deterministic host KEM constructs complete encryption witnesses.
+8. Staged private K-PKE arithmetic now joins forward transforms, all matrix/key
+   dot products, inverse transforms, errors/message and public ciphertext packing.
+   The full KEM must still bind matrix/noise derivation, key bytes and message;
+   then join KDF/AAD, note, authority, group context and native verification.
 
-The new Go packages use `algorand_native_privacy`. The Rust crate's optional
-`native-privacy` feature is off by default. No consensus version enables native
-asset privacy. See [candidate choices](CANDIDATE_PROFILE.md) and
-[native accounting](NATIVE_ACCOUNTING.md).
-
-7. Persistent content-addressed depth-32 commitment tree, atomic COW appends and
-   membership reads, bounded accepted-root history; spent-marker and policy-record
-   access/mutations; full-body group digest and public-scalar encoding. Fixed2-in/
-   2-out transfer AIR now composes membership, conservation and group context.
-   Native transaction callers remain absent.
-8. Role-separated key epochs with canonical ML-KEM/Falcon key checks and owner
-   commitments; bounded opaque proof framing; zero-input shield and zero-output
-   unshield relations. AES-256 block rounds/key expansion and GHASH are constrained.
-   Embedded proof decoding, complete encryption and native acceptance are absent.
-9. Account freeze/control epochs, close-out preservation and current eligibility;
-   anonymous eligibility proofs and authenticated administrative ingress remain.
-10. SHA3-256/512 messages through 4096 bytes and private HMAC/HKDF constraints;
-    full KEM/GCM binding and practical enclosing schedules remain unfinished.
-11. Shared-key AES blocks and fixed GCM counter/CTR/GHASH/tag constraints with
-    witness helpers; KEM/note binding, scheduling and native verification remain.
-12. Private vertical GHASH product with trusted preprocessing, 769 columns/512 rows.
-    Final hiding/resource budgets remain unfinished.
-13. Full 37-block vertical GHASH with public ciphertext/private H/AAD/result;
-    fixed SHAKE256 PRF and 256 ML-KEM eta=2 CBD coefficients. KEM/AEAD binding remains.
-14. Vertical AES covers all 34 GCM cipher blocks with one constrained key schedule;
-    canonical ML-KEM coefficient arithmetic and D=4/10 compression are implemented.
-    These buildable components still require complete private composition.
-15. Canonical public encrypted-output records, bounded pages and local role/epoch
-    recovery; native child-COW append couples output records and commitment leaves.
-    REST/SDK/wallet scanning, storage charges and accepted transactions remain.
-16. Complete private vertical forward/inverse NTT with bounded modular operations,
-    fixed addressing/twiddles and inverse scaling. Full KEM composition remains.
-17. Private NTT-domain product constrains all 128 quadratic coefficient pairs with
-    trusted gamma constants, bounded intermediate products and Boolean sum carries.
-18. Private canonical D=12 key packing, D=10/4 compressed ciphertext packing and
-    exact D=1 message decoding. Full KEM binding remains.
-19. Multi-block private SHAKE128 and exact first-256 rejection sampling compose
-    through shared columns in one AIR. Go viewing-key admission enforces the
-    same fixed 16-block bound for all nine entries before standard key parsing.
-    Full KEM/key/vector/encryption bindings and native verification remain.
-20. Canonical private key hashing and shared-secret/coins derivation now compose
-    in one AIR; SHA3 supports trusted parent heights and direct trace writers.
-21. Staged GCM joins all AES/GHASH blocks and the final tag inside one AIR.
-22. Deterministic host KEM computes complete K-PKE witness data and ciphertext;
-    full K-PKE proof bindings and native acceptance remain unfinished.
-23. NTT now uses 920 columns through selected-operand bounds and fixed-stage
-    coverage, reducing its raw main storage before full K-PKE composition.
+Go uses `algorand_native_privacy`; Rust's optional `native-privacy` feature is
+empty by default. No consensus version enables privacy. See [the candidate
+profile](CANDIDATE_PROFILE.md) and [developer guide](DEVELOPER_GUIDE.md).
+Detailed code history is preserved in Git; component READMEs define current
+interfaces, exact layouts, caller obligations and source-only checks.
 
 ## Verification scope
 
-Feature-enabled Go compilation/static analysis and default native-package builds
-pass. The pinned Rust backend compiles and passes Clippy with warnings denied.
-Formatting and new-source size checks pass. These checks establish build/static
-properties only; no tests, cryptographic vectors, proofs, transfers, replay or
-multi-node demo have run. No security review has been supplied or completed.
+Feature-enabled Go builds/vet and default native builds have passed. The Rust
+library builds with and without its feature; strict Clippy, formatting, authored
+size checks and local documentation links pass. Source reviews do not replace
+cryptographic vectors, constraint evaluations, proofs, node execution or replay.
+None of those runtime checks, tests or the six demo scenarios have run. No
+independent cryptographic security review has been supplied or completed.
 
 ## Next work
 
-Complete proof-constrained encryption and issuer controls, remaining operation
-arities and native transaction verification/execution. Membership assembly now
-retains one stage at a time; proving resource feasibility remains unmeasured. Bind the finalized ordered group
-and current authorization state; finish embedded proof decoding and verification.
-Then complete native transaction/types/state, API/SDK/wallet/CLI and the real-node
-scenarios. Maintain the full [work-package scope](IMPLEMENTATION.md).
+Complete the private KEM/KDF/AAD/note/disclosure relation and current eligibility,
+freeze/recovery authority, remaining arities and group bindings. Establish actual
+prover/verifier resource feasibility, proof decoding/work limits and trusted
+profile artifacts before native transaction verification/execution. Then finish
+API/SDK/wallet/CLI, replay/recovery and the six real-node scenarios. Maintain the
+full [north-star work-package scope](IMPLEMENTATION.md); the present components
+do not substitute for that outcome. Tests remain deferred by user instruction.

@@ -16,6 +16,9 @@ use crate::Value;
 pub use layout::{Wires, wires};
 use p3_air::{Air, AirBuilder, BaseAir};
 use p3_matrix::dense::RowMajorMatrix;
+pub(crate) use view::canonical;
+pub(crate) use witness::Pair;
+pub(crate) use write::{canonical as write_canonical, pair as write_pair};
 
 pub const WIDTH: usize = 1195;
 pub const ROWS: usize = 512;

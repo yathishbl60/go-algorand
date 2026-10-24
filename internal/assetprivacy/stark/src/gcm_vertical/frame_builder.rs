@@ -6,7 +6,7 @@ use crate::private_output_builder::SegmentWindow;
 use core::ops::Range;
 use p3_air::{AirBuilder, WindowAccess};
 
-pub(super) struct FrameBuilder<'a, AB: AirBuilder> {
+pub(crate) struct FrameBuilder<'a, AB: AirBuilder> {
     inner: &'a mut AB,
     columns: Range<usize>,
     public: Range<usize>,

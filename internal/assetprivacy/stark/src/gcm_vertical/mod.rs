@@ -3,8 +3,8 @@
 
 //! Complete fixed-envelope GCM in one hiding AIR with staged scratch reuse.
 mod binding;
-mod frame;
-mod frame_builder;
+pub(crate) mod frame;
+pub(crate) mod frame_builder;
 mod layout;
 mod schedule;
 mod trace;

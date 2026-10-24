@@ -48,6 +48,9 @@ bytes to K/coins. [Deterministic host encapsulation](src/mlkem_host/README.md)
 constructs full K-PKE witness data; host computation is not proof enforcement.
 [Staged GCM](src/gcm_vertical/README.md) now constrains all cipher/hash/tag blocks
 in one AIR. Complete KEM/KDF/note/control composition remains unfinished.
+[Staged K-PKE arithmetic](src/mlkem_pke_air/README.md) now binds all transforms,
+dot products, error/message additions and public ciphertext packing; its matrix,
+noise, key and message inputs still need enclosing encapsulation constraints.
 
 The [outer proof frame](../witness/README.md) carries opaque bytes only. No embedded
 STARK decoder, consensus verifier, performance budget or security claim is exposed.

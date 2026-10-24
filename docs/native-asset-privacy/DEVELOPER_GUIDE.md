@@ -60,6 +60,9 @@ writable `GOCACHE` or Cargo target/cache directory when using a sandbox.
 | Canonical key, shared secret and encryption coins | [Private KEM derivation](../../internal/assetprivacy/stark/src/mlkem_derivation_air/README.md) |
 | Full deterministic KEM witness construction | [Host encapsulation](../../internal/assetprivacy/stark/src/mlkem_host/README.md) |
 | All AES/GHASH blocks and final tag in one AIR | [Staged GCM](../../internal/assetprivacy/stark/src/gcm_vertical/README.md) |
+| Matrix/key NTT dot products | [Four-dot relation](../../internal/assetprivacy/stark/src/mlkem_dot_air/README.md) |
+| Private u/v to public ciphertext | [Ciphertext packing](../../internal/assetprivacy/stark/src/mlkem_ciphertext_air/README.md) |
+| Complete conditional K-PKE arithmetic | [Staged encryption relation](../../internal/assetprivacy/stark/src/mlkem_pke_air/README.md) |
 
 ## Required transaction order
 

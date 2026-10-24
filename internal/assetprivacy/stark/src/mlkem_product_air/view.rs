@@ -3,7 +3,7 @@
 
 use crate::mlkem_field::{Canonical, Mul};
 
-pub(super) fn canonical<T: Copy>(row: &[T], start: usize) -> Canonical<T> {
+pub(crate) fn canonical<T: Copy>(row: &[T], start: usize) -> Canonical<T> {
     Canonical {
         value: row[start],
         bits: row[start + 1..start + 13]

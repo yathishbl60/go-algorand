@@ -55,3 +55,9 @@ temporaries, hiding expansion and commitments; no memory measurements ran.
 Source review, builds, strict Clippy, formatting and size checks only. No traces,
 vectors, round trips, constraint evaluation or proofs ran. The implemented matrix,
 NTT-domain product and packing components still require full KEM composition.
+
+The crate-private bounded direct writer fills a parent frame without a second
+NTT matrix. It validates stride, checked column/row bounds and canonical inputs
+before mutation. Standalone trace generation delegates to it after rejecting
+noncanonical input. Input/output, scalar state and all six canonical arithmetic
+cells are overwritten; surrounding columns and rows remain untouched.

@@ -12,6 +12,7 @@ mod transition;
 mod view;
 mod witness;
 mod write;
+mod writer;
 
 use crate::Value;
 pub use layout::{Wires, wires};

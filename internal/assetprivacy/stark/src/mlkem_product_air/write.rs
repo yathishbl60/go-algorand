@@ -7,14 +7,14 @@ use super::{
 use crate::{Value, mlkem_field::Canonical};
 use p3_field::PrimeCharacteristicRing;
 
-pub(super) fn canonical(row: &mut [Value], start: usize, input: u16) {
+pub(crate) fn canonical(row: &mut [Value], start: usize, input: u16) {
     let value = Canonical::witness(input).expect("canonical NTT product coefficient");
     row[start] = value.value;
     row[start + 1..start + 13].copy_from_slice(&value.bits);
     row[start + 13..start + 25].copy_from_slice(&value.gap);
 }
 
-pub(super) fn pair(row: &mut [Value], value: &Pair) {
+pub(crate) fn pair(row: &mut [Value], value: &Pair) {
     for (start, input) in [A0, A1, B0, B1].into_iter().zip(value.operands) {
         canonical(row, start, input);
     }

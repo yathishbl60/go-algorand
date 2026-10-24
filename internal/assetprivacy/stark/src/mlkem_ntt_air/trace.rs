@@ -1,9 +1,7 @@
 // Copyright (C) 2026 Algorand Foundation Ltd.
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
-use super::{
-    INPUT, MlKemNttAir, OUTPUT, STATE, WIDTH, program::Operation, witness::Arithmetic, write,
-};
+use super::{MlKemNttAir, WIDTH};
 use crate::{Value, mlkem_field::Q};
 use p3_field::PrimeCharacteristicRing;
 use p3_matrix::dense::RowMajorMatrix;
@@ -11,19 +9,11 @@ use p3_matrix::dense::RowMajorMatrix;
 impl MlKemNttAir {
     /// Private witness generation only. Noncanonical input coefficients are rejected.
     pub fn trace(&self, input: [u16; 256]) -> Option<RowMajorMatrix<Value>> {
-        let output = self.values(input)?;
-        let mut state = input;
-        let mut values = Value::zero_vec(self.trace_rows() * WIDTH);
-        for (step, row) in values.as_chunks_mut::<WIDTH>().0.iter_mut().enumerate() {
-            let op = self.operation(step);
-            let arithmetic = self.arithmetic(&state, op.as_ref());
-            write_fixed(row, &input, &output);
-            for (index, value) in state.into_iter().enumerate() {
-                row[STATE + index] = Value::from_u16(value);
-            }
-            write::arithmetic(row, &arithmetic);
-            advance(&mut state, op.as_ref(), &arithmetic);
+        if input.iter().any(|&value| value >= Q) {
+            return None;
         }
+        let mut values = Value::zero_vec(self.trace_rows() * WIDTH);
+        self.write_into(input, &mut values, (WIDTH, 0, 0))?;
         Some(RowMajorMatrix::new(values, WIDTH))
     }
 
@@ -36,24 +26,8 @@ impl MlKemNttAir {
         for step in 0..self.trace_rows() {
             let op = self.operation(step);
             let arithmetic = self.arithmetic(&state, op.as_ref());
-            advance(&mut state, op.as_ref(), &arithmetic);
+            super::writer::advance(&mut state, op.as_ref(), &arithmetic);
         }
         Some(state)
-    }
-}
-
-fn advance(state: &mut [u16; 256], op: Option<&Operation>, value: &Arithmetic) {
-    if let Some(op) = op {
-        state[op.left] = value.low;
-        if let Some(right) = op.right {
-            state[right] = value.high;
-        }
-    }
-}
-
-fn write_fixed(row: &mut [Value], input: &[u16; 256], output: &[u16; 256]) {
-    for index in 0..256 {
-        row[INPUT + index] = Value::from_u16(input[index]);
-        row[OUTPUT + index] = Value::from_u16(output[index]);
     }
 }

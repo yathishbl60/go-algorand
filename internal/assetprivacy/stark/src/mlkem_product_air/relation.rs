@@ -11,7 +11,8 @@ use crate::{
 use p3_air::{AirBuilder, WindowAccess};
 
 impl MlKemProductAir {
-    pub(super) fn eval_arithmetic<AB: AirBuilder<F = Value>>(&self, builder: &mut AB) {
+    // The parent binds the source operands and gamma before reusing this arithmetic.
+    pub(crate) fn eval_arithmetic<AB: AirBuilder<F = Value>>(&self, builder: &mut AB) {
         let main = builder.main();
         let row = main.current_slice();
         for (start, left, right) in [

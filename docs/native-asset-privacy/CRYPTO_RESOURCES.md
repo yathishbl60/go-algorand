@@ -69,6 +69,10 @@ Private canonical-key/KEM derivation uses 15,844 columns/1024 rows: 129,794,048
 main plus 6,291,456 preprocessed bytes. Its direct SHA3 writer retains one
 21,569,536-byte Keccak temporary. Staged complete GCM uses 11,728 columns/8192
 rows: 768,606,208 main plus 15,335,424 preprocessed bytes. Neither is benchmarked.
+The staged K-PKE arithmetic relation uses 9,328 columns/16,384 rows:
+1,222,639,616 raw main bytes plus 257,818,624 preprocessed bytes. It reuses
+NTT/dot/add scratch and shares final coefficients with the codec; complete
+encapsulation and practical proof budgets remain unfinished and unmeasured.
 
 Before selecting protocol limits, measure completed relations across shield,
 transfer, unshield and controller recovery, including each mandatory disclosure.

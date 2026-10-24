@@ -3,7 +3,7 @@
 
 use crate::mlkem_field::Q;
 
-pub(super) struct Pair {
+pub(crate) struct Pair {
     pub operands: [u16; 4],
     pub gamma: u16,
     pub products: [(u16, u16); 5],

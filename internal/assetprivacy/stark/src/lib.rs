@@ -37,7 +37,11 @@ pub mod member_note_air;
 #[cfg(feature = "native-privacy")]
 pub mod membership_air;
 #[cfg(feature = "native-privacy")]
+pub mod mlkem_ciphertext_air;
+#[cfg(feature = "native-privacy")]
 pub mod mlkem_derivation_air;
+#[cfg(feature = "native-privacy")]
+pub mod mlkem_dot_air;
 #[cfg(feature = "native-privacy")]
 pub mod mlkem_encoding_air;
 #[cfg(feature = "native-privacy")]
@@ -50,6 +54,8 @@ pub mod mlkem_matrix_air;
 pub mod mlkem_noise_air;
 #[cfg(feature = "native-privacy")]
 pub mod mlkem_ntt_air;
+#[cfg(feature = "native-privacy")]
+pub mod mlkem_pke_air;
 #[cfg(feature = "native-privacy")]
 pub mod mlkem_product_air;
 #[cfg(feature = "native-privacy")]

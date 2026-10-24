@@ -11,4 +11,5 @@ mod types;
 mod witness;
 
 pub use derive::encapsulate;
+pub(crate) use encode::ciphertext as encode_ciphertext;
 pub use types::{Encapsulation, EncryptionWitness, Polynomial};
