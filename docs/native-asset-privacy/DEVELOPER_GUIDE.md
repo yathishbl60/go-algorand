@@ -1,6 +1,6 @@
 # Native privacy implementation guide
 
-Updated 2026-10-23. Start with [delivery status](END_TO_END_STATUS.md). This branch
+Updated 2026-10-24. Start with [delivery status](END_TO_END_STATUS.md). This branch
 contains disabled protocol components; it has no usable native transaction or
 complete proof verifier. There is no supported wallet transfer command yet.
 
@@ -57,6 +57,9 @@ writable `GOCACHE` or Cargo target/cache directory when using a sandbox.
 | Polynomial product in the NTT domain | [Private product](../../internal/assetprivacy/stark/src/mlkem_product_air/README.md) |
 | Canonical key/ciphertext packing and message decoding | [Private encoding](../../internal/assetprivacy/stark/src/mlkem_encoding_air/README.md) |
 | Private seed-to-matrix polynomial with matched admission | [Composed matrix relation](MATRIX_SAMPLING.md) |
+| Canonical key, shared secret and encryption coins | [Private KEM derivation](../../internal/assetprivacy/stark/src/mlkem_derivation_air/README.md) |
+| Full deterministic KEM witness construction | [Host encapsulation](../../internal/assetprivacy/stark/src/mlkem_host/README.md) |
+| All AES/GHASH blocks and final tag in one AIR | [Staged GCM](../../internal/assetprivacy/stark/src/gcm_vertical/README.md) |
 
 ## Required transaction order
 

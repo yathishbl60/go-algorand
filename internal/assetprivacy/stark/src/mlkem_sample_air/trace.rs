@@ -26,18 +26,19 @@ impl MlKemSampleAir {
 
     pub(super) fn prepare(&self, prefix: &[u8]) -> Option<Prepared> {
         let candidates = candidates(prefix);
-        let output: [u16; 256] = candidates
-            .iter()
-            .copied()
-            .filter(|&value| value < 3329)
-            .take(256)
-            .collect::<Vec<_>>()
-            .try_into()
-            .ok()?;
+        let output = accepted(&candidates)?;
         Some(Prepared {
             candidates,
             fixed: self.fixed(prefix, output),
         })
+    }
+
+    /// Exact first-accepted values without allocating a field trace matrix.
+    pub fn values(&self, prefix: &[u8]) -> Option<[u16; 256]> {
+        if prefix.len() != self.prefix_bytes() {
+            return None;
+        }
+        accepted(&candidates(prefix))
     }
 
     fn fixed(&self, prefix: &[u8], output: [u16; 256]) -> Vec<Value> {
@@ -50,6 +51,17 @@ impl MlKemSampleAir {
         }
         fixed
     }
+}
+
+fn accepted(candidates: &[u16]) -> Option<[u16; 256]> {
+    candidates
+        .iter()
+        .copied()
+        .filter(|&value| value < 3329)
+        .take(256)
+        .collect::<Vec<_>>()
+        .try_into()
+        .ok()
 }
 
 fn candidates(prefix: &[u8]) -> Vec<u16> {

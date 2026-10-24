@@ -23,6 +23,12 @@ The 2528-byte envelope AAD hash needs 1024 rows; maximum SHA3-512 needs 2048 row
 Horizontal composition must align these schedules; current 512-row transfer
 components do not automatically compose with longer hashes. The future proof
 decoder must enforce trusted dimensions and work budgets.
+Crate-private parent composition can promote the fixed height to a larger power
+of two, at most8192 rows, while retaining the same hash variant/message. The
+trusted minimum and completed-block schedule determine the actual height.
+The bounded direct writer checks matrix/column arithmetic before writing, clears
+the whole component segment and uses only a Keccak source matrix. Existing
+standalone default heights are unchanged; no runtime equivalence check ran.
 
 4096 bytes is a component cap, not a consensus payload limit. It covers the
 candidate AAD and ML-KEM public-key hashes. The fixed-output [SHAKE256 wrapper](../shake_air/README.md)

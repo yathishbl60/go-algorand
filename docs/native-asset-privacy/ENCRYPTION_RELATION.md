@@ -82,15 +82,15 @@ to the proof transcript; keep proof witnesses outside those bodies to avoid a cy
 
 ## Resource implications and remaining status
 
-One 512-byte envelope needs 34 AES block evaluations: hash subkey, tag mask and
-32 payload counters. Sharing the current 14,452-column key schedule still gives
-2,188,276 columns with the present block layout, or 8,963,178,496 bytes at 512
-rows and eight bytes per field element, before GHASH, hashes, KEM, masking or
-prover overhead. This is a static layout calculation, not measured memory or a
-production limit. A vertical/shared schedule is needed for practical composition.
-The [GCM component](../../internal/assetprivacy/stark/src/gcm_air/README.md) now
-constrains the AEAD bindings under one shared key, with witness helpers. It has
-no practical trace wrapper or full KEM/KDF/note composition. Its naive layout
-totals 4,025,556 logical columns including GHASH/external bits; see
-[resource constraints](CRYPTO_RESOURCES.md). It is not an accepted native proof.
-No tests, proof generation or proof verification were performed for this document.
+The [staged GCM AIR](../../internal/assetprivacy/stark/src/gcm_vertical/README.md)
+now joins all 34 AES and 37 GHASH blocks and the tag in one AIR, with private key,
+AAD and plaintext. Its 276 public scalars encode nonce/CT/tag. The 8192-row layout
+uses 11,728 columns, or 768,606,208 raw main bytes before hiding/prover overhead.
+This is complete AEAD algebraic composition, not a benchmarked full-envelope proof.
+[Private KEM derivation](../../internal/assetprivacy/stark/src/mlkem_derivation_air/README.md)
+binds canonical P and m to K/r. [Host encapsulation](../../internal/assetprivacy/stark/src/mlkem_host/README.md)
+computes full deterministic K-PKE witness data and 1088-byte Ckem. Host computation
+is not proof enforcement: all matrix/noise/vector/transform/encoding operations
+must still compose privately with derivation, KDF, AAD hash and the committed note.
+See [resource constraints](CRYPTO_RESOURCES.md). No accepted native proof exists.
+No tests, traces, proof generation or verification were performed.

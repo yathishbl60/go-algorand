@@ -6,7 +6,6 @@ use p3_keccak_air::NUM_ROUNDS;
 use p3_symmetric::Permutation;
 
 use super::Sha3Air;
-use crate::MIN_TRACE_ROWS;
 
 impl Sha3Air {
     pub(super) fn permutation_inputs(&self, message: &[u8]) -> Vec<[u64; 25]> {
@@ -21,7 +20,7 @@ impl Sha3Air {
             inputs.push(state);
             KeccakF {}.permute_mut(&mut state);
         }
-        inputs.resize(inputs.len().max(MIN_TRACE_ROWS / NUM_ROUNDS), [0; 25]);
+        inputs.resize(inputs.len().max(self.trace_rows() / NUM_ROUNDS), [0; 25]);
         inputs
     }
 }

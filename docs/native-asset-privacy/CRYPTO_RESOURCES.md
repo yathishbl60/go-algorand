@@ -1,6 +1,6 @@
 # Candidate proving resource constraints
 
-Updated 2026-10-23. These are static column/element counts, not benchmark results.
+Updated 2026-10-24. These are static column/element counts, not benchmark results.
 No proofs, timings or peak-memory measurements have run. The candidate must not
 be activated before realistic prover and deterministic verifier budgets exist.
 
@@ -63,6 +63,10 @@ Candidate matrix sampling combines SHAKE128 and rejection in shared columns:
 24,932 columns/2048 rows, or 408,485,888 main plus 29,622,272 preprocessed bytes.
 The direct writer's Keccak temporary adds 43,139,072 element bytes during
 generation; allocator/hiding/prover overhead remains additional and unmeasured.
+Private canonical-key/KEM derivation uses 15,844 columns/1024 rows: 129,794,048
+main plus 6,291,456 preprocessed bytes. Its direct SHA3 writer retains one
+21,569,536-byte Keccak temporary. Staged complete GCM uses 11,728 columns/8192
+rows: 768,606,208 main plus 15,335,424 preprocessed bytes. Neither is benchmarked.
 
 Before selecting protocol limits, measure completed relations across shield,
 transfer, unshield and controller recovery, including each mandatory disclosure.

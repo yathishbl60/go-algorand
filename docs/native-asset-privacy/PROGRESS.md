@@ -1,6 +1,6 @@
 # Native asset privacy implementation progress
 
-Updated 2026-10-23. [Current end-to-end status](END_TO_END_STATUS.md) is the
+Updated 2026-10-24. [Current end-to-end status](END_TO_END_STATUS.md) is the
 canonical completion checklist. The full feature remains in progress.
 
 ## Current user instructions
@@ -71,6 +71,11 @@ asset privacy. See [candidate choices](CANDIDATE_PROFILE.md) and
     through shared columns in one AIR. Go viewing-key admission enforces the
     same fixed 16-block bound for all nine entries before standard key parsing.
     Full KEM/key/vector/encryption bindings and native verification remain.
+20. Canonical private key hashing and shared-secret/coins derivation now compose
+    in one AIR; SHA3 supports trusted parent heights and direct trace writers.
+21. Staged GCM joins all AES/GHASH blocks and the final tag inside one AIR.
+22. Deterministic host KEM computes complete K-PKE witness data and ciphertext;
+    full K-PKE proof bindings and native acceptance remain unfinished.
 
 ## Verification scope
 

@@ -43,6 +43,12 @@ links the spending-secret hash to the note owner while retaining input commitmen
 and owner keys in private columns. See [proof components](../../../docs/native-asset-privacy/PROOF_COMPONENTS.md)
 for exact boundaries and the composition still required.
 
+[Private KEM derivation](src/mlkem_derivation_air/README.md) binds canonical key
+bytes to K/coins. [Deterministic host encapsulation](src/mlkem_host/README.md)
+constructs full K-PKE witness data; host computation is not proof enforcement.
+[Staged GCM](src/gcm_vertical/README.md) now constrains all cipher/hash/tag blocks
+in one AIR. Complete KEM/KDF/note/control composition remains unfinished.
+
 The [outer proof frame](../witness/README.md) carries opaque bytes only. No embedded
 STARK decoder, consensus verifier, performance budget or security claim is exposed.
 The source pin and lockfile make

@@ -8,6 +8,11 @@ use p3_field::PrimeCharacteristicRing;
 use p3_matrix::dense::RowMajorMatrix;
 
 impl MlKemMatrixAir {
+    /// Uses the same SHAKE and first-accepted witness math without a field trace.
+    pub fn values(&self, seed: [u8; 32]) -> Option<[u16; 256]> {
+        self.sample.values(&self.xof.prefix(seed))
+    }
+
     /// Generates one composed private trace; returns None on bounded-prefix exhaustion.
     pub fn trace(&self, seed: [u8; 32]) -> Option<RowMajorMatrix<Value>> {
         let width = <Self as BaseAir<Value>>::width(self);

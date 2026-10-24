@@ -12,10 +12,7 @@ use p3_matrix::dense::RowMajorMatrix;
 impl MlKemProductAir {
     /// Generates private columns only; it never evaluates constraints or proves a KEM.
     pub fn trace(&self, left: [u16; 256], right: [u16; 256]) -> Option<RowMajorMatrix<Value>> {
-        if left.iter().chain(&right).any(|&v| v >= Q) {
-            return None;
-        }
-        let output = product(&left, &right);
+        let output = self.values(left, right)?;
         let mut values = Value::zero_vec(ROWS * WIDTH);
         for (step, row) in values.as_chunks_mut::<WIDTH>().0.iter_mut().enumerate() {
             for index in 0..256 {
@@ -26,6 +23,14 @@ impl MlKemProductAir {
             write::pair(row, &pair(&left, &right, step));
         }
         Some(RowMajorMatrix::new(values, WIDTH))
+    }
+
+    /// Computes the same pair-product witness arithmetic without a trace matrix.
+    pub fn values(&self, left: [u16; 256], right: [u16; 256]) -> Option<[u16; 256]> {
+        if left.iter().chain(&right).any(|&v| v >= Q) {
+            return None;
+        }
+        Some(product(&left, &right))
     }
 }
 

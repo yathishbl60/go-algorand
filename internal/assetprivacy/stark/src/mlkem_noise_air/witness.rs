@@ -14,13 +14,21 @@ pub(super) fn auxiliary(bytes: [u8; 128]) -> [Value; 2624] {
         auxiliary[64 + bit] = Value::from_bool(input_bit(bytes, bit) != 0);
     }
     for i in 0..256 {
-        let signed = input_bit(bytes, 4 * i) + input_bit(bytes, 4 * i + 1)
-            - input_bit(bytes, 4 * i + 2)
-            - input_bit(bytes, 4 * i + 3);
+        let signed = signed(bytes, i);
         auxiliary[1088 + 5 * i + (signed + 2) as usize] = Value::ONE;
         auxiliary[2368 + i] = Value::from_u16(signed.rem_euclid(3329) as u16);
     }
     auxiliary
+}
+
+pub(super) fn coefficients(bytes: [u8; 128]) -> [u16; 256] {
+    core::array::from_fn(|index| signed(bytes, index).rem_euclid(3329) as u16)
+}
+
+fn signed(bytes: [u8; 128], index: usize) -> i16 {
+    input_bit(bytes, 4 * index) + input_bit(bytes, 4 * index + 1)
+        - input_bit(bytes, 4 * index + 2)
+        - input_bit(bytes, 4 * index + 3)
 }
 
 fn input_bit(bytes: [u8; 128], bit: usize) -> i16 {

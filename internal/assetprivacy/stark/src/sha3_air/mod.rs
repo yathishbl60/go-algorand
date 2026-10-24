@@ -12,6 +12,7 @@ mod output_bits;
 mod shape;
 mod trace;
 mod trace_input;
+mod writer;
 
 pub use trace::{digest_values, digest256_values};
 
@@ -29,6 +30,7 @@ pub struct Sha3Air {
     digest_bytes: usize,
     rate_bytes: usize,
     domain_suffix: u8,
+    minimum_rows: usize,
 }
 
 impl Sha3Air {

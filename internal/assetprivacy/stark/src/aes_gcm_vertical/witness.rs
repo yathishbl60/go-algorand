@@ -30,6 +30,14 @@ impl Fixed {
     }
 
     pub fn write_fixed(&self, row: &mut [Value]) {
+        self.write_core(row);
+        let zero = SBox::witness(0);
+        for target in row[BOXES..MIX].as_chunks_mut::<241>().0 {
+            write::sbox(target, &zero);
+        }
+    }
+
+    pub fn write_core(&self, row: &mut [Value]) {
         for (word, values) in self.key.words.iter().enumerate() {
             write::bytes(&mut row[KEY + word * 32..KEY + (word + 1) * 32], values);
         }
@@ -37,10 +45,6 @@ impl Fixed {
         write::raw(&mut row[NONCE..NONCE + 96], &self.nonce);
         write::bytes(&mut row[H..H + 128], &self.hash);
         write::bytes(&mut row[MASK..MASK + 128], &self.mask);
-        let zero = SBox::witness(0);
-        for target in row[BOXES..MIX].as_chunks_mut::<241>().0 {
-            write::sbox(target, &zero);
-        }
     }
 
     pub fn write_key(&self, row: &mut [Value], stage: usize) {

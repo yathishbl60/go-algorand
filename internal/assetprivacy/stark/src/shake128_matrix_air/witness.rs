@@ -7,6 +7,11 @@ use p3_keccak_air::NUM_ROUNDS;
 use p3_symmetric::Permutation;
 
 impl Shake128MatrixAir {
+    /// Computes the exact fixed prefix without allocating field trace matrices.
+    pub fn prefix(&self, seed: [u8; 32]) -> Vec<u8> {
+        self.inputs(seed).1
+    }
+
     pub(super) fn inputs(&self, seed: [u8; 32]) -> (Vec<[u64; 25]>, Vec<u8>) {
         let mut state = initial(seed, self.first, self.second);
         let mut inputs = Vec::with_capacity(self.rows / NUM_ROUNDS);

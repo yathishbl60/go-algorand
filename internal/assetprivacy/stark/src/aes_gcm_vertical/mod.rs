@@ -12,11 +12,13 @@ mod trace;
 mod view;
 mod witness;
 mod write;
+mod writer;
 
 use crate::Value;
 pub use layout::{Wires, wires};
 use p3_air::{Air, AirBuilder, BaseAir};
 use p3_matrix::dense::RowMajorMatrix;
+pub(crate) use writer::Encrypted;
 
 pub const WIDTH: usize = 11216;
 pub const ROWS: usize = 512;

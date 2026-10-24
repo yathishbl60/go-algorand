@@ -1,6 +1,6 @@
 # Native asset privacy: end-to-end delivery status
 
-Updated 2026-10-23. **Not end-to-end yet.** There is no native private transfer,
+Updated 2026-10-24. **Not end-to-end yet.** There is no native private transfer,
 complete proof verifier or real-node demo. The full north-star scope remains;
 completed components below do not substitute for it.
 
@@ -11,7 +11,7 @@ completed components below do not substitute for it.
 | NAP-01 profile | Pinned candidate documented; complete relation, security argument, vectors and measurements missing |
 | NAP-02 consensus specification | Draft obligations/accounting/candidate layouts; complete normative protocol and sibling specs changes missing |
 | NAP-03 types/gates | Consensus flag added, false in every version; transaction/witness types and codecs missing |
-| NAP-04 cryptography | Note/conservation, GCM, vertical AES/GHASH, hash/KDF, ML-KEM polynomial operations and bounded matrix sampling implemented; full KEM, practical composition, controls and native verifier missing |
+| NAP-04 cryptography | Note/conservation, staged GCM, hash/KDF, private KEM derivation, matrix/polynomial operations and full host KEM implemented; complete K-PKE/KDF/note proof composition, controls and native verifier missing |
 | NAP-05 native state | COW supply, policy/key/control epochs, spent markers, tree/root history and atomic encrypted outputs implemented; authenticated eligibility roots and storage charges missing |
 | NAP-06 verification | Bounded opaque proof frame implemented; embedded STARK decoder, deterministic native verifier, work limits and cache integration missing |
 | NAP-07 lifecycle | Policy lifecycle, bounded viewing-key admission, destruction guard and public holding freeze persistence implemented; PQ administrative ingress and authenticated native transactions missing |
@@ -66,7 +66,7 @@ Membership alone has a ~641 MB base matrix; streaming assembly reduces its
 static matrix overlap from~1.28 GB to~671 MB. Transfer assembly also releases
 each component before generating the next. AES-256 uses 78,388 field columns per
 block; [resource implications](CRYPTO_RESOURCES.md) remain unresolved. No tests or proofs ran.
-Vertical AES covers all 34 blocks; GHASH covers the full chain. Full composition remains.
+Staged GCM covers all cipher/hash/tag blocks. Host KEM is not a complete KEM proof.
 Formatting and authored file/function limits were checked.
 These are not proof correctness, privacy, anonymity, interoperability or protocol
 validation. No tests have been added or run, as requested.

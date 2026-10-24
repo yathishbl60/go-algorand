@@ -1,6 +1,6 @@
 # Candidate privacy profile, revision 1
 
-Updated 2026-10-23. Implementation choice, not a frozen network suite or security
+Updated 2026-10-24. Implementation choice, not a frozen network suite or security
 approval. The user authorized implementation without supplying a reviewed profile.
 The 128-bit post-quantum target remains; this document does not establish it.
 
@@ -70,8 +70,8 @@ context. Recipient public keys are not carried as routing metadata.
 This is a KEM/DEM candidate, not a recipient-anonymity proof. The complete proof
 relation must constrain encryption of the exact committed note and all required
 role disclosures. It must bind finalized group bodies after ciphertext creation.
-AES byte arithmetic and full AES-256 block constraints are implemented; see
-[encryption components](../../internal/assetprivacy/stark/src/aes256_air/README.md).
+[Staged GCM](../../internal/assetprivacy/stark/src/gcm_vertical/README.md) constrains
+the complete AEAD; full KEM/KDF/note/control composition remains unfinished.
 Fresh randomness, fixed payload size and omission of public routing keys do not
 alone establish shielded anonymity.
 

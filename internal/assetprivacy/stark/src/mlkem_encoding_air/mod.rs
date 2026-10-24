@@ -3,6 +3,7 @@
 
 //! Private canonical ML-KEM polynomial packing and message decoding.
 mod binding;
+mod host;
 mod layout;
 mod operation;
 mod schedule;

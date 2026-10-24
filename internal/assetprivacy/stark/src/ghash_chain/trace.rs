@@ -7,10 +7,10 @@ use crate::Value;
 use p3_field::PrimeCharacteristicRing;
 use p3_matrix::dense::RowMajorMatrix;
 
-struct Inputs {
-    h: u128,
-    associated: [u8; 64],
-    ciphertext: [u8; 512],
+pub(super) struct Inputs {
+    pub h: u128,
+    pub associated: [u8; 64],
+    pub ciphertext: [u8; 512],
 }
 
 impl GhashChainAir {
@@ -55,13 +55,13 @@ impl Inputs {
         RowMajorMatrix::new(values, WIDTH)
     }
 
-    fn prepare(&self, state: &mut State, round: usize) {
+    pub(super) fn prepare(&self, state: &mut State, round: usize) {
         if round < ACTIVE_ROWS && round.is_multiple_of(BITS) {
             state.start(self.h, self.block(round / BITS));
         }
     }
 
-    fn result(&self) -> u128 {
+    pub(super) fn result(&self) -> u128 {
         let mut state = State::new();
         for round in 0..ACTIVE_ROWS {
             self.prepare(&mut state, round);

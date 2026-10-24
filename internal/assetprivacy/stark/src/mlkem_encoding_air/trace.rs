@@ -2,17 +2,14 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
 use super::{MlKemEncodingAir, PACKED, ROWS, write};
-use crate::{Value, mlkem_field::Q};
+use crate::Value;
 use p3_field::PrimeCharacteristicRing;
 use p3_matrix::dense::RowMajorMatrix;
 
 impl MlKemEncodingAir {
     /// Witness generation only. D=1 requires every coefficient to be 0 or 1665.
     pub fn trace(&self, input: [u16; 256]) -> Option<RowMajorMatrix<Value>> {
-        if input
-            .iter()
-            .any(|&x| x >= Q || (self.bits == 1 && !matches!(x, 0 | 1665)))
-        {
+        if !self.valid_input(&input) {
             return None;
         }
         let width = self.trace_width();

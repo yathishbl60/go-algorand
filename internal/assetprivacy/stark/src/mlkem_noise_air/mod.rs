@@ -6,6 +6,7 @@
 
 mod binding;
 mod cbd;
+mod host;
 mod layout;
 mod trace;
 mod witness;

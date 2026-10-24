@@ -19,6 +19,8 @@ mod config;
 #[cfg(feature = "native-privacy")]
 pub mod gcm_air;
 #[cfg(feature = "native-privacy")]
+pub mod gcm_vertical;
+#[cfg(feature = "native-privacy")]
 pub mod ghash_air;
 #[cfg(feature = "native-privacy")]
 pub mod ghash_chain;
@@ -35,9 +37,13 @@ pub mod member_note_air;
 #[cfg(feature = "native-privacy")]
 pub mod membership_air;
 #[cfg(feature = "native-privacy")]
+pub mod mlkem_derivation_air;
+#[cfg(feature = "native-privacy")]
 pub mod mlkem_encoding_air;
 #[cfg(feature = "native-privacy")]
 pub mod mlkem_field;
+#[cfg(feature = "native-privacy")]
+pub mod mlkem_host;
 #[cfg(feature = "native-privacy")]
 pub mod mlkem_matrix_air;
 #[cfg(feature = "native-privacy")]

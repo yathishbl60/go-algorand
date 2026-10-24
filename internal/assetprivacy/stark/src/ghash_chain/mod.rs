@@ -12,6 +12,7 @@ mod transition;
 mod wires;
 mod witness_state;
 mod witness_write;
+mod writer;
 
 pub use wires::{Wires, wires};
 

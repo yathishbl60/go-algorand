@@ -11,9 +11,7 @@ use p3_symmetric::Permutation;
 
 impl MlKemNoiseAir {
     pub fn trace(&self, seed: [u8; 32]) -> Option<RowMajorMatrix<Value>> {
-        let mut message = [0u8; 33];
-        message[..32].copy_from_slice(&seed);
-        message[32] = self.nonce;
+        let message = self.message(seed);
         let hash = self.hash.trace(&message)?;
         Some(self.join(hash, auxiliary(output(&message))))
     }
@@ -30,7 +28,7 @@ impl MlKemNoiseAir {
     }
 }
 
-fn output(message: &[u8; 33]) -> [u8; 128] {
+pub(super) fn output(message: &[u8; 33]) -> [u8; 128] {
     let mut state = [0u64; 25];
     for (i, byte) in message.iter().enumerate() {
         state[i / 8] ^= u64::from(*byte) << (8 * (i % 8));
