@@ -1,5 +1,9 @@
 # Candidate transfer constraints
 
+For current ordinary input eligibility plus group conservation, use
+[SpendGroupAir](../spend_group_air/README.md). This earlier primitive omits
+current eligibility and is not the native main-proof selection.
+
 This disabled Rust component composes two actual private input notes and two
 private output openings. Each input proves ownership, its serial-derived public
 nullifier, and 32-level membership. Each output proves a canonical note opening.

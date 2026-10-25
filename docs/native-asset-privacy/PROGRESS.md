@@ -33,7 +33,8 @@ completion checklist. The full native feature remains in progress.
    encoding, pool/AVM integration and public APIs remain unfinished.
 5. Pinned Plonky3 hiding configuration and exact uint64 conservation. Note,
    ownership, nullifier and depth-32 membership constraints compose into fixed
-   transfer/shield/unshield arities. Input eligibility/control proofs remain.
+   transfer/shield/unshield arities. [Ordinary staged spending](SPENDING_COMPOSITION.md)
+   now joins current input eligibility and group conservation; recovery remains.
 6. SHA3/SHAKE, private HMAC/HKDF, full typed GCM and staged GCM constraints.
    Staged GCM covers all AES/GHASH blocks and the final tag in one AIR. Resource
    feasibility and complete envelope/note/disclosure bindings remain unverified.
@@ -52,7 +53,8 @@ completion checklist. The full native feature remains in progress.
    connects the same canonical key/Ckem/shared secret through AAD/HKDF/GCM to
    one canonical opening and its public commitment. All operations fit within
    65,536 rows using bounded frame writers and shared scratch. Enclosing
-   recipient/disclosure bindings exist; spend/group and native verification remain.
+   recipient/disclosure and ordinary spending/group constraints exist; native
+   verification and execution remain.
 10. [Current-key authorization registry](KEY_AUTHORIZATION.md) replaces a stable
     account/role leaf on rotation and atomically couples it to native key history
     and pointers. Typed current roots and exact-record witnesses are available.
@@ -63,11 +65,12 @@ completion checklist. The full native feature remains in progress.
     membership for the same private account, independent epochs and note owner.
     Staged membership and compact matrix frames preserve every operation while
     keeping the full recipient schedule within 65,536 rows. [Current eligibility](ELIGIBILITY.md)
-    now binds the same private account. Input/spend/group and native verification remain.
+    now binds the same private account. Native verification/execution remain.
 12. [Assigned disclosures](../../internal/assetprivacy/disclosure/README.md) persist
     prospective auditor/controller targets and bind complete encrypted openings
     to their current registered viewing keys. [Exact output-role plans](PROOF_PLANNING.md)
-    derive expected vectors from native state. Native proof execution remains.
+    derive expected vectors from native state. Main planning also checks native
+    roots/nullifiers and finalized body context. Native proof execution remains.
 
 Go uses `algorand_native_privacy`; Rust's optional `native-privacy` feature is
 empty by default. No consensus version enables privacy. See [the candidate
@@ -86,10 +89,9 @@ independent cryptographic security review has been supplied or completed.
 
 ## Next work
 
-Complete input eligibility, freeze/recovery authority and spend/group composition,
-remaining arities and group bindings. Establish actual prover/verifier resource
-feasibility, proof decoding/work limits and trusted
-profile artifacts before native transaction verification/execution. Then finish
+Complete freeze/recovery authority, other arities and native verifier/execution,
+including body-field matching and group application. Establish resource feasibility,
+proof decoding/work limits and trusted profile artifacts before activation. Then finish
 API/SDK/wallet/CLI, replay/recovery and the six real-node scenarios. Maintain the
 full [north-star work-package scope](IMPLEMENTATION.md); the present components
 do not substitute for that outcome. Tests remain deferred by user instruction.

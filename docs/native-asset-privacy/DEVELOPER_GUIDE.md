@@ -45,8 +45,8 @@ writable `GOCACHE` or Cargo target/cache directory when using a sandbox.
 | Final body/order binding | [statement](../../internal/assetprivacy/statement/README.md) |
 | Bounded outer proof frame | [witness](../../internal/assetprivacy/witness/README.md) |
 | Zero private inputs, two outputs | [ShieldAir](../../internal/assetprivacy/stark/src/shield_air/README.md) |
-| Two private inputs, two outputs | [TransferAir](../../internal/assetprivacy/stark/src/transfer_air/README.md) |
-| Two private inputs, no private outputs | [UnshieldAir](../../internal/assetprivacy/stark/src/unshield_air/README.md) |
+| Two ordinary eligible inputs with Transfer2/Unshield0 outputs | [Staged spending](SPENDING_COMPOSITION.md) |
+| Earlier unshield conservation primitive, without current eligibility | [UnshieldAir](../../internal/assetprivacy/stark/src/unshield_air/README.md) |
 | Single committed-note envelope | [EnvelopeAir typed context and witness API](../../internal/assetprivacy/stark/src/envelope_air/README.md) |
 | Private candidate key derivation | [HKDF constraints](../../internal/assetprivacy/stark/src/hkdf_air/README.md) |
 | Fixed envelope AEAD constraints | [GCM component](../../internal/assetprivacy/stark/src/gcm_air/README.md) |
@@ -79,7 +79,7 @@ writable `GOCACHE` or Cargo target/cache directory when using a sandbox.
 7. Prove locally, then put its bounded witness outside the transaction bodies.
 
 Steps 6–7 are not available as a complete native path. Existing AIRs omit
-the full current-control/spend/group composition. The outer witness frame is not a STARK
+recovery/other arities and native proof/body integration. The outer witness frame is not a STARK
 decoder. Do not replace either missing piece with a permissive verifier.
 
 Future native execution must check proofs and all current authorization, accepted

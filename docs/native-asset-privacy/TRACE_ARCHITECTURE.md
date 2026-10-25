@@ -82,7 +82,8 @@ No new lookup dependency or acceptance path has been added.
    staged97-row Merkle hashes. Nested membership masks raise the source bound to 9.
    [Assigned disclosures and public-output joins](PROOF_PLANNING.md) now have
    expected statement planning; recipient eligibility now fits at55628..59245.
-   Input/spend composition, artifacts and feasibility remain.
+   [Ordinary staged input/group composition](SPENDING_COMPOSITION.md) now shares
+   scratch across both inputs and outputs; artifacts and feasibility remain.
 
 Recalculate polynomial degree, quotient chunks, masking/opening budgets and
 trusted dimensions after each composition. Builds and static counts do not

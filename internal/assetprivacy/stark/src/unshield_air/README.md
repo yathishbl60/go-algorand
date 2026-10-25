@@ -1,5 +1,9 @@
 # Candidate unshield relation
 
+For current ordinary input eligibility plus group conservation, use
+[SpendGroupAir](../spend_group_air/README.md). This earlier primitive omits
+current eligibility and is not the native main-proof selection.
+
 `UnshieldAir` proves ownership, nullifier derivation and 32-level membership of
 exactly two actual private inputs, with no private outputs. It uses no dummy
 output notes. The constructor fixes network, asset, policy and the public credit.

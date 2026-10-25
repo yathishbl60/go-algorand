@@ -47,7 +47,8 @@ full security analysis remain required. No proof/runtime evidence exists yet.
 
 The existing internal AppendAssetPrivacyOutput helper still requires its caller
 to perform these steps. No role plan grants permission to invoke that helper.
-Input eligibility, freeze/recovery authority, remaining operation arities,
+[Ordinary two-input spending/group constraints](SPENDING_COMPOSITION.md) now exist.
+Freeze/recovery authority, remaining operation arities,
 embedded proof decoding, deterministic verifier and transaction ingress remain
 pending. Merely comparing witness headers or statement digests cannot replace
 cryptographic proof verification or those missing relations.

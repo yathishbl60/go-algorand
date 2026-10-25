@@ -27,8 +27,12 @@ pub mod owned_note_air;
 pub mod registered_key_air;
 #[path = "shield_air/mod.rs"]
 pub mod shield_air;
+#[path = "spend_group_air/mod.rs"]
+pub mod spend_group_air;
 #[path = "spend_key_air/mod.rs"]
 pub mod spend_key_air;
+#[path = "spendable_note_air/mod.rs"]
+pub mod spendable_note_air;
 #[path = "transfer_air/mod.rs"]
 pub mod transfer_air;
 #[path = "unshield_air/mod.rs"]

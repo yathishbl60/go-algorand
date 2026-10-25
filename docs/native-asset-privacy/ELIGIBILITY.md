@@ -1,8 +1,8 @@
 # Current account eligibility and freeze snapshots
 
 Updated 2026-10-25. Native snapshot publication and private ordinary-recipient
-eligibility constraints exist behind disabled feature flags. Complete input
-spending/control/recovery relations and native transaction verification remain
+eligibility constraints exist behind disabled feature flags. Issuer
+control/recovery relations and native transaction verification remain
 unfinished. An eligible account snapshot is not account consent or issuer power.
 
 ## Native source and atomic publication
@@ -78,7 +78,8 @@ An independent root-only proof could select a different account; it cannot be
 joined to a note by comparing public roots. Input spending must instead bind
 current eligibility directly to its private committed account without publishing
 that input commitment. Key rotation must not invalidate the old committed owner
-secret. Main input/control/group integration remains pending.
+secret. [Ordinary staged input/group composition](SPENDING_COMPOSITION.md)
+now supplies that binding; recovery and native transaction integration remain.
 
 Frozen=0 applies to ordinary holder transfers/new receipts. Authorized clawback
 may preserve remainder to the original frozen owner; it needs a separate relation
