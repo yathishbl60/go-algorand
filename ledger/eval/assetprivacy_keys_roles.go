@@ -40,7 +40,7 @@ func (cs *roundCowState) checkAssetPrivacyKeyRole(record keys.Record) error {
 	if err != nil {
 		return err
 	}
-	return checkPrivacyKeyAccount(record.Domain, params)
+	return cs.checkDisclosureKeyAccount(record.Domain, params)
 }
 
 func checkPrivacyKeyAccount(domain keys.Domain, params basics.AssetParams) error {
@@ -50,7 +50,7 @@ func checkPrivacyKeyAccount(domain keys.Domain, params basics.AssetParams) error
 		expected = params.Manager
 	case keys.FreezeAuthority:
 		expected = params.Freeze
-	case keys.ClawbackAuthority, keys.ControllerView:
+	case keys.ClawbackAuthority:
 		expected = params.Clawback
 	default:
 		return nil

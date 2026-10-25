@@ -3,6 +3,8 @@
 
 #[path = "amounts.rs"]
 pub mod amounts;
+#[path = "authorized_disclosure_air/mod.rs"]
+pub mod authorized_disclosure_air;
 #[path = "authorized_recipient_air/mod.rs"]
 pub mod authorized_recipient_air;
 #[path = "member_note_air/mod.rs"]

@@ -11,7 +11,7 @@ completed components below do not substitute for it.
 | NAP-01 profile | Pinned candidate documented; complete relation, security argument, vectors and measurements missing |
 | NAP-02 consensus specification | Draft obligations/accounting/candidate layouts; complete normative protocol and sibling specs changes missing |
 | NAP-03 types/gates | Consensus flag added, false in every version; transaction/witness types and codecs missing |
-| NAP-04 cryptography | Note/conservation, envelope/note encryption and recipient viewing/spending current-key membership constraints implemented; eligibility/disclosure/spend/group composition, runtime proofs and native verifier missing |
+| NAP-04 cryptography | Note/conservation, envelope/note encryption and recipient viewing/spending current-key membership constraints implemented; assigned disclosure constraints implemented; eligibility/spend/group composition, runtime proofs and native verifier missing |
 | NAP-05 native state | COW supply, policy/key/control epochs, current-key authorization root, spent markers, tree/root history and atomic outputs implemented; eligibility roots and storage charges missing |
 | NAP-06 verification | Bounded opaque proof frame implemented; embedded STARK decoder, deterministic native verifier, work limits and cache integration missing |
 | NAP-07 lifecycle | Policy lifecycle, bounded viewing-key admission, destruction guard and public holding freeze persistence implemented; PQ administrative ingress and authenticated native transactions missing |
@@ -68,8 +68,7 @@ static matrix overlap from~1.28 GB to~671 MB. Transfer assembly also releases
 each component before generating the next. AES-256 uses 78,388 field columns per
 block; [resource implications](CRYPTO_RESOURCES.md) remain unresolved. No tests or proofs ran.
 [Complete single-envelope constraints](../../internal/assetprivacy/stark/src/envelope_air/README.md)
-now bind KEM/AAD/HKDF/GCM to one canonical opening/commitment. Native authority,
-mandatory disclosures and spending integration remain unfinished. [Recipient binding](../../internal/assetprivacy/stark/src/authorized_recipient_air/README.md) now joins current viewing/spending records.
+now bind KEM/AAD/HKDF/GCM to one canonical opening/commitment. [Assigned disclosures](../../internal/assetprivacy/disclosure/README.md) and their envelope constraints now exist; complete spending integration remains unfinished. [Recipient binding](../../internal/assetprivacy/stark/src/authorized_recipient_air/README.md) now joins current viewing/spending records.
 Formatting and authored file/function limits were checked.
 These are not proof correctness, privacy, anonymity, interoperability or protocol
 validation. No tests have been added or run, as requested.

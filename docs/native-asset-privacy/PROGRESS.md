@@ -62,7 +62,10 @@ completion checklist. The full native feature remains in progress.
     membership for the same private account, independent epochs and note owner.
     Staged membership and compact matrix frames preserve every operation while
     keeping the full recipient schedule within 65,536 rows. Current eligibility,
-    mandated disclosures, conservation/spend/group and native verification remain.
+    conservation/spend/group and native verification remain.
+12. [Assigned disclosures](../../internal/assetprivacy/disclosure/README.md) persist
+    prospective auditor/controller targets and bind complete encrypted openings
+    to their current registered viewing keys. Native proof execution remains.
 
 Go uses `algorand_native_privacy`; Rust's optional `native-privacy` feature is
 empty by default. No consensus version enables privacy. See [the candidate
