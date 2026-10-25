@@ -46,25 +46,28 @@ and a fresh GCM nonce; the AIR cannot prove entropy quality. Traces contain
 secrets and must never be serialized to RPC or included in a public receipt.
 
 `wires(row)` returns exact-width private key/opening/K/epoch and commitment slices.
-`value_bits(row)` returns the committed uint64 amount as 64 least-significant
-first bits for later conservation composition. These are in-process interfaces.
+`value_bits(row)` returns the committed uint64 amount as 64 least-significant-first bits.
+Parent `check_inputs(&input)` validates without a trace; `write_into(input,values,
+(stride,column,first))` and `write_preprocessed_into(values,target)` fill only
+`FRAME_ROWS=47882` active rows. Input/shapes are checked before mutation.
 
 ## Trusted schedule and resources
 
 | Stage | Row interval, end excluded |
 | --- | --- |
-| Complete bounded KEM | 0..57856 |
-| Streamed 2528-byte associated-data hash | 57856..58880 |
-| Exact candidate HKDF | 58880..59392 |
-| All AES/GHASH operations plus final carry | 59392..64641 |
-| Canonical opening and commitment | 64641..65153 |
-| Padding with constant root registers | 65153..65536 |
+| Complete bounded KEM | 0..40585 |
+| Streamed 2528-byte associated-data hash | 40585..41609 |
+| Exact candidate HKDF | 41609..42121 |
+| All AES/GHASH operations plus final carry | 42121..47370 |
+| Canonical opening and commitment | 47370..47882 |
+| Padding with constant root registers | 47882..65536 |
 
 The relation uses 22,885 main and 2059 trusted preprocessed columns. Its 6241
 root columns hold t/rho/K/AAD/AES key/opening/commitment/private epoch/inverse.
 The remaining 16,644 columns are shared stage scratch. Every root remains constant across all stages
 and padding. Each stage binds to those same roots, preventing substitution.
-Only unused trailing KEM/GCM padding is removed. The compact GCM frame retains
+Only unused trailing matrix/KEM/GCM padding is removed; all 16 matrix squeezes
+and 1792 candidates plus final cursor carry remain. The compact GCM frame retains
 all 4736 GHASH rows and a final carry row with nested transition disabled.
 
 The schedule must have a trusted profile commitment. Exact height, columns,

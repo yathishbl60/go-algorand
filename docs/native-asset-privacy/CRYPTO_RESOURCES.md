@@ -52,7 +52,7 @@ Both exclude prover overhead. Its public ciphertext is 256 uint16 limbs; H/AAD/r
 stay private. Noise PRF/CBD uses 5,522 columns/512 rows, or 22,618,112 base-element bytes.
 The [vertical AES stage](../../internal/assetprivacy/stark/src/aes_gcm_vertical/README.md)
 uses 11,216 columns/512 rows: 45,940,736 main plus 249,856 preprocessed bytes.
-It covers all 34 blocks; composing it with GHASH/KDF/KEM remains pending.
+It covers all 34 blocks and now joins GHASH/KDF/KEM in the envelope relation.
 Private NTT now uses 920 columns: forward 1024 rows/7,536,640 main bytes;
 inverse 2048 rows/15,073,280. Preprocessing adds 4,210,688/8,421,376 bytes.
 Selected-operand bounds and fixed first-stage coverage replace per-register
@@ -61,7 +61,7 @@ The complete NTT-domain product has 1,195 columns/512 rows: 4,894,720 main
 bytes plus 528,384 preprocessed bytes. All counts exclude proving overhead.
 Private polynomial packing uses 512 rows and 575/1,343/2,879/3,391 columns for
 D=1/4/10/12 respectively; every variant adds 1,048,576 preprocessed bytes.
-Candidate matrix sampling combines SHAKE128 and rejection in shared columns:
+Original matrix sampling combined SHAKE128 and rejection in shared columns:
 24,932 columns/2048 rows, or 408,485,888 main plus 29,622,272 preprocessed bytes.
 The direct writer's Keccak temporary adds 43,139,072 element bytes during
 generation; allocator/hiding/prover overhead remains additional and unmeasured.
@@ -72,8 +72,8 @@ rows: 768,606,208 main plus 15,335,424 preprocessed bytes. Neither is benchmarke
 The staged K-PKE arithmetic relation uses 9,328 columns/16,384 rows:
 1,222,639,616 raw main bytes plus 257,818,624 preprocessed bytes. It reuses
 NTT/dot/add scratch and shares final coefficients with the codec.
-The compact matrix successor uses 4872 columns/4096 rows: 159,645,696 main
-plus 3,866,624 preprocessed bytes; one Keccak scratch is 674,048 bytes.
+The compact matrix successor keeps4872 columns/4096 standalone rows; its2177-row
+parent frame needs 84,850,752 main +2,055,088 preprocessed bytes (674,048 scratch).
 Compact key derivation uses 5810 columns/1024 rows: 47,595,520 main plus
 6,488,064 preprocessed bytes, with one small Keccak scratch at a time.
 [Complete bounded encapsulation](../../internal/assetprivacy/stark/src/mlkem_encapsulation_air/README.md)
@@ -84,7 +84,7 @@ or runtime measurement is established; substantial layout work remains.
 [Complete single-envelope constraints](../../internal/assetprivacy/stark/src/envelope_air/README.md)
 use 22,885 columns/65,536 rows: 11,998,330,880 main + 1,079,508,992
 preprocessed bytes. All active KEM/AAD/HKDF/GCM/note operations are retained.
-These are raw counts only; authority/disclosure/spend composition remains. [Private key records](../../internal/assetprivacy/stark/src/view_key_air/README.md) add 113,180,672 main + 6,291,456 preprocessed bytes standalone.
+These are raw counts only. [Registered recipient](../../internal/assetprivacy/stark/src/authorized_recipient_air/README.md) uses 13,038,518,272 main +1,085,800,448 preprocessed bytes; deepest source degree 9 remains unvalidated.
 
 Before selecting protocol limits, measure completed relations across shield,
 transfer, unshield and controller recovery, including each mandatory disclosure.

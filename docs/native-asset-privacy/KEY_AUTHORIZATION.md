@@ -1,8 +1,9 @@
 # Candidate current-key authorization registry
 
 Updated 2026-10-25. Disabled native persistence and private record constraints
-exist. Current-root membership, envelope/spend joins and authenticated native
-transactions are still incomplete. A registry entry alone grants no authority.
+exist, including current-record membership and recipient envelope bindings.
+Eligibility, disclosures, full spending and authenticated native execution remain
+incomplete. A registry entry alone grants no authority.
 
 ## Current state and rotation
 
@@ -64,10 +65,12 @@ the same viewing-key record, with canonical coefficients and nonzero account/
 epoch. Constructor roles are key roles1/3/4, corresponding to envelope roles
 1/2/3. Its leaf and all account/key/epoch/creation wires remain private.
 
-The next relation must prove that leaf's membership under the current typed
-root and bind its account, key and epoch to the same envelope. Recipient
-ownership also needs the account's registered spending commitment bound to
-the note owner; viewing-key membership cannot replace spending authorization.
+[RegisteredKeyAir](../../internal/assetprivacy/stark/src/registered_key_air/README.md)
+now joins a private canonical record to staged depth-32 membership under the
+current root. [Recipient authorization](../../internal/assetprivacy/stark/src/authorized_recipient_air/README.md)
+joins viewing and spending membership to the same envelope account/key/epoch and
+note owner. Their epoch streams stay independent. New outputs select the current
+owner; old-note spending still proves that note's committed secret owner.
 Auditor assignment, current clawback/freeze authority and eligibility require
 their own current native state bindings. Registry membership alone does not
 designate a policy auditor or restore a relinquished issuer power.

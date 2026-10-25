@@ -21,9 +21,12 @@ pub(super) const HKDF_ROW: usize = AAD_ROW + 1024;
 pub(super) const GCM_ROW: usize = HKDF_ROW + 512;
 pub(super) const NOTE_ROW: usize = GCM_ROW + crate::gcm_vertical::FRAME_ROWS;
 pub(super) const END_ROW: usize = NOTE_ROW + 512;
+pub(crate) const FRAME_ROWS: usize = END_ROW;
 
 const _: () = assert!(END_ROW <= ROWS);
 const _: () = assert!(crate::mlkem_encapsulation_air::WIDTH <= WORK_WIDTH);
 const _: () = assert!(crate::gcm_vertical::WIDTH <= WORK_WIDTH);
 const _: () = assert!(crate::envelope_aad_air::WIDTH <= WORK_WIDTH);
 const _: () = assert!(crate::envelope_aad_air::ROWS == 1024);
+
+const _: () = assert!(FRAME_ROWS == 47882);

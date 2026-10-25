@@ -56,7 +56,13 @@ completion checklist. The full native feature remains in progress.
     account/role leaf on rotation and atomically couples it to native key history
     and pointers. Typed current roots and exact-record witnesses are available.
     Private viewing-record constraints match the same canonical hash; membership,
-    envelope/spend joins, eligibility and complete native verification remain.
+    creation-round provenance, eligibility and complete native verification remain.
+11. [Recipient output authorization](../../internal/assetprivacy/stark/src/authorized_recipient_air/README.md)
+    joins complete envelope/note encryption to current viewing and spending
+    membership for the same private account, independent epochs and note owner.
+    Staged membership and compact matrix frames preserve every operation while
+    keeping the full recipient schedule within 65,536 rows. Current eligibility,
+    mandated disclosures, conservation/spend/group and native verification remain.
 
 Go uses `algorand_native_privacy`; Rust's optional `native-privacy` feature is
 empty by default. No consensus version enables privacy. See [the candidate

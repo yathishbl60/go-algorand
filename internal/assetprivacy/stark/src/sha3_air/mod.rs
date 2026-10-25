@@ -7,6 +7,7 @@
 mod absorption;
 mod blocks;
 mod boundary;
+mod frame_writer;
 mod message;
 mod output_bits;
 mod shape;

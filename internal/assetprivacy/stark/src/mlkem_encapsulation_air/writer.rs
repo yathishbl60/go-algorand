@@ -30,8 +30,12 @@ fn matrices(
 ) -> Option<()> {
     for index in 0..9 {
         let air = MlKemStreamMatrixAir::new((index % 3) as u8, (index / 3) as u8)?;
-        let frame = shift(target, WORK, MATRIX_ROW + 4096 * index);
-        let output = air.write_into(input.encryption.matrix_seed, values, frame)?;
+        let frame = shift(
+            target,
+            WORK,
+            MATRIX_ROW + crate::mlkem_stream_matrix_air::FRAME_ROWS * index,
+        );
+        let output = air.write_frame(input.encryption.matrix_seed, values, frame)?;
         if output != input.encryption.matrix[index / 3][index % 3] {
             return None;
         }

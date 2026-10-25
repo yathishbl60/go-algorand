@@ -5,20 +5,36 @@ use super::{AAD, COMMIT, EPOCH, KEY, NONZERO, OPENING, RHO, SHARED, WIDTH, prepa
 use crate::Value;
 use p3_field::{Field, PrimeCharacteristicRing};
 
-pub(super) fn write(values: &mut [Value], input: &Prepared<'_>, commitment: [u8; 64]) {
+pub(super) fn write(
+    values: &mut [Value],
+    input: &Prepared<'_>,
+    commitment: [u8; 64],
+    shape: (usize, usize, usize),
+    rows: usize,
+) {
     let inverse = Value::from_u32(input.input.epoch.count_ones()).inverse();
-    for row in values.as_chunks_mut::<WIDTH>().0 {
-        coefficients(row, &input.kem.encryption.public_polynomials);
-        bits(row, RHO, &input.kem.encryption.matrix_seed);
-        bits(row, SHARED, &input.kem.shared_key);
-        bits(row, AAD, &input.associated);
-        bits(row, KEY, &input.key);
-        bits(row, EPOCH, &input.input.epoch.to_be_bytes());
-        row[NONZERO] = inverse;
-        bits(row, OPENING, input.input.opening);
-        for (index, bytes) in commitment.as_chunks::<2>().0.iter().enumerate() {
-            row[COMMIT + index] = Value::from_u16(u16::from_le_bytes(*bytes));
-        }
+    let (stride, column, first) = shape;
+    for parent in values.chunks_exact_mut(stride).skip(first).take(rows) {
+        write_row(
+            &mut parent[column..column + WIDTH],
+            input,
+            commitment,
+            inverse,
+        );
+    }
+}
+
+fn write_row(row: &mut [Value], input: &Prepared<'_>, commitment: [u8; 64], inverse: Value) {
+    coefficients(row, &input.kem.encryption.public_polynomials);
+    bits(row, RHO, &input.kem.encryption.matrix_seed);
+    bits(row, SHARED, &input.kem.shared_key);
+    bits(row, AAD, &input.associated);
+    bits(row, KEY, &input.key);
+    bits(row, EPOCH, &input.input.epoch.to_be_bytes());
+    row[NONZERO] = inverse;
+    bits(row, OPENING, input.input.opening);
+    for (index, bytes) in commitment.as_chunks::<2>().0.iter().enumerate() {
+        row[COMMIT + index] = Value::from_u16(u16::from_le_bytes(*bytes));
     }
 }
 

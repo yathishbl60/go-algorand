@@ -22,10 +22,10 @@ Noise nonces are fixed 0..6, all using the same derived r.
 | Stage | Row interval, end excluded |
 | --- | --- |
 | Compact private key/H/G derivation | 0..1024 |
-| Nine streamed matrix entries | 1024..37888 |
-| Seven noise PRF/CBD samples | 37888..41472 |
-| Staged K-PKE and public ciphertext packing | 41472..57856 |
-| Padding with unchanged root registers | 57856..65536 |
+| Nine streamed matrix entries | 1024..20617 |
+| Seven noise PRF/CBD samples | 20617..24201 |
+| Staged K-PKE and public ciphertext packing | 24201..40585 |
+| Padding with unchanged root registers | 40585..65536 |
 
 The relation has 15,906 main columns and 2,039 trusted preprocessed columns.
 It shares the PKE layout's first 9,328 columns. Private rho/K/r occupy the next
@@ -57,15 +57,18 @@ large trace allocation. Bounded child writers fill only their own frames in
 the destination, avoiding complete child main matrices. Small Keccak scratch
 matrices and child preprocessing tables still require temporary memory.
 
-Parent composition can use crate-private `FRAME_ROWS=57856`, which ends exactly
+Parent composition can use crate-private `FRAME_ROWS=40585`, which ends exactly
 after the complete PKE stage. `write_into(P,m,values,(stride,column,first_row))`
 prepares key admission and all host intermediates before mutation, writes only
 that bounded rectangle and returns its secret `Encapsulation` host result.
 `write_preprocessed_into(values,target)` assembles the trusted child tables in
 that same frame directly into the parent. Neither creates a full KEM child
-matrix. The parent must set its frame's last/transition selectors at row57855;
-all nested child final-row selectors are already present there. Standalone
-65,536-row trace and preprocessing APIs retain their unchanged padding.
+matrix. The parent must set its frame's last/transition selectors at row40584;
+all nested child final-row selectors are already present there. Each matrix
+retains all 16squeezes/1792candidates plus one cursor-carry row in 2177 rows.
+Standalone trace and preprocessing APIs retain their 65,536-row height and
+carry unchanged root registers through the enlarged padding suffix.
+New parent schedules must pin these updated boundaries.
 
 Raw main storage is 8,339,324,928 bytes and trusted preprocessing is
 1,069,023,232 bytes. These already total about 8.76 GiB, before allocator,

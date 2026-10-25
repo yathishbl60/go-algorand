@@ -31,6 +31,11 @@ The crate-private `write_into(seed, values, (stride, start_column, first_row))`
 returns the 256 canonical coefficients. Invalid target bounds, non-integral
 parent rows, and exhaustion leave the parent buffer unchanged. Success overwrites
 all component cells in its 4096-row frame, including padding and inactive scratch.
+Parent `write_frame` and `frame_preprocessed_trace` use exactly 2177 rows: all
+2176 active rows plus one carry row. That last row is mandatory even if the
+256th acceptance is the final candidate, so the cursor can advance to 256. The
+parent supplies matching last/transition selectors. No squeeze/candidate is
+omitted and the standalone 4096-row API remains unchanged.
 
 ## Schedule and constraints
 
@@ -74,7 +79,8 @@ must budget for that composed degree. These are source bounds, not execution
 measurements or a security review.
 
 Goldilocks main cells require 159645696 bytes (152.25 MiB), preprocessing
-3866624 bytes (3.6875 MiB). The direct writer retains one padded 32-row Keccak
+3866624 bytes (3.6875 MiB). A compact 2177-row parent frame uses
+84,850,752 main and 2,055,088 preprocessed bytes. The direct writer retains one padded 32-row Keccak
 matrix (674048 bytes), 17 small host states, and 2688 prefix bytes, rather than
 allocating full SHAKE or sampling component matrices. These sizes exclude prover
 commitments, quotient expansion, allocator overhead, and enclosing trace storage.

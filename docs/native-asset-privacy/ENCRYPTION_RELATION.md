@@ -92,7 +92,7 @@ now binds canonical P/m to K/r, all nine matrices, seven noise samples and publi
 1088-byte Ckem. It uses the candidate's fixed 16-block matrix admission rule.
 [EnvelopeAir](../../internal/assetprivacy/stark/src/envelope_air/README.md) now feeds the same private P/K and public Ckem
 through AAD/HKDF/GCM to the canonical committed note. Key registry authority,
-mandatory role disclosures, spending integration and native acceptance remain.
+[Recipient key membership](../../internal/assetprivacy/stark/src/authorized_recipient_air/README.md) now binds both current viewing and spending records. Eligibility, mandatory disclosures, spend/group and native acceptance remain.
 The public statement omits the key epoch; private nonzero epoch bits feed AAD
 and must be authenticated against the same private key by the registry proof.
 See [resource constraints](CRYPTO_RESOURCES.md). No accepted native proof exists.

@@ -5,6 +5,7 @@
 mod binding;
 mod boundary;
 mod cursor;
+mod frame_writer;
 mod layout;
 mod sampling;
 mod schedule;
@@ -18,6 +19,7 @@ use p3_keccak_air::{KeccakAir, NUM_KECCAK_COLS};
 use p3_matrix::dense::RowMajorMatrix;
 
 pub const ROWS: usize = 4096;
+pub(crate) const FRAME_ROWS: usize = ACTIVE_ROWS + 1;
 pub const WIDTH: usize = 4872;
 pub const PREPROCESSED: usize = 118;
 const BLOCK_ROWS: usize = 136;
@@ -43,6 +45,10 @@ pub struct MlKemStreamMatrixAir {
 }
 
 impl MlKemStreamMatrixAir {
+    pub(crate) fn frame_preprocessed_trace(&self) -> RowMajorMatrix<Value> {
+        schedule::build(FRAME_ROWS)
+    }
+
     pub const fn new(first: u8, second: u8) -> Option<Self> {
         if first >= 3 || second >= 3 {
             return None;

@@ -7,7 +7,11 @@ use p3_field::PrimeCharacteristicRing;
 use p3_matrix::dense::RowMajorMatrix;
 
 pub(super) fn schedule() -> RowMajorMatrix<Value> {
-    let mut values = Value::zero_vec(ROWS * PREPROCESSED);
+    build(ROWS)
+}
+
+pub(super) fn build(rows: usize) -> RowMajorMatrix<Value> {
+    let mut values = Value::zero_vec(rows * PREPROCESSED);
     let rows = values.as_chunks_mut::<PREPROCESSED>().0;
     for (index, row) in rows.iter_mut().enumerate() {
         let offset = index % BLOCK_ROWS;

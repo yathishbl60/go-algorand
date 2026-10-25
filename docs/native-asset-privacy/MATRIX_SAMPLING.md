@@ -32,6 +32,8 @@ uses the same private prefix columns for both and trusted fixed preprocessing.
 `MlKemMatrixAir::candidate(first, second)` selects the matching 16-block bound.
 The [compact successor](../../internal/assetprivacy/stark/src/mlkem_stream_matrix_air/README.md)
 streams each squeeze and candidate window using 4872 columns and 4096 rows.
+Its bounded parent frame uses 2177 rows, retaining all1792 candidates and a final
+cursor-carry row, including acceptance of candidate 1792 as the 256th output.
 [Bounded full KEM composition](../../internal/assetprivacy/stark/src/mlkem_encapsulation_air/README.md)
 now binds the actual key/rho, all nine coordinates and polynomial operations.
 

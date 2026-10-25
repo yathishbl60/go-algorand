@@ -47,8 +47,14 @@ fn populate(values: &mut [Value], shape: (usize, usize, usize)) {
 
 fn matrices(values: &mut [Value], shape: (usize, usize, usize)) {
     let air = MlKemStreamMatrixAir::new(0, 0).expect("coordinate");
-    let matrix = air.preprocessed_trace().expect("matrix");
+    let matrix = air.frame_preprocessed_trace();
     for index in 0..9 {
-        copy_ref(values, shape, MATRIX_ROW + 4096 * index, 1 + index, &matrix);
+        copy_ref(
+            values,
+            shape,
+            MATRIX_ROW + crate::mlkem_stream_matrix_air::FRAME_ROWS * index,
+            1 + index,
+            &matrix,
+        );
     }
 }

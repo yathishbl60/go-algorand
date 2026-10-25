@@ -7,6 +7,7 @@ use p3_field::PrimeCharacteristicRing;
 use p3_matrix::dense::RowMajorMatrix;
 
 /// Secret prover inputs. m and GCM nonce must be generated with fresh entropy.
+#[derive(Clone, Copy)]
 pub struct EnvelopeInputs<'a> {
     pub public_key: &'a [u8],
     pub message: [u8; 32],
@@ -26,8 +27,14 @@ impl EnvelopeAir {
     pub fn trace(&self, input: EnvelopeInputs<'_>) -> Option<EnvelopeWitness> {
         let prepared = Prepared::new(self, input)?;
         let mut values = Value::zero_vec(ROWS * WIDTH);
-        let envelope = writer::write(self, &prepared, &mut values)?;
-        fixed::write(&mut values, &prepared, self.context.commitment());
+        let envelope = writer::write(self, &prepared, &mut values, (WIDTH, 0, 0))?;
+        fixed::write(
+            &mut values,
+            &prepared,
+            self.context.commitment(),
+            (WIDTH, 0, 0),
+            ROWS,
+        );
         Some(EnvelopeWitness {
             trace: RowMajorMatrix::new(values, WIDTH),
             public_values: self.public_values(&envelope)?,

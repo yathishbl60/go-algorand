@@ -3,18 +3,26 @@
 
 #[path = "amounts.rs"]
 pub mod amounts;
+#[path = "authorized_recipient_air/mod.rs"]
+pub mod authorized_recipient_air;
 #[path = "member_note_air/mod.rs"]
 pub mod member_note_air;
 #[path = "membership_air/mod.rs"]
 pub mod membership_air;
+#[path = "membership_vertical/mod.rs"]
+pub mod membership_vertical;
 #[path = "note_air/mod.rs"]
 pub mod note_air;
 #[path = "nullified_note_air/mod.rs"]
 pub mod nullified_note_air;
 #[path = "owned_note_air/mod.rs"]
 pub mod owned_note_air;
+#[path = "registered_key_air/mod.rs"]
+pub mod registered_key_air;
 #[path = "shield_air/mod.rs"]
 pub mod shield_air;
+#[path = "spend_key_air/mod.rs"]
+pub mod spend_key_air;
 #[path = "transfer_air/mod.rs"]
 pub mod transfer_air;
 #[path = "unshield_air/mod.rs"]
