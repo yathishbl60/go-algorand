@@ -1,6 +1,6 @@
 # Native asset privacy implementation progress
 
-Updated 2026-10-24. [End-to-end status](END_TO_END_STATUS.md) is the canonical
+Updated 2026-10-25. [End-to-end status](END_TO_END_STATUS.md) is the canonical
 completion checklist. The full native feature remains in progress.
 
 ## Current user instructions
@@ -52,6 +52,11 @@ completion checklist. The full native feature remains in progress.
    one canonical opening and its public commitment. All operations fit within
    65,536 rows using bounded frame writers and shared scratch. Current authority,
    mandatory disclosures, spend/group integration and native verification remain.
+10. [Current-key authorization registry](KEY_AUTHORIZATION.md) replaces a stable
+    account/role leaf on rotation and atomically couples it to native key history
+    and pointers. Typed current roots and exact-record witnesses are available.
+    Private viewing-record constraints match the same canonical hash; membership,
+    envelope/spend joins, eligibility and complete native verification remain.
 
 Go uses `algorand_native_privacy`; Rust's optional `native-privacy` feature is
 empty by default. No consensus version enables privacy. See [the candidate

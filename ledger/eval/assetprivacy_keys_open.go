@@ -24,9 +24,9 @@ import (
 	"github.com/algorand/go-algorand/internal/assetprivacy/policy"
 )
 
-// OpenAssetPrivacyKeys reads domain-bound state; it does not grant authority.
+// openAssetPrivacyKeys creates the store used by the atomic native mutator.
 // Historical reads remain available after a role or account is relinquished.
-func (cs *roundCowState) OpenAssetPrivacyKeys(asset basics.AssetIndex, account basics.Address, role keys.Role) (*keys.Store, error) {
+func (cs *roundCowState) openAssetPrivacyKeys(asset basics.AssetIndex, account basics.Address, role keys.Role) (*keys.Store, error) {
 	record, exists, err := cs.GetAssetPrivacyPolicy(asset)
 	if err != nil {
 		return nil, err

@@ -19,21 +19,22 @@
 package eval
 
 import (
-	"github.com/algorand/go-algorand/data/basics"
 	"github.com/algorand/go-algorand/internal/assetprivacy/keys"
+	"github.com/algorand/go-algorand/internal/assetprivacy/policy"
 )
 
 // PutAssetPrivacyKey is internal persistence, not registration authorization.
 // Callers must prove account/issuer authority, PQ/KEM possession, suite and fees.
 // RecipientSpend stores a note owner commitment, whose secret needs a ZK proof.
 func (cs *roundCowState) PutAssetPrivacyKey(record keys.Record) error {
-	asset := basics.AssetIndex(record.Domain.Asset)
-	store, err := cs.OpenAssetPrivacyKeys(asset, basics.Address(record.Domain.Account), record.Domain.Role)
-	if err != nil {
+	if !cs.proto.EnableNativeAssetPrivacy {
+		return policy.ErrDisabled
+	}
+	child := cs.child(0)
+	defer child.recycle()
+	if err := child.putAssetPrivacyKeyState(record); err != nil {
 		return err
 	}
-	if err = cs.checkAssetPrivacyKeyRole(record); err != nil {
-		return err
-	}
-	return store.Put(record, uint64(cs.Round()))
+	child.commitToParent()
+	return nil
 }

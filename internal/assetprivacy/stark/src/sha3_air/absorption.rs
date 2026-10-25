@@ -21,7 +21,8 @@ impl Sha3Air {
         let local: &KeccakCols<AB::Var> = main.current_slice()[..NUM_KECCAK_COLS].borrow();
         let next: &KeccakCols<AB::Var> = main.next_slice()[..NUM_KECCAK_COLS].borrow();
         let active = main.current_slice()[self.block_offset() + block - 1];
-        let gate = builder.is_transition() * local.step_flags[23] * active;
+        // Every block flag is constrained to zero on the final row.
+        let gate = local.step_flags[23] * active;
         for limb in 0..100 {
             let absorbed = self.absorbed_limb::<AB>(main.current_slice(), block, limb);
             builder

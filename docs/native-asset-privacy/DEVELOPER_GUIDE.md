@@ -1,6 +1,6 @@
 # Native privacy implementation guide
 
-Updated 2026-10-24. Start with [delivery status](END_TO_END_STATUS.md). This branch
+Updated 2026-10-25. Start with [delivery status](END_TO_END_STATUS.md). This branch
 contains disabled protocol components; it has no usable native transaction or
 complete proof verifier. There is no supported wallet transfer command yet.
 
@@ -34,6 +34,7 @@ writable `GOCACHE` or Cargo target/cache directory when using a sandbox.
 | Canonical private opening and local encryption | [note](../../internal/assetprivacy/note/README.md) |
 | Fixed recipient/auditor/controller envelope | [envelope](../../internal/assetprivacy/envelope/README.md) |
 | Immutable policy identity and shrinking powers | [policy records](POLICY_RECORDS.md) |
+| Current key records and stable-index authorization root | [Registry and native interfaces](KEY_AUTHORIZATION.md) |
 | Versioned public keys and owner commitments | [key epochs](../../internal/assetprivacy/keys/README.md) |
 | Account freeze state and eligibility | [control](../../internal/assetprivacy/control/README.md) |
 | Note membership and accepted-root state | [tree](../../internal/assetprivacy/tree/README.md) |

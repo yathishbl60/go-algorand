@@ -1,6 +1,6 @@
 # Native asset privacy: end-to-end delivery status
 
-Updated 2026-10-24. **Not end-to-end yet.** There is no native private transfer,
+Updated 2026-10-25. **Not end-to-end yet.** There is no native private transfer,
 complete proof verifier or real-node demo. The full north-star scope remains;
 completed components below do not substitute for it.
 
@@ -12,7 +12,7 @@ completed components below do not substitute for it.
 | NAP-02 consensus specification | Draft obligations/accounting/candidate layouts; complete normative protocol and sibling specs changes missing |
 | NAP-03 types/gates | Consensus flag added, false in every version; transaction/witness types and codecs missing |
 | NAP-04 cryptography | Note/conservation and complete single-envelope/note encryption constraints implemented; authority/disclosure/spend composition, runtime proofs and native verifier missing |
-| NAP-05 native state | COW supply, policy/key/control epochs, spent markers, tree/root history and atomic encrypted outputs implemented; authenticated eligibility roots and storage charges missing |
+| NAP-05 native state | COW supply, policy/key/control epochs, current-key authorization root, spent markers, tree/root history and atomic outputs implemented; eligibility roots and storage charges missing |
 | NAP-06 verification | Bounded opaque proof frame implemented; embedded STARK decoder, deterministic native verifier, work limits and cache integration missing |
 | NAP-07 lifecycle | Policy lifecycle, bounded viewing-key admission, destruction guard and public holding freeze persistence implemented; PQ administrative ingress and authenticated native transactions missing |
 | NAP-08 groups/pool/AVM | Group digest API and transfer public-input layout implemented; native verifier wiring, pool accounting and gated AVM inspection missing |
@@ -46,6 +46,7 @@ private transaction execution or privacy-state cleanup.
 - [Proof relation and group-binding requirements](PROOF_RELATIONS.md).
 - [Native accounting and destruction behavior](NATIVE_ACCOUNTING.md).
 - [Canonical policy records and lifecycle ordering](POLICY_RECORDS.md).
+- [Current-key registry and native atomic updates](KEY_AUTHORIZATION.md).
 - [Key roles, epoch persistence and caller obligations](../../internal/assetprivacy/keys/README.md).
 - [Freeze state and current eligibility obligations](../../internal/assetprivacy/control/README.md).
 - [Bounded outer witness framing](../../internal/assetprivacy/witness/README.md).

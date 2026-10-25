@@ -70,3 +70,9 @@ existing records remain readable after that authority is relinquished.
 No tests or possession proofs were added or executed, as requested. Build/vet
 checks provide static verification only. Public/native registration execution
 remains incomplete until the required cryptographic authorization is implemented.
+
+Native key reads expose a view without Put; writes use PutAssetPrivacyKey.
+Native key writes now atomically update the separate [current-key registry](../keyauth/README.md)
+with history/pointer state. Prior unindexed experimental state fails closed;
+current roots do not use note-root history. Proof membership and all current
+role/spending/eligibility checks remain caller integration obligations.

@@ -84,7 +84,7 @@ or runtime measurement is established; substantial layout work remains.
 [Complete single-envelope constraints](../../internal/assetprivacy/stark/src/envelope_air/README.md)
 use 22,885 columns/65,536 rows: 11,998,330,880 main + 1,079,508,992
 preprocessed bytes. All active KEM/AAD/HKDF/GCM/note operations are retained.
-These are raw counts only; authority/disclosure/spend composition remains.
+These are raw counts only; authority/disclosure/spend composition remains. [Private key records](../../internal/assetprivacy/stark/src/view_key_air/README.md) add 113,180,672 main + 6,291,456 preprocessed bytes standalone.
 
 Before selecting protocol limits, measure completed relations across shield,
 transfer, unshield and controller recovery, including each mandatory disclosure.

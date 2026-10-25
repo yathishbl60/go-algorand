@@ -35,3 +35,8 @@ candidate AAD and ML-KEM public-key hashes. The fixed-output [SHAKE256 wrapper](
 reuses the core with its own trusted rate/suffix. Longer XOF output and full KEM
 constraints remain separate. No tests, vectors, proofs or measurements ran.
 Builds and Clippy establish static properties, not security approval.
+
+Absorption keeps both final-round and previous-block flags. Every block flag is
+constrained to zero on the final row, so no extra transition filter is needed.
+This preserves valid-trace obligations under the supported fixed frame schedules
+and avoids an additional preprocessed degree factor when the hash is framed.

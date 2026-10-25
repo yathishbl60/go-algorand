@@ -44,8 +44,8 @@ or storage funding. A future native handler must perform those checks. Merely
 supplying the manager address is never authorization at an RPC boundary.
 
 Private-only creation needs a distinct authenticated creation integration; the
-existing-asset adoption helper intentionally retains public mode. Authority key
-epochs, issuer recovery and disclosure-key records remain unimplemented.
+existing-asset adoption helper intentionally retains public mode. [Key epochs and current-record roots](KEY_AUTHORIZATION.md) now persist separately;
+issuer recovery and complete authority/disclosure proof bindings remain unfinished.
 
 Builds/static analysis are permitted and performed. Tests, signature/replay
 vectors and protocol execution remain deferred/unverified.
