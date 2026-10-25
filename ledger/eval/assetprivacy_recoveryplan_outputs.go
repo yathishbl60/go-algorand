@@ -39,8 +39,8 @@ func (cs *roundCowState) assetPrivacyRemainderProofPlan(asset basics.AssetIndex,
 	if err != nil {
 		return nil, err
 	}
-	if record.Round != uint64(cs.Round()) {
-		return nil, outputs.ErrState
+	if err = cs.checkAssetPrivacyNewOutput(asset, record); err != nil {
+		return nil, err
 	}
 	return proofplan.BuildRemainder(record, config)
 }
@@ -51,8 +51,8 @@ func (cs *roundCowState) assetPrivacyRecoveredRecipientProofPlan(asset basics.As
 	if err != nil {
 		return nil, err
 	}
-	if record.Round != uint64(cs.Round()) {
-		return nil, outputs.ErrState
+	if err = cs.checkAssetPrivacyNewOutput(asset, record); err != nil {
+		return nil, err
 	}
 	return proofplan.BuildRecoveryRecipient(record, config)
 }

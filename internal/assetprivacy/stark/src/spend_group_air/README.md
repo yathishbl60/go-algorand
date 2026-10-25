@@ -58,10 +58,10 @@ These construction checks do not replace cryptographic verification.
 
 | Stage | Rows, end excluded |
 | --- | --- |
-| Holder input0 and current eligibility | 0..7356 |
-| Holder input1 and current eligibility | 7356..14712 |
-| Transfer output0 only | 14712..15224 |
-| Transfer output1 only | 15224..15736 |
+| Holder input0 and current eligibility | 0..7380 |
+| Holder input1 and current eligibility | 7380..14760 |
+| Transfer output0 only | 14760..15272 |
+| Transfer output1 only | 15272..15784 |
 | Remaining rows | Padding to16384 |
 
 Main width8506 is259 fixed root registers plus8247 reusable child scratch. Only

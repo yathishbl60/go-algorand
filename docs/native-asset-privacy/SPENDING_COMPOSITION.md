@@ -9,13 +9,13 @@ not exist. These relations do not implement issuer recovery or all arities.
 
 [SpendableNoteAir](../../internal/assetprivacy/stark/src/spendable_note_air/README.md)
 constrains the canonical opening, its committed owner's nonzero secret, the exact
-serial-derived public nullifier, accepted note membership and current eligibility
+commitment-bound V2 public nullifier, accepted note membership and current eligibility
 for the same hidden account. The owner is the one already committed in the note;
 there is no equality to the latest registered output owner after key rotation.
 Input commitment, account, serial, secret and membership paths remain private.
 
-The staged input uses8247 main columns over8192 rows, with7356 active rows and64
-preprocessed columns. Note512, owner hash49, nullifier hash73, note membership3105
+The staged input uses8247 main columns over8192 rows, with7380 active rows and64
+preprocessed columns. Note512, owner hash49, nullifier hash97, note membership3105
 and current eligibility3617 share scratch. The compact hash frames retain every
 permutation and a final flag-clear padding row. Private digest outputs and direct
 account/value/serial/owner bindings replace public private-input joining values.
@@ -43,7 +43,7 @@ cannot come from note-root history. Every64-byte nullifier, including zero, is
 valid as a hash output; duplicate nullifiers are rejected before native verification.
 
 The group has16384 rows,8506 main columns and80 preprocessed columns. Active input
-stages end at14712; Transfer's two512-row outputs end at15736. Raw main storage is
+stages end at14760; Transfer's two512-row outputs end at15784. Raw main storage is
 1,114,898,432 bytes plus10,485,760 preprocessing bytes, excluding all prover overhead.
 The source degree upper bound is10. Existing configuration is unchanged; actual
 quotient sizing, masking/opening budget, soundness and resource feasibility remain
@@ -89,7 +89,8 @@ spends, freezes, keys, assignments or body/group mutations; inputs must not be
 concurrently changed during construction. Old note roots may be accepted while
 current eligibility remains mandatory. Recovery/frozen-owner remainders need a
 [separate recovery relation](RECOVERY.md), with current issuer signatures mandatory.
-[Output marker freshness](NULLIFIER_FRESHNESS.md) remains an unresolved candidate gate.
+[V2 markers/native creation uniqueness](NULLIFIER_FRESHNESS.md) now have source
+implementations; runtime/security evidence remains pending.
 
 No tests, vectors, traces, constraint evaluations, proofs, benchmarks or real-node
 demos have run. Builds, vet, Clippy, source review and physical limits are the

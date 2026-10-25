@@ -11,13 +11,8 @@ pub(super) fn owner_prefix(network: [u8; 32]) -> [u8; 77] {
     prefix
 }
 
-pub(super) fn nullifier_prefix(network: [u8; 32], asset: u64, policy: [u8; 64]) -> [u8; 147] {
-    let mut prefix = [0; 147];
-    prefix[..43].copy_from_slice(b"Algorand/AssetPrivacy/Candidate1/Nullifier/");
-    prefix[43..75].copy_from_slice(&network);
-    prefix[75..83].copy_from_slice(&asset.to_be_bytes());
-    prefix[83..].copy_from_slice(&policy);
-    prefix
+pub(super) fn nullifier_prefix(network: [u8; 32], asset: u64, policy: [u8; 64]) -> [u8; 149] {
+    crate::nullifier_v2::prefix(network, asset, policy)
 }
 
 impl SpendableNoteAir {
@@ -30,11 +25,5 @@ impl SpendableNoteAir {
         message[77..].copy_from_slice(&secret);
         let owner: [u8; 64] = Sha3_512::digest(message).into();
         (owner == opening[73..137]).then_some(message)
-    }
-    pub(super) fn nullifier_message(&self, opening: &[u8; 512]) -> [u8; 179] {
-        let mut message = [0; 179];
-        message[..147].copy_from_slice(&self.nullifier_prefix);
-        message[147..].copy_from_slice(&opening[177..209]);
-        message
     }
 }

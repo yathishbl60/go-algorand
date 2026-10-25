@@ -5,7 +5,7 @@ For current ordinary input eligibility plus group conservation, use
 current eligibility and is not the native main-proof selection.
 
 This disabled Rust component composes two actual private input notes and two
-private output openings. Each input proves ownership, its serial-derived public
+private output openings. Each input proves ownership, its commitment-bound V2 public
 nullifier, and 32-level membership. Each output proves a canonical note opening.
 All components use the constructor's network, asset and policy domain.
 

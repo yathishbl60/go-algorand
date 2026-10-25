@@ -20,18 +20,26 @@ package eval
 
 import (
 	"github.com/algorand/go-algorand/data/basics"
+	"github.com/algorand/go-algorand/internal/assetprivacy/notetree"
+	"github.com/algorand/go-algorand/internal/assetprivacy/policy"
 	"github.com/algorand/go-algorand/internal/assetprivacy/tree"
 )
 
-// OpenAssetPrivacyTree binds state to the native network and an existing ASA.
-// Callers still must authenticate its immutable policy and enforce storage funding.
-func (cs *roundCowState) OpenAssetPrivacyTree(aidx basics.AssetIndex, policy tree.Hash) (*tree.Tree, error) {
-	if !cs.proto.EnableNativeAssetPrivacy {
-		return nil, tree.ErrDisabled
-	}
-	if _, _, err := cs.AssetParams(aidx); err != nil {
+func (cs *roundCowState) openAssetPrivacyNoteTree(asset basics.AssetIndex, expected tree.Hash) (*notetree.Store, error) {
+	declaration, exists, err := cs.GetAssetPrivacyPolicy(asset)
+	if err != nil {
 		return nil, err
 	}
-	domain := tree.Domain{Genesis: cs.GenesisHash(), Asset: uint64(aidx), Policy: policy}
-	return tree.Open(assetPrivacyTreeKV{cs}, domain)
+	if !exists {
+		return nil, policy.ErrMissing
+	}
+	identity, err := declaration.Identity(cs.GenesisHash(), uint64(asset))
+	if err != nil {
+		return nil, err
+	}
+	if expected != identity {
+		return nil, tree.ErrDomain
+	}
+	domain := tree.Domain{Genesis: cs.GenesisHash(), Asset: uint64(asset), Policy: identity}
+	return notetree.Open(assetPrivacyTreeKV{cs}, domain)
 }

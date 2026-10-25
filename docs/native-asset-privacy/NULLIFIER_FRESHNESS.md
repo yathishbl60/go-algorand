@@ -1,58 +1,77 @@
-# Unresolved candidate output-nullifier freshness
+# Commitment-bound markers and unique native note creation
 
-Updated 2026-10-25. Source review identified a candidate protocol gap. No native
-private transaction is accepted and all activation flags remain disabled. This
-must be fixed before activation or a claim that every accepted output is spendable.
+Updated 2026-10-25. The serial-reuse correction is implemented in Go/Rust and native
+storage, behind disabled flags. Source/build evidence exists; no runtime proofs,
+adversarial tests or completed security review establish the full guarantee yet.
 
-## Current source behavior
+## Corrected construction
 
-The current holder and recovery marker is SHA3-512 of candidate Nullifier domain,
-network, asset, policy and private serial. Canonical notes require a nonzero serial
-but do not prove it fresh. Spending/conservation relations match each INPUT marker
-to that input's committed serial, and native planning checks that marker unspent.
-New output commitments are locally distinct, but their private serials need not be.
+The old candidate hashed network/asset/policy/serial only. Reusing a consumed
+serial in a different canonical output could give it an already-spent marker.
+Honest randomness and input freshness alone did not constrain malicious outputs.
 
-A sender can reuse an input's serial in a canonical output with a different amount
-or blinding. That output has a different note commitment but the same marker as
-the consumed input. It would be unspendable once the input marker is consumed.
-Reusing another known previously spent serial has the same issue. Two distinct
-output commitments can also share a serial/marker. This is a source inference;
-no trace, proof, runtime attack, test or native acceptance has been executed.
+The current exact245-byte preimage is:
 
-Honest local note constructors use fresh randomness, but that is not a consensus
-proof against a malicious constructor. Checking input freshness alone, attaching
-valid ciphertexts, or requiring registered recipients does not close this gap.
-Rejecting only same-operation serial reuse would not establish global freshness.
+1. ASCII Algorand/AssetPrivacy/Candidate1/NullifierV2/ (45 bytes).
+2. Genesis32, assetBE8 and immutable policy64 (prefix total149).
+3. Private serial32 (bytes149..181).
+4. Canonical private note commitment64 (bytes181..245).
 
-## Next protocol work
+SHA3-512 yields the64-byte marker; every hash output, including zero, is valid.
+The complete canonical commitment already binds owner/account/value/serial/blinding
+and network/asset/policy. Go Note.Nullifier(network) keeps its API and validates/
+computes that commitment. Rust's shared nullifier_v2 helper fixes the same encoding.
+Older NullifiedNoteAir, ordinary SpendableNoteAir and RecoveryNoteAir all bind the
+same PRIVATE digest into that hash. No input commitment or future output marker
+is published. The older Rust nullifier helper now returns Option after canonical
+validation rather than hashing an arbitrary malformed opening.
 
-The marker construction and native note-creation rules must jointly guarantee
-fresh spendable outputs without publishing a future output marker or linking
-private input commitments. Two approaches need a precise implementation decision:
+## Native uniqueness supplies the other half
 
-- Bind the marker to its canonical note commitment as well as serial, and enforce
-  global per-domain uniqueness of note commitments across every native append path.
-  A private hash binding then gives distinct note commitments distinct markers,
-  under the hash assumptions. Holder/recovery constructions must remain identical.
-- Prove a new output's privately computed marker absent from authenticated current
-  spent state, with a complete private nonmembership relation and current-root gate.
-  Merely reading the public spent KV namespace does not supply that proof.
+[notetree](../../internal/assetprivacy/notetree/README.md) atomically indexes every
+created commitment and rejects reuse for that entire native domain. Spent notes
+and expired note roots do not remove the creation record. New native output plans
+check this invariant and append rechecks it at application. Both native append
+helpers use the guarded wrapper; OpenAssetPrivacyTree exposes read methods only.
+The private opener also validates the supplied policy against current declaration.
 
-The first approach appears smaller with current components, but is not implemented
-or frozen by this document. It changes the marker preimage and requires auditing
-Go local APIs, all Rust old/new holder/recovery relations, private digest bindings,
-native output commitment indexing, atomic rollback, root/version/migration rules,
-wallet scanning and every protocol specification/profile artifact. All append
-helpers and writable store surfaces must preserve any chosen uniqueness invariant.
+Conditioned on the hash/binding assumptions, two distinct canonical commitments
+produce different marker preimages even if serials repeat. A globally new accepted
+commitment cannot deliberately reproduce a previously accepted note's marker
+without a hash collision. Recreating the exact old commitment is instead rejected
+by native creation uniqueness. Same-note holder and recovery actions still derive
+the identical marker and conflict in the same shared native spent namespace.
 
-No implicit migration of existing experimental state is justified. A missing map
-entry alone cannot prove global nonmembership or detect arbitrary out-of-band
-corruption. Protocol versioning and trusted state provenance must make the native
-invariant explicit. Local duplicate-output checks are not a global uniqueness gate.
+This argument also requires complete proof verification, valid native marker
+consumption, trusted suite/artifact selection and intact deterministic consensus
+state. A map lookup is no private nonmembership proof or universal corruption
+detector. There is no claim about arbitrary out-of-band KV deletion or Byzantine
+storage. Every future pruning/replay/migration path must preserve the creation map.
 
-Implement the selected rule, preserve same-note holder-versus-recovery conflict,
-then add adversarial/runtime evidence when tests are authorized. Update the pinned
-profile/statement/wallet contracts consistently; do not enable an old marker suite
-with a new invariant or mix proof versions. Complete native verifier/transaction
-integration, other cryptographic obligations and the full north-star scope remain
-required. Current build/static checks establish neither freshness nor security.
+## State/profile generation and resources
+
+Generation2 note-state guard records exactly177 bytes: byte2, domain104,
+countBE8, root64. The permanent creation record is173 bytes: byte2, domain104,
+commitment64, indexBE4. Both are under aprv:nt:assetBE8; generic aprv:t: tree
+metadata/nodes/history remain unchanged. Nonempty unguarded trees are rejected,
+not silently migrated. Root/count changes without guard updates fail on reopen.
+Key/eligibility mutable registries retain their separate namespaces and behavior.
+
+The marker's distinct V2 domain, generation2 guard and revised trusted schedules
+must be pinned together in a new profile/artifact. No old serial-only artifact
+may remain accepted under an unchanged old suite identifier. Native allowed-suite
+registration and deterministic verifier/decoder are still unfinished. Existing
+experimental state/proofs have no automatic migration or compatibility promise.
+
+The four-block marker hash needs97 rows, including a final flag-clear pad. Ordinary
+input active rows rise7356->7380; transfer outputs now end at15784 within16384.
+Recovery input rises3690->3714 and partial-private outputs end at4738 within8192.
+Main widths/heights/public schemas and conservative degree bounds are unchanged;
+actual quotient/hiding/composed security and practical resource budgets remain open.
+
+Source audits found no native note-store open using generic tree.Open/OpenMutable:
+private native opens/loaders use notetree. Ordinary and both recovery recipient
+planners apply the same creation check. Features remain opt-in; no consensus
+version enables privacy. Tests, vectors, traces, constraint evaluations, proofs,
+node/replay scenarios and benchmarks remain deferred by user instruction.
+Full verifier/authentication/transaction/SDK delivery and the north star remain.

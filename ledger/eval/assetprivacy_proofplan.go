@@ -32,8 +32,8 @@ func (cs *roundCowState) AssetPrivacyOutputProofPlan(asset basics.AssetIndex, re
 	if err != nil {
 		return nil, err
 	}
-	if record.Round != uint64(cs.Round()) {
-		return nil, outputs.ErrState
+	if err = cs.checkAssetPrivacyNewOutput(asset, record); err != nil {
+		return nil, err
 	}
 	return proofplan.Build(record, config)
 }

@@ -26,7 +26,7 @@ import (
 // AppendAssetPrivacyCommitment appends a verified output in the group-local COW.
 // This helper performs no proof verification, policy authorization or fee charging.
 func (cs *roundCowState) AppendAssetPrivacyCommitment(aidx basics.AssetIndex, policy, leaf tree.Hash) (uint32, tree.Hash, error) {
-	state, err := cs.OpenAssetPrivacyTree(aidx, policy)
+	state, err := cs.openAssetPrivacyNoteTree(aidx, policy)
 	if err != nil {
 		return 0, tree.Hash{}, err
 	}

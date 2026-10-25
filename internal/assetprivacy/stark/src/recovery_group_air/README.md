@@ -38,8 +38,8 @@ its whole contents enter the pinned transcript. Authority/public credit equal
 the trusted constructor constants. Native code must never trust proof-advertised
 operation, authority, schedule, artifact or expected public values.
 
-The input stage occupies0..3690, then each actual output uses512 rows. Active
-rows end at4714 for PartialPrivate,4202 for FullPrivate/PartialPublic,3690 for
+The input stage occupies0..3714, then each actual output uses512 rows. Active
+rows end at4738 for PartialPrivate,4226 for FullPrivate/PartialPublic,3714 for
 FullPublic; padding extends to8192. Main width8539 uses549 constant parent roots
 and7990 shared input scratch. Roots contain four amount fields256bits, source
 account256bits, source owner32limbs, carry3 and positivity inverses2. Only the
@@ -67,7 +67,7 @@ The weaker receipt/remainder relations can never be selected by an ordinary
 transaction or a proof's role label. [Native planning](../../../../../docs/native-asset-privacy/RECOVERY.md)
 currently supplies statements only; body parsing and deterministic verification
 remain unfinished. [Nullifier freshness](../../../../../docs/native-asset-privacy/NULLIFIER_FRESHNESS.md)
-is an additional unresolved activation gate.
+implements the V2 marker/global-uniqueness correction; runtime evidence remains.
 
 Old note recovery requires the old decrypted opening or retained viewing keys;
 current roots/new keys cannot reconstruct unavailable secrets. Audit access alone

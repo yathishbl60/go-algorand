@@ -10,6 +10,7 @@ mod input;
 mod layout;
 mod messages;
 mod note_binding;
+mod nullifier_binding;
 mod params;
 mod prepared;
 mod schedule;
@@ -38,7 +39,7 @@ pub struct SpendableNoteAir {
     membership: MembershipVerticalAir,
     eligibility: CurrentEligibilityAir,
     owner_prefix: [u8; 77],
-    nullifier_prefix: [u8; 147],
+    nullifier_prefix: [u8; 149],
 }
 
 impl SpendableNoteAir {
@@ -50,7 +51,7 @@ impl SpendableNoteAir {
         Some(Self {
             note,
             owner: Sha3Air::new(109)?,
-            nullifier: Sha3Air::new(179)?,
+            nullifier: Sha3Air::new(crate::nullifier_v2::MESSAGE_BYTES)?,
             membership: MembershipVerticalAir::new(network, asset, policy)?,
             eligibility: CurrentEligibilityAir::new(network, asset, policy)?,
             owner_prefix: messages::owner_prefix(network),
@@ -81,6 +82,7 @@ impl<AB: AirBuilder<F = Value>> Air<AB> for SpendableNoteAir {
         self.eval_note_binding(builder);
         self.eval_owner_binding(builder);
         self.eval_nullifier_binding(builder);
+        self.eval_nullifier_commitment(builder);
         self.eval_membership_binding(builder);
         self.eval_eligibility_binding(builder);
     }

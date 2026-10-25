@@ -4,7 +4,9 @@ This tagged package implements the append-only, depth-32 native commitment tree.
 It remains inactive unless built with `algorand_native_privacy` and integrated
 through a consensus version enabling `EnableNativeAssetPrivacy`. No current
 version enables it. Transaction proof verification and policy authorization
-must precede appends; this package does neither.
+must precede appends; this generic package does neither. Native notes use the
+[notetree generation2 wrapper](../notetree/README.md) to enforce global creation
+uniqueness and read-only native views; key/eligibility registries remain separate.
 
 ## Hash contract
 

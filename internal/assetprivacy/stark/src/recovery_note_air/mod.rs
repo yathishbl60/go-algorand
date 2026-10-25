@@ -10,6 +10,7 @@ mod input;
 mod layout;
 mod message;
 mod note_binding;
+mod nullifier_binding;
 mod params;
 mod prepared;
 mod schedule;
@@ -34,7 +35,7 @@ pub struct RecoveryNoteAir {
     note: NoteCommitmentAir,
     nullifier: Sha3Air,
     membership: MembershipVerticalAir,
-    prefix: [u8; 147],
+    prefix: [u8; 149],
 }
 
 impl RecoveryNoteAir {
@@ -45,7 +46,7 @@ impl RecoveryNoteAir {
         }
         Some(Self {
             note,
-            nullifier: Sha3Air::new(179)?,
+            nullifier: Sha3Air::new(crate::nullifier_v2::MESSAGE_BYTES)?,
             membership: MembershipVerticalAir::new(network, asset, policy)?,
             prefix: message::prefix(network, asset, policy),
         })
@@ -73,6 +74,7 @@ impl<AB: AirBuilder<F = Value>> Air<AB> for RecoveryNoteAir {
         self.eval_roots(builder);
         self.eval_note_binding(builder);
         self.eval_nullifier_binding(builder);
+        self.eval_nullifier_commitment(builder);
         self.eval_membership_binding(builder);
     }
 }

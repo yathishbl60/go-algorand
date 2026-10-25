@@ -7,7 +7,7 @@ use sha3::{Digest, Sha3_512};
 pub(super) struct Prepared<'a> {
     pub input: RecoveryInput<'a>,
     pub commitment: [u8; 64],
-    pub message: [u8; 179],
+    pub message: [u8; 245],
     pub nullifier: [u8; 64],
 }
 
@@ -17,7 +17,7 @@ impl<'a> Prepared<'a> {
         if root == [0; 64] || air.membership.root(commitment, input.path) != root {
             return None;
         }
-        let message = air.message(input.opening);
+        let message = crate::nullifier_v2::message(air.prefix, input.opening, commitment);
         Some(Self {
             input,
             commitment,

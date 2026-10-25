@@ -20,6 +20,7 @@ package eval
 
 import (
 	"github.com/algorand/go-algorand/data/basics"
+	"github.com/algorand/go-algorand/internal/assetprivacy/notetree"
 	"github.com/algorand/go-algorand/internal/assetprivacy/outputs"
 	"github.com/algorand/go-algorand/internal/assetprivacy/policy"
 	"github.com/algorand/go-algorand/internal/assetprivacy/tree"
@@ -27,7 +28,7 @@ import (
 
 type assetPrivacyOutputState struct {
 	stream      *outputs.Store
-	commitments *tree.Tree
+	commitments *notetree.Store
 }
 
 // openAssetPrivacyOutputs derives the domain from authoritative current policy.
@@ -52,7 +53,7 @@ func (cs *roundCowState) loadAssetPrivacyOutputs(domain tree.Domain, flags polic
 	if err != nil {
 		return nil, err
 	}
-	commitments, err := tree.Open(assetPrivacyTreeKV{cs}, domain)
+	commitments, err := notetree.Open(assetPrivacyTreeKV{cs}, domain)
 	if err != nil {
 		return nil, err
 	}

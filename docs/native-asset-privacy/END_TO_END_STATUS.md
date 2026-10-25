@@ -11,7 +11,7 @@ completed components below do not substitute for it.
 | NAP-01 profile | Pinned candidate documented; complete relation, security argument, vectors and measurements missing |
 | NAP-02 consensus specification | Draft obligations/accounting/candidate layouts; complete normative protocol and sibling specs changes missing |
 | NAP-03 types/gates | Consensus flag added, false in every version; transaction/witness types and codecs missing |
-| NAP-04 cryptography | Note/conservation, complete envelope encryption, recipient current-key/eligibility membership and assigned disclosure constraints implemented; ordinary two-input eligibility/conservation/group constraints implemented; recovery/remainder constraints implemented; output marker freshness, other arities, runtime proofs and native verifier missing |
+| NAP-04 cryptography | Note/conservation, complete envelope encryption, recipient current-key/eligibility membership and assigned disclosure constraints implemented; ordinary two-input eligibility/conservation/group constraints implemented; recovery/remainder constraints implemented; commitment-bound V2 markers/global creation uniqueness implemented; other arities, runtime proofs and native verifier missing |
 | NAP-05 native state | COW supply, policy/key/control epochs, current-key and effective-freeze roots, spent markers, tree/root history and atomic outputs implemented; storage charges and runtime recovery evidence missing |
 | NAP-06 verification | Bounded opaque proof frame, exact main/output vectors and native state/body-context planning implemented; embedded STARK decoder, deterministic native verifier, work limits and cache integration missing |
 | NAP-07 lifecycle | Policy lifecycle, bounded viewing-key admission, destruction guard and public holding freeze persistence implemented; PQ administrative ingress and authenticated native transactions missing |
@@ -47,7 +47,7 @@ private transaction execution or privacy-state cleanup.
 - [Exact output statements and composition obligations](PROOF_PLANNING.md).
 - [Ordinary input spending/conservation and native planning](SPENDING_COMPOSITION.md).
 - [Recovery/remainder relations and authority boundaries](RECOVERY.md).
-- [Unresolved output-nullifier freshness gate](NULLIFIER_FRESHNESS.md).
+- [V2 output-nullifier freshness correction and generation2 state](NULLIFIER_FRESHNESS.md).
 - [Native accounting and destruction behavior](NATIVE_ACCOUNTING.md).
 - [Canonical policy records and lifecycle ordering](POLICY_RECORDS.md).
 - [Current-key registry and native atomic updates](KEY_AUTHORIZATION.md).

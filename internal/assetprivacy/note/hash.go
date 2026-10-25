@@ -36,20 +36,19 @@ func (n Note) Commitment(network [32]byte) ([64]byte, error) {
 	return digest("Commitment", network, encoded), nil
 }
 
-// Nullifier is shared by holder-spend and authorized-controller recovery paths.
+// Nullifier V2 binds the serial and canonical commitment for holder/recovery paths.
 // Knowledge of this marker or its serial alone is never spending authorization.
 func (n Note) Nullifier(network [32]byte) ([64]byte, error) {
-	if err := n.Validate(); err != nil {
+	commitment, err := n.Commitment(network)
+	if err != nil {
 		return [64]byte{}, err
-	}
-	if network == [32]byte{} {
-		return [64]byte{}, ErrDomain
 	}
 	encoded := binary.BigEndian.AppendUint64(nil, n.Asset)
 	encoded = append(encoded, n.Policy[:]...)
 	encoded = append(encoded, n.Serial[:]...)
+	encoded = append(encoded, commitment[:]...)
 	defer clear(encoded)
-	return digest("Nullifier", network, encoded), nil
+	return digest("NullifierV2", network, encoded), nil
 }
 
 func digest(role string, network [32]byte, encoded []byte) [64]byte {

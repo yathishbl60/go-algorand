@@ -17,6 +17,8 @@ mod mlkem_modules;
 #[cfg(feature = "native-privacy")]
 mod note_modules;
 #[cfg(feature = "native-privacy")]
+mod nullifier_v2;
+#[cfg(feature = "native-privacy")]
 mod parameters;
 #[cfg(feature = "native-privacy")]
 mod prefix_builder;

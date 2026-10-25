@@ -15,10 +15,10 @@ pub(super) const FLAGS: usize = crate::membership_vertical::PREPROCESSED;
 pub const PREPROCESSED: usize = FLAGS + 12;
 pub(super) const NOTE_ROWS: usize = 512;
 pub(super) const NULLIFIER_ROW: usize = NOTE_ROWS;
-pub(super) const NULLIFIER_ROWS: usize = 73;
+pub(super) const NULLIFIER_ROWS: usize = 97;
 pub(super) const MEMBER_ROW: usize = NULLIFIER_ROW + NULLIFIER_ROWS;
 pub const FRAME_ROWS: usize = MEMBER_ROW + crate::membership_vertical::FRAME_ROWS;
 
-const _: () = assert!(FRAME_ROWS == 3690);
+const _: () = assert!(FRAME_ROWS == 3714);
 const _: () = assert!(FRAME_ROWS <= ROWS);
 const _: () = assert!(crate::membership_vertical::WIDTH <= SCRATCH);

@@ -1,6 +1,6 @@
-# Candidate privacy profile, revision 1
+# Candidate privacy profile, revision 2
 
-Updated 2026-10-24. Implementation choice, not a frozen network suite or security
+Updated 2026-10-25. Implementation choice, not a frozen network suite or security
 approval. The user authorized implementation without supplying a reviewed profile.
 The 128-bit post-quantum target remains; this document does not establish it.
 
@@ -51,8 +51,9 @@ The [note API](../../internal/assetprivacy/note/README.md) defines a canonical
 512-byte opening with 241 meaningful bytes and zero padding. SHA3-512 domains
 separate commitments, spending-key commitments and nullifiers. Private spending
 secrets, serials and blindings each use 32 fresh random bytes. Nullifiers bind the
-network, asset, policy and serial; holder/controller paths must consume the same
-marker. Note-opening, ownership, nullifier and membership AIRs are implemented; complete
+network, asset, policy, serial and canonical commitment under NullifierV2.
+[Generation2 note creation](NULLIFIER_FRESHNESS.md) prevents commitment reuse;
+holder/controller paths consume the same marker. Note-opening, ownership, nullifier and membership AIRs are implemented; complete
 transfer composition and resource feasibility remain pending. See [proof components](PROOF_COMPONENTS.md).
 
 ## Note-encryption component

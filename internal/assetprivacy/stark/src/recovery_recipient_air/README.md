@@ -53,7 +53,8 @@ freeze exception is limited to authorized recovery and grants no authority itsel
 Public/private mode, funding, accepted roots and shared-nullifier checks remain
 native obligations. A planner or header comparison verifies no proof.
 
-Native decoder/verifier/transaction ingress and [output nullifier freshness](../../../../../docs/native-asset-privacy/NULLIFIER_FRESHNESS.md)
-remain unfinished. No tests, vectors, traces, constraint evaluations, proofs,
+[V2 markers and creation uniqueness](../../../../../docs/native-asset-privacy/NULLIFIER_FRESHNESS.md)
+now have source implementations. Native decoder/verifier/transaction ingress
+and runtime evidence remain unfinished. No tests, vectors, traces, constraint evaluations, proofs,
 benchmarks or node demos have run. Build/Clippy/source limits establish only
 compilation/source properties, with no completed cryptographic review.

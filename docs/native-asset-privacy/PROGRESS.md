@@ -90,7 +90,7 @@ independent cryptographic security review has been supplied or completed.
 
 ## Next work
 
-Resolve [output marker freshness](NULLIFIER_FRESHNESS.md), then issuer authentication,
+Validate [V2 markers/global creation uniqueness](NULLIFIER_FRESHNESS.md), then issuer authentication,
 other arities and native verifier/execution,
 including body-field matching and group application. Establish resource feasibility,
 proof decoding/work limits and trusted profile artifacts before activation. Then finish

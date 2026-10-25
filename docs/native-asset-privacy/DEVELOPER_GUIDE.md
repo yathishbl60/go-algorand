@@ -39,7 +39,7 @@ writable `GOCACHE` or Cargo target/cache directory when using a sandbox.
 | Current key records and stable-index authorization root | [Registry and native interfaces](KEY_AUTHORIZATION.md) |
 | Versioned public keys and owner commitments | [key epochs](../../internal/assetprivacy/keys/README.md) |
 | Atomic freeze snapshots and private recipient eligibility | [Current eligibility](ELIGIBILITY.md) |
-| Note membership and accepted-root state | [tree](../../internal/assetprivacy/tree/README.md) |
+| Unique native note creation, read-only paths and root history | [Generation2 note tree](../../internal/assetprivacy/notetree/README.md) |
 | Atomic encrypted outputs, pages and local recovery | [outputs](../../internal/assetprivacy/outputs/README.md) |
 | Shared holder/controller spent marker | [nullifier](../../internal/assetprivacy/nullifier/README.md) |
 | Final body/order binding | [statement](../../internal/assetprivacy/statement/README.md) |

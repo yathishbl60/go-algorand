@@ -4,6 +4,10 @@
 use super::OwnedNoteAir;
 
 impl OwnedNoteAir {
+    pub(crate) fn note_commitment(&self, opening: &[u8; 512]) -> Option<[u8; 64]> {
+        self.note.commitment(opening)
+    }
+
     pub(crate) fn serial_bit_column(&self, bit: usize) -> usize {
         self.note.opening_bit_column(177 + bit / 8, bit % 8)
     }

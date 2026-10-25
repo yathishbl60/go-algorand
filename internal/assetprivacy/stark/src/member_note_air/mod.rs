@@ -1,7 +1,7 @@
 // Copyright (C) 2026 Algorand Foundation Ltd.
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
-//! Private ownership, serial-derived nullifier, and 32-level membership.
+//! Private ownership, commitment-bound V2 nullifier, and 32-level membership.
 //! Public values are 32 nullifier limbs followed by 32 root limbs.
 //! Transfer conservation, ciphertexts, group binding and ledger freshness are separate.
 

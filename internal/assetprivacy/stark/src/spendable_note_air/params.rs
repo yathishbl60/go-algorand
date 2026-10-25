@@ -19,7 +19,7 @@ pub(super) const NOTE_ROWS: usize = 512;
 pub(super) const OWNER_ROW: usize = NOTE_ROWS;
 pub(super) const OWNER_ROWS: usize = 49;
 pub(super) const NULLIFIER_ROW: usize = OWNER_ROW + OWNER_ROWS;
-pub(super) const NULLIFIER_ROWS: usize = 73;
+pub(super) const NULLIFIER_ROWS: usize = 97;
 pub(super) const MEMBER_ROW: usize = NULLIFIER_ROW + NULLIFIER_ROWS;
 pub(super) const ELIGIBILITY_ROW: usize = MEMBER_ROW + crate::membership_vertical::FRAME_ROWS;
 pub const FRAME_ROWS: usize = ELIGIBILITY_ROW + crate::current_eligibility_air::FRAME_ROWS;
@@ -31,7 +31,7 @@ pub(super) const STAGES: [(usize, usize); 5] = [
     (ELIGIBILITY_ROW, crate::current_eligibility_air::FRAME_ROWS),
 ];
 
-const _: () = assert!(FRAME_ROWS == 7356);
+const _: () = assert!(FRAME_ROWS == 7380);
 const _: () = assert!(FRAME_ROWS <= ROWS);
 const _: () = assert!(crate::membership_vertical::WIDTH <= SCRATCH);
 const _: () = assert!(crate::current_eligibility_air::WIDTH <= SCRATCH);

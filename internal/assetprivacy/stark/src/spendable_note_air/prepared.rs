@@ -8,7 +8,7 @@ pub(super) struct Prepared<'a> {
     pub input: SpendInput<'a>,
     pub commitment: [u8; 64],
     pub owner_message: [u8; 109],
-    pub nullifier_message: [u8; 179],
+    pub nullifier_message: [u8; 245],
     pub nullifier: [u8; 64],
 }
 
@@ -22,7 +22,8 @@ impl<'a> Prepared<'a> {
         let commitment = air.note.commitment(input.opening)?;
         let owner_message = air.owner_message(input.opening, input.secret)?;
         air.check_roots(input, commitment, note_root, eligibility_root)?;
-        let nullifier_message = air.nullifier_message(input.opening);
+        let nullifier_message =
+            crate::nullifier_v2::message(air.nullifier_prefix, input.opening, commitment);
         Some(Self {
             input,
             commitment,

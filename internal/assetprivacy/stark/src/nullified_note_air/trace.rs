@@ -12,21 +12,24 @@ impl NullifiedNoteAir {
     /// Builds private columns; the native ledger must separately check freshness.
     pub fn trace(&self, opening: &[u8; 512], secret: [u8; 32]) -> Option<RowMajorMatrix<Value>> {
         let owned = self.owned.trace(opening, secret)?;
-        let message = self.message(opening);
+        let message = self.message(opening)?;
         let hash = self.hash.trace(&message)?;
         let digest = digest_values(Sha3_512::digest(message).into());
         Some(self.join(owned, hash, digest))
     }
 
     /// Computes the public marker; this alone does not validate or authorize a note.
-    pub fn nullifier(&self, opening: &[u8; 512]) -> [u8; 64] {
-        Sha3_512::digest(self.message(opening)).into()
+    pub fn nullifier(&self, opening: &[u8; 512]) -> Option<[u8; 64]> {
+        Some(Sha3_512::digest(self.message(opening)?).into())
     }
 
-    fn message(&self, opening: &[u8; 512]) -> Vec<u8> {
-        let mut message = self.prefix.clone();
-        message.extend_from_slice(&opening[177..209]);
-        message
+    fn message(&self, opening: &[u8; 512]) -> Option<[u8; 245]> {
+        let commitment = self.owned.note_commitment(opening)?;
+        Some(crate::nullifier_v2::message(
+            self.prefix,
+            opening,
+            commitment,
+        ))
     }
 
     fn join(

@@ -41,7 +41,8 @@ by this opening format; native operation rules and fees remain a separate check.
 
 Commitments use SHA3-512 over a distinct domain, genesis hash and the complete
 canonical plaintext. Nullifiers use another domain, genesis hash, asset ID,
-policy identity and secret serial. The holder and authorized controller derive
+policy identity, secret serial and the canonical note commitment, with the
+NullifierV2 domain. Native generation2 note creation rejects global commitment reuse. The holder and authorized controller derive
 the same marker from the same note. Knowing a serial or marker does not establish
 the spending-key preimage or current controller authorization.
 

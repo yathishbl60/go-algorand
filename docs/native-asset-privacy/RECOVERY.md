@@ -2,8 +2,8 @@
 
 Updated 2026-10-25. Disabled recovery constraints and native expected-statement
 planning exist. They do not verify issuer signatures or implement an accepted
-recovery transaction. [Output marker freshness](NULLIFIER_FRESHNESS.md), native
-proof decoding/authentication and execution remain activation gates.
+recovery transaction. [V2 marker/creation correction](NULLIFIER_FRESHNESS.md) now
+has source implementations; runtime proofs and native execution remain gates.
 
 ## Four exact shapes and value preservation
 
@@ -15,7 +15,7 @@ proof decoding/authentication and execution remain activation gates.
 | FullPublic | None | 132 |
 
 Every variant consumes one actual canonical input. [RecoveryNoteAir](../../internal/assetprivacy/stark/src/recovery_note_air/README.md)
-proves its accepted note membership and same serial-derived marker as ordinary
+proves its accepted note membership and same commitment-bound V2 marker as ordinary
 holder spending, without requiring the holder secret or Frozen=0. The input
 commitment/account/owner/path stay private. Merely knowing an opening, including
 through audit access, does not confer any recovery authority.

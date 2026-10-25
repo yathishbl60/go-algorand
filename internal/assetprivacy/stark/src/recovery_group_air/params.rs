@@ -13,5 +13,5 @@ pub(super) const OUTPUT_ROWS: usize = 512;
 pub(super) const FLAGS: usize = crate::recovery_note_air::PREPROCESSED;
 pub const PREPROCESSED: usize = FLAGS + 12;
 
-const _: () = assert!(INPUT_ROWS == 3690);
+const _: () = assert!(INPUT_ROWS == 3714);
 const _: () = assert!(INPUT_ROWS + 2 * OUTPUT_ROWS <= ROWS);
