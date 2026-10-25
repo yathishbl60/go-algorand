@@ -1,10 +1,12 @@
 // Copyright (C) 2026 Algorand Foundation Ltd.
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
-//! Recipient output encryption bound to current viewing and spending records.
-//! Current eligibility, disclosure policy and native verification remain separate.
+//! Recipient output encryption bound to current keys and effective eligibility.
+//! Disclosure policy, spending and native verification remain separate.
+mod authorization;
 mod binding;
 mod components;
+mod eligibility_binding;
 mod fixed;
 mod frames;
 mod input;
@@ -15,6 +17,7 @@ mod trace;
 
 use crate::{
     Value,
+    current_eligibility_air::CurrentEligibilityAir,
     envelope_air::{EnvelopeAir, EnvelopeContext},
     registered_key_air::RegisteredKeyAir,
 };
@@ -31,6 +34,7 @@ pub struct AuthorizedRecipientAir {
     envelope: EnvelopeAir,
     view: RegisteredKeyAir,
     spend: RegisteredKeyAir,
+    eligibility: CurrentEligibilityAir,
 }
 
 impl AuthorizedRecipientAir {
@@ -46,6 +50,7 @@ impl AuthorizedRecipientAir {
             envelope: EnvelopeAir::new(context)?,
             view: RegisteredKeyAir::view(network, asset, policy, 1)?,
             spend: RegisteredKeyAir::spend(network, asset, policy)?,
+            eligibility: CurrentEligibilityAir::new(network, asset, policy)?,
         })
     }
 }
@@ -72,5 +77,6 @@ impl<AB: AirBuilder<F = Value>> Air<AB> for AuthorizedRecipientAir {
         self.eval_envelope_binding(builder);
         self.eval_view_binding(builder);
         self.eval_spend_binding(builder);
+        self.eval_eligibility_binding(builder);
     }
 }

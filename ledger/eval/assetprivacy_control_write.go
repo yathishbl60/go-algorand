@@ -21,18 +21,22 @@ package eval
 import (
 	"github.com/algorand/go-algorand/data/basics"
 	"github.com/algorand/go-algorand/internal/assetprivacy/control"
+	"github.com/algorand/go-algorand/internal/assetprivacy/policy"
 )
 
 // SetAssetPrivacyFrozen persists an action only after caller authentication.
 // The authority argument is an identity check, not a signature or possession proof.
 // Caller must verify full freeze/PQ authorization, state binding and storage fees.
 func (cs *roundCowState) SetAssetPrivacyFrozen(asset basics.AssetIndex, account, authority basics.Address, expectedEpoch uint64, frozen bool) (control.Record, error) {
-	store, err := cs.OpenAssetPrivacyControl(asset, account)
+	if !cs.proto.EnableNativeAssetPrivacy {
+		return control.Record{}, policy.ErrDisabled
+	}
+	child := cs.child(0)
+	defer child.recycle()
+	record, err := child.setAssetPrivacyFrozenState(asset, account, authority, expectedEpoch, frozen)
 	if err != nil {
 		return control.Record{}, err
 	}
-	if err = cs.checkAssetPrivacyFreezeAuthority(asset, authority); err != nil {
-		return control.Record{}, err
-	}
-	return store.Set(frozen, expectedEpoch, uint64(cs.Round()))
+	child.commitToParent()
+	return record, nil
 }

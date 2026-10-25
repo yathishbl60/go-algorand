@@ -47,6 +47,9 @@ func (cs *roundCowState) putPrivacyHoldingAtomic(addr basics.Address, asset basi
 	if err := child.putAssetHolding(addr, asset, data); err != nil {
 		return err
 	}
+	if err := child.reconcilePrivacyHolding(addr, asset, data, declaration); err != nil {
+		return err
+	}
 	child.commitToParent()
 	return nil
 }

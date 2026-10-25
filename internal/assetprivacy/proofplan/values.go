@@ -20,7 +20,7 @@ package proofplan
 
 import "encoding/binary"
 
-// envelopeValues follows the exact Rust AuthorizedRecipientAir public schema.
+// envelopeValues writes the common 1100-scalar prefix for output role proofs.
 // Build validates wire length/version and policy role presence before calling it.
 func envelopeValues(context [248]byte, wire []byte, root [64]byte) []uint16 {
 	values := make([]uint16, 0, DisclosurePublicValues)

@@ -49,5 +49,9 @@ func (cs *roundCowState) assetPrivacyOutputProofState(asset basics.AssetIndex, c
 	}
 	config.Auditor, config.Controller = targets.Auditor, targets.Controller
 	config.KeyRoot, _, err = cs.AssetPrivacyKeyAuthorizationRoot(asset)
+	if err != nil {
+		return proofplan.Config{}, err
+	}
+	config.EligibilityRoot, _, err = cs.AssetPrivacyEligibilityRoot(asset)
 	return config, err
 }

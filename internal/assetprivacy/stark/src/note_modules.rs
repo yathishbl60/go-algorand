@@ -7,6 +7,10 @@ pub mod amounts;
 pub mod authorized_disclosure_air;
 #[path = "authorized_recipient_air/mod.rs"]
 pub mod authorized_recipient_air;
+#[path = "current_eligibility_air/mod.rs"]
+pub mod current_eligibility_air;
+#[path = "eligible_record_air/mod.rs"]
+pub mod eligible_record_air;
 #[path = "member_note_air/mod.rs"]
 pub mod member_note_air;
 #[path = "membership_air/mod.rs"]

@@ -84,7 +84,7 @@ or runtime measurement is established; substantial layout work remains.
 [Complete single-envelope constraints](../../internal/assetprivacy/stark/src/envelope_air/README.md)
 use 22,885 columns/65,536 rows: 11,998,330,880 main + 1,079,508,992
 preprocessed bytes. All active KEM/AAD/HKDF/GCM/note operations are retained.
-These are raw counts only. [Registered recipient](../../internal/assetprivacy/stark/src/authorized_recipient_air/README.md) uses 13,038,518,272 main +1,085,800,448 preprocessed bytes; deepest source degree 9 remains unvalidated.
+These are raw counts only. [Registered recipient](../../internal/assetprivacy/stark/src/authorized_recipient_air/README.md) uses 13,038,518,272 main +1,087,897,600 preprocessed bytes; deepest source degree 9 remains unvalidated.
 
 Before selecting protocol limits, measure completed relations across shield,
 transfer, unshield and controller recovery, including each mandatory disclosure.

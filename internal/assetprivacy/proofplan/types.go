@@ -22,6 +22,7 @@ package proofplan
 import (
 	"errors"
 
+	"github.com/algorand/go-algorand/internal/assetprivacy/eligibility"
 	"github.com/algorand/go-algorand/internal/assetprivacy/envelope"
 	"github.com/algorand/go-algorand/internal/assetprivacy/keyauth"
 	"github.com/algorand/go-algorand/internal/assetprivacy/policy"
@@ -36,11 +37,12 @@ var (
 
 // Config must come from current group-local state, never proof-advertised values.
 type Config struct {
-	Domain      tree.Domain
-	Disclosures policy.Disclosures
-	KeyRoot     keyauth.Root
-	Auditor     [32]byte
-	Controller  [32]byte
+	Domain          tree.Domain
+	Disclosures     policy.Disclosures
+	KeyRoot         keyauth.Root
+	EligibilityRoot eligibility.Root
+	Auditor         [32]byte
+	Controller      [32]byte
 }
 
 type Kind byte
@@ -51,7 +53,7 @@ const (
 )
 
 const (
-	RecipientPublicValues  = 1100
+	RecipientPublicValues  = 1132
 	DisclosurePublicValues = 1132
 )
 

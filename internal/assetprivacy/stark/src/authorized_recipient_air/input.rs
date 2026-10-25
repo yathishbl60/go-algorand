@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
 use crate::{
+    current_eligibility_air::EligibilityInput,
     envelope_air::EnvelopeInputs,
     membership_air::MembershipPath,
     registered_key_air::{KeyMaterial, RegisteredKeyInput},
@@ -15,9 +16,20 @@ pub struct RecipientInput<'a> {
     pub spend_epoch: u64,
     pub spend_created: u64,
     pub spend_path: &'a MembershipPath,
+    pub eligibility_revision: u64,
+    pub eligibility_updated: u64,
+    pub eligibility_path: &'a MembershipPath,
 }
 
 impl<'a> RecipientInput<'a> {
+    pub(super) fn eligibility(&self) -> EligibilityInput<'a> {
+        EligibilityInput {
+            account: self.account(),
+            revision: self.eligibility_revision,
+            updated: self.eligibility_updated,
+            path: self.eligibility_path,
+        }
+    }
     pub(super) fn view(&self) -> RegisteredKeyInput<'a> {
         RegisteredKeyInput {
             material: KeyMaterial::View(self.envelope.public_key),

@@ -22,7 +22,8 @@ completion checklist. The full native feature remains in progress.
    they do not authenticate reviewers or approve cryptography.
 2. Native COW supply, policy/key/control epochs, spent markers, commitment tree,
    root history and atomic encrypted output streams. Public holding changes
-   preserve freeze state; destruction checks outstanding private supply.
+   preserve freeze state and atomically publish current eligibility; destruction
+   checks outstanding private supply.
    Authentication, complete native transaction handlers and storage pricing remain.
 3. Local canonical 512-byte notes, SHA3 commitments/nullifiers/ownership, fixed
    ML-KEM/HKDF/AES-GCM envelopes, role/epoch output recovery and bounded key
@@ -32,7 +33,7 @@ completion checklist. The full native feature remains in progress.
    encoding, pool/AVM integration and public APIs remain unfinished.
 5. Pinned Plonky3 hiding configuration and exact uint64 conservation. Note,
    ownership, nullifier and depth-32 membership constraints compose into fixed
-   transfer/shield/unshield arities. Current eligibility/control proofs remain.
+   transfer/shield/unshield arities. Input eligibility/control proofs remain.
 6. SHA3/SHAKE, private HMAC/HKDF, full typed GCM and staged GCM constraints.
    Staged GCM covers all AES/GHASH blocks and the final tag in one AIR. Resource
    feasibility and complete envelope/note/disclosure bindings remain unverified.
@@ -50,19 +51,19 @@ completion checklist. The full native feature remains in progress.
 9. [Complete single-envelope AIR](../../internal/assetprivacy/stark/src/envelope_air/README.md)
    connects the same canonical key/Ckem/shared secret through AAD/HKDF/GCM to
    one canonical opening and its public commitment. All operations fit within
-   65,536 rows using bounded frame writers and shared scratch. Current authority,
-   mandatory disclosures, spend/group integration and native verification remain.
+   65,536 rows using bounded frame writers and shared scratch. Enclosing
+   recipient/disclosure bindings exist; spend/group and native verification remain.
 10. [Current-key authorization registry](KEY_AUTHORIZATION.md) replaces a stable
     account/role leaf on rotation and atomically couples it to native key history
     and pointers. Typed current roots and exact-record witnesses are available.
-    Private viewing-record constraints match the same canonical hash; membership,
-    creation-round provenance, eligibility and complete native verification remain.
+    Private viewing-record constraints and current membership match the canonical
+    hash; runtime provenance evidence and complete native verification remain.
 11. [Recipient output authorization](../../internal/assetprivacy/stark/src/authorized_recipient_air/README.md)
     joins complete envelope/note encryption to current viewing and spending
     membership for the same private account, independent epochs and note owner.
     Staged membership and compact matrix frames preserve every operation while
-    keeping the full recipient schedule within 65,536 rows. Current eligibility,
-    conservation/spend/group and native verification remain.
+    keeping the full recipient schedule within 65,536 rows. [Current eligibility](ELIGIBILITY.md)
+    now binds the same private account. Input/spend/group and native verification remain.
 12. [Assigned disclosures](../../internal/assetprivacy/disclosure/README.md) persist
     prospective auditor/controller targets and bind complete encrypted openings
     to their current registered viewing keys. [Exact output-role plans](PROOF_PLANNING.md)
@@ -85,9 +86,9 @@ independent cryptographic security review has been supplied or completed.
 
 ## Next work
 
-Complete current authority/mandatory-disclosure/spend composition and eligibility,
-freeze/recovery authority, remaining arities and group bindings. Establish actual
-prover/verifier resource feasibility, proof decoding/work limits and trusted
+Complete input eligibility, freeze/recovery authority and spend/group composition,
+remaining arities and group bindings. Establish actual prover/verifier resource
+feasibility, proof decoding/work limits and trusted
 profile artifacts before native transaction verification/execution. Then finish
 API/SDK/wallet/CLI, replay/recovery and the six real-node scenarios. Maintain the
 full [north-star work-package scope](IMPLEMENTATION.md); the present components

@@ -52,6 +52,8 @@ func buildSlot(r outputs.Record, c Config, role envelope.Role) (Slot, error) {
 	values := envelopeValues(public, wire, c.KeyRoot.Digest)
 	if kind == DisclosureProof {
 		values = appendBytes(values, authority[:])
+	} else {
+		values = appendLimbs(values, c.EligibilityRoot.Digest[:])
 	}
 	return Slot{role: role, kind: kind, values: values}, nil
 }

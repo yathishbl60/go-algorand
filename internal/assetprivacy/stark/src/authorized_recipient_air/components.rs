@@ -15,5 +15,8 @@ impl AuthorizedRecipientAir {
                 frames::component(index + 1, air.width(), air.preprocessed_width(), 1068..1100);
             air.eval(&mut FrameBuilder::new(builder, frame));
         }
+        let air = &self.eligibility;
+        let frame = frames::component(3, air.width(), air.preprocessed_width(), 1100..1132);
+        air.eval(&mut FrameBuilder::new(builder, frame));
     }
 }

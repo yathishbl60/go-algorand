@@ -24,8 +24,7 @@ import (
 	"github.com/algorand/go-algorand/internal/assetprivacy/policy"
 )
 
-// OpenAssetPrivacyControl exposes internal state, never action authorization.
-func (cs *roundCowState) OpenAssetPrivacyControl(asset basics.AssetIndex, account basics.Address) (*control.Store, error) {
+func (cs *roundCowState) openAssetPrivacyControl(asset basics.AssetIndex, account basics.Address) (*control.Store, error) {
 	record, exists, err := cs.GetAssetPrivacyPolicy(asset)
 	if err != nil {
 		return nil, err

@@ -28,7 +28,10 @@ func (c Config) validate() error {
 	if c.Domain.Asset == 0 || c.Domain.Genesis == [32]byte{} || c.Domain.Policy == [64]byte{} {
 		return ErrConfig
 	}
-	if c.KeyRoot.Digest == [64]byte{} || c.Disclosures & ^(policy.AuditorDisclosure|policy.ControllerDisclosure) != 0 {
+	if c.KeyRoot.Digest == [64]byte{} || c.EligibilityRoot.Digest == [64]byte{} {
+		return ErrConfig
+	}
+	if c.Disclosures & ^(policy.AuditorDisclosure|policy.ControllerDisclosure) != 0 {
 		return ErrConfig
 	}
 	if (c.Disclosures&policy.AuditorDisclosure != 0) != (c.Auditor != [32]byte{}) {

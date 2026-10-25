@@ -11,8 +11,8 @@ completed components below do not substitute for it.
 | NAP-01 profile | Pinned candidate documented; complete relation, security argument, vectors and measurements missing |
 | NAP-02 consensus specification | Draft obligations/accounting/candidate layouts; complete normative protocol and sibling specs changes missing |
 | NAP-03 types/gates | Consensus flag added, false in every version; transaction/witness types and codecs missing |
-| NAP-04 cryptography | Note/conservation, complete envelope encryption, recipient current-key membership and assigned disclosure constraints implemented; eligibility/spend/group composition, runtime proofs and native verifier missing |
-| NAP-05 native state | COW supply, policy/key/control epochs, current-key authorization root, spent markers, tree/root history and atomic outputs implemented; eligibility roots and storage charges missing |
+| NAP-04 cryptography | Note/conservation, complete envelope encryption, recipient current-key/eligibility membership and assigned disclosure constraints implemented; input eligibility/spend/group composition, runtime proofs and native verifier missing |
+| NAP-05 native state | COW supply, policy/key/control epochs, current-key and effective-freeze roots, spent markers, tree/root history and atomic outputs implemented; storage charges and runtime recovery evidence missing |
 | NAP-06 verification | Bounded opaque proof frame and exact output-role expected vectors implemented; embedded STARK decoder, deterministic native verifier, work limits and cache integration missing |
 | NAP-07 lifecycle | Policy lifecycle, bounded viewing-key admission, destruction guard and public holding freeze persistence implemented; PQ administrative ingress and authenticated native transactions missing |
 | NAP-08 groups/pool/AVM | Group digest API and transfer public-input layout implemented; native verifier wiring, pool accounting and gated AVM inspection missing |
@@ -49,7 +49,7 @@ private transaction execution or privacy-state cleanup.
 - [Canonical policy records and lifecycle ordering](POLICY_RECORDS.md).
 - [Current-key registry and native atomic updates](KEY_AUTHORIZATION.md).
 - [Key roles, epoch persistence and caller obligations](../../internal/assetprivacy/keys/README.md).
-- [Freeze state and current eligibility obligations](../../internal/assetprivacy/control/README.md).
+- [Current eligibility snapshots, atomic hooks and private recipient binding](ELIGIBILITY.md).
 - [Bounded outer witness framing](../../internal/assetprivacy/witness/README.md).
 - [Local note API](../../internal/assetprivacy/note/README.md).
 - [Envelope API](../../internal/assetprivacy/envelope/README.md).

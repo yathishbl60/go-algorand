@@ -1,8 +1,8 @@
 # Candidate account eligibility state
 
 This disabled native persistence component represents account-specific privacy
-freeze/revocation state. It does not implement anonymous eligibility proofs or
-accept a freeze transaction. The north star requires current authorization state
+freeze/revocation state. It does not accept a freeze transaction. [Current eligibility snapshots](../eligibility/README.md)
+and recipient account bindings now exist; input/control/spend composition remains. The north star requires current authorization state
 at evaluation; recent note commitment roots never authorize an older freeze state.
 
 ## Domains and epochs
@@ -43,7 +43,8 @@ Public holding synchronization can preserve existing state after relinquishment.
 ## Native helpers and caller obligations
 
 `OpenAssetPrivacyControl` binds the domain to the current policy identity and
-requires the disabled consensus flag. `GetAssetPrivacyControl` returns the raw
+requires the disabled consensus flag. Its native view exposes only Current/Epoch
+reads; writable store access remains private to atomic mutators. `GetAssetPrivacyControl` returns the raw
 marker. `AssetPrivacyFrozen` combines it with current public holding/default
 state and returns the native marker epoch (zero if absent).
 
@@ -53,7 +54,7 @@ caller must verify transaction/PQ authorization, required key possession, curren
 state binding, fees and storage funding before calling it. This helper adds no
 permissive verifier or accepted operation. Auditor/viewing keys never authorize
 this action. Native writes atomically update immutable history/current pointer
-in a child COW; failure discards it. Group failure must discard its parent COW.
+and derived eligibility snapshot in one outer child COW; failure discards both. Group failure must discard its parent COW.
 
 Public holding writes/deletions now synchronize control state in a child COW.
 Actual Frozen transitions advance the epoch and synchronize the native marker;
@@ -64,9 +65,9 @@ needed to preserve eligibility for a default-frozen asset. This closes the froze
 close-out bypass. Disabled paths perform no extra I/O. Idempotent public freeze
 actions do not clear independent native markers; native actions use Set above.
 Ordinary freeze/configuration ingress still requires PQ authorization before
-activation. Private note eligibility also requires an authenticated
-eligibility/revocation tree and a proof binding the hidden holder to its current
-account/epoch. Account markers alone do not preserve anonymous eligibility, and
+activation. [Native eligibility publication and recipient constraints](../../../docs/native-asset-privacy/ELIGIBILITY.md)
+now bind the hidden recipient account to current effective status; input spending
+and recovery still require their own direct private account bindings. Account markers alone do not preserve anonymous eligibility, and
 AssetPrivacyFrozen is a state accessor rather than proof verification. A caller
 must invalidate/rebuild a proof after relevant control changes.
 

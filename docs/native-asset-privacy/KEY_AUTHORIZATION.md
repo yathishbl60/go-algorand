@@ -2,7 +2,7 @@
 
 Updated 2026-10-25. Disabled native persistence and private record constraints
 exist, including current-record membership and recipient envelope bindings.
-Eligibility, disclosures, full spending and authenticated native execution remain
+Input eligibility, full spending and authenticated native execution remain
 incomplete. A registry entry alone grants no authority.
 
 ## Current state and rotation
@@ -72,8 +72,9 @@ joins viewing and spending membership to the same envelope account/key/epoch and
 note owner. Their epoch streams stay independent. New outputs select the current
 owner; old-note spending still proves that note's committed secret owner.
 [Auditor/controller assignments](../../internal/assetprivacy/disclosure/README.md)
-and their encryption constraints now exist; current freeze/recovery authority and
-eligibility still require complete native proof/state bindings. Registry membership alone does not
+and their encryption constraints now exist. [Current effective eligibility](ELIGIBILITY.md)
+now binds the recipient account; input control/recovery and complete native
+verification remain. Registry membership alone does not
 designate a policy auditor or restore a relinquished issuer power.
 
 Storage pricing, migration, replay/restart/catchpoint evidence, verifier work

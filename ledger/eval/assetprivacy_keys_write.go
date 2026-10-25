@@ -35,6 +35,9 @@ func (cs *roundCowState) PutAssetPrivacyKey(record keys.Record) error {
 	if err := child.putAssetPrivacyKeyState(record); err != nil {
 		return err
 	}
+	if err := child.reconcilePrivacyKeyEligibility(record); err != nil {
+		return err
+	}
 	child.commitToParent()
 	return nil
 }

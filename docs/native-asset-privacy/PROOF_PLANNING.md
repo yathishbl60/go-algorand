@@ -31,8 +31,8 @@ full security analysis remain required. No proof/runtime evidence exists yet.
 
 1. Parse bounded canonical transaction bodies, operation arity and outer witness.
    Obtain the expected suite/version and trusted schedule/verifier artifacts.
-2. Derive the current group-local immutable policy, assignment accounts and key
-   root after preceding group mutations. Derive accepted input roots separately.
+2. Derive the current group-local immutable policy, assignment accounts, key
+   root and current eligibility root after preceding group mutations. Derive accepted input roots separately.
 3. Match every output record to its finalized body/context/ordinal/commitment and
    exact policy ciphertext roles. Reject extra, missing or malformed envelopes.
 4. Build each output Plan. Require exactly recipient, optional auditor, optional
@@ -47,7 +47,7 @@ full security analysis remain required. No proof/runtime evidence exists yet.
 
 The existing internal AppendAssetPrivacyOutput helper still requires its caller
 to perform these steps. No role plan grants permission to invoke that helper.
-Current eligibility, freeze/recovery authority, remaining operation arities,
+Input eligibility, freeze/recovery authority, remaining operation arities,
 embedded proof decoding, deterministic verifier and transaction ingress remain
 pending. Merely comparing witness headers or statement digests cannot replace
 cryptographic proof verification or those missing relations.
@@ -62,7 +62,10 @@ for checked conversion to the pinned field. It exposes no private epoch.
 
 The expected recipient relation is AuthorizedRecipientAir: current viewing and
 spending registrations must match the opening's private account and owner, with
-independent epochs. The expected disclosure relation is AuthorizedDisclosureAir:
+independent epochs, plus current effective-unfrozen membership for that same
+private account. [Eligibility publication](ELIGIBILITY.md) is atomic with source
+mutations. Authorized frozen-owner recovery remainders need a separate relation.
+The expected disclosure relation is AuthorizedDisclosureAir:
 current viewing membership must match the explicitly assigned public account.
 The auditor/controller account must not equal the private recipient by accident
 of wiring, and viewing membership must never grant spending or recovery power.

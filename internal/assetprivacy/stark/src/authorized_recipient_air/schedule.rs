@@ -2,8 +2,8 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
 use super::{
-    AuthorizedRecipientAir, CHILD_PRE, PREPROCESSED, ROWS, SPEND_ROW, SPEND_ROWS, VIEW_ROW,
-    VIEW_ROWS,
+    AuthorizedRecipientAir, CHILD_PRE, ELIGIBILITY_ROW, ELIGIBILITY_ROWS, PREPROCESSED, ROWS,
+    SPEND_ROW, SPEND_ROWS, VIEW_ROW, VIEW_ROWS,
 };
 use crate::Value;
 use p3_field::PrimeCharacteristicRing;
@@ -14,20 +14,30 @@ pub(super) fn build(air: &AuthorizedRecipientAir) -> RowMajorMatrix<Value> {
     air.envelope
         .write_preprocessed_into(&mut values, (PREPROCESSED, 0, 0))
         .expect("envelope schedule");
-    air.view
-        .write_preprocessed_into(&mut values, (PREPROCESSED, 0, VIEW_ROW))
-        .expect("view schedule");
-    air.spend
-        .write_preprocessed_into(&mut values, (PREPROCESSED, 0, SPEND_ROW))
-        .expect("spend schedule");
+    write_keys(air, &mut values);
+    air.eligibility
+        .write_preprocessed_into(&mut values, (PREPROCESSED, 0, ELIGIBILITY_ROW))
+        .expect("eligibility schedule");
+    stage_flags(&mut values);
+    RowMajorMatrix::new(values, PREPROCESSED)
+}
+
+fn write_keys(air: &AuthorizedRecipientAir, values: &mut [Value]) {
+    for (air, first) in [(&air.view, VIEW_ROW), (&air.spend, SPEND_ROW)] {
+        air.write_preprocessed_into(values, (PREPROCESSED, 0, first))
+            .expect("registered key schedule");
+    }
+}
+
+fn stage_flags(values: &mut [Value]) {
     for (stage, first, rows) in [
         (0, 0, VIEW_ROW),
         (1, VIEW_ROW, VIEW_ROWS),
         (2, SPEND_ROW, SPEND_ROWS),
+        (3, ELIGIBILITY_ROW, ELIGIBILITY_ROWS),
     ] {
-        flags(&mut values, stage, first, rows);
+        flags(values, stage, first, rows);
     }
-    RowMajorMatrix::new(values, PREPROCESSED)
 }
 
 fn flags(values: &mut [Value], stage: usize, first: usize, rows: usize) {
