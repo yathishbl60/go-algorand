@@ -1,7 +1,7 @@
 // Copyright (C) 2026 Algorand Foundation Ltd.
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
-use super::{AuthorizedDisclosureAir, CHILD_PRE, EPOCH, OPENING, RHO, WORK};
+use super::{AuthorizedDisclosureAir, CHILD_PRE, EPOCH, RHO, WORK};
 use crate::Value;
 use p3_air::{AirBuilder, WindowAccess};
 use p3_field::PrimeCharacteristicRing;
@@ -34,8 +34,7 @@ impl AuthorizedDisclosureAir {
         for (root, source) in [
             (&row[..RHO], child.public_polynomials),
             (&row[RHO..EPOCH], child.rho_bits),
-            (&row[EPOCH..OPENING], child.epoch_bits),
-            (&row[OPENING..WORK], child.opening_bits),
+            (&row[EPOCH..WORK], child.epoch_bits),
         ] {
             equal(builder, flag, root, source);
         }
@@ -50,7 +49,7 @@ impl AuthorizedDisclosureAir {
         for (root, source) in [
             (&row[..RHO], child.public_polynomials),
             (&row[RHO..EPOCH], child.rho_bits),
-            (&row[EPOCH..OPENING], child.epoch_bits),
+            (&row[EPOCH..WORK], child.epoch_bits),
         ] {
             equal(builder, flag, root, source);
         }

@@ -35,6 +35,7 @@ writable `GOCACHE` or Cargo target/cache directory when using a sandbox.
 | Fixed recipient/auditor/controller envelope | [envelope](../../internal/assetprivacy/envelope/README.md) |
 | Immutable policy identity and shrinking powers | [policy records](POLICY_RECORDS.md) |
 | Recipient envelope with current viewing/spending membership | [AuthorizedRecipientAir](../../internal/assetprivacy/stark/src/authorized_recipient_air/README.md) |
+| Required output roles and expected verifier vectors | [Proof planning](PROOF_PLANNING.md) |
 | Current key records and stable-index authorization root | [Registry and native interfaces](KEY_AUTHORIZATION.md) |
 | Versioned public keys and owner commitments | [key epochs](../../internal/assetprivacy/keys/README.md) |
 | Account freeze state and eligibility | [control](../../internal/assetprivacy/control/README.md) |
@@ -78,7 +79,7 @@ writable `GOCACHE` or Cargo target/cache directory when using a sandbox.
 7. Prove locally, then put its bounded witness outside the transaction bodies.
 
 Steps 6–7 are not available as a complete native path. Existing AIRs omit
-the full envelope/current-control/spend composition. The outer witness frame is not a STARK
+the full current-control/spend/group composition. The outer witness frame is not a STARK
 decoder. Do not replace either missing piece with a permissive verifier.
 
 Future native execution must check proofs and all current authorization, accepted

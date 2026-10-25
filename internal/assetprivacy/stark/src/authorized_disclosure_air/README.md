@@ -37,13 +37,14 @@ Every proof needs independent fresh hiding entropy. Missing, extra, duplicate or
 wrong-role proofs must fail; framing/header comparisons cannot verify proofs.
 
 The active schedule is Envelope0..47882 then viewing-record membership47882..52011,
-followed by padding to65536. There are28069 main columns:5184 fixed private root
-registers plus22885 shared scratch. Every root is constant across all stages;
-rho/epoch/opening bits are Boolean and t is canonical through the child relations.
+followed by padding to65536. There are23973 main columns:1088 fixed private root
+registers plus22885 shared scratch. The opening stays inside EnvelopeAir; no
+redundant parent copy or amount accessor is required for this public-output join. Every root is constant across all stages;
+rho/epoch bits are Boolean and t is canonical through the child relations.
 Preprocessing has2067 columns. The conservative source degree bound is9 through
 the deepest staged membership hash; actual quotient/security analysis is pending.
 
-The raw main matrix is14,716,239,872 bytes and preprocessing is1,083,703,296 bytes, before
+The raw main matrix is12,568,756,224 bytes and preprocessing is1,083,703,296 bytes, before
 hiding/LDE, quotient, commitments, allocator or other prover overhead. Bounded
 writers avoid full child main matrices. Practical resource feasibility remains
 unmeasured and unresolved. These relations must not be exposed as a usable wallet

@@ -65,7 +65,8 @@ completion checklist. The full native feature remains in progress.
     conservation/spend/group and native verification remain.
 12. [Assigned disclosures](../../internal/assetprivacy/disclosure/README.md) persist
     prospective auditor/controller targets and bind complete encrypted openings
-    to their current registered viewing keys. Native proof execution remains.
+    to their current registered viewing keys. [Exact output-role plans](PROOF_PLANNING.md)
+    derive expected vectors from native state. Native proof execution remains.
 
 Go uses `algorand_native_privacy`; Rust's optional `native-privacy` feature is
 empty by default. No consensus version enables privacy. See [the candidate

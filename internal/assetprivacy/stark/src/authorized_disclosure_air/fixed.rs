@@ -1,7 +1,7 @@
 // Copyright (C) 2026 Algorand Foundation Ltd.
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
-use super::{DisclosureInput, EPOCH, OPENING, RHO, WIDTH};
+use super::{DisclosureInput, EPOCH, RHO, WIDTH};
 use crate::Value;
 use p3_field::PrimeCharacteristicRing;
 
@@ -14,7 +14,6 @@ pub(super) fn write(values: &mut [Value], input: &DisclosureInput<'_>) {
         }
         bits(row, RHO, &input.envelope.public_key[1152..]);
         bits(row, EPOCH, &input.envelope.epoch.to_be_bytes());
-        bits(row, OPENING, input.envelope.opening);
     }
 }
 

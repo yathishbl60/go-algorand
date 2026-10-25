@@ -80,7 +80,8 @@ No new lookup dependency or acceptance path has been added.
    [Recipient key membership](../../internal/assetprivacy/stark/src/authorized_recipient_air/README.md)
    now joins both current records within the same65,536-row schedule using
    staged97-row Merkle hashes. Nested membership masks raise the source bound to 9.
-   Eligibility/disclosures/spend joins, trusted artifacts and feasibility remain.
+   [Assigned disclosures and public-output joins](PROOF_PLANNING.md) now have
+   expected statement planning; eligibility/spend, artifacts and feasibility remain.
 
 Recalculate polynomial degree, quotient chunks, masking/opening budgets and
 trusted dimensions after each composition. Builds and static counts do not

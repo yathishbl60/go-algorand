@@ -71,8 +71,9 @@ current root. [Recipient authorization](../../internal/assetprivacy/stark/src/au
 joins viewing and spending membership to the same envelope account/key/epoch and
 note owner. Their epoch streams stay independent. New outputs select the current
 owner; old-note spending still proves that note's committed secret owner.
-Auditor assignment, current clawback/freeze authority and eligibility require
-their own current native state bindings. Registry membership alone does not
+[Auditor/controller assignments](../../internal/assetprivacy/disclosure/README.md)
+and their encryption constraints now exist; current freeze/recovery authority and
+eligibility still require complete native proof/state bindings. Registry membership alone does not
 designate a policy auditor or restore a relinquished issuer power.
 
 Storage pricing, migration, replay/restart/catchpoint evidence, verifier work

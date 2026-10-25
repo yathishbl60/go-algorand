@@ -11,9 +11,9 @@ completed components below do not substitute for it.
 | NAP-01 profile | Pinned candidate documented; complete relation, security argument, vectors and measurements missing |
 | NAP-02 consensus specification | Draft obligations/accounting/candidate layouts; complete normative protocol and sibling specs changes missing |
 | NAP-03 types/gates | Consensus flag added, false in every version; transaction/witness types and codecs missing |
-| NAP-04 cryptography | Note/conservation, envelope/note encryption and recipient viewing/spending current-key membership constraints implemented; assigned disclosure constraints implemented; eligibility/spend/group composition, runtime proofs and native verifier missing |
+| NAP-04 cryptography | Note/conservation, complete envelope encryption, recipient current-key membership and assigned disclosure constraints implemented; eligibility/spend/group composition, runtime proofs and native verifier missing |
 | NAP-05 native state | COW supply, policy/key/control epochs, current-key authorization root, spent markers, tree/root history and atomic outputs implemented; eligibility roots and storage charges missing |
-| NAP-06 verification | Bounded opaque proof frame implemented; embedded STARK decoder, deterministic native verifier, work limits and cache integration missing |
+| NAP-06 verification | Bounded opaque proof frame and exact output-role expected vectors implemented; embedded STARK decoder, deterministic native verifier, work limits and cache integration missing |
 | NAP-07 lifecycle | Policy lifecycle, bounded viewing-key admission, destruction guard and public holding freeze persistence implemented; PQ administrative ingress and authenticated native transactions missing |
 | NAP-08 groups/pool/AVM | Group digest API and transfer public-input layout implemented; native verifier wiring, pool accounting and gated AVM inspection missing |
 | NAP-09 recovery | Existing KV path reused; privacy replay/restart/catchpoint/catchup behavior unverified |
@@ -44,6 +44,7 @@ private transaction execution or privacy-state cleanup.
 - [Developer and agent implementation guide](DEVELOPER_GUIDE.md).
 - [Native tree](../../internal/assetprivacy/tree/README.md), [spent markers](../../internal/assetprivacy/nullifier/README.md), and [group context](../../internal/assetprivacy/statement/README.md).
 - [Proof relation and group-binding requirements](PROOF_RELATIONS.md).
+- [Exact output statements and composition obligations](PROOF_PLANNING.md).
 - [Native accounting and destruction behavior](NATIVE_ACCOUNTING.md).
 - [Canonical policy records and lifecycle ordering](POLICY_RECORDS.md).
 - [Current-key registry and native atomic updates](KEY_AUTHORIZATION.md).

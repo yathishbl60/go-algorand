@@ -2,12 +2,11 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
 pub const ROWS: usize = 65536;
-pub const WIDTH: usize = 28069;
+pub const WIDTH: usize = 23973;
 pub const PUBLIC_VALUES: usize = 1132;
 pub(super) const RHO: usize = 768;
 pub(super) const EPOCH: usize = 1024;
-pub(super) const OPENING: usize = 1088;
-pub(super) const WORK: usize = 5184;
+pub(super) const WORK: usize = 1088;
 pub(super) const CHILD_PRE: usize = crate::envelope_air::PREPROCESSED;
 pub const PREPROCESSED: usize = CHILD_PRE + 8;
 pub(super) const VIEW_ROW: usize = crate::envelope_air::FRAME_ROWS;
