@@ -23,8 +23,16 @@ pub mod note_air;
 pub mod nullified_note_air;
 #[path = "owned_note_air/mod.rs"]
 pub mod owned_note_air;
+#[path = "recovery_group_air/mod.rs"]
+pub mod recovery_group_air;
+#[path = "recovery_note_air/mod.rs"]
+pub mod recovery_note_air;
+#[path = "recovery_recipient_air/mod.rs"]
+pub mod recovery_recipient_air;
 #[path = "registered_key_air/mod.rs"]
 pub mod registered_key_air;
+#[path = "retained_recipient_air/mod.rs"]
+pub mod retained_recipient_air;
 #[path = "shield_air/mod.rs"]
 pub mod shield_air;
 #[path = "spend_group_air/mod.rs"]

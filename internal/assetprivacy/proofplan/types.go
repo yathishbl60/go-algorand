@@ -50,11 +50,15 @@ type Kind byte
 const (
 	RecipientProof Kind = 1 + iota
 	DisclosureProof
+	RetainedRecipientProof
+	RecoveryRecipientProof
 )
 
 const (
-	RecipientPublicValues  = 1132
-	DisclosurePublicValues = 1132
+	RecipientPublicValues         = 1132
+	DisclosurePublicValues        = 1132
+	RetainedRecipientPublicValues = 1100
+	RecoveryRecipientPublicValues = 1100
 )
 
 // Slot holds an immutable expected statement for one role of one output.

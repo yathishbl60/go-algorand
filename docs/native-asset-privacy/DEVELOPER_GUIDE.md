@@ -46,6 +46,7 @@ writable `GOCACHE` or Cargo target/cache directory when using a sandbox.
 | Bounded outer proof frame | [witness](../../internal/assetprivacy/witness/README.md) |
 | Zero private inputs, two outputs | [ShieldAir](../../internal/assetprivacy/stark/src/shield_air/README.md) |
 | Two ordinary eligible inputs with Transfer2/Unshield0 outputs | [Staged spending](SPENDING_COMPOSITION.md) |
+| Issuer recovery and frozen-owner remainder | [Recovery contracts](RECOVERY.md) |
 | Earlier unshield conservation primitive, without current eligibility | [UnshieldAir](../../internal/assetprivacy/stark/src/unshield_air/README.md) |
 | Single committed-note envelope | [EnvelopeAir typed context and witness API](../../internal/assetprivacy/stark/src/envelope_air/README.md) |
 | Private candidate key derivation | [HKDF constraints](../../internal/assetprivacy/stark/src/hkdf_air/README.md) |

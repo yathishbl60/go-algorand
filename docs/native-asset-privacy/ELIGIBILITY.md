@@ -79,12 +79,12 @@ joined to a note by comparing public roots. Input spending must instead bind
 current eligibility directly to its private committed account without publishing
 that input commitment. Key rotation must not invalidate the old committed owner
 secret. [Ordinary staged input/group composition](SPENDING_COMPOSITION.md)
-now supplies that binding; recovery and native transaction integration remain.
+now supplies that binding. [Recovery constraints](RECOVERY.md) preserve old-owner
+remainders without the ordinary freeze predicate; native integration remains.
 
 Frozen=0 applies to ordinary holder transfers/new receipts. Authorized clawback
-may preserve remainder to the original frozen owner; it needs a separate relation
-that conserves that owner/remainder under current controller power and the shared
-nullifier. Do not route that remainder through the ordinary recipient predicate.
+now has a separate relation preserving the original frozen owner/remainder,
+with current controller authentication still mandatory outside the AIR. Do not route that remainder through the ordinary recipient predicate.
 Disclosure viewing membership likewise grants no spending or recovery power.
 
 Rebuild/recheck proofs and caches against current roots after relevant preceding

@@ -34,7 +34,8 @@ completion checklist. The full native feature remains in progress.
 5. Pinned Plonky3 hiding configuration and exact uint64 conservation. Note,
    ownership, nullifier and depth-32 membership constraints compose into fixed
    transfer/shield/unshield arities. [Ordinary staged spending](SPENDING_COMPOSITION.md)
-   now joins current input eligibility and group conservation; recovery remains.
+   now joins current input eligibility and group conservation. [Recovery](RECOVERY.md)
+   now preserves frozen-owner remainders; authentication/execution remain.
 6. SHA3/SHAKE, private HMAC/HKDF, full typed GCM and staged GCM constraints.
    Staged GCM covers all AES/GHASH blocks and the final tag in one AIR. Resource
    feasibility and complete envelope/note/disclosure bindings remain unverified.
@@ -89,7 +90,8 @@ independent cryptographic security review has been supplied or completed.
 
 ## Next work
 
-Complete freeze/recovery authority, other arities and native verifier/execution,
+Resolve [output marker freshness](NULLIFIER_FRESHNESS.md), then issuer authentication,
+other arities and native verifier/execution,
 including body-field matching and group application. Establish resource feasibility,
 proof decoding/work limits and trusted profile artifacts before activation. Then finish
 API/SDK/wallet/CLI, replay/recovery and the six real-node scenarios. Maintain the

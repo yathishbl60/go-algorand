@@ -22,7 +22,6 @@ import (
 	"github.com/algorand/go-algorand/data/basics"
 	"github.com/algorand/go-algorand/internal/assetprivacy/policy"
 	"github.com/algorand/go-algorand/internal/assetprivacy/spendplan"
-	"github.com/algorand/go-algorand/internal/assetprivacy/statement"
 	"github.com/algorand/go-algorand/internal/assetprivacy/tree"
 )
 
@@ -48,13 +47,9 @@ func (cs *roundCowState) assetPrivacySpendContext(asset basics.AssetIndex, bodie
 	if err != nil {
 		return assetPrivacySpendContext{}, err
 	}
-	if bodies.Limits.MaxGroupSize != cs.proto.MaxTxGroupSize {
-		return assetPrivacySpendContext{}, statement.ErrLimit
-	}
-	group, err := statement.Bind(cs.GenesisHash(), suite, bodies.Target, bodies.Group, bodies.Limits)
+	body, err := cs.assetPrivacyBindBodies(suite, bodies)
 	if err != nil {
 		return assetPrivacySpendContext{}, err
 	}
-	return assetPrivacySpendContext{config: config, group: group,
-		transaction: [32]byte(bodies.Group[bodies.Target].ID()), round: uint64(cs.Round())}, nil
+	return assetPrivacySpendContext{config: config, assetPrivacyBodyContext: body}, nil
 }

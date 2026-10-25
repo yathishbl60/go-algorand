@@ -45,8 +45,6 @@ func (p *AssetPrivacySpendPlan) Outputs() []*proofplan.Plan {
 }
 
 type assetPrivacySpendContext struct {
-	config      spendplan.Config
-	group       [64]byte
-	transaction [32]byte
-	round       uint64
+	config spendplan.Config
+	assetPrivacyBodyContext
 }

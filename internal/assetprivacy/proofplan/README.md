@@ -55,9 +55,26 @@ roots, current input eligibility, issuer authorization, nullifiers and funding.
 The ordinary recipient relation now directly binds its hidden account to current
 effective-unfrozen membership. A root-only separate proof cannot make that join.
 The handler, proof decoder/verifier and full input/control composition remain
-unfinished. Authorized recovery remainders to frozen original owners need a
-separate relation; this ordinary recipient path must not block that obligation.
+unfinished. [Retained-recipient constraints](../stark/src/retained_recipient_air/README.md) now
+cover viewing encryption for frozen original-owner remainders; complete native
+recovery verification/authorization remains unfinished.
 A plan or a role label cannot replace those obligations.
+
+Recovery uses separate constructors; neither grants issuer authorization.
+BuildRemainder(record,config) selects Kind3=RetainedRecipientProof/1100: current
+viewing membership with the old owner/account preserved by the recovery main.
+BuildRecoveryRecipient(record,config) selects Kind4=RecoveryRecipientProof/1100:
+current viewing/spending records with the ASA clawback receiver-freeze exception.
+Both keep all policy disclosure roles and the common envelope/key-root vector,
+with no eligibility-root trailer. Config still requires both typed roots.
+Ordinary Build remains Kind1/1132 and DisclosureProof remains Kind2/1132; the
+expected artifact must distinguish same-length Kind3/4 proofs. Only a fully
+authenticated current-clawback recovery can use either weaker kind. A proof's
+label, common prefix or expected vector cannot authorize the choice. Native
+current CanClawback, nonzero ASA clawback and actual ordinary/PQ signatures over
+final bodies remain mandatory. The main proof and every role must join the same
+already-public NEW output commitment, with original owner/account retained only
+for the designated remainder. Ordinary output planning cannot select either kind.
 
 All new output role proofs and the main proof can join on the same already-public
 canonical note commitment, under the binding assumption and exact domain match.

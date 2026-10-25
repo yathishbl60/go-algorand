@@ -88,7 +88,8 @@ Plans are serialized COW snapshots. Rebuild/recheck after relevant preceding
 spends, freezes, keys, assignments or body/group mutations; inputs must not be
 concurrently changed during construction. Old note roots may be accepted while
 current eligibility remains mandatory. Recovery/frozen-owner remainders need a
-separate relation under current controller power and the shared nullifier.
+[separate recovery relation](RECOVERY.md), with current issuer signatures mandatory.
+[Output marker freshness](NULLIFIER_FRESHNESS.md) remains an unresolved candidate gate.
 
 No tests, vectors, traces, constraint evaluations, proofs, benchmarks or real-node
 demos have run. Builds, vet, Clippy, source review and physical limits are the
