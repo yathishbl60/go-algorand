@@ -75,7 +75,8 @@ func (s Slot) Values() []uint16    { return append([]uint16(nil), s.values...) }
 // Plan requires one recipient proof and exactly the policy's disclosure roles.
 // It grants no authority to append outputs, spend notes or accept transactions.
 type Plan struct {
-	slots []Slot
+	slots   []Slot
+	binding outputBinding
 }
 
 func (p *Plan) Slots() []Slot { return append([]Slot(nil), p.slots...) }

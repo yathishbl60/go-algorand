@@ -77,5 +77,6 @@ backend, configuration, codec or relation revision requires a different identity
 
 The caller supplies that trusted identity/key selection before parsing. Equality
 with the wire ID cannot establish provenance, authorize a suite, select a weaker
-AIR or replace public-input binding. The native bridge/bundle/approved artifact
-registry and adversarial/runtime validation remain unfinished.
+AIR or replace public-input binding. The native bridge/approved artifact
+registry and adversarial/runtime validation remain unfinished. [Exact typed bundles](../../../../../docs/native-asset-privacy/PROOF_BUNDLES.md)
+now compose the current main/output proof set; native transport/acceptance remain.

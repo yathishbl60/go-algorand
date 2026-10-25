@@ -3,7 +3,9 @@
 
 //! Bounded candidate verification; trusted artifacts must come from local configuration.
 //! This module does not install a consensus suite or authenticate ledger statements.
+mod access;
 mod artifact;
+pub mod bundle;
 mod decode;
 mod encode;
 mod error;

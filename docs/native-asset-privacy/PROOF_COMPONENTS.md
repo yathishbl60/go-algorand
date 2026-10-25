@@ -86,8 +86,8 @@ The owner component is not the controller recovery path;
 both paths must eventually consume the same canonical nullifier.
 
 [Opaque witness framing](../../internal/assetprivacy/witness/README.md) bounds outer bytes only.
-[Per-AIR Rust decoding/verification](VERIFICATION_BOUNDARY.md) exists; native proof
-bundling, the Go/Rust bridge and transaction dispatch remain unfinished.
+[Rust per-AIR checking](VERIFICATION_BOUNDARY.md) and [typed bundles](PROOF_BUNDLES.md)
+exist; the Go/Rust bridge, artifact selection and native dispatch remain unfinished.
 Resource measurements, cryptographic review, vectors
 and adversarial validation remain missing. Tests are deferred by user instruction.
 

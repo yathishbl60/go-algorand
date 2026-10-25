@@ -10,9 +10,14 @@ pub(super) struct Writer {
 
 impl Writer {
     pub(super) fn new(limits: DecodeLimits) -> Self {
+        Self::bounded(limits.wire.min(limits.allocation))
+    }
+
+    // Only validated local per-proof/bundle limits reach this internal constructor.
+    pub(super) fn bounded(limit: usize) -> Self {
         Self {
             bytes: Vec::new(),
-            limit: limits.wire.min(limits.allocation),
+            limit,
         }
     }
 

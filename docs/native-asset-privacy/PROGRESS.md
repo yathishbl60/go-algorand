@@ -28,9 +28,9 @@ completion checklist. The full native feature remains in progress.
 3. Local canonical 512-byte notes, SHA3 commitments/nullifiers/ownership, fixed
    ML-KEM/HKDF/AES-GCM envelopes, role/epoch output recovery and bounded key
    admission. Wallet scanning, SDK integration and native acceptance remain.
-4. Full-body group binding, opaque witness framing, [bounded per-AIR Rust codec
-   and backend verification](VERIFICATION_BOUNDARY.md) exist. Native artifact
-   selection/bundling/bridge, transactions, pool/AVM and public APIs remain.
+4. Group binding, opaque witnesses, [Rust codec/verification](VERIFICATION_BOUNDARY.md),
+   [exact native bundle plans and typed Rust dispatch](PROOF_BUNDLES.md) exist.
+   Artifact selection/Go-Rust bridge, transactions, pool/AVM and public APIs remain.
 5. Pinned Plonky3 hiding configuration and exact uint64 conservation. Note,
    ownership, nullifier and depth-32 membership constraints compose into fixed
    transfer/shield/unshield arities. [Ordinary staged spending](SPENDING_COMPOSITION.md)
@@ -90,7 +90,7 @@ independent cryptographic security review has been supplied or completed.
 
 ## Next work
 
-Complete trusted artifact production/selection and native proof bundling/bridge,
+Complete trusted artifact production/selection and the native Go/Rust bridge,
 issuer authentication, other arities and native execution, including body-field
 matching and group application. Establish resource feasibility, measured work limits
 and runtime evidence for [V2 markers](NULLIFIER_FRESHNESS.md) before activation. Then finish

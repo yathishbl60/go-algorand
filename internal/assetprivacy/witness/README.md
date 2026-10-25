@@ -48,6 +48,6 @@ and compares it with the header; it must not trust the header's advertised value
 
 An outer byte limit does not bound nested STARK allocation, dimensions, recursion,
 verification work, or proving resources. A [per-AIR Rust codec/verifier](../stark/src/verification/README.md)
-now exists; native artifact selection, bundling, the Go/Rust bridge and measured
+and [exact bundles](../proofbundle/README.md) exist; artifact selection, the Go/Rust bridge and measured
 work limits are still required before native transaction acceptance. This
 format contains no note plaintext, private spending key, or encryption key.

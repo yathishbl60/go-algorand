@@ -29,7 +29,7 @@ func Build(record outputs.Record, config Config) (*Plan, error) {
 	if err := config.checkOutput(record); err != nil {
 		return nil, err
 	}
-	plan := &Plan{}
+	plan := &Plan{binding: bindOutput(record)}
 	for _, role := range config.roles() {
 		slot, err := buildSlot(record, config, role)
 		if err != nil {

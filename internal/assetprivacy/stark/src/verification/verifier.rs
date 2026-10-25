@@ -11,9 +11,9 @@ use std::panic::{AssertUnwindSafe, catch_unwind};
 /// Candidate cryptographic checking only; the native caller still authenticates all context.
 pub struct Verifier<A> {
     air: A,
-    artifact: Artifact,
-    identity: [u8; 64],
-    shape: Shape,
+    pub(super) artifact: Artifact,
+    pub(super) identity: [u8; 64],
+    pub(super) shape: Shape,
 }
 
 impl<A: BaseAir<Value>> Verifier<A> {
@@ -29,10 +29,6 @@ impl<A: BaseAir<Value>> Verifier<A> {
             identity,
             shape,
         })
-    }
-
-    pub fn artifact_id(&self) -> [u8; 64] {
-        self.identity
     }
 
     /// Bounded canonical serialization only; this does not verify the proof.

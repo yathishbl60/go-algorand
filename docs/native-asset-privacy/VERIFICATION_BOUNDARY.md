@@ -77,14 +77,15 @@ verification consumes no prover entropy and does not expose a seeded prover API.
 
 The exact candidate wire format is documented in the
 [codec reference](../../internal/assetprivacy/stark/src/verification/README.md).
-The outer [NAPW frame](../../internal/assetprivacy/witness/README.md) remains opaque:
-native main/output proof bundling, exact role dispatch and the Go/Rust bridge are
-not implemented. No parser path currently authorizes a native privacy transaction.
+The outer [NAPW frame](../../internal/assetprivacy/witness/README.md) remains opaque.
+[Exact main/output bundles](PROOF_BUNDLES.md) now provide native expected-slot
+planning and typed Rust dispatch for the current spend/recovery arities. Native
+artifact selection and the Go/Rust bridge remain; no parser authorizes a transaction.
 
 ## Remaining delivery gates
 
-Establish trusted artifact production/provenance and native suite selection; bind
-one complete proof bundle to the exact main/output plans; connect verification to
+Establish trusted artifact production/provenance and native suite selection; bridge
+the exact expected bundle to Rust; connect verification to
 authenticated native transaction bodies and atomic execution; measure masking,
 quotient, proof-size, work/memory and composed security parameters. Then complete
 pool/API/SDK/wallet/recovery support and all six real-node scenarios. Follow

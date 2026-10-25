@@ -57,7 +57,8 @@ That relation has only Ckem public; registry authority remains. Public module pa
 
 The [per-AIR codec and Rust verifier](src/verification/README.md) now provide bounded
 serialization and actual backend checking against trusted artifacts/public vectors.
-The [outer proof frame](../witness/README.md) still carries opaque bytes; native
-proof bundling, the Go/Rust bridge, admission budgets and transaction acceptance
+The [outer proof frame](../witness/README.md) still carries opaque bytes. [Typed
+bundles](../../../docs/native-asset-privacy/PROOF_BUNDLES.md) join current main/output
+plans; the Go/Rust bridge, artifact selection, measured budgets and acceptance
 remain unfinished. No proofs or codec round trips have run. The source pin and lockfile make
 the implementation reproducible; they do not provide a security audit.
