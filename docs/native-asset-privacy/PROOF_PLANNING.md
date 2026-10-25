@@ -48,9 +48,9 @@ full security analysis remain required. No proof/runtime evidence exists yet.
 The existing internal AppendAssetPrivacyOutput helper still requires its caller
 to perform these steps. No role plan grants permission to invoke that helper.
 [Ordinary two-input spending/group constraints](SPENDING_COMPOSITION.md) now exist.
-Freeze/recovery authority, remaining operation arities,
-embedded proof decoding, deterministic verifier and transaction ingress remain
-pending. Merely comparing witness headers or statement digests cannot replace
+Actual freeze/recovery authentication, other arities and transaction ingress remain.
+[Per-AIR Rust decoding/verification](VERIFICATION_BOUNDARY.md) exists; trusted native
+artifact selection, bundling and the bridge remain. Comparing witness headers cannot replace
 cryptographic proof verification or those missing relations.
 
 ## Practical implementation contract

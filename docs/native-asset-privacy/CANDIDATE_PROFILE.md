@@ -19,9 +19,9 @@ The 128-bit post-quantum target remains; this document does not establish it.
 - Minimum proposed trace height 512; the composed relation must satisfy the
   library's actual masking budget for every opening and quotient chunk.
 
-The configuration compiles against the pinned upstream implementation. It is a
-prover configuration only; there is no node verifier adapter or accepted proof
-encoding yet. Parameters are not transaction-selectable. Do not use example
+The pinned configuration now has a [per-AIR Rust codec/verifier](VERIFICATION_BOUNDARY.md).
+There is no node verifier adapter, trusted artifact registry or accepted native
+proof encoding yet. Parameters are not transaction-selectable. Do not use example
 testing parameters, deterministic prover seeds, non-hiding commitments or a
 pairing-based compression stage.
 
@@ -42,7 +42,7 @@ wraparound from satisfying a false conservation equation. Witness construction
 uses uint128 sums. These bits must also feed the note/encryption constraints.
 
 This component does not establish membership, ownership, nullifiers, encryption
-correctness, policies or group binding. There is no standalone spend verifier.
+correctness, policies or group binding. There is no native spend acceptance path.
 Input/output counts and final resource limits await the complete relation.
 
 ## Note openings and ownership

@@ -55,7 +55,9 @@ dot products, error/message additions and public ciphertext packing; its matrix,
 noise, key and message inputs are now bound by [full bounded encapsulation](src/mlkem_encapsulation_air/README.md).
 That relation has only Ckem public; registry authority remains. Public module paths remain stable through gated registries.
 
-The [outer proof frame](../witness/README.md) carries opaque bytes only. No embedded
-STARK decoder, consensus verifier, performance budget or security claim is exposed.
-The source pin and lockfile make
+The [per-AIR codec and Rust verifier](src/verification/README.md) now provide bounded
+serialization and actual backend checking against trusted artifacts/public vectors.
+The [outer proof frame](../witness/README.md) still carries opaque bytes; native
+proof bundling, the Go/Rust bridge, admission budgets and transaction acceptance
+remain unfinished. No proofs or codec round trips have run. The source pin and lockfile make
 the implementation reproducible; they do not provide a security audit.

@@ -2,7 +2,7 @@
 
 Updated 2026-10-25. Start with [delivery status](END_TO_END_STATUS.md). This branch
 contains disabled protocol components; it has no usable native transaction or
-complete proof verifier. There is no supported wallet transfer command yet.
+native proof-verification path. There is no supported wallet transfer command yet.
 
 ## Build the components
 
@@ -79,9 +79,9 @@ writable `GOCACHE` or Cargo target/cache directory when using a sandbox.
 6. Construct the complete relation's public vector from that same statement.
 7. Prove locally, then put its bounded witness outside the transaction bodies.
 
-Steps 6–7 are not available as a complete native path. Existing AIRs omit
-recovery/other arities and native proof/body integration. The outer witness frame is not a STARK
-decoder. Do not replace either missing piece with a permissive verifier.
+Steps 6–7 are not available as a complete native path. [Rust checking/serialization](VERIFICATION_BOUNDARY.md)
+exists; native artifact selection, proof bundling, other arities and body integration
+remain. The outer witness frame alone never establishes proof validity.
 
 Future native execution must check proofs and all current authorization, accepted
 roots, distinct fresh nullifiers, public conversion and storage funding. Apply

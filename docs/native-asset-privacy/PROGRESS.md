@@ -28,9 +28,9 @@ completion checklist. The full native feature remains in progress.
 3. Local canonical 512-byte notes, SHA3 commitments/nullifiers/ownership, fixed
    ML-KEM/HKDF/AES-GCM envelopes, role/epoch output recovery and bounded key
    admission. Wallet scanning, SDK integration and native acceptance remain.
-4. Full-body ordered-group statement binding and bounded opaque witness framing.
-   The embedded proof decoder, deterministic native verification, transaction
-   encoding, pool/AVM integration and public APIs remain unfinished.
+4. Full-body group binding, opaque witness framing, [bounded per-AIR Rust codec
+   and backend verification](VERIFICATION_BOUNDARY.md) exist. Native artifact
+   selection/bundling/bridge, transactions, pool/AVM and public APIs remain.
 5. Pinned Plonky3 hiding configuration and exact uint64 conservation. Note,
    ownership, nullifier and depth-32 membership constraints compose into fixed
    transfer/shield/unshield arities. [Ordinary staged spending](SPENDING_COMPOSITION.md)
@@ -90,10 +90,10 @@ independent cryptographic security review has been supplied or completed.
 
 ## Next work
 
-Validate [V2 markers/global creation uniqueness](NULLIFIER_FRESHNESS.md), then issuer authentication,
-other arities and native verifier/execution,
-including body-field matching and group application. Establish resource feasibility,
-proof decoding/work limits and trusted profile artifacts before activation. Then finish
+Complete trusted artifact production/selection and native proof bundling/bridge,
+issuer authentication, other arities and native execution, including body-field
+matching and group application. Establish resource feasibility, measured work limits
+and runtime evidence for [V2 markers](NULLIFIER_FRESHNESS.md) before activation. Then finish
 API/SDK/wallet/CLI, replay/recovery and the six real-node scenarios. Maintain the
 full [north-star work-package scope](IMPLEMENTATION.md); the present components
 do not substitute for that outcome. Tests remain deferred by user instruction.

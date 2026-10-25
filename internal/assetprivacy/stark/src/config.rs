@@ -14,14 +14,28 @@ use crate::types::{ChallengeMmcs, Challenger, Compress, Config, LeafHash, Pcs, V
 /// Seeds every commitment/masking stream from OS-backed entropy.
 /// This does not establish the security of an application relation.
 pub fn prover_config() -> Result<Config, SysError> {
-    let leaves = ValueMmcs::new(
+    let leaves = StdRng::try_from_rng(&mut SysRng)?;
+    let masks = StdRng::try_from_rng(&mut SysRng)?;
+    Ok(configuration(leaves, masks))
+}
+
+// Verification never consumes masking entropy. Keep this inaccessible to provers.
+pub(crate) fn verifier_config() -> Config {
+    configuration(StdRng::from_seed([0; 32]), StdRng::from_seed([0; 32]))
+}
+
+fn value_mmcs(rng: StdRng) -> ValueMmcs {
+    ValueMmcs::new(
         LeafHash::new(DomainHash::<1>),
         Compress::new(DomainHash::<2>),
         0,
-        StdRng::try_from_rng(&mut SysRng)?,
-    );
+        rng,
+    )
+}
+
+fn configuration(leaves: StdRng, masks: StdRng) -> Config {
+    let leaves = value_mmcs(leaves);
     let extensions = ChallengeMmcs::new(leaves.clone());
-    let masks = StdRng::try_from_rng(&mut SysRng)?;
     let pcs = Pcs::new(
         Default::default(),
         leaves,
@@ -30,5 +44,5 @@ pub fn prover_config() -> Result<Config, SysError> {
         masks,
     );
     let transcript = HashChallenger::new(b"NAP-CANDIDATE-1".to_vec(), DomainHash::<3>);
-    Ok(Config::new(pcs, Challenger::new(transcript)))
+    Config::new(pcs, Challenger::new(transcript))
 }

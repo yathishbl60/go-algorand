@@ -1,7 +1,7 @@
 # Native asset privacy: end-to-end delivery status
 
 Updated 2026-10-25. **Not end-to-end yet.** There is no native private transfer,
-complete proof verifier or real-node demo. The full north-star scope remains;
+native proof-verification path or real-node demo. The full north-star scope remains;
 completed components below do not substitute for it.
 
 ## Work-package evidence
@@ -13,7 +13,7 @@ completed components below do not substitute for it.
 | NAP-03 types/gates | Consensus flag added, false in every version; transaction/witness types and codecs missing |
 | NAP-04 cryptography | Note/conservation, complete envelope encryption, recipient current-key/eligibility membership and assigned disclosure constraints implemented; ordinary two-input eligibility/conservation/group constraints implemented; recovery/remainder constraints implemented; commitment-bound V2 markers/global creation uniqueness implemented; other arities, runtime proofs and native verifier missing |
 | NAP-05 native state | COW supply, policy/key/control epochs, current-key and effective-freeze roots, spent markers, tree/root history and atomic outputs implemented; storage charges and runtime recovery evidence missing |
-| NAP-06 verification | Bounded opaque proof frame, exact main/output vectors and native state/body-context planning implemented; embedded STARK decoder, deterministic native verifier, work limits and cache integration missing |
+| NAP-06 verification | Opaque frame, exact main/output planning, bounded per-AIR Rust codec and backend verification API implemented; trusted artifact registry, native proof bundling/bridge/dispatch, work limits and cache integration missing |
 | NAP-07 lifecycle | Policy lifecycle, bounded viewing-key admission, destruction guard and public holding freeze persistence implemented; PQ administrative ingress and authenticated native transactions missing |
 | NAP-08 groups/pool/AVM | Group digest API and transfer public-input layout implemented; native verifier wiring, pool accounting and gated AVM inspection missing |
 | NAP-09 recovery | Existing KV path reused; privacy replay/restart/catchpoint/catchup behavior unverified |
@@ -54,6 +54,7 @@ private transaction execution or privacy-state cleanup.
 - [Key roles, epoch persistence and caller obligations](../../internal/assetprivacy/keys/README.md).
 - [Current eligibility snapshots, atomic hooks and private recipient binding](ELIGIBILITY.md).
 - [Bounded outer witness framing](../../internal/assetprivacy/witness/README.md).
+- [Rust verification boundary, trusted artifacts and bounded codec](VERIFICATION_BOUNDARY.md).
 - [Local note API](../../internal/assetprivacy/note/README.md).
 - [Envelope API](../../internal/assetprivacy/envelope/README.md).
 - [Bounded matrix relation and matching key-admission rule](MATRIX_SAMPLING.md).
