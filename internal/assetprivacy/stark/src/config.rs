@@ -21,6 +21,11 @@ pub fn prover_config() -> Result<Config, SysError> {
 
 // Verification never consumes masking entropy. Keep this inaccessible to provers.
 pub(crate) fn verifier_config() -> Config {
+    public_preprocessing_config()
+}
+
+// Every call resets entropy for public schedules only; never expose this as a prover config.
+pub(crate) fn public_preprocessing_config() -> Config {
     configuration(StdRng::from_seed([0; 32]), StdRng::from_seed([0; 32]))
 }
 

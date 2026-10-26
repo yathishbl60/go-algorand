@@ -1,6 +1,6 @@
 # Native asset privacy implementation progress
 
-Updated 2026-10-25. [End-to-end status](END_TO_END_STATUS.md) is the canonical
+Updated 2026-10-26. [End-to-end status](END_TO_END_STATUS.md) is the canonical
 completion checklist. The full native feature remains in progress.
 
 ## Current user instructions
@@ -30,7 +30,7 @@ completion checklist. The full native feature remains in progress.
    admission. Wallet scanning, SDK integration and native acceptance remain.
 4. Group binding, opaque witnesses, [Rust codec/verification](VERIFICATION_BOUNDARY.md),
    [exact native bundle plans and typed Rust dispatch](PROOF_BUNDLES.md) exist.
-   Artifact selection/Go-Rust bridge, transactions, pool/AVM and public APIs remain.
+   [Typed artifact selection](ARTIFACT_SELECTION.md) exists; approved pins, bridge, transactions and APIs remain.
 5. Pinned Plonky3 hiding configuration and exact uint64 conservation. Note,
    ownership, nullifier and depth-32 membership constraints compose into fixed
    transfer/shield/unshield arities. [Ordinary staged spending](SPENDING_COMPOSITION.md)
@@ -90,7 +90,7 @@ independent cryptographic security review has been supplied or completed.
 
 ## Next work
 
-Complete trusted artifact production/selection and the native Go/Rust bridge,
+Produce/approve actual artifacts and suite pins, then complete the native Go/Rust bridge,
 issuer authentication, other arities and native execution, including body-field
 matching and group application. Establish resource feasibility, measured work limits
 and runtime evidence for [V2 markers](NULLIFIER_FRESHNESS.md) before activation. Then finish

@@ -22,10 +22,12 @@ import (
 	"github.com/algorand/go-algorand/data/basics"
 	"github.com/algorand/go-algorand/internal/assetprivacy/policy"
 	"github.com/algorand/go-algorand/internal/assetprivacy/statement"
+	"github.com/algorand/go-algorand/internal/assetprivacy/tree"
 )
 
 type assetPrivacyBodyContext struct {
 	group       [64]byte
+	suite       [64]byte
 	transaction [32]byte
 	sender      basics.Address
 	round       uint64
@@ -43,6 +45,10 @@ func (cs *roundCowState) assetPrivacyBindBodies(suite [64]byte, bodies AssetPriv
 		return assetPrivacyBodyContext{}, err
 	}
 	target := bodies.Group[bodies.Target]
-	return assetPrivacyBodyContext{group: group, transaction: [32]byte(target.ID()),
+	return assetPrivacyBodyContext{group: group, suite: suite, transaction: [32]byte(target.ID()),
 		sender: target.Sender, round: uint64(cs.Round())}, nil
+}
+
+func (context assetPrivacyBodyContext) proofContext(domain tree.Domain) AssetPrivacyPlanContext {
+	return AssetPrivacyPlanContext{Domain: domain, Suite: context.suite, Group: context.group}
 }

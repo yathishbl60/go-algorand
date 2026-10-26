@@ -4,7 +4,7 @@ Updated 2026-10-25. Native spend/recovery snapshots now derive immutable bundle
 plans. Go and Rust implement the same candidate framing; Rust has typed dispatch
 that requires actual backend verification of every selected component. No bundle
 round trip, cross-language conformance check or proof execution has run. Native
-transactions, trusted artifact selection and the Go/Rust bridge remain unfinished.
+transactions, approved artifacts/pins and the Go/Rust bridge remain unfinished.
 
 ## Expected proof set
 
@@ -13,7 +13,7 @@ the expected descriptors/vectors from the existing current-state plans. Generic
 `proofbundle.Spend`/`Recovery` require trusted plan provenance. They compare each
 output's domain, commitment and ordinal with the main statement and require the
 correct recipient kind followed by exactly its planned auditor/controller roles.
-Output-plan metadata and scalar vectors are immutable snapshots; getters copy.
+Output metadata/vectors and native Domain/Suite/Group are value snapshots; plan getters copy.
 
 The required order is one main proof, then output 0's recipient/auditor/controller,
 then output 1's roles. Optional roles follow immutable native policy, never a wire
@@ -64,7 +64,7 @@ Construct `verification::bundle::Expected` with `transfer`, `unshield`, `recover
 `recipient`, `disclosure`, `retained` or `recovered`. Each constructor requires the
 corresponding concrete `Verifier<AIR>` type and exact native public vector. The
 private dispatcher has six concrete verifier variants; it accepts no user-supplied
-success callback. All selected verifier artifacts must share one profile ID.
+success callback. All selected artifacts must share one profile and registry ID.
 
 `encode_bundle(expected, proof_slices, limits)` frames existing per-AIR proofs.
 It checks descriptors, vector dimensions, composition and artifact headers;

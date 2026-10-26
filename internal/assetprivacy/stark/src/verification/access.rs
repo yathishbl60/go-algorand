@@ -13,6 +13,9 @@ impl<A> Verifier<A> {
     pub(super) fn profile_id(&self) -> [u8; 64] {
         self.artifact.profile
     }
+    pub(super) fn registry_id(&self) -> [u8; 64] {
+        self.artifact.registry
+    }
 
     pub(super) fn check_header(&self, bytes: &[u8], limits: DecodeLimits) -> Result<(), Error> {
         if bytes.len() > limits.wire {

@@ -7,8 +7,9 @@ use p3_uni_stark::PreprocessedVerifierKey;
 
 /// Trusted, locally selected configuration. Never construct this from a proof.
 /// `relation` must identify every AIR constructor argument and V2 relation revision.
-pub struct Artifact {
+pub(super) struct Artifact {
     pub(super) profile: [u8; 64],
+    pub(super) registry: [u8; 64],
     pub(super) relation: [u8; 64],
     pub(super) rows: usize,
     pub(super) key: PreprocessedVerifierKey<Config>,
@@ -16,17 +17,19 @@ pub struct Artifact {
 
 impl Artifact {
     /// Integrity binding is not security approval or a key-generation ceremony.
-    pub fn from_trusted(
+    pub(super) fn from_trusted(
         profile: [u8; 64],
+        registry: [u8; 64],
         relation: [u8; 64],
         rows: usize,
         key: PreprocessedVerifierKey<Config>,
     ) -> Result<Self, Error> {
-        if !Self::valid(profile, relation, rows, &key) {
+        if registry == [0; 64] || !Self::valid(profile, relation, rows, &key) {
             return Err(Error::Artifact);
         }
         Ok(Self {
             profile,
+            registry,
             relation,
             rows,
             key,

@@ -44,6 +44,9 @@ impl<'a> Expected<'a> {
     pub fn profile_id(&self) -> [u8; 64] {
         self.target.profile()
     }
+    pub fn registry_id(&self) -> [u8; 64] {
+        self.target.registry()
+    }
 }
 
 fn public_count(kind: u8) -> usize {

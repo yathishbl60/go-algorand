@@ -50,7 +50,7 @@ to perform these steps. No role plan grants permission to invoke that helper.
 [Ordinary two-input spending/group constraints](SPENDING_COMPOSITION.md) now exist.
 Actual freeze/recovery authentication, other arities and transaction ingress remain.
 [Per-AIR Rust decoding/verification](VERIFICATION_BOUNDARY.md) exists; trusted native
-artifact selection and the bridge remain; [typed bundles](PROOF_BUNDLES.md) exist. Headers cannot replace
+approved artifacts and the bridge remain; [typed selection](ARTIFACT_SELECTION.md)/[bundles](PROOF_BUNDLES.md) exist. Headers cannot replace
 cryptographic proof verification or those missing relations.
 
 ## Practical implementation contract

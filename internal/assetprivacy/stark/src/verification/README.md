@@ -1,7 +1,7 @@
 # Per-AIR candidate proof codec
 
-This module is gated by `native-privacy`. It supplies `Artifact`, `Verifier`,
-`DecodeLimits`, `Error`, and backend type re-exports. See the
+This module is gated by `native-privacy`. It supplies typed relation/registry
+selection, `Verifier`, `DecodeLimits`, `Error`, and backend type re-exports. See the
 [trust/API contract](../../../../../docs/native-asset-privacy/VERIFICATION_BOUNDARY.md).
 This candidate format is not an activated consensus encoding or a complete native
 proof bundle. No serialization round trip or proof verification has been executed.
@@ -68,8 +68,8 @@ by the wire. The local structural guard also caps it at 128.
 ## Artifact selection and limits
 
 The artifact ID is SHA3-512 under
-`Algorand/AssetPrivacy/Candidate1/VerifierArtifactV1/`. Its ordered preimage is the
-pinned backend/configuration label, 64-byte profile ID, 64-byte relation ID,
+`Algorand/AssetPrivacy/Candidate1/VerifierArtifactV2/`. Its ordered preimage is the
+pinned backend/configuration label, compiled source64, profile64, registry digest64, full relation64,
 seven `u32` dimensions/parameters, fixed parameter bytes, two row-access bytes,
 then the trusted preprocessing root's eight little-endian words. The exact label,
 dimension order and constants are in [metadata.rs](metadata.rs). Changing the
@@ -77,6 +77,6 @@ backend, configuration, codec or relation revision requires a different identity
 
 The caller supplies that trusted identity/key selection before parsing. Equality
 with the wire ID cannot establish provenance, authorize a suite, select a weaker
-AIR or replace public-input binding. The native bridge/approved artifact
-registry and adversarial/runtime validation remain unfinished. [Exact typed bundles](../../../../../docs/native-asset-privacy/PROOF_BUNDLES.md)
+AIR or replace public-input binding. The native bridge, approved artifact files/pins
+and adversarial/runtime validation remain unfinished. [Exact typed bundles](../../../../../docs/native-asset-privacy/PROOF_BUNDLES.md)
 now compose the current main/output proof set; native transport/acceptance remain.

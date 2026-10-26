@@ -17,7 +17,7 @@ pub struct Verifier<A> {
 }
 
 impl<A: BaseAir<Value>> Verifier<A> {
-    pub fn from_trusted(air: A, artifact: Artifact) -> Result<Self, Error> {
+    pub(super) fn from_trusted(air: A, artifact: Artifact) -> Result<Self, Error> {
         let shape = Shape::from_air(&air)?;
         if artifact.key.width != shape.preprocessed {
             return Err(Error::Artifact);

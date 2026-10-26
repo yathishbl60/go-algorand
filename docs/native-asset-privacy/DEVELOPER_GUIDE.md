@@ -80,7 +80,7 @@ writable `GOCACHE` or Cargo target/cache directory when using a sandbox.
 7. Prove locally, then put its bounded witness outside the transaction bodies.
 
 Steps 6–7 are not available as a complete native path. [Rust checking/serialization](VERIFICATION_BOUNDARY.md)
-and [bundle planning/dispatch](PROOF_BUNDLES.md) exist; artifact selection, the bridge and body integration
+and [typed selection](ARTIFACT_SELECTION.md)/[bundles](PROOF_BUNDLES.md) exist; approved artifacts, bridge and body integration
 remain. The outer witness frame alone never establishes proof validity.
 
 Future native execution must check proofs and all current authorization, accepted

@@ -1,93 +1,89 @@
 # Candidate Rust proof verification boundary
 
-Updated 2026-10-25. The opt-in Rust library now has a bounded per-AIR binary codec
-and calls the pinned backend's `verify_with_preprocessed` for cryptographic checking.
-This is **not native transaction acceptance**. No proof, codec round trip or
-adversarial execution has run; tests and runtime evidence remain deferred.
+Updated 2026-10-26. The opt-in Rust library has a bounded per-AIR codec and calls
+pinned `verify_with_preprocessed` for actual cryptographic checking. This is
+**not native transaction acceptance**. No proofs, codec round trips, public setup
+or adversarial execution have run; tests/runtime evidence remain deferred.
 
-## Caller contract
+## Trusted selection contract
 
-`verification::Artifact::from_trusted(profile, relation, rows, key)` takes a
-locally selected preprocessing key. It never reads a key from proof bytes.
-The caller must establish the commitment's provenance from the exact preprocessing
-schedule, pinned backend and reviewed configuration. Its width, single-root cap
-and hiding-extended degree are checked against the expected AIR and row count.
-An arbitrary key with a matching width is not a trusted artifact.
+Use `verification::selection::Registry::load(bytes, pin)` with independently trusted
+profile, implementation/source and registry-file digests. The fixed registry is
+checked before publishing any keys; the Rust reference build additionally requires
+its compiled source ID. There is no default approved file, suite or placeholder
+key. The evidence `profile::Manifest` is an integrity bundle, never suite authority.
 
-`relation` must identify the AIR kind, relation revision and every constructor
-argument, including network, asset, policy, operation and applicable envelope or
-authority context. Construct the AIR from the same trusted configuration and
-ledger-derived context. The generic library cannot prove those selections came
-from an approved registry. No native allowed-suite/artifact registry exists yet.
-V2 suites must reject serial-only artifacts; a caller-supplied label is not evidence
-that a preprocessing commitment or AIR implements that revision.
+Typed `Prepared` factories construct one of the six native AIR types and derive a
+canonical full relation ID from its exact public constructor arguments. A proof
+cannot choose an arbitrary AIR, relation label, row count or preprocessing key.
+`Registry::bind(prepared)` selects the exact layout key and returns `Verifier<A>`.
+Generic `Artifact::from_trusted` and `Verifier::from_trusted` are now internal;
+old experimental direct-construction examples are superseded by this API.
 
-`Verifier::from_trusted(air, artifact)` owns this selection. Its artifact ID hashes
-the backend pin/configuration, supplied profile/relation IDs, dimensions, row-access
-shape and preprocessing commitment. A proof carries that ID only for equality
-checking; it cannot use it to select a different key or relation. Metadata hashing
-provides integrity binding, not security approval or a soundness argument.
+The artifact ID binds the backend/configuration, compiled source, profile/registry,
+full relation ID, dimensions/row-access shape and preprocessing root. Its domain is
+`Algorand/AssetPrivacy/Candidate1/VerifierArtifactV2/`; older experimental IDs are
+incompatible. The wire carries only an ID for equality checking, never key selection.
+Metadata hashing and independent file pins establish integrity/provenance contracts,
+not security approval or proof that the selected relation is correct.
 
-`Verifier::verify(bytes, expected_values, limits)` requires the exact public vector
-from native planning, in order, as `u16` cells. The proof cannot supply this vector.
-The backend replays Fiat–Shamir and checks openings, FRI and AIR constraints against
-that vector and the selected preprocessing key. Returning success here does not
-authenticate signatures, fees, modes, roots, authority, body matching or state writes.
+`Verifier::verify(bytes, expected_values, limits)` requires exact native public
+values, in order, as `u16` cells. The proof cannot supply them. The backend replays
+Fiat–Shamir and checks openings, FRI and constraints against those values and the
+selected key. Success does not authenticate signatures, fees, modes, roots, authority,
+body matching or state application. The native caller still checks every obligation.
 
 ## Developer use
 
-With the Rust feature `native-privacy` enabled, use the same verifier object for
-local serialization and verification:
+With Rust feature `native-privacy`, a transfer preparation has this shape:
 
 ```rust,ignore
-use algorand_asset_privacy_stark::verification::{Artifact, DecodeLimits, Verifier};
+use algorand_asset_privacy_stark::verification::{DecodeLimits, selection::{Prepared, Registry}};
 
-let artifact = Artifact::from_trusted(profile_id, relation_id, rows, trusted_key)?;
-let verifier = Verifier::from_trusted(expected_air, artifact)?;
+let registry = Registry::load(&registry_bytes, independently_approved_pin)?;
+let prepared = Prepared::transfer(native_domain, public_conversion)?;
+let verifier = registry.bind(prepared)?;
 let limits = DecodeLimits::new(wire_budget, allocation_budget)?;
 let bytes = verifier.encode(&local_proof, limits)?;
 verifier.verify(&bytes, &ledger_expected_values, limits)?;
 ```
 
-The inputs above are supplied by the application; there is no production key or
-proof fixture. `encode` checks framing/shape and serializes; it does not verify.
-`BackendProof` and `PreprocessedVerifierKey` are re-exported for integration.
-Provers must still use OS-seeded `prover_config()` and the matching trusted schedule.
-The deterministic configuration used by verification is private to the crate;
-verification consumes no prover entropy and does not expose a seeded prover API.
+The inputs above must come from the application; no approved registry/proof fixture
+exists. `encode` serializes/checks shape; it does not verify. Backend proof/key types
+are re-exported for proving integration. [Artifact selection](ARTIFACT_SELECTION.md)
+defines all factories, relation preimages and public setup. Private proving still
+uses fresh OS-seeded `prover_config()`; deterministic public setup never exposes a
+seeded Config and is never called by the verifier or build checks.
 
 ## Admission and failure behavior
 
-- No default admission budget exists. `DecodeLimits::new` requires positive local
-  budgets, capped at 128 MiB wire and 512 MiB decoder allocation requests. These
-  ceilings are implementation guards, not measured safe node limits or fee rules.
+- No default budget exists. Positive `DecodeLimits` are capped at128 MiB wire and
+  512 MiB decoder allocation requests. These are guards, not measured node limits.
 - Each vector length is checked against remaining bytes and an aggregate allocation
   quota before fallible reservation. Container storage, field cells and cap roots
   are charged. Fixed opening-row widths are rejected before row allocation.
-- The parser has fixed nesting depth, rejects noncanonical field words, requires
-  zero grinding witnesses, and rejects trailing bytes, wrong versions/IDs/degrees.
-  The backend independently derives and checks quotient/FRI/MMCS geometry.
-- Decoder accounting covers requested vector storage. It does not cover allocator
-  metadata, public-vector conversion, backend copies, symbolic constraints, CPU,
-  preprocessing generation or the caller's already allocated input/proof buffers.
-  Native admission needs separate measured work/memory limits and scheduling.
-- Rejections return stable `verification::Error` categories. A backend unwind is
-  converted to `BackendPanic`; allocator aborts or a panic-abort build cannot be
-  recovered this way. Panic conversion is not a substitute for adversarial checks.
+- Fixed-depth parsing rejects noncanonical field words, nonzero grind witnesses,
+  trailing bytes, wrong versions/IDs/degrees. The backend independently derives
+  and checks quotient/FRI/MMCS geometry.
+- Accounting covers requested vector storage, excluding allocator metadata,
+  public-vector conversion, backend copies, symbolic constraints, CPU, preprocessing
+  generation and caller buffers. Native admission needs measured work/memory limits.
+- Stable `verification::Error` categories reject failures. Backend unwinds become
+  `BackendPanic`; allocator aborts or panic-abort builds cannot be recovered this
+  way. Panic conversion never substitutes for adversarial validation.
 
-The exact candidate wire format is documented in the
-[codec reference](../../internal/assetprivacy/stark/src/verification/README.md).
-The outer [NAPW frame](../../internal/assetprivacy/witness/README.md) remains opaque.
-[Exact main/output bundles](PROOF_BUNDLES.md) now provide native expected-slot
-planning and typed Rust dispatch for the current spend/recovery arities. Native
-artifact selection and the Go/Rust bridge remain; no parser authorizes a transaction.
+The [per-AIR codec](../../internal/assetprivacy/stark/src/verification/README.md)
+and [exact main/output bundles](PROOF_BUNDLES.md) provide current spend/recovery
+planning and typed Rust dispatch. Native plans retain value-copy Domain/Suite/Group
+context, including zero-output operations; their Main/Outputs accessors also copy
+plan objects. No parser currently authorizes a native privacy transaction.
 
 ## Remaining delivery gates
 
-Establish trusted artifact production/provenance and native suite selection; bridge
-the exact expected bundle to Rust; connect verification to
-authenticated native transaction bodies and atomic execution; measure masking,
-quotient, proof-size, work/memory and composed security parameters. Then complete
-pool/API/SDK/wallet/recovery support and all six real-node scenarios. Follow
-[the canonical delivery checklist](END_TO_END_STATUS.md); all runtime validation
-and independent review evidence remain outstanding.
+Produce and independently approve actual preprocessing artifacts/profile pins;
+connect authoritative native Suite selection and the Go/Rust bridge; connect proof
+checking to authenticated transaction bodies and atomic state execution; measure
+masking, quotient, proof size, resource limits and composed security. Then complete
+pool/API/SDK/wallet/recovery support and the six real-node scenarios. See the full
+[delivery checklist](END_TO_END_STATUS.md). Runtime validation and independent review
+remain outstanding; all features stay disabled by default.

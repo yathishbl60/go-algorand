@@ -37,11 +37,24 @@ type AssetPrivacySpendBodies struct {
 type AssetPrivacySpendPlan struct {
 	main    *spendplan.Plan
 	outputs []*proofplan.Plan
+	context AssetPrivacyPlanContext
 }
 
-func (p *AssetPrivacySpendPlan) Main() *spendplan.Plan { return p.main }
+func (p *AssetPrivacySpendPlan) Main() *spendplan.Plan {
+	if p == nil {
+		return nil
+	}
+	return copyAssetPrivacyPlan(p.main)
+}
 func (p *AssetPrivacySpendPlan) Outputs() []*proofplan.Plan {
-	return append([]*proofplan.Plan(nil), p.outputs...)
+	if p == nil || p.outputs == nil {
+		return nil
+	}
+	snapshots := make([]*proofplan.Plan, len(p.outputs))
+	for index, output := range p.outputs {
+		snapshots[index] = copyAssetPrivacyPlan(output)
+	}
+	return snapshots
 }
 
 type assetPrivacySpendContext struct {

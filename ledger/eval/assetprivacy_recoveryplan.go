@@ -42,11 +42,15 @@ func (cs *roundCowState) AssetPrivacyRecoveryProofPlan(asset basics.AssetIndex, 
 	if err = cs.checkAssetPrivacySpendInput(asset, context.config.Domain.Policy, main.Input()); err != nil {
 		return nil, err
 	}
-	return cs.assetPrivacyRecoveryOutputPlans(asset, main, records)
+	native := context.proofContext(context.config.Domain)
+	return cs.assetPrivacyRecoveryOutputPlans(asset, main, records, native)
 }
 
-func (cs *roundCowState) assetPrivacyRecoveryOutputPlans(asset basics.AssetIndex, main *recoveryplan.Plan, records []outputs.Record) (*AssetPrivacyRecoveryPlan, error) {
-	plan := &AssetPrivacyRecoveryPlan{main: main}
+func (cs *roundCowState) assetPrivacyRecoveryOutputPlans(asset basics.AssetIndex, main *recoveryplan.Plan, records []outputs.Record, context AssetPrivacyPlanContext) (*AssetPrivacyRecoveryPlan, error) {
+	if main == nil || main.Domain() != context.Domain {
+		return nil, recoveryplan.ErrConfig
+	}
+	plan := &AssetPrivacyRecoveryPlan{main: main, context: context}
 	for index, record := range records {
 		output, err := cs.assetPrivacyRecoveryOutputPlan(asset, main, index, record)
 		if err != nil {

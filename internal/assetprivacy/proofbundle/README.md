@@ -44,5 +44,5 @@ per-AIR verifier. Cross-language conformance/proof execution remain unverified.
 
 Embed the bytes in the separately bound [NAPW witness](../witness/README.md) only
 after selecting the trusted profile and recomputing finalized-body group context.
-Native suite/artifact selection, Go/Rust transport, authenticated native transaction
+Approved suite/artifacts, Go/Rust transport, authenticated native transaction
 bodies, fees/funding/work bounds and atomic state application remain unfinished.

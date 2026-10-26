@@ -5,7 +5,7 @@ use super::{Error, Proof};
 use crate::Value;
 use p3_air::BaseAir;
 
-#[derive(Clone, Copy)]
+#[derive(Clone, Copy, Eq, PartialEq)]
 pub(super) struct Shape {
     pub width: usize,
     pub preprocessed: usize,

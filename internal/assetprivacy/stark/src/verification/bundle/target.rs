@@ -68,4 +68,15 @@ impl Target<'_> {
             Self::Recovered(v) => v.profile_id(),
         }
     }
+
+    pub(super) fn registry(&self) -> [u8; 64] {
+        match self {
+            Self::Spend(v) => v.registry_id(),
+            Self::Recovery(v) => v.registry_id(),
+            Self::Recipient(v) => v.registry_id(),
+            Self::Disclosure(v) => v.registry_id(),
+            Self::Retained(v) => v.registry_id(),
+            Self::Recovered(v) => v.registry_id(),
+        }
+    }
 }

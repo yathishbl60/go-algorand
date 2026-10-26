@@ -18,10 +18,16 @@ pub(super) fn check(slots: &[Expected<'_>]) -> Result<(), Error> {
         let kind = recipient_kind(ordinal, recipient, retained);
         rest = output(rest, ordinal, kind)?;
     }
-    if !rest.is_empty() || slots.iter().any(|s| s.profile_id() != main.profile_id()) {
+    if !rest.is_empty() || !same_registry(slots, main) {
         return Err(Error::Shape);
     }
     super::binding::check(slots)
+}
+
+fn same_registry(slots: &[Expected<'_>], main: &Expected<'_>) -> bool {
+    slots
+        .iter()
+        .all(|s| s.profile_id() == main.profile_id() && s.registry_id() == main.registry_id())
 }
 
 fn recipient_kind(ordinal: u32, recipient: u8, retained: Option<u32>) -> u8 {
