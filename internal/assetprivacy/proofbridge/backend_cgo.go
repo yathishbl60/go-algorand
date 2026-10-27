@@ -48,7 +48,10 @@ func backendStatus(implementation [64]byte) error {
 }
 
 func verifyBackend(request, bundle []byte) error {
-	if len(request) == 0 || len(bundle) == 0 {
+	if len(request) == 0 {
+		return ErrUnavailable
+	}
+	if len(bundle) == 0 {
 		return ErrRejected
 	}
 	status := C.nap_privacy_verify_v1(

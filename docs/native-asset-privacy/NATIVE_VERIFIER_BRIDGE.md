@@ -1,83 +1,99 @@
 # Native Go/Rust proof-verification bridge
 
-Updated 2026-10-27. Native spend/recovery snapshots now expose `Verify` methods
-that forward their exact plans/context to an optional linked Rust backend. The
-feature-enabled `algod` binary builds with the C ABI symbols present. This proves
-build/link integration only: no node, bridge call, vector, public setup or proof
-has run. Native transaction ingress/execution and all six scenarios remain missing.
+Updated 2026-10-27. Current-consensus spend/recovery admission helpers select an
+optional linked Rust backend. A feature-enabled algod binary builds with the C
+symbols present. This is build/link evidence only: no bridge call, public setup,
+node, vector or proof has run. Native transaction ingress/execution remain missing.
 
 ## Trusted native caller
 
-Construct `proofbridge.NewVerifier(registryBytes, independentPin, trustedLimits)`
-from consensus-approved suite configuration. It owns a fixed registry snapshot,
-checks exact registry metadata/digest, and requires ABI1 plus a matching compiled
-source ID. Missing backend or mismatched source fails as `ErrUnavailable` before
-proof work. No callback, helper process or fallback can report verification success.
-There is still no installed/approved suite catalog or actual registry artifact.
+Use roundCowState.VerifyAssetPrivacySpend/VerifyAssetPrivacyRecovery. They rebuild
+current plans and select pins/budgets from authoritative policy and current
+[consensus suite catalog](NATIVE_SUITE_CATALOG.md). No caller-selected verifier,
+Pin or Limits argument exists on this path. All current catalogs are empty and
+privacy remains disabled. There is no approved/installed registry artifact.
 
-Call `nativePlan.Verify(verifier, framedNAPW)`. The snapshot supplies authoritative
-Domain/Suite/Group and exact public vectors, including zero-output operations. Go
-checks suite equality, outer NAPW binding, bounded lengths and exact NAPB layout.
-It builds a small trusted NAPV request. **NAPV is not transaction/witness/RPC data**;
-accepting peer-selected requests would let peers choose their own context/keys.
-The generic internal Go API still requires callers to establish native provenance.
+Suite.Verifier calls proofbridge.NewVerifier with the selected values. It owns
+an exact954-byte registry, checks metadata/digest and requires ABI2 plus a supported
+implementation reference. The legacy Implementation/source wire field holds this
+reference; it is not necessarily the current compiled fingerprint. The compiled
+historical compatibility array is currently empty, so only today's fingerprint
+is supported. Missing/incompatible backend fails closed before proof work.
 
-Rust reconstructs concrete AIRs from that domain and exact public values: ordinary
-conversion amounts, recovery amount/current authority, envelope context and assigned
-authorities. It checks the main vector's group against the native snapshot and output
-contexts against its domain/role/ordinal. Registry selection and typed bundle checks
-bind every commitment/kind/role/profile/catalog before actual P3 verification.
-Every component must succeed; one rejection rejects the entire bundle.
+Generic nativePlan.Verify(verifier,framedNAPW) is a lower-level cryptographic
+helper. Its immutable snapshot supplies Domain/Suite/Group and exact vectors,
+including zero-output operations. Go checks suite equality, NAPW profile/group,
+bounds and every NAPB descriptor, then constructs a small trusted NAPV request.
+**NAPV is not transaction/witness/RPC data** and peers cannot select its context,
+registry or budgets. Go copies the bounded payload before passing it to Rust.
 
-Success here checks proofs only. Ordinary/PQ signatures, current authority/state,
-body-field matching, modes, public credits, funding/work pricing, replay prevention
-and atomic ledger application remain separate mandatory native obligations. The
-transaction pool/evaluator does not yet route a native transaction through this path.
+Rust derives concrete AIRs from native domain/values: conversion amounts, recovery
+current authority, envelope contexts and assigned disclosure targets. It checks
+main group binding and output domain/role/ordinal. Typed registry/bundle selection
+binds all required kinds, commitments and public values; actual P3 verification
+must succeed for every component. No callback or fallback reports success.
+
+Proof checking writes no state and grants no transaction authority. Signatures,
+consent, body-field matching, modes, public balances, funding, replay protection
+and atomic ledger application remain mandatory. Pool/evaluator transaction routing
+is unfinished; the current helpers must not be mistaken for native acceptance.
 
 ## Build the linked backend
 
-Core and FFI crates share `internal/assetprivacy/Cargo.lock` and the pinned parent
-Rust toolchain. Default workspace member is the core crate; both features are empty
-by default. The shared lock preserved existing dependency versions and adds the FFI
-package. Core source identity now also covers workspace/FFI sources and the C header.
+Core/FFI crates share internal/assetprivacy/Cargo.lock and the pinned toolchain.
+Their features are empty by default; the core crate is the default workspace member.
 
 ```sh
 bash internal/assetprivacy/stark-ffi/build.sh debug
-# Use release instead of debug for an optimized artifact; proving resources remain unmeasured.
 go build -mod=readonly -tags algorand_native_privacy,algorand_native_privacy_stark ./cmd/algod
 ```
 
-The script builds the real static library and installs an ignored host archive in
-`stark-ffi/lib/` plus an ignored Go archive-digest marker to invalidate stale link caches. No binary/marker is committed. `NAP_STARK_TARGET_DIR` selects
-Cargo output storage. Cross-builds require a Rust target matching Go's GOOS/GOARCH.
-Current build/link evidence is Darwin only. The CGO adapter includes Linux/Darwin; other platforms or CGO-disabled builds
-fail closed. `algorand_native_privacy` alone also returns unavailable. No consensus
-version enables privacy, and linking the backend does not activate it.
+Use release for an optimized archive; proving costs remain unmeasured. The script
+installs an ignored host archive and Go archive-digest marker to prevent stale
+link caches; neither is committed. NAP_STARK_TARGET_DIR selects Cargo storage.
+Cross-builds need matching Rust and Go targets. Current link evidence is Darwin;
+Adapters target Linux/Darwin; other platforms, CGO-disabled builds and the
+privacy tag alone fail closed. Linking never activates a consensus version.
 
-## C ABI and memory ownership
+## ABI2 and failure classification
 
-The separate FFI crate contains the raw-pointer operations; the core crate retains
-`forbid(unsafe_code)`. Three exports exist: `nap_privacy_abi`, source comparison
-`nap_privacy_source_v1`, and `nap_privacy_verify_v1(request,len,bundle,len)`. Buffers
-must be valid initialized immutable ranges for the entire call. Length/null checks
-cannot establish arbitrary foreign-pointer validity; trusted Go owns/pins the ranges.
-Rust retains/frees none of them. Go keeps both owned buffers alive until return.
+The separate FFI crate owns raw pointers; the core keeps forbid(unsafe_code).
+Exports are nap_privacy_abi, nap_privacy_source_v1 and nap_privacy_verify_v1.
+The source function tests supported reference compatibility, not proof validity.
+_v1 function names remain under ABI2; callers check ABI2 before using them.
 
-Verification status0 means all actual Rust checks succeeded;1 is pointer/size,
-2 artifact failure,3 other rejection,4 backend unwind. Source comparison status0
-only establishes source compatibility, never proof validity. Go maps nonzero verify
-statuses to rejection. Unwinds are caught before crossing C; aborts/OOM cannot be.
+| Verify status | Meaning | Go outcome |
+| --- | --- | --- |
+| 0 | All selected actual proof checks succeeded | nil, without transaction authority |
+| 1 | Invalid foreign range/trusted native request | ErrUnavailable |
+| 2 | Trusted artifact installation/selection failure | ErrUnavailable |
+| 3 | Invalid/malformed proof or deterministic proof quota failure | ErrRejected |
+| 4 | Caught backend unwind | ErrUnavailable |
+| 5 | Actual fallible allocation failure | ErrResource |
+| Unknown | Unsupported backend outcome | ErrUnavailable |
 
-Go deliberately copies the bounded NAPW payload before FFI, isolating Rust's shared
-borrow from caller mutation. The caller must keep input stable while Go copies it.
-The copy is independently capped by MaxAllocationBytes; Rust decoder allocations
-have a separate cap of the same value. Peak includes caller frame + Go payload copy
-+ request/vector copies + Rust decoded data + backend/allocator overhead. These caps
-are **not one aggregate budget**. No CPU meter, admission scheduler or fee model exists.
+Registry installation failures in the authoritative native wrapper are local
+ErrUnavailable errors. Never classify local resource/backend faults as invalid-peer
+evidence. Catching unwinds cannot recover allocator aborts or panic-abort builds.
 
-The [request reference](../../internal/assetprivacy/stark/src/verification/native/README.md)
-specifies all bytes; request max15500, bundle max512 MiB, individual proof max128 MiB.
-These guard ceilings are not measured safe node limits. Current proof widths remain
-impractical. See [artifact selection](ARTIFACT_SELECTION.md) and the full
-[delivery checklist](END_TO_END_STATUS.md). Approved artifacts/pins, native handlers,
-other arities/platforms, runtime conformance, security/resource review and tests remain.
+Go owns/pins valid initialized immutable ranges until return; Rust retains/frees
+none of them. Length/null checks cannot establish arbitrary foreign-pointer validity.
+The input frame must stay stable during Go's copy; KeepAlive preserves both owned
+Go buffers until FFI returns. No C allocation or caller-owned payload borrow escapes.
+
+## Resource limits
+
+Go payload-copy size is separately capped by MaxAllocationBytes. Rust proof
+parsing uses the same numeric cap as a deterministic charge quota under a fixed
+64-bit model: Value8, Challenge40, digest64, Vec/Cap24, input/FRI-phase opening72.
+Child elements are charged separately. Quota exhaustion is deterministic proof
+rejection; actual reservation failure is local ErrResource. Actual heap use,
+backend copies, symbolic constraints, allocator metadata and CPU remain outside it.
+
+Peak includes caller NAPW + owned Go payload + small request/vector copies + one
+Rust-decoded proof + backend overhead. These are additive, not one aggregate cap.
+Rust verifies components sequentially. No CPU meter, fee model or measured node
+budget exists. [Request bytes](../../internal/assetprivacy/stark/src/verification/native/README.md)
+remain max15500, bundle512MiB, proof128MiB. These are guards, not practical limits.
+Approved artifacts, historical-suite retention, native handlers, other arities,
+runtime conformance and security/resource evidence remain [delivery gates](END_TO_END_STATUS.md).

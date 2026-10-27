@@ -4,6 +4,7 @@
 use super::super::Error;
 
 /// Native context is trusted caller state; its failures are never bad-peer evidence.
+/// Variants identify phases; Proof may still carry local allocation/backend failures.
 #[derive(Debug)]
 pub enum Failure {
     Request(Error),

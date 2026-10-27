@@ -1,8 +1,8 @@
 # Native privacy implementation guide
 
-Updated 2026-10-25. Start with [delivery status](END_TO_END_STATUS.md). This branch
-contains disabled protocol components; it has no usable native transaction or
-native proof-verification path. There is no supported wallet transfer command yet.
+Updated 2026-10-27. Start with [delivery status](END_TO_END_STATUS.md). This branch
+contains disabled protocol components and linked verification helpers; it has no
+usable native transaction or supported wallet transfer command.
 
 ## Build the components
 
@@ -47,10 +47,11 @@ writable `GOCACHE` or Cargo target/cache directory when using a sandbox.
 | Zero private inputs, two outputs | [ShieldAir](../../internal/assetprivacy/stark/src/shield_air/README.md) |
 | Two ordinary eligible inputs with Transfer2/Unshield0 outputs | [Staged spending](SPENDING_COMPOSITION.md) |
 | Issuer recovery and frozen-owner remainder | [Recovery contracts](RECOVERY.md) |
-| Earlier unshield conservation primitive, without current eligibility | [UnshieldAir](../../internal/assetprivacy/stark/src/unshield_air/README.md) |
+| Draft native transaction body; codec/handlers pending | [Body integration contract](NATIVE_TRANSACTION_BODY.md) |
+| Consensus suite metadata, references and admission | [Native suite catalog](NATIVE_SUITE_CATALOG.md) |
 | Single committed-note envelope | [EnvelopeAir typed context and witness API](../../internal/assetprivacy/stark/src/envelope_air/README.md) |
 | Private candidate key derivation | [HKDF constraints](../../internal/assetprivacy/stark/src/hkdf_air/README.md) |
-| Fixed envelope AEAD constraints | [GCM component](../../internal/assetprivacy/stark/src/gcm_air/README.md) |
+| Exact native proof checking and ABI2 failures | [Authoritative bridge entrypoints](NATIVE_VERIFIER_BRIDGE.md) |
 | Practical private trace layout | [Scheduling direction](TRACE_ARCHITECTURE.md) |
 | Private vertical field multiplication | [GHASH product](../../internal/assetprivacy/stark/src/ghash_vertical/README.md) |
 | Complete vertical GHASH stage | [Fixed chain](../../internal/assetprivacy/stark/src/ghash_chain/README.md) |
@@ -79,9 +80,9 @@ writable `GOCACHE` or Cargo target/cache directory when using a sandbox.
 6. Construct the complete relation's public vector from that same statement.
 7. Prove locally, then put its bounded witness outside the transaction bodies.
 
-Steps 6–7 are not available as a complete native path. [Rust checking/serialization](VERIFICATION_BOUNDARY.md)
-and [native bridge](NATIVE_VERIFIER_BRIDGE.md)/[typed selection](ARTIFACT_SELECTION.md) exist; approved artifacts and body integration
-remain. The outer witness frame alone never establishes proof validity.
+Steps 6–7 are not available as a complete native transaction path. Current-state
+VerifyAssetPrivacySpend/Recovery select catalog pins, not caller verifiers;
+approved entries/artifacts, body integration and runtime evidence remain missing.
 
 Future native execution must check proofs and all current authorization, accepted
 roots, distinct fresh nullifiers, public conversion and storage funding. Apply

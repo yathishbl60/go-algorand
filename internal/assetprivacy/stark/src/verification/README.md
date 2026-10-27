@@ -69,7 +69,7 @@ by the wire. The local structural guard also caps it at 128.
 
 The artifact ID is SHA3-512 under
 `Algorand/AssetPrivacy/Candidate1/VerifierArtifactV2/`. Its ordered preimage is the
-pinned backend/configuration label, compiled source64, profile64, registry digest64, full relation64,
+pinned backend/configuration label, selected reference64, profile64, registry digest64, full relation64,
 seven `u32` dimensions/parameters, fixed parameter bytes, two row-access bytes,
 then the trusted preprocessing root's eight little-endian words. The exact label,
 dimension order and constants are in [metadata.rs](metadata.rs). Changing the
@@ -77,7 +77,7 @@ backend, configuration, codec or relation revision requires a different identity
 
 The caller supplies that trusted identity/key selection before parsing. Equality
 with the wire ID cannot establish provenance, authorize a suite, select a weaker
-AIR or replace public-input binding. The native bridge, approved artifact files/pins
+AIR or replace public-input binding. The native bridge links; approved artifact files/pins
 and adversarial/runtime validation remain unfinished. [Exact typed bundles](../../../../../docs/native-asset-privacy/PROOF_BUNDLES.md)
 now compose the current main/output proof set; native transport/acceptance remain.
 

@@ -30,7 +30,7 @@ completion checklist. The full native feature remains in progress.
    admission. Wallet scanning, SDK integration and native acceptance remain.
 4. Group binding, opaque witnesses, [Rust codec/verification](VERIFICATION_BOUNDARY.md),
    [exact native bundle plans and typed Rust dispatch](PROOF_BUNDLES.md) exist.
-   [Typed selection](ARTIFACT_SELECTION.md)/[linked native bridge](NATIVE_VERIFIER_BRIDGE.md) exist; approved pins, transactions/APIs remain.
+   [ABI2 bridge](NATIVE_VERIFIER_BRIDGE.md) and [consensus suite admission](NATIVE_SUITE_CATALOG.md) exist; catalogs/artifacts remain empty.
 5. Pinned Plonky3 hiding configuration and exact uint64 conservation. Note,
    ownership, nullifier and depth-32 membership constraints compose into fixed
    transfer/shield/unshield arities. [Ordinary staged spending](SPENDING_COMPOSITION.md)
@@ -55,26 +55,26 @@ completion checklist. The full native feature remains in progress.
    one canonical opening and its public commitment. All operations fit within
    65,536 rows using bounded frame writers and shared scratch. Enclosing
    recipient/disclosure and ordinary spending/group constraints exist; native
-   verification and execution remain.
+   transaction ingress/execution and runtime proof evidence remain.
 10. [Current-key authorization registry](KEY_AUTHORIZATION.md) replaces a stable
     account/role leaf on rotation and atomically couples it to native key history
     and pointers. Typed current roots and exact-record witnesses are available.
     Private viewing-record constraints and current membership match the canonical
-    hash; runtime provenance evidence and complete native verification remain.
+    hash; current-consensus proof checking exists, runtime provenance evidence remains.
 11. [Recipient output authorization](../../internal/assetprivacy/stark/src/authorized_recipient_air/README.md)
     joins complete envelope/note encryption to current viewing and spending
     membership for the same private account, independent epochs and note owner.
     Staged membership and compact matrix frames preserve every operation while
     keeping the full recipient schedule within 65,536 rows. [Current eligibility](ELIGIBILITY.md)
-    now binds the same private account. Native verification/execution remain.
+    now binds the same private account. Native ingress/execution and runtime evidence remain.
 12. [Assigned disclosures](../../internal/assetprivacy/disclosure/README.md) persist
     prospective auditor/controller targets and bind complete encrypted openings
     to their current registered viewing keys. [Exact output-role plans](PROOF_PLANNING.md)
     derive expected vectors from native state. Main planning also checks native
-    roots/nullifiers and finalized body context. Native proof execution remains.
+    roots/nullifiers and finalized body context. No proof execution has run.
 
 Go uses `algorand_native_privacy`; Rust's optional `native-privacy` feature is
-empty by default. No consensus version enables privacy. See [the candidate
+empty by default. No consensus version enables privacy or configures a suite. See [the candidate
 profile](CANDIDATE_PROFILE.md) and [developer guide](DEVELOPER_GUIDE.md).
 Detailed code history is preserved in Git; component READMEs define current
 interfaces, exact layouts, caller obligations and source-only checks.
@@ -90,7 +90,7 @@ independent cryptographic security review has been supplied or completed.
 
 ## Next work
 
-Produce/approve actual artifacts and suite pins, then route authenticated native transactions through the bridge,
+Populate/approve catalog entries and actual artifacts, preserve live-asset references, then route native transactions through the bridge,
 issuer authentication, other arities and native execution, including body-field
 matching and group application. Establish resource feasibility, measured work limits
 and runtime evidence for [V2 markers](NULLIFIER_FRESHNESS.md) before activation. Then finish

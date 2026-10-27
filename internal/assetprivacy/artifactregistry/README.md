@@ -30,7 +30,7 @@ sizes, aliases or optional records. The header occupies134 bytes:
 | 0..4 | ASCII `NAPK` |
 | 4 | Version1 |
 | 5..69 | Profile64, identical to independent Pin.Profile |
-| 69..133 | Implementation/source64, identical to Pin.Implementation |
+| 69..133 | Selected reference64, identical to legacy Pin.Implementation |
 | 133 | Count10 |
 
 Exactly ten82-byte records follow in order kinds1,2,4,5,6,7,17,18,19,20. Each
@@ -58,7 +58,7 @@ trust. Missing keys or placeholders never create an approved registry implicitly
 Dimensions match the current NullifierV2 Rust native AIR layouts. Kind alone
 selects a public schedule, not an entire transaction-specific relation. The Rust
 bridge must independently derive the full relation ID from the exact constructor
-arguments, revision and source fingerprint; the artifact ID also binds the trusted
+arguments, revision and selected supported reference; the artifact ID also binds the trusted
 profile/key. Construct the correct typed AIR/vector. No private epoch belongs in that
 public relation identity. Role, output ordinal, body/group context, current roots
 and applicable authority remain native statement/authentication obligations.
@@ -72,8 +72,9 @@ provenance or approval. A digest read from the same file is not an independent p
 The reader never generates preprocessing, traces or proofs, never accesses the
 filesystem/network, and never chooses deployment work limits. It supplies no
 successful-verification token or transaction authority. Actual preprocessing
-provenance, security/resource analysis, native allowed-suite registry, proof
-verification integration and adversarial/runtime evidence remain required.
+provenance, security/resource analysis, approved suite data, native transaction
+acceptance and adversarial/runtime evidence remain required. `suitecatalog` selects
+pins from current consensus. Current catalogs are empty, with no approved fallback.
 
 No tests, digest vectors, traces, preprocessing, constraint evaluations or proofs
 have run. Builds, vet, source review and physical limits establish only the

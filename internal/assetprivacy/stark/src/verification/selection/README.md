@@ -3,23 +3,24 @@
 This opt-in module replaces arbitrary public AIR/key/relation-label construction.
 It provides `Prepared`, `Domain`, `Layout`, `PublicSetup`, `Entry`, `Pin`, `Registry`,
 `encode_registry` and `registry_digest`. No approved registry/pins or runtime proof
-evidence exists. The [native bridge](../../../../../../docs/native-asset-privacy/NATIVE_VERIFIER_BRIDGE.md) links; approved suite admission/transaction routing remain.
+evidence exists. The [native bridge](../../../../../../docs/native-asset-privacy/NATIVE_VERIFIER_BRIDGE.md) links; approved suite data/transaction routing remain.
 
 Use `Prepared::transfer(domain, public_conversion)`, `unshield(domain, credit)`,
 `recovery(domain, operation, authority)`, or output factories `recipient(context)`,
 `disclosure(context, authority)`, `retained(context)` and `recovered(context)`.
 Each produces the exact concrete AIR and canonical full relation ID. There is no
 generic public constructor or mutable AIR accessor. `air()` borrows for proving;
-`layout()` and `relation_id()` return public metadata.
+`layout()` and `relation_id(&registry)` return public metadata.
 
 `Registry::load(bytes, Pin{profile,implementation,digest})` requires independent
-trusted pins and the current compiled source identity. It validates the fixed
+trusted pins and a supported reference identity. The current build fingerprint is
+supported; the explicit historical compatibility list is empty. It validates the fixed
 954-byte format, exact ten layout records and file digest before publishing keys.
 Unknown kinds, reordered records, incorrect dimensions/next-row flags or trailing
 bytes fail. Root words are raw SHA3 words; zero is a valid output, not a key default.
 
 `Registry::bind(prepared)` returns a verifier with no caller key/row/label override.
-The complete artifact ID binds profile, whole registry, compiled source, complete
+The complete artifact ID binds profile, whole registry, selected reference, complete
 relation, dimensions/configuration and selected root. Bundle selection must use the
 same registry/profile for every component; equal preprocessing roots do not merge
 different relation kinds or permit a weaker output proof.

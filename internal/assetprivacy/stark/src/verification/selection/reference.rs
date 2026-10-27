@@ -4,7 +4,8 @@
 use super::super::implementation;
 
 // Add a frozen reference only after establishing identical v1 constraints, schedules,
-// encodings and backend parameters. Incompatible suites require versioned dispatch.
+// encodings, artifact identity, decoder charges and backend parameters.
+// Incompatible suites require versioned dispatch.
 // Approval is compiled into the implementation, never supplied by an artifact/peer.
 const COMPATIBLE_REFERENCES: [[u8; 64]; 0] = [];
 

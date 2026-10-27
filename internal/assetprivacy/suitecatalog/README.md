@@ -31,7 +31,7 @@ Actual configured bounds must come from trusted protocol/suite configuration.
 `Suite.Pin()` returns artifactregistry.Pin by value: ID maps to Profile,
 Reference maps to the existing Implementation wire field, and RegistryDigest maps
 to Digest. Reference is a consensus-selected compatibility reference. Exact
-current source/relation identity remains checked by the Rust verifier; the wire
+reference/relation identity remains checked by the Rust verifier; the wire
 field name does not authorize caller-selected implementations. `Suite.Limits()`
 returns the three selected budget values by value. Neither getter changes state.
 

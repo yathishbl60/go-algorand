@@ -12,7 +12,7 @@ Request length is1332..15500 bytes. Header fields have these exact byte interval
 | --- | --- |
 | 0..5 | ASCII NAPV then version1 |
 | 5..69 | Independently approved profile/Suite64 |
-| 69..133 | Independently expected implementation/source64 |
+| 69..133 | Independently selected verifier reference64 |
 | 133..197 | Independently approved registry digest64 |
 | 197..229 | Native genesis/network32 |
 | 229..237 | Native assetu64BE |
@@ -20,7 +20,7 @@ Request length is1332..15500 bytes. Header fields have these exact byte interval
 | 301..365 | Recomputed finalized-body group digest64 |
 | 365..369 | Trusted maximum bundle bytesu32BE |
 | 369..373 | Trusted maximum individual proof bytesu32BE |
-| 373..377 | Trusted per-decoder allocation bytesu32BE |
+| 373..377 | Trusted per-decoder canonical allocation chargeu32BE |
 | 377..1331 | Exact954-byte NAPK registry file |
 | 1331 | Slot count byte,1..7 |
 
@@ -30,7 +30,7 @@ schemas fail before cell allocation. Entire input must be consumed; no trailing
 extensions/aliases/optional keys are allowed. Main precedes exact ordered output
 roles as defined by [bundle framing](../../../../../../docs/native-asset-privacy/PROOF_BUNDLES.md).
 
-The parser checks nonzero domain/group, registry pins plus compiled source, bounded
+The parser checks nonzero domain/group, registry pins plus supported reference, bounded
 limits and slots. The main public group must equal header Group. For main transfer,
 public debit/credit come from cells192/196; unshield credit from128. Recovery public
 credit starts96 for partial-public and64 for full-public; private variants use0.
@@ -50,6 +50,12 @@ The bounded small request adds metadata allocations outside the proof decoder qu
 backend work/copies and caller/Go payload buffers are separate. No aggregate resource
 meter exists. Guard ceilings remain512 MiB bundle,128 MiB proof,512 MiB per-decoder.
 No safe node budget or fee schedule is established by those ceilings.
+
+`Failure::Request` identifies trusted-context/registry construction failures;
+`Failure::Proof` identifies bundle verification failures. ABI2 distinguishes local
+allocation failure and backend panics from invalid proof evidence in either phase.
+Canonical element charges use the same fixed64-bit model on every architecture;
+an actual allocation failure is local unavailability, never a quota violation.
 
 The [full bridge contract](../../../../../../docs/native-asset-privacy/NATIVE_VERIFIER_BRIDGE.md)
 describes build flags, ABI safety, source identity and remaining integration. The

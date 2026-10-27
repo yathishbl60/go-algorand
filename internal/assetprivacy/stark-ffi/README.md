@@ -16,16 +16,22 @@ set a matching Rust CARGO_BUILD_TARGET and Go GOOS/GOARCH; mismatched archives d
 not work. The Go adapter currently supports Linux/Darwin with CGO and both privacy
 tags; unsupported/unlinked builds reject verification as unavailable.
 
-`include/nap_privacy.h` defines ABI1. `nap_privacy_abi()` returns the ABI number.
-`nap_privacy_source_v1(expected,64)` compares the independently expected source ID.
+`include/nap_privacy.h` defines ABI2. `nap_privacy_abi()` returns the ABI number.
+`nap_privacy_source_v1(expected,64)` checks an independently selected reference ID.
+Current source identity is supported; historical references require an explicit
+reviewed compatibility entry. That table is empty. Request/artifact IDs retain
+the selected reference across compatible builds; the build fingerprint remains
+diagnostic. Incompatible relations require separate versioned verification.
 `nap_privacy_verify_v1(request,len,bundle,len)` borrows trusted native request data
 and the opaque proof bundle for actual checking. Buffers must be initialized, valid,
 immutable, and alive for the entire call; Go supplies owned pinned byte arrays.
 Null/length guards cannot validate arbitrary foreign memory. Rust never retains
 or frees those ranges. No Rust-owned allocation or pointer crosses back to Go.
 
-Only verification status0 means all proofs passed. Status1 rejects bad sizes/ranges,
-2 artifacts,3 other errors,4 unwinds. Source status0 means compatibility only.
+Only verification status0 means all proofs passed. Status3 means invalid proof;
+1 denotes caller/config/range errors,2 registry installation,4 local backend
+unwinds,5 local allocation failure. These local failures are availability errors,
+never invalid-peer evidence. Source status0 means reference compatibility only.
 Unwinds are caught at the C boundary; panic-abort/OOM and invalid caller pointers
 cannot be recovered this way. No callback or configurable success implementation
 exists. The wrapper performs no ledger writes or signature authorization.

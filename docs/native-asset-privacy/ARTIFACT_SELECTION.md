@@ -1,19 +1,18 @@
 # Typed relations and independently pinned public artifacts
 
-Updated 2026-10-27. Reference Rust selection and the Go registry reader now compile.
-No preprocessing roots/files have been generated, no suite/pins are approved, and
-no codec conformance, public setup, trace, constraint or proof run has occurred.
+Updated 2026-10-27. Typed selection, catalog admission and the linked native bridge
+compile. No preprocessing files, approved suite entries, setup, codec conformance,
+traces, constraints or proofs have been executed/generated for this candidate.
 
 ## Public schedule keys and exact relations
 
-`Prepared::transfer`, `unshield`, `recovery`, `recipient`, `disclosure`, `retained`
-and `recovered` construct concrete native AIR types. Caller-supplied AIRs, relation
-labels, dimensions and key overrides are not public construction paths. The six
-AIR types use ten distinct layout kinds:1,2,4,5,6,7,17,18,19,20. Exact operation,
-amount/authority and envelope context enter the relation identity separately.
+Prepared::transfer, unshield, recovery, recipient, disclosure, retained and recovered
+construct six concrete AIR types across ten kinds:1,2,4,5,6,7,17,18,19,20. There
+are no public arbitrary AIR/relation/dimension/key override constructors. Exact
+operation, amounts/authority and envelope context enter the relation identity.
 
-The relation ID is SHA3-512 of ASCII
-`Algorand/AssetPrivacy/Candidate1/RelationV1/NullifierV2/`, compiled source ID64,
+prepared.relation_id(&registry) hashes ASCII
+Algorand/AssetPrivacy/Candidate1/RelationV1/NullifierV2/, selected registry reference64,
 layout-kind byte, argument lengthu32LE and canonical public argument bytes:
 
 | Factory | Ordered argument bytes |
@@ -24,69 +23,75 @@ layout-kind byte, argument lengthu32LE and canonical public argument bytes:
 | recipient/retained/recovered | complete public envelope context248 |
 | disclosure | public envelope context248, assigned authority32 |
 
-Domain104 is network32, assetBE8, policy64. Envelope context includes public role,
-nonce, output ordinal and commitment; it excludes the private key epoch. Constructors
-feed exactly these same values to the AIR. Note plaintext, ownership secrets, serials,
-blindings, private epochs and witnesses never enter these public IDs.
+Domain104 is network32, assetBE8, policy64. Context includes role/nonce/output
+ordinal/commitment, without private epoch. Constructors feed those same values
+to AIR constraints. Plaintext, secrets, serials, blindings and paths stay private.
+relation_id requires the registry: the former no-argument signature is obsolete.
 
-Source audit finds preprocessing independent of dynamic constructor values. Group
-schedules vary by output count; key/view, membership, eligibility and envelope
-schedules are fixed. Full-private/partial-public recovery share raw schedules;
-disclosure/retained recipients also share raw schedules. Equal roots therefore do
-not merge kinds, public schemas, constraints or authorization. Typed selection and
-full relation IDs remain mandatory. Runtime evidence for this invariant is missing.
+Source audit finds schedules independent of dynamic constructor values. Group
+schedules vary by output count. Full-private/partial-public recovery share raw
+schedules; disclosure/retained recipients also share them. Equal preprocessing
+roots never merge relation kinds, public schemas or authorization. Exact typed
+selection remains necessary; runtime evidence for this invariant is missing.
 
 ## Public artifact production and loading
 
-`prepared.setup_public()` invokes actual pinned preprocessing setup offline and
-returns public `PreprocessedProverData` plus an immutable `Entry`. It is expensive,
-not called during verification/builds, and has not been executed. Each call starts
-fresh deterministic generators for public preprocessing only. Underlying hiding
-Merkle trees still have five salts per leaf; zero cap height does not remove salts.
-Private proof salts/masks always use separate fresh OS-seeded `prover_config()`.
-The deterministic configuration is private and never returned by the setup API.
+prepared.setup_public() performs real expensive pinned preprocessing offline,
+returning public prover data and an immutable Entry. It is not called during
+verification/builds and has not run. Each call uses fresh deterministic generators
+for public preprocessing only. Hiding Merkle leaves still have five salts; cap
+height zero does not remove them. Private proofs use fresh OS-seeded prover_config;
+the deterministic configuration is private and never returned by setup.
 
-Gather one Entry for each kind in canonical order and call `encode_registry(profile,
-entries)`. This produces a small file, not approval. Obtain its digest with
-`registry_digest`; approve that digest/profile/reference source independently of
-any file, transaction, RPC request or witness. `Registry::load(bytes, Pin)` checks
-all pins, exact shape/order and the compiled source before publishing keys.
-`Registry::bind(prepared)` selects the matching prekey and exact artifact identity.
-`Registry::check_setup` compares public setup width/degree/root with the pinned key
-before private proving; it does not validate the entire reusable prover data.
+Gather all ten Entries in canonical order, then encode_registry(profile,entries).
+The encoder writes the current build fingerprint as the new registry reference.
+The resulting file/digest is not approval. Independently approve profile,
+reference and full registry digest through [consensus metadata](NATIVE_SUITE_CATALOG.md).
+Registry::load checks exact pins, shape/order and supported reference before
+publishing keys. Registry::bind(prepared) selects the expected layout and derives
+its artifact identity using that same reference. Registry::check_setup checks
+width/degree/root against a pinned key, not complete reusable prover data.
 
-The fixed954-byte NAPK format and all dimensions are specified by the
-[Go reader contract](../../internal/assetprivacy/artifactregistry/README.md).
-Digest is SHA3-512 of ASCII
-`Algorand/AssetPrivacy/Candidate1/ArtifactRegistryV1/` followed by the complete file.
-Both implementations check the same format; cross-language conformance is unverified.
-All64-byte root values, including zero, are allowed; provenance comes from pins.
+The954-byte NAPK format/dimensions are in the [Go registry contract](../../internal/assetprivacy/artifactregistry/README.md).
+Its digest hashes ASCII Algorand/AssetPrivacy/Candidate1/ArtifactRegistryV1/ followed
+by the entire file. Root words allow every64-byte value; approval/provenance comes
+from independent pins. Cross-language conformance remains unverified.
 
-## Reference source identity
+## Compiled fingerprint versus frozen reference
 
-The opt-in build script hashes the checked-out crate sources under ASCII
-`Algorand/AssetPrivacy/Candidate1/ImplementationSourceV1/`. It hashes file countu32LE,
-then sorted relative UTF-8 paths with `/` separators: path lengthu32LE/path bytes,
-content lengthu64LE/raw content. Workspace-relative inputs include core/FFI `.rs`
-sources, build support/script, C header, manifests, shared lock/toolchain. File/directory rebuild
-triggers include new source files. Absolute paths, times and generated OUT_DIR
-output are excluded. Default-feature builds run an inert build script.
+verification::implementation_id() exposes the current compiled source fingerprint.
+The opt-in build script hashes sorted workspace-relative core/FFI Rust sources,
+build support/script, C header, manifests, shared lock/toolchain under ASCII
+Algorand/AssetPrivacy/Candidate1/ImplementationSourceV1/. Encoding is file countu32LE,
+then path lengthu32LE/path UTF-8 bytes and content lengthu64LE/raw bytes. Absolute
+paths/times/generated OUT_DIR output are excluded; default builds are inert.
+This is source identity, not compiler/cache provenance, audit or constraint proof.
 
-`verification::implementation_id()` exposes this compiled digest. Source edits,
-including formatting, change candidate artifacts/IDs. Preserve exact source bytes
-for reproducible reference artifacts. This identity is not compiler/cache provenance,
-a security audit, a formal constraint digest or approval of an independent client.
-Native release compatibility and normative profile/version rules still need definition.
-The complete artifact ID uses domain VerifierArtifactV2, backend label, source64,
-profile64, registry digest64, full relation64, dimensions/parameters and trusted root; see
-[the per-AIR codec](../../internal/assetprivacy/stark/src/verification/README.md).
+Registry::reference_id() returns its selected frozen reference. reference_supported
+accepts the current fingerprint or a compiled COMPATIBLE_REFERENCES entry. That
+historical array is currently explicitly EMPTY, so there is no historical source
+compatibility today. Peers, manifests and registry files cannot extend it.
 
-## Native boundary still required
+Future reviewed identical v1 constraints, schedules, encodings, artifact-ID
+construction, decoder charges and parameters may support a frozen reference
+while build bytes change. Prepared relation IDs and
+VerifierArtifactV2 IDs bind that selected reference, keeping their preimages
+stable under approved compatibility. Incompatible changes need versioned dispatch;
+adding an old fingerprint without establishing equivalence is insufficient.
 
-Native spend/recovery snapshots now preserve Domain/Suite/Group by value and return
-copied plans. Unknown suites must be rejected by independent consensus-approved
-lookup; a nonzero policy Suite or a local evidence Manifest grants no approval.
-Do not infer context from output slots: unshield/full-public recovery have none.
-The [Go/Rust bridge](NATIVE_VERIFIER_BRIDGE.md) links; approved pins/artifacts, native signatures/body matching,
-work pricing and atomic execution remain unfinished. Source/build checks do not
-establish correctness, privacy, interoperability or practical resource use.
+The artifact ID hashes domain VerifierArtifactV2, backend/configuration label,
+reference64, profile64, registry digest64, full relation64, dimensions/parameters,
+row-access shape and trusted root. See the [codec](../../internal/assetprivacy/stark/src/verification/README.md).
+Live asset suites and historical proofs require retention across upgrades; the
+[catalog contract](NATIVE_SUITE_CATALOG.md) describes the outstanding normative rule.
+
+## Native boundary
+
+Native plans retain value-copy Domain/Suite/Group and copied statements, including
+zero-output operations. Authoritative VerifyAssetPrivacySpend/Recovery rebuild
+those plans and select current consensus pins; generic caller-supplied Verifier
+helpers do not establish this provenance. All current catalogs remain empty.
+Approved artifacts, signatures/body matching, measured work pricing and atomic
+execution remain missing. No build/source result establishes proof correctness,
+privacy, interoperability or practical resource use. External specs/SDK integration
+is still required; sibling checkouts are absent.

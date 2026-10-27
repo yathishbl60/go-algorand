@@ -1,6 +1,6 @@
 # Candidate proof components
 
-Updated 2026-10-24. These components implement portions of the native spending
+Updated 2026-10-27. These components implement portions of the native spending
 relation. None is an accepted transaction proof or a complete privacy protocol.
 They use the [pinned candidate backend](CANDIDATE_PROFILE.md) and remain opt-in.
 
@@ -75,19 +75,19 @@ conversion/group context in232 public scalars. [Layout](../../internal/assetpriv
 
 ## Remaining composition
 
-The complete relation still needs current eligibility/control authorization,
-mandatory disclosure/spend integration and native verifier wiring.
+Current eligibility, disclosure/spend/recovery composition and linked verifier
+helpers exist. Native authentication, transaction routing and runtime evidence remain.
 [ShieldAir](../../internal/assetprivacy/stark/src/shield_air/README.md) has zero private inputs/two outputs;
 [UnshieldAir](../../internal/assetprivacy/stark/src/unshield_air/README.md) has two inputs/zero outputs.
 Neither uses dummy notes. [AES byte constraints](../../internal/assetprivacy/stark/src/aes_air/README.md)
 [GCM](../../internal/assetprivacy/stark/src/gcm_air/README.md) and private [HMAC](../../internal/assetprivacy/stark/src/hmac_air/README.md)/[HKDF](../../internal/assetprivacy/stark/src/hkdf_air/README.md) exist; [bounded KEM](../../internal/assetprivacy/stark/src/mlkem_encapsulation_air/README.md) exists; [single-envelope/note constraints](../../internal/assetprivacy/stark/src/envelope_air/README.md) now join them.
-[Private key-record constraints](../../internal/assetprivacy/stark/src/view_key_air/README.md) now match the native current-key registry. [Registered recipient](../../internal/assetprivacy/stark/src/authorized_recipient_air/README.md) joins current viewing/spending and effective-eligibility membership to the same private envelope account. [Assigned disclosures](PROOF_PLANNING.md) exist; [Ordinary input/group composition](SPENDING_COMPOSITION.md) now exists; [Recovery/remainders](RECOVERY.md) now have separate constraints; [V2 markers/creation uniqueness](NULLIFIER_FRESHNESS.md) are implemented; native verification/runtime evidence remain.
+[Private key-record constraints](../../internal/assetprivacy/stark/src/view_key_air/README.md) now match the native current-key registry. [Registered recipient](../../internal/assetprivacy/stark/src/authorized_recipient_air/README.md) joins current viewing/spending and effective-eligibility membership to the same private envelope account. [Assigned disclosures](PROOF_PLANNING.md) exist; [Ordinary input/group composition](SPENDING_COMPOSITION.md) now exists; [Recovery/remainders](RECOVERY.md) now have separate constraints; [V2 markers/creation uniqueness](NULLIFIER_FRESHNESS.md) are implemented; linked verification exists, with ingress/runtime evidence missing.
 The owner component is not the controller recovery path;
 both paths must eventually consume the same canonical nullifier.
 
 [Opaque witness framing](../../internal/assetprivacy/witness/README.md) bounds outer bytes only.
 [Rust per-AIR checking](VERIFICATION_BOUNDARY.md) and [typed bundles](PROOF_BUNDLES.md)
-exist; [typed selection](ARTIFACT_SELECTION.md)/[native bridge](NATIVE_VERIFIER_BRIDGE.md) exist; approved pins and transaction ingress remain.
+exist; [typed selection](ARTIFACT_SELECTION.md)/[ABI2 bridge](NATIVE_VERIFIER_BRIDGE.md)/[consensus admission](NATIVE_SUITE_CATALOG.md) exist; approved entries and ingress remain.
 Resource measurements, cryptographic review, vectors
 and adversarial validation remain missing. Tests are deferred by user instruction.
 

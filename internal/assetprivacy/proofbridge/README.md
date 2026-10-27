@@ -6,9 +6,10 @@ Other builds return `ErrUnavailable`; no stub/callback reports successful checki
 The feature remains disabled in every consensus version.
 
 `NewVerifier(registryBytes, Pin, Limits)` validates/owns an independently pinned
-954-byte artifact registry and checks the linked ABI/source identity. Pins and
+954-byte artifact registry and checks the linked ABI/reference compatibility. Pins and
 limits must come from consensus-approved local suite configuration, never peer
-proofs/requests, the artifact itself or an evidence Manifest. No approved catalog,
+proofs/requests, the artifact itself or an evidence Manifest. `suitecatalog` selects
+these values from current consensus; all current catalogs are empty. No approved
 registry file or pins have been produced. The zero verifier cannot verify anything.
 
 Use the current native snapshot's `Verify` method, which supplies `Bundle()` and
@@ -27,8 +28,15 @@ Native transaction/pool ingress and authorized suite installation remain unfinis
 `Limits` requires positive MaxBundleBytes (<=512 MiB), MaxProofBytes (<=128 MiB),
 MaxAllocationBytes (<=512 MiB). Go's owned payload copy and Rust's decoded-data
 quota are separate equal caps. Caller frame, small request/vector copies, backend
-work/copies and allocator overhead are additional; there is no aggregate memory or
+quota uses fixed64-bit canonical element charges on every architecture, rather than
+host `size_of`. Work/copies and allocator overhead are additional; there is no aggregate memory or
 CPU/fee guarantee. These are implementation guards, not safe deployment budgets.
+
+ABI2 maps invalid proofs to `ErrRejected`, local allocator failure to `ErrResource`,
+and other local configuration/backend failures to `ErrUnavailable`. Deterministic
+decode quota violations reject proofs; physical allocation failure does not.
+Native admission also classifies missing/incorrect local registry installation
+as unavailable. Callers must not cache local failures as invalid transactions.
 
 Caller input must stay stable during decoding/copy. Go-owned payload/request buffers
 are immutable for FFI and held with runtime.KeepAlive until return. Rust never

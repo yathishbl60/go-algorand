@@ -19,6 +19,8 @@
 package eval
 
 import (
+	"fmt"
+
 	"github.com/algorand/go-algorand/internal/assetprivacy/proofbridge"
 	"github.com/algorand/go-algorand/internal/assetprivacy/suitecatalog"
 )
@@ -30,5 +32,9 @@ func (cs *roundCowState) assetPrivacySuiteVerifier(suite [64]byte, registry []by
 	if err != nil {
 		return nil, err
 	}
-	return selected.Verifier(registry)
+	verifier, err := selected.Verifier(registry)
+	if err != nil {
+		return nil, fmt.Errorf("%w: registry installation: %v", proofbridge.ErrUnavailable, err)
+	}
+	return verifier, nil
 }

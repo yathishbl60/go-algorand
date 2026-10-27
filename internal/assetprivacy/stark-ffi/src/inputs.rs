@@ -27,6 +27,9 @@ pub(super) unsafe fn verify(
     bundle_len: usize,
 ) -> Result<(), u32> {
     let request = unsafe { borrow(request, request_len, native::MAX_REQUEST_BYTES)? };
+    if bundle_len == 0 || bundle_len > native::MAX_BUNDLE_BYTES {
+        return Err(3);
+    }
     let bundle = unsafe { borrow(bundle, bundle_len, native::MAX_BUNDLE_BYTES)? };
     native::verify_request(request, bundle).map_err(status)
 }
