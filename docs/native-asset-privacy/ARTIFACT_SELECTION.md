@@ -1,6 +1,6 @@
 # Typed relations and independently pinned public artifacts
 
-Updated 2026-10-26. Reference Rust selection and the Go registry reader now compile.
+Updated 2026-10-27. Reference Rust selection and the Go registry reader now compile.
 No preprocessing roots/files have been generated, no suite/pins are approved, and
 no codec conformance, public setup, trace, constraint or proof run has occurred.
 
@@ -67,8 +67,8 @@ All64-byte root values, including zero, are allowed; provenance comes from pins.
 The opt-in build script hashes the checked-out crate sources under ASCII
 `Algorand/AssetPrivacy/Candidate1/ImplementationSourceV1/`. It hashes file countu32LE,
 then sorted relative UTF-8 paths with `/` separators: path lengthu32LE/path bytes,
-content lengthu64LE/raw content. Inputs are all `.rs` files in `src/` and
-`build_support/`, plus `build.rs`, `Cargo.toml`, `Cargo.lock`. File/directory rebuild
+content lengthu64LE/raw content. Workspace-relative inputs include core/FFI `.rs`
+sources, build support/script, C header, manifests, shared lock/toolchain. File/directory rebuild
 triggers include new source files. Absolute paths, times and generated OUT_DIR
 output are excluded. Default-feature builds run an inert build script.
 
@@ -87,6 +87,6 @@ Native spend/recovery snapshots now preserve Domain/Suite/Group by value and ret
 copied plans. Unknown suites must be rejected by independent consensus-approved
 lookup; a nonzero policy Suite or a local evidence Manifest grants no approval.
 Do not infer context from output slots: unshield/full-public recovery have none.
-The Go/Rust transport, approved pins/artifacts, native signatures/body matching,
+The [Go/Rust bridge](NATIVE_VERIFIER_BRIDGE.md) links; approved pins/artifacts, native signatures/body matching,
 work pricing and atomic execution remain unfinished. Source/build checks do not
 establish correctness, privacy, interoperability or practical resource use.

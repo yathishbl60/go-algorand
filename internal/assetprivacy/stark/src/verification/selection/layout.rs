@@ -29,3 +29,9 @@ pub(super) const ORDER: [Layout; 10] = [
     Layout::Retained,
     Layout::Recovered,
 ];
+
+impl Layout {
+    pub fn from_byte(kind: u8) -> Option<Self> {
+        ORDER.iter().copied().find(|layout| *layout as u8 == kind)
+    }
+}

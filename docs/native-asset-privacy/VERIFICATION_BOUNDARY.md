@@ -1,6 +1,6 @@
 # Candidate Rust proof verification boundary
 
-Updated 2026-10-26. The opt-in Rust library has a bounded per-AIR codec and calls
+Updated 2026-10-27. The opt-in Rust library has a bounded per-AIR codec and calls
 pinned `verify_with_preprocessed` for actual cryptographic checking. This is
 **not native transaction acceptance**. No proofs, codec round trips, public setup
 or adversarial execution have run; tests/runtime evidence remain deferred.
@@ -76,12 +76,12 @@ The [per-AIR codec](../../internal/assetprivacy/stark/src/verification/README.md
 and [exact main/output bundles](PROOF_BUNDLES.md) provide current spend/recovery
 planning and typed Rust dispatch. Native plans retain value-copy Domain/Suite/Group
 context, including zero-output operations; their Main/Outputs accessors also copy
-plan objects. No parser currently authorizes a native privacy transaction.
+plan objects. The [native bridge](NATIVE_VERIFIER_BRIDGE.md) links and dispatches exact plans; native transaction ingress remains missing.
 
 ## Remaining delivery gates
 
 Produce and independently approve actual preprocessing artifacts/profile pins;
-connect authoritative native Suite selection and the Go/Rust bridge; connect proof
+connect authoritative approved Suite selection and native transaction ingress; connect proof
 checking to authenticated transaction bodies and atomic state execution; measure
 masking, quotient, proof size, resource limits and composed security. Then complete
 pool/API/SDK/wallet/recovery support and the six real-node scenarios. See the full

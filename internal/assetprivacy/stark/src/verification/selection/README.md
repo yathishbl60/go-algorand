@@ -3,7 +3,7 @@
 This opt-in module replaces arbitrary public AIR/key/relation-label construction.
 It provides `Prepared`, `Domain`, `Layout`, `PublicSetup`, `Entry`, `Pin`, `Registry`,
 `encode_registry` and `registry_digest`. No approved registry/pins or runtime proof
-evidence exists. Native suite admission and the Go/Rust bridge remain unfinished.
+evidence exists. The [native bridge](../../../../../../docs/native-asset-privacy/NATIVE_VERIFIER_BRIDGE.md) links; approved suite admission/transaction routing remain.
 
 Use `Prepared::transfer(domain, public_conversion)`, `unshield(domain, credit)`,
 `recovery(domain, operation, authority)`, or output factories `recipient(context)`,

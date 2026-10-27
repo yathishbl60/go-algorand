@@ -7,10 +7,10 @@ for choices, unresolved security arguments and integration obligations.
 
 Default features are empty. Enable `native-privacy` explicitly; this does not
 enable the Go build tag or any consensus version. Cargo dependencies are optional
-and the default library exposes no privacy API. The Rust crate is not yet linked
-into `algod` and cannot authorize a transaction.
+and the default library exposes no privacy API. The opt-in [C ABI bridge](../stark-ffi/README.md) links into tagged
+`algod`; native transaction routing/authorization remain unfinished.
 
-Use the pinned Rust 1.99.1 toolchain and checked-in Cargo.lock:
+Use the parent workspace pinned Rust1.99.1 toolchain and shared Cargo.lock:
 
 ```sh
 cd internal/assetprivacy/stark
@@ -59,6 +59,6 @@ The [per-AIR codec and Rust verifier](src/verification/README.md) now provide bo
 serialization and actual backend checking against trusted artifacts/public vectors.
 The [outer proof frame](../witness/README.md) still carries opaque bytes. [Typed
 bundles](../../../docs/native-asset-privacy/PROOF_BUNDLES.md) join current main/output
-plans; [typed selection](../../../docs/native-asset-privacy/ARTIFACT_SELECTION.md) exists; approved artifacts, bridge, measured budgets and acceptance
+plans; [typed selection](../../../docs/native-asset-privacy/ARTIFACT_SELECTION.md)/[native bridge](../../../docs/native-asset-privacy/NATIVE_VERIFIER_BRIDGE.md) exist; approved artifacts, measured budgets and acceptance
 remain unfinished. No proofs or codec round trips have run. The source pin and lockfile make
 the implementation reproducible; they do not provide a security audit.

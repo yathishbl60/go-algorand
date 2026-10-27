@@ -1,0 +1,17 @@
+[package]
+name = "algorand-asset-privacy-ffi"
+version = "0.1.0"
+edition = "2024"
+rust-version = "1.99"
+license = "AGPL-3.0-or-later"
+publish = false
+
+[lib]
+crate-type = ["staticlib", "rlib"]
+
+[features]
+default = []
+native-privacy = ["dep:algorand-asset-privacy-stark"]
+
+[dependencies]
+algorand-asset-privacy-stark = { path = "../stark", optional = true, default-features = false, features = ["native-privacy"] }

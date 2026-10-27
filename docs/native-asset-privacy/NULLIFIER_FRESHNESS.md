@@ -60,7 +60,7 @@ Key/eligibility mutable registries retain their separate namespaces and behavior
 The marker's distinct V2 domain, generation2 guard and revised trusted schedules
 must be pinned together in a new profile/artifact. No old serial-only artifact
 may remain accepted under an unchanged old suite identifier. Native allowed-suite
-registration and the [Rust/native bridge](VERIFICATION_BOUNDARY.md) remain unfinished. Existing
+registration and native transaction dispatch remain unfinished; the [bridge](NATIVE_VERIFIER_BRIDGE.md) links. Existing
 experimental state/proofs have no automatic migration or compatibility promise.
 
 The four-block marker hash needs97 rows, including a final flag-clear pad. Ordinary

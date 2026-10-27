@@ -13,6 +13,7 @@ mod fri;
 mod implementation;
 mod limits;
 mod metadata;
+pub mod native;
 mod openings;
 mod reader;
 mod scalars;

@@ -1,0 +1,7 @@
+[workspace]
+members = ["stark", "stark-ffi"]
+default-members = ["stark"]
+resolver = "3"
+
+[profile.release]
+overflow-checks = true

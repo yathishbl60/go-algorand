@@ -20,7 +20,7 @@ The 128-bit post-quantum target remains; this document does not establish it.
   library's actual masking budget for every opening and quotient chunk.
 
 The pinned configuration now has a [per-AIR Rust codec/verifier](VERIFICATION_BOUNDARY.md).
-There is no node verifier adapter, approved registry artifact/pins or accepted native
+There is no native transaction routing, approved registry artifact/pins or accepted native
 proof encoding yet. Parameters are not transaction-selectable. Do not use example
 testing parameters, deterministic prover seeds, non-hiding commitments or a
 pairing-based compression stage.

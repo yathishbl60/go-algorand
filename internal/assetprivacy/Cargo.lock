@@ -3,6 +3,13 @@
 version = 4
 
 [[package]]
+name = "algorand-asset-privacy-ffi"
+version = "0.1.0"
+dependencies = [
+ "algorand-asset-privacy-stark",
+]
+
+[[package]]
 name = "algorand-asset-privacy-stark"
 version = "0.1.0"
 dependencies = [

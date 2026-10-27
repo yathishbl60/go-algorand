@@ -7,10 +7,12 @@ use std::{
 };
 
 pub fn collect(root: &Path) -> io::Result<Vec<String>> {
-    let mut names = ["Cargo.toml", "Cargo.lock", "build.rs"]
-        .map(String::from)
-        .to_vec();
-    let mut directories = vec![root.join("src"), root.join("build_support")];
+    let mut names = fixed_inputs();
+    let mut directories = vec![
+        root.join("stark/src"),
+        root.join("stark/build_support"),
+        root.join("stark-ffi/src"),
+    ];
     while let Some(directory) = directories.pop() {
         for entry in fs::read_dir(directory)? {
             add(root, entry?, &mut directories, &mut names)?;
@@ -48,4 +50,18 @@ fn relative(root: &Path, path: &Path) -> io::Result<String> {
         .map(|part| part.as_os_str().to_str())
         .collect();
     Ok(parts.ok_or(io::ErrorKind::InvalidData)?.join("/"))
+}
+
+fn fixed_inputs() -> Vec<String> {
+    [
+        "Cargo.toml",
+        "Cargo.lock",
+        "rust-toolchain.toml",
+        "stark/Cargo.toml",
+        "stark/build.rs",
+        "stark-ffi/Cargo.toml",
+        "stark-ffi/include/nap_privacy.h",
+    ]
+    .map(String::from)
+    .to_vec()
 }

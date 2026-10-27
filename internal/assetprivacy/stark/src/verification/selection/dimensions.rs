@@ -42,7 +42,7 @@ impl Layout {
         }
     }
 
-    fn public_count(self) -> usize {
+    pub fn public_count(self) -> usize {
         match self {
             Self::Transfer => sg::TRANSFER_PUBLIC_VALUES,
             Self::Unshield => sg::UNSHIELD_PUBLIC_VALUES,

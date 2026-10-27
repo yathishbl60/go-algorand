@@ -4,7 +4,7 @@ Updated 2026-10-25. Native spend/recovery snapshots now derive immutable bundle
 plans. Go and Rust implement the same candidate framing; Rust has typed dispatch
 that requires actual backend verification of every selected component. No bundle
 round trip, cross-language conformance check or proof execution has run. Native
-transactions, approved artifacts/pins and the Go/Rust bridge remain unfinished.
+transactions and approved artifacts/pins remain unfinished; the [native bridge](NATIVE_VERIFIER_BRIDGE.md) links.
 
 ## Expected proof set
 
