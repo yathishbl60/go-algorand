@@ -36,7 +36,7 @@ func backendStatus(implementation [64]byte) error {
 	if len(backendArchiveDigest) != 128 {
 		return ErrUnavailable
 	}
-	if C.nap_privacy_abi() != 1 {
+	if C.nap_privacy_abi() != 2 {
 		return ErrUnavailable
 	}
 	status := C.nap_privacy_source_v1((*C.uint8_t)(unsafe.Pointer(&implementation[0])), C.size_t(len(implementation)))
@@ -56,8 +56,5 @@ func verifyBackend(request, bundle []byte) error {
 		(*C.uint8_t)(unsafe.Pointer(&bundle[0])), C.size_t(len(bundle)))
 	runtime.KeepAlive(request)
 	runtime.KeepAlive(bundle)
-	if status != 0 {
-		return ErrRejected
-	}
-	return nil
+	return backendError(uint32(status))
 }

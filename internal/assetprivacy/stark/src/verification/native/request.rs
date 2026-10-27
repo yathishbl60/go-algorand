@@ -16,7 +16,7 @@ impl Request {
         let mut slots = Vec::new();
         slots
             .try_reserve_exact(header.count)
-            .map_err(|_| Error::MemoryLimit)?;
+            .map_err(|_| Error::AllocationFailure)?;
         for _ in 0..header.count {
             slots.push(Slot::parse(&mut cursor)?);
         }

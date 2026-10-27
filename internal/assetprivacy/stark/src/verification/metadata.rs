@@ -12,7 +12,7 @@ pub(super) fn identity(artifact: &Artifact, shape: Shape) -> [u8; 64] {
     let mut hash = Sha3_512::new();
     hash.update(b"Algorand/AssetPrivacy/Candidate1/VerifierArtifactV2/");
     hash.update(BACKEND);
-    hash.update(super::implementation::ID);
+    hash.update(artifact.reference);
     hash.update(artifact.profile);
     hash.update(artifact.registry);
     hash.update(artifact.relation);

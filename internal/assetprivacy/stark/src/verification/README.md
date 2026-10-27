@@ -80,3 +80,12 @@ with the wire ID cannot establish provenance, authorize a suite, select a weaker
 AIR or replace public-input binding. The native bridge, approved artifact files/pins
 and adversarial/runtime validation remain unfinished. [Exact typed bundles](../../../../../docs/native-asset-privacy/PROOF_BUNDLES.md)
 now compose the current main/output proof set; native transport/acceptance remain.
+
+Decoder allocation admission uses canonical charges from a fixed64-bit model,
+independent of host `size_of`: Value8, Challenge40, digest64, Vec header24,
+Cap24, input opening72 and FRI phase opening72. Child element storage is charged
+separately from each stored Vec header. These units are deterministic admission
+accounting, not exact heap usage; allocator/backend overhead remains outside them.
+Checked charge overflow or exhausted quota returns `MemoryLimit`. An actual
+fallible reservation failure returns `AllocationFailure`, a local resource failure
+that must never be treated as deterministic invalid-proof evidence.

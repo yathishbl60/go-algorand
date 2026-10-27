@@ -29,6 +29,7 @@ import (
 
 var (
 	ErrUnavailable = errors.New("native privacy Rust verifier is unavailable")
+	ErrResource    = errors.New("native privacy verifier resources are unavailable")
 	ErrRejected    = errors.New("native privacy Rust verifier rejected the proof bundle")
 	ErrContext     = errors.New("invalid native privacy verifier context")
 	ErrLimits      = errors.New("invalid native privacy verifier limits")

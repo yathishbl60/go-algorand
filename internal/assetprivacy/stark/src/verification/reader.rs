@@ -1,7 +1,7 @@
 // Copyright (C) 2026 Algorand Foundation Ltd.
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
-use super::{DecodeLimits, Error};
+use super::{DecodeLimits, Error, allocation::AllocationCharge};
 
 pub(super) struct Reader<'a> {
     remaining: &'a [u8],
@@ -34,17 +34,19 @@ impl<'a> Reader<'a> {
         Ok(u64::from_le_bytes(self.array()?))
     }
 
-    fn reserve<T>(&mut self, count: usize, minimum: usize) -> Result<Vec<T>, Error> {
+    fn reserve<T: AllocationCharge>(
+        &mut self,
+        count: usize,
+        minimum: usize,
+    ) -> Result<Vec<T>, Error> {
         if count > self.remaining.len() / minimum {
             return Err(Error::Truncated);
         }
         self.allocate(count)
     }
 
-    pub(super) fn allocate<T>(&mut self, count: usize) -> Result<Vec<T>, Error> {
-        let bytes = count
-            .checked_mul(core::mem::size_of::<T>())
-            .ok_or(Error::MemoryLimit)?;
+    pub(super) fn allocate<T: AllocationCharge>(&mut self, count: usize) -> Result<Vec<T>, Error> {
+        let bytes = count.checked_mul(T::BYTES).ok_or(Error::MemoryLimit)?;
         self.allocation = self
             .allocation
             .checked_sub(bytes)
@@ -52,11 +54,11 @@ impl<'a> Reader<'a> {
         let mut values = Vec::new();
         values
             .try_reserve_exact(count)
-            .map_err(|_| Error::MemoryLimit)?;
+            .map_err(|_| Error::AllocationFailure)?;
         Ok(values)
     }
 
-    pub(super) fn list<T>(
+    pub(super) fn list<T: AllocationCharge>(
         &mut self,
         minimum: usize,
         mut read: impl FnMut(&mut Self) -> Result<T, Error>,
@@ -76,7 +78,7 @@ impl<'a> Reader<'a> {
         Ok(())
     }
 
-    pub(super) fn fixed<T>(
+    pub(super) fn fixed<T: AllocationCharge>(
         &mut self,
         count: usize,
         minimum: usize,

@@ -1,7 +1,7 @@
 // Copyright (C) 2026 Algorand Foundation Ltd.
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
-use super::super::{Error, implementation};
+use super::super::Error;
 use super::{Entry, layout::ORDER};
 
 pub(super) const HEADER: usize = 134;
@@ -20,6 +20,7 @@ pub struct Pin {
 pub struct Registry {
     pub(super) profile: [u8; 64],
     digest: [u8; 64],
+    reference: [u8; 64],
     pub(super) entries: Vec<Entry>,
 }
 
@@ -29,13 +30,14 @@ impl Registry {
         let mut entries = Vec::new();
         entries
             .try_reserve_exact(ORDER.len())
-            .map_err(|_| Error::MemoryLimit)?;
+            .map_err(|_| Error::AllocationFailure)?;
         for (record, layout) in bytes[HEADER..].as_chunks::<RECORD>().0.iter().zip(ORDER) {
             entries.push(super::registry_codec::decode_record(record, layout)?);
         }
         Ok(Self {
             profile: pin.profile,
             digest: pin.digest,
+            reference: pin.implementation,
             entries,
         })
     }
@@ -43,6 +45,10 @@ impl Registry {
     pub fn profile_id(&self) -> [u8; 64] {
         self.profile
     }
+    pub fn reference_id(&self) -> [u8; 64] {
+        self.reference
+    }
+
     pub fn digest(&self) -> [u8; 64] {
         self.digest
     }
@@ -70,5 +76,5 @@ fn valid_pin(pin: Pin) -> bool {
     pin.profile != [0; 64]
         && pin.implementation != [0; 64]
         && pin.digest != [0; 64]
-        && pin.implementation == implementation::ID
+        && super::reference::reference_supported(&pin.implementation)
 }

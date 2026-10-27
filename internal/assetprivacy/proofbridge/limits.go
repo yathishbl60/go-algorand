@@ -28,6 +28,9 @@ type Limits struct {
 	MaxAllocationBytes uint32
 }
 
+// Validate checks the shared deterministic guard ceilings; it grants no suite approval.
+func (l Limits) Validate() error { return l.validate() }
+
 func (l Limits) validate() error {
 	if l.MaxBundleBytes < proofbundle.HeaderSize || l.MaxBundleBytes > 512<<20 ||
 		l.MaxProofBytes < 73 || l.MaxProofBytes > 128<<20 || l.MaxProofBytes > l.MaxBundleBytes ||

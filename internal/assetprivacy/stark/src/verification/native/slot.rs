@@ -57,7 +57,7 @@ fn values(cursor: &mut Cursor<'_>, expected: usize) -> Result<Vec<u16>, Error> {
     let mut values = Vec::new();
     values
         .try_reserve_exact(count)
-        .map_err(|_| Error::MemoryLimit)?;
+        .map_err(|_| Error::AllocationFailure)?;
     for cell in bytes.as_chunks::<2>().0 {
         values.push(u16::from_le_bytes(*cell));
     }

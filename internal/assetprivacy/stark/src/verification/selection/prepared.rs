@@ -1,8 +1,8 @@
 // Copyright (C) 2026 Algorand Foundation Ltd.
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
-use super::super::{Error, implementation, shape::Shape};
-use super::Layout;
+use super::super::{Error, shape::Shape};
+use super::{Layout, Registry};
 use crate::Value;
 use p3_air::BaseAir;
 use sha3::{Digest, Sha3_512};
@@ -12,7 +12,7 @@ use sha3::{Digest, Sha3_512};
 pub struct Prepared<A> {
     pub(super) air: A,
     pub(super) layout: Layout,
-    pub(super) relation: [u8; 64],
+    args: Vec<u8>,
 }
 
 impl<A: BaseAir<Value>> Prepared<A> {
@@ -23,7 +23,7 @@ impl<A: BaseAir<Value>> Prepared<A> {
         Ok(Self {
             air,
             layout,
-            relation: relation_id(layout, args),
+            args: args.to_vec(),
         })
     }
 
@@ -33,15 +33,15 @@ impl<A: BaseAir<Value>> Prepared<A> {
     pub fn layout(&self) -> Layout {
         self.layout
     }
-    pub fn relation_id(&self) -> [u8; 64] {
-        self.relation
+    pub fn relation_id(&self, registry: &Registry) -> [u8; 64] {
+        relation_id(registry.reference_id(), self.layout, &self.args)
     }
 }
 
-fn relation_id(layout: Layout, args: &[u8]) -> [u8; 64] {
+fn relation_id(reference: [u8; 64], layout: Layout, args: &[u8]) -> [u8; 64] {
     let mut hash = Sha3_512::new();
     hash.update(b"Algorand/AssetPrivacy/Candidate1/RelationV1/NullifierV2/");
-    hash.update(implementation::ID);
+    hash.update(reference);
     hash.update([layout as u8]);
     hash.update((args.len() as u32).to_le_bytes());
     hash.update(args);

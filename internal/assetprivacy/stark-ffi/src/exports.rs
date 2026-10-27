@@ -5,7 +5,7 @@ use std::panic::{AssertUnwindSafe, catch_unwind};
 
 #[unsafe(no_mangle)]
 pub extern "C" fn nap_privacy_abi() -> u32 {
-    1
+    2
 }
 
 /// # Safety

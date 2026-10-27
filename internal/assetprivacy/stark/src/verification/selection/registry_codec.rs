@@ -17,7 +17,7 @@ pub fn encode_registry(profile: [u8; 64], entries: &[Entry]) -> Result<Vec<u8>, 
     let mut bytes = Vec::new();
     bytes
         .try_reserve_exact(SIZE)
-        .map_err(|_| Error::MemoryLimit)?;
+        .map_err(|_| Error::AllocationFailure)?;
     bytes.extend_from_slice(&MAGIC);
     bytes.extend_from_slice(&profile);
     bytes.extend_from_slice(&implementation::ID);
@@ -81,7 +81,9 @@ pub(super) fn decode_record(bytes: &[u8; RECORD], layout: Layout) -> Result<Entr
 
 fn root_cap(root: [u64; 8]) -> Result<Cap, Error> {
     let mut roots = Vec::new();
-    roots.try_reserve_exact(1).map_err(|_| Error::MemoryLimit)?;
+    roots
+        .try_reserve_exact(1)
+        .map_err(|_| Error::AllocationFailure)?;
     roots.push(root);
     Ok(Cap::new(roots))
 }

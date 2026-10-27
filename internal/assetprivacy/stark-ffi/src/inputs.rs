@@ -11,7 +11,8 @@ pub(super) unsafe fn source(pointer: *const u8, length: usize) -> Result<(), u32
         return Err(1);
     }
     let expected = unsafe { borrow(pointer, length, 64)? };
-    if expected != algorand_asset_privacy_stark::verification::implementation_id() {
+    let expected = expected.try_into().map_err(|_| 1u32)?;
+    if !algorand_asset_privacy_stark::verification::selection::reference_supported(expected) {
         return Err(2);
     }
     Ok(())
@@ -40,10 +41,14 @@ unsafe fn borrow<'a>(pointer: *const u8, length: usize, maximum: usize) -> Resul
     Ok(unsafe { slice::from_raw_parts(pointer, length) })
 }
 
-fn status(error: Error) -> u32 {
-    match error {
-        Error::Artifact => 2,
-        Error::BackendPanic => 4,
-        _ => 3,
+fn status(failure: native::Failure) -> u32 {
+    match failure {
+        native::Failure::Request(Error::AllocationFailure)
+        | native::Failure::Proof(Error::AllocationFailure) => 5,
+        native::Failure::Request(Error::BackendPanic)
+        | native::Failure::Proof(Error::BackendPanic) => 4,
+        native::Failure::Request(Error::Artifact) => 2,
+        native::Failure::Request(_) => 1,
+        native::Failure::Proof(_) => 3,
     }
 }

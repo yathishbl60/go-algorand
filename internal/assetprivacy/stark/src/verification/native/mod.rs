@@ -6,6 +6,7 @@
 mod binding;
 mod build;
 mod cursor;
+mod error;
 mod expected;
 mod header;
 mod header_fields;
@@ -16,6 +17,7 @@ mod slot;
 mod target;
 mod verify;
 
+pub use error::Failure;
 pub use verify::verify_request;
 pub const MAX_REQUEST_BYTES: usize = 15500;
 pub const MAX_BUNDLE_BYTES: usize = 512 << 20;

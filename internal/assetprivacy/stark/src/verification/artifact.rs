@@ -5,12 +5,20 @@ use super::Error;
 use crate::Config;
 use p3_uni_stark::PreprocessedVerifierKey;
 
+pub(super) struct Identity {
+    pub profile: [u8; 64],
+    pub registry: [u8; 64],
+    pub reference: [u8; 64],
+    pub relation: [u8; 64],
+}
+
 /// Trusted, locally selected configuration. Never construct this from a proof.
 /// `relation` must identify every AIR constructor argument and V2 relation revision.
 pub(super) struct Artifact {
     pub(super) profile: [u8; 64],
     pub(super) registry: [u8; 64],
     pub(super) relation: [u8; 64],
+    pub(super) reference: [u8; 64],
     pub(super) rows: usize,
     pub(super) key: PreprocessedVerifierKey<Config>,
 }
@@ -18,19 +26,21 @@ pub(super) struct Artifact {
 impl Artifact {
     /// Integrity binding is not security approval or a key-generation ceremony.
     pub(super) fn from_trusted(
-        profile: [u8; 64],
-        registry: [u8; 64],
-        relation: [u8; 64],
+        identity: Identity,
         rows: usize,
         key: PreprocessedVerifierKey<Config>,
     ) -> Result<Self, Error> {
-        if registry == [0; 64] || !Self::valid(profile, relation, rows, &key) {
+        if identity.registry == [0; 64]
+            || identity.reference == [0; 64]
+            || !Self::valid(identity.profile, identity.relation, rows, &key)
+        {
             return Err(Error::Artifact);
         }
         Ok(Self {
-            profile,
-            registry,
-            relation,
+            profile: identity.profile,
+            registry: identity.registry,
+            relation: identity.relation,
+            reference: identity.reference,
             rows,
             key,
         })

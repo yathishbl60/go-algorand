@@ -31,7 +31,7 @@ impl Writer {
                 .min(self.limit);
             self.bytes
                 .try_reserve_exact(target - self.bytes.len())
-                .map_err(|_| Error::MemoryLimit)?;
+                .map_err(|_| Error::AllocationFailure)?;
         }
         Ok(())
     }

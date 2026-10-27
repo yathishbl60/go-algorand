@@ -17,7 +17,6 @@
 package config
 
 import (
-	"maps"
 	"time"
 
 	"github.com/algorand/go-algorand/config/bounds"
@@ -628,6 +627,10 @@ type ConsensusParams struct {
 	// Zero disables history; no current consensus version sets a positive value.
 	NativeAssetPrivacyRootHistory uint64
 
+	// NativeAssetPrivacySuites pins allowed verification suites and work caps.
+	// Every current version leaves this nil; metadata alone never enables privacy.
+	NativeAssetPrivacySuites []NativeAssetPrivacySuite `json:",omitempty"`
+
 	// RequireLogicSigArgAccess requires that a LogicSig carry no argument it did
 	// not read: nothing above the highest index it read, and nothing unread
 	// below that index unless it is empty. Args are covered by no signature, and
@@ -873,9 +876,7 @@ func checkSetAllocBounds(p ConsensusParams) {
 func (cp ConsensusProtocols) DeepCopy() ConsensusProtocols {
 	staticConsensus := make(ConsensusProtocols)
 	for consensusVersion, consensusParams := range cp {
-		// recreate the ApprovedUpgrades map since we don't want to modify the original one.
-		consensusParams.ApprovedUpgrades = maps.Clone(consensusParams.ApprovedUpgrades)
-		staticConsensus[consensusVersion] = consensusParams
+		staticConsensus[consensusVersion] = cloneConsensusParams(consensusParams)
 	}
 	return staticConsensus
 }
@@ -898,7 +899,7 @@ func (cp ConsensusProtocols) Merge(configurableConsensus ConsensusProtocols) Con
 			}
 		} else {
 			// need to add/update entry
-			staticConsensus[consensusVersion] = consensusParams
+			staticConsensus[consensusVersion] = cloneConsensusParams(consensusParams)
 		}
 	}
 
@@ -910,8 +911,8 @@ func (cp ConsensusProtocols) Merge(configurableConsensus ConsensusProtocols) Con
 // These are the only valid and tested consensus values and transitions. Other settings are not tested and may lead to unexpected behavior.
 func initConsensusProtocols() {
 	// WARNING: copying a ConsensusParams by value into a new variable
-	// does not copy the ApprovedUpgrades map.  Make sure that each new
-	// ConsensusParams structure gets a fresh ApprovedUpgrades map.
+	// does not copy the ApprovedUpgrades map or NativeAssetPrivacySuites slice.
+	// Give each new structure fresh containers before mutating either field.
 
 	// Base consensus protocol version, v7.
 	v7 := ConsensusParams{

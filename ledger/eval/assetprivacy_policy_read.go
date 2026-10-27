@@ -21,6 +21,7 @@ package eval
 import (
 	"github.com/algorand/go-algorand/data/basics"
 	"github.com/algorand/go-algorand/internal/assetprivacy/policy"
+	"github.com/algorand/go-algorand/internal/assetprivacy/suitecatalog"
 )
 
 // GetAssetPrivacyPolicy returns canonical group-local policy state, not authority proof.
@@ -50,6 +51,9 @@ func (cs *roundCowState) decodeAssetPrivacyPolicy(encoded []byte) (policy.Record
 	}
 	if record.Created > uint64(cs.Round()) {
 		return policy.Record{}, policy.ErrRecord
+	}
+	if _, err = suitecatalog.Lookup(cs.proto, record.Suite); err != nil {
+		return policy.Record{}, err
 	}
 	return record, nil
 }

@@ -13,6 +13,7 @@ pub enum Error {
     PublicValues,
     InvalidProof,
     BackendPanic,
+    AllocationFailure,
 }
 
 impl core::fmt::Display for Error {

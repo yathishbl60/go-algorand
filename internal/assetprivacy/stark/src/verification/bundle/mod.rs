@@ -19,6 +19,10 @@ pub use expected::Expected;
 pub use limits::BundleLimits;
 pub use verify::verify_bundle;
 
+pub(super) fn validate_expected(slots: &[Expected<'_>]) -> Result<(), super::Error> {
+    layout::check(slots)
+}
+
 #[derive(Clone, Copy)]
 #[repr(u8)]
 pub enum RecoveryKind {
