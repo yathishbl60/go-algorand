@@ -72,18 +72,19 @@ creator is explicitly touched even when a mutation changes only native KV data.
 The AVM-facing minimum-balance getter also includes the current native obligation,
 so application-visible withdrawal checks do not quote a smaller native minimum.
 
-REST/account/API minimum-balance quotes and SDK funding estimators are not yet
-updated. Do not infer adequate funding from an old account response alone. There
-is no cleanup/refund API, counter deletion, private-recipient reimbursement or
-permanent-state pruning guarantee. Existing native KV persistence is the basis
-for replay/catchpoints; its privacy-specific behavior remains unverified.
+Full and basic JSON account responses now add the native obligation to their
+existing `min-balance`, using KV and consensus prices at the returned account round.
+Unavailable/pruned rounds and corrupt counters fail instead of quoting less.
+[Account reporting](ACCOUNT_REPORTING.md) describes format boundaries. SDK funding
+estimators, cleanup/refunds and private-recipient reimbursement remain pending.
+Replay/catchpoint behavior of the existing native KV path remains unverified.
 
 ## Remaining evidence and scope
 
 [Native evaluator execution](NATIVE_EXECUTION.md) couples these charges to proof
 checking and atomic public/private application. This does not complete policy/key
 registration ingress, private-only final reconciliation, all modes/shield, operator
-pricing, normative sibling specifications, API/SDK/wallet or real-node delivery.
+pricing, normative sibling specifications, complete API/SDK/wallet or real-node delivery.
 
 Only compilation, vet and source checks have been used. No storage vectors,
 funding/withdrawal/closeout tests, proofs, setup, runtime provider reads, replay,

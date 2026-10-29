@@ -92,8 +92,8 @@ replay. Provider bytes grant no approval; local availability/backend/resource
 failures must never become invalid-proof evidence. See [provider](../../internal/assetprivacy/artifactstore/README.md).
 
 [Creator storage obligations](NATIVE_STORAGE.md) are charged with every native KV
-mutation, including incidental ordinary asset hooks, in the same COW. REST MBR
-quotes, safe cleanup/refunds, registration/policy wire operations, private-only
+mutation, including incidental ordinary asset hooks, in the same COW. JSON MBR
+reporting includes these obligations. Safe cleanup/refunds, policy ingress, private-only
 final reconciliation, shield/all modes/arities, AVM type support, admission queues,
 SDK/wallet and six real-node scenarios remain unfinished. Runtime correctness,
 rollback/restart, cryptographic security and resource feasibility remain unproven.

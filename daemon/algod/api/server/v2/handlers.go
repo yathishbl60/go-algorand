@@ -529,6 +529,11 @@ func (v2 *Handlers) AccountInformation(ctx echo.Context, address basics.Address,
 		return internalError(ctx, err, errInternalFailure, v2.Log)
 	}
 
+	account.MinBalance, err = nativeAccountMinimumBalance(myLedger, lastRound, address, account.MinBalance, consensus)
+	if err != nil {
+		return internalError(ctx, err, errFailedLookingUpLedger, v2.Log)
+	}
+
 	response := model.AccountResponse(account)
 	return ctx.JSON(http.StatusOK, response)
 }
@@ -602,6 +607,11 @@ func (v2 *Handlers) basicAccountInformation(ctx echo.Context, addr basics.Addres
 		LastProposed:        omitEmpty(record.LastProposed),
 		LastHeartbeat:       omitEmpty(record.LastHeartbeat),
 	}
+	account.MinBalance, err = nativeAccountMinimumBalance(myLedger, lastRound, addr, account.MinBalance, consensus)
+	if err != nil {
+		return internalError(ctx, err, errFailedLookingUpLedger, v2.Log)
+	}
+
 	response := model.AccountResponse(account)
 	return ctx.JSON(http.StatusOK, response)
 }

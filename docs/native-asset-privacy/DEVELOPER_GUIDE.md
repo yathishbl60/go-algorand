@@ -33,7 +33,7 @@ writable `GOCACHE` or Cargo target/cache directory when using a sandbox.
 | --- | --- |
 | Canonical private opening and local encryption | [note](../../internal/assetprivacy/note/README.md) |
 | Fixed recipient/auditor/controller envelope | [envelope](../../internal/assetprivacy/envelope/README.md) |
-| Immutable policy identity and shrinking powers | [policy records](POLICY_RECORDS.md) |
+| Immutable policy identity, shrinking powers and next lifecycle ingress | [policy records](POLICY_RECORDS.md), [ingress contract](LIFECYCLE_INGRESS.md) |
 | Recipient envelope with current viewing/spending membership | [AuthorizedRecipientAir](../../internal/assetprivacy/stark/src/authorized_recipient_air/README.md) |
 | Required output roles and expected verifier vectors | [Proof planning](PROOF_PLANNING.md) |
 | Current key records and stable-index authorization root | [Registry and native interfaces](KEY_AUTHORIZATION.md) |

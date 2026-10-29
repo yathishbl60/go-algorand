@@ -3,7 +3,8 @@
 Added 2026-10-22 as an independent component of the native privacy implementation.
 This package implements the non-cryptographic rules already fixed in the
 [north-star plan](../../../docs/native-asset-privacy/README.md).
-It has no node callers yet and does not complete native policy adoption.
+Gated native ledger helpers use these rules; authenticated policy-adoption
+transaction ingress remains incomplete.
 
 ## API contract
 
