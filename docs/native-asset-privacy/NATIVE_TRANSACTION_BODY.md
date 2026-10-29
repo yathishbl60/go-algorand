@@ -95,4 +95,4 @@ or allocation failures must not become invalid-proof cache entries.
 
 The [integration guide](NATIVE_TRANSACTION_INTEGRATION.md) distinguishes codec,
 admission and execution. No tests/round trips/proofs ran. Practical byte/work
-budgets, storage charges, dispatch and all mode/lifecycle operations remain pending.
+calibration and all mode/lifecycle ingress remain pending. [Execution/storage](NATIVE_EXECUTION.md) now integrate.

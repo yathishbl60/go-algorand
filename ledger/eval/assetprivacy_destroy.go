@@ -18,14 +18,37 @@
 
 package eval
 
-import "github.com/algorand/go-algorand/data/basics"
+import (
+	"errors"
 
-// CheckAssetPrivacyDestruction prevents deletion while private value is outstanding.
-// This read-only guard does not remove policy, tree, or nullifier state.
+	"github.com/algorand/go-algorand/data/basics"
+)
+
+var errAssetPrivacyCleanup = errors.New("native privacy asset destruction requires authenticated state cleanup")
+
+// CheckAssetPrivacyDestruction retains the creator until native state cleanup is
+// implemented. Removing asset parameters would orphan storage attribution.
 func (cs *roundCowState) CheckAssetPrivacyDestruction(asset basics.AssetIndex, holding uint64) error {
-	supply, _, err := cs.GetAssetPrivacySupply(asset)
+	supply, exists, err := cs.GetAssetPrivacySupply(asset)
 	if err != nil {
 		return err
 	}
-	return supply.CheckDestruction(holding)
+	if err = supply.CheckDestruction(holding); err != nil {
+		return err
+	}
+	if exists {
+		return errAssetPrivacyCleanup
+	}
+	return cs.checkAssetPrivacyPolicyCleanup(asset)
+}
+
+func (cs *roundCowState) checkAssetPrivacyPolicyCleanup(asset basics.AssetIndex) error {
+	_, exists, err := cs.GetAssetPrivacyPolicy(asset)
+	if err != nil {
+		return err
+	}
+	if exists {
+		return errAssetPrivacyCleanup
+	}
+	return nil
 }

@@ -211,11 +211,17 @@ func (cb *roundCowBase) kvGet(key string) ([]byte, bool, error) {
 }
 
 func (cs *roundCowState) kvPut(key string, value []byte) error {
+	if err := cs.chargeAssetPrivacyStorage(key, value, value != nil); err != nil {
+		return err
+	}
 	cs.mods.AddKvMod(key, ledgercore.KvValueDelta{Data: value})
 	return nil
 }
 
 func (cs *roundCowState) kvDel(key string) error {
+	if err := cs.chargeAssetPrivacyStorage(key, nil, false); err != nil {
+		return err
+	}
 	cs.mods.AddKvMod(key, ledgercore.KvValueDelta{Data: nil})
 	return nil
 }
@@ -307,6 +313,9 @@ func (cs *roundCowState) DelBox(appIdx basics.AppIndex, key string, appAddr basi
 
 func (cs *roundCowState) Perform(gi int, ep *logic.EvalParams) error {
 	txn := &ep.TxnGroup[gi]
+	if err := cs.checkAssetPrivacyInnerAuthorization(txn.Txn); err != nil {
+		return err
+	}
 
 	err := cs.takeFee(&txn.Txn, &txn.ApplyData.SenderRewards, ep)
 	if err != nil {

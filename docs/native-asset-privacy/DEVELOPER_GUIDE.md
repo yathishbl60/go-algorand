@@ -1,7 +1,7 @@
 # Native privacy implementation guide
 
-Updated 2026-10-28. Start with [delivery status](END_TO_END_STATUS.md). This branch
-contains disabled protocol components and linked verification helpers; it has no
+Updated 2026-10-29. Start with [delivery status](END_TO_END_STATUS.md). This branch
+contains disabled protocol components and integrated native proof execution; it has no
 usable native transaction or supported wallet transfer command.
 
 ## Build the components
@@ -47,7 +47,7 @@ writable `GOCACHE` or Cargo target/cache directory when using a sandbox.
 | Zero private inputs, two outputs | [ShieldAir](../../internal/assetprivacy/stark/src/shield_air/README.md) |
 | Two ordinary eligible inputs with Transfer2/Unshield0 outputs | [Staged spending](SPENDING_COMPOSITION.md) |
 | Issuer recovery and frozen-owner remainder | [Recovery contracts](RECOVERY.md) |
-| Native body codec, signed admission and pending execution | [Integration guide](NATIVE_TRANSACTION_INTEGRATION.md) |
+| Native body/admission, current PQ authority, proof routing and atomic application | [Integration](NATIVE_TRANSACTION_INTEGRATION.md), [execution](NATIVE_EXECUTION.md), [storage](NATIVE_STORAGE.md) |
 | Consensus suite metadata, references and admission | [Native suite catalog](NATIVE_SUITE_CATALOG.md) |
 | Single committed-note envelope | [EnvelopeAir typed context and witness API](../../internal/assetprivacy/stark/src/envelope_air/README.md) |
 | Private candidate key derivation | [HKDF constraints](../../internal/assetprivacy/stark/src/hkdf_air/README.md) |
@@ -75,19 +75,19 @@ writable `GOCACHE` or Cargo target/cache directory when using a sandbox.
 1. Read the authoritative network, asset, policy, current keys and eligibility.
 2. Create fresh local note secrets, serials and blindings. Keep openings private.
 3. Encrypt required disclosures using their exact role, epoch and output context.
-4. Finalize every body field, ciphertext and ordinary atomic-group ID.
+4. Reserve a conservative proof/PQ-byte fee upper bound, then finalize bodies/group IDs.
 5. Recompute the group statement from those bodies and the pinned suite.
 6. Construct the complete relation's public vector from that same statement.
 7. Prove locally, then put its bounded witness outside the transaction bodies.
 
-Steps 6–7 are not available as a complete native transaction path. Current-state
-VerifyAssetPrivacySpend/Recovery select catalog pins, not caller verifiers;
-approved entries/artifacts, evaluator dispatch and runtime evidence remain missing.
+Steps 6–7 have no supported end-to-end builder. Approved entries/artifacts,
+complete lifecycle/shield ingress and runtime evidence remain missing. Current-state
+VerifyAssetPrivacySpend/Recovery select catalog pins, not caller verifiers.
 
-Future native execution must check proofs and all current authorization, accepted
-roots, distinct fresh nullifiers, public conversion and storage funding. Apply
-the resulting public/private balance and state changes in the same group COW;
-discard it on failure. Internal persistence helpers do not grant permission.
+The [native evaluator](NATIVE_EXECUTION.md) checks current PQ authorization, roots,
+fresh markers, public conversion, proofs, fees and creator storage funding. Its
+child-COW applies verified public/private changes atomically. Internal persistence
+helpers alone grant no permission. Changing Fee after proving invalidates binding.
 
 ## Contribution rules for this branch
 

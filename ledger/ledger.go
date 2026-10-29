@@ -60,6 +60,8 @@ type Ledger struct {
 
 	log logging.Logger
 
+	nativePrivacyArtifacts nativePrivacyArtifactState
+
 	// archival determines whether the ledger keeps all blocks forever
 	// (archival mode) or trims older blocks to save space (non-archival).
 	archival bool
@@ -154,6 +156,7 @@ func OpenLedger[T string | DirsAndPrefix](
 		dirsAndPrefix:                  dirs,
 		tracer:                         tracer,
 	}
+	l.configureNativeAssetPrivacyArtifacts()
 
 	defer func() {
 		if err != nil {

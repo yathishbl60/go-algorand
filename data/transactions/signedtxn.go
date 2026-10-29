@@ -138,7 +138,8 @@ func (s SignedTxn) signatureFeeContribution(proto config.ConsensusParams) basics
 // sigs).  It is expressed as a fixed-point integer with 6 digits of
 // precision. So 1e6 is a normal base fee transaction.
 func (s SignedTxn) FeeFactor(proto config.ConsensusParams) basics.Micros {
-	return basics.AddSaturate(s.signatureFeeContribution(proto), s.Txn.feeFactor(proto))
+	ordinary := basics.AddSaturate(s.signatureFeeContribution(proto), s.Txn.feeFactor(proto))
+	return basics.AddSaturate(ordinary, s.nativeAssetPrivacyFeeContribution(proto))
 }
 
 // AssembleSignedTxn assembles a multisig-signed transaction from a transaction an optional sig, and an optional multisig.

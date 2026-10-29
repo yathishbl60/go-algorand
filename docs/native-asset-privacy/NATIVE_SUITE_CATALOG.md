@@ -52,8 +52,8 @@ it cannot replace this current-consensus admission path in future transaction ro
 
 Successful checking performs no state writes and grants no transaction authority.
 Current account consent, conversion state, mode rules, pricing, replay protection
-and atomic application remain required. The aprv type and stateless signed framing
-exist; evaluator dispatch/public RPC do not route through these helpers yet. See [integration](NATIVE_TRANSACTION_INTEGRATION.md).
+and atomic application remain required. [Native execution](NATIVE_EXECUTION.md) now routes
+through this boundary with those checks; public RPC/lifecycle ingress remain unfinished.
 
 ## Reference identity and upgrade retention
 

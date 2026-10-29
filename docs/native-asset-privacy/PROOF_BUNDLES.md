@@ -87,7 +87,8 @@ ceilings, not approved node budgets. Go `Check` scans framing; `Decode` prefligh
 the whole bundle before allocating independent proof copies. Rust borrows bundle
 slices and decodes/verifies one component at a time. Per-proof decoder limits are
 separate; backend copies, CPU, allocator overhead and caller buffers remain outside
-codec accounting. No scheduling, caching, fee schedule or aggregate work meter exists.
+codec accounting. [Native execution](NATIVE_EXECUTION.md) adds coarse accepted-block proof counts
+and proof/byte fee formulas; failed-attempt scheduling and aggregate memory metering remain open.
 
 At the current widths, seven main-trace query payloads for a fully disclosed
 transfer alone total 236,752,896 bytes (~225.8 MiB), before other openings/paths.

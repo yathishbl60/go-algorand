@@ -2,8 +2,8 @@
 
 Updated 2026-10-29. These internal helpers derive statements from canonical native
 transaction fields and current COW state. They do not execute a transaction or
-establish signed consent. Native evaluator dispatch and atomic application remain
-unfinished; no runtime proof or node execution has occurred.
+establish signed consent. The [evaluator](NATIVE_EXECUTION.md) now wraps them in
+current PQ consent and atomic application; no proof/node execution has occurred.
 
 Use `roundCowState.AssetPrivacyTransactionProofPlan(group,target)` to prepare an
 exact plan, or `VerifyAssetPrivacyTransaction(group,target,registry,framed)` to
@@ -58,15 +58,15 @@ then finalize the group, derive proof statements and prove locally. Proofs remai
 in SignedTxn.NativeAssetPrivacyProof outside TXID. Stream metadata does not enter
 AAD or constructor identity, avoiding both ciphertext/TXID and proof/group cycles.
 
-## Remaining application obligations
+## Evaluator application and remaining obligations
 
-Normal top-level approved PQ verification and authoritative account rekey checks,
-public holding/opt-in/freeze validation, fees, storage funding and deterministic
-work budgets remain mandatory. Apply public holdings, private supply, markers,
-commitments and encrypted outputs atomically in one child COW after all checks.
-No current native transaction dispatcher performs those steps. Native inner
-transactions, all other modes/arities, lifecycle operations, REST/SDK/wallet and
-real-node scenarios remain pending. Flags remain false and catalogs empty.
+The native dispatcher now verifies current PQ consent, public holdings, fees and
+proofs before child-COW application of holdings, supply, markers and outputs.
+[Storage obligations](NATIVE_STORAGE.md) and proof-count reservations share rollback.
+The public planning/verifying helpers alone still grant no transaction authority.
+Native inner transactions are rejected. Other modes/arities, lifecycle ingress,
+REST/SDK/wallet and real-node scenarios remain pending. Flags remain false,
+catalogs empty and execution/storage parameters zero.
 
 Builds, vet and source checks cover compilation and documented source invariants;
 they do not establish cryptographic correctness, historical byte equivalence,

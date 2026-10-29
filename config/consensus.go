@@ -631,6 +631,15 @@ type ConsensusParams struct {
 	// Every current version leaves this nil; metadata alone never enables privacy.
 	NativeAssetPrivacySuites []NativeAssetPrivacySuite `json:",omitempty"`
 
+	// Native storage rates charge the creator for every complete native KV footprint.
+	NativeAssetPrivacyFlatMinBalance uint64 `json:",omitempty"`
+	NativeAssetPrivacyByteMinBalance uint64 `json:",omitempty"`
+	// Each admitted proof check consumes one conservative worst-profile work unit.
+	NativeAssetPrivacyMaxProofChecksPerBlock uint64 `json:",omitempty"`
+	// Native fees are Micros multipliers of the ordinary minimum transaction fee.
+	NativeAssetPrivacyProofFeeFactor basics.Micros `json:",omitempty"`
+	NativeAssetPrivacyByteFeeFactor  basics.Micros `json:",omitempty"`
+
 	// RequireLogicSigArgAccess requires that a LogicSig carry no argument it did
 	// not read: nothing above the highest index it read, and nothing unread
 	// below that index unless it is empty. Args are covered by no signature, and

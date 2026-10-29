@@ -260,6 +260,7 @@ recreateNetwork:
 		log.Errorf("Cannot initialize ledger (%v): %v", ledgerPaths, err)
 		return nil, err
 	}
+	node.configureNativeAssetPrivacyArtifacts()
 
 	registry, err := ensureParticipationDB(node.genesisDirs.ColdGenesisDir, node.log)
 	if err != nil {

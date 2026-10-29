@@ -1,8 +1,8 @@
 # Native asset privacy: end-to-end delivery status
 
-Updated 2026-10-28. **Not end-to-end yet.** There is no native private transfer,
-accepted transaction path or real-node demo. Linked current-consensus verification
-helpers exist; completed components do not substitute for the full north-star scope.
+Updated 2026-10-29. **Not end-to-end yet.** Native evaluator proof routing and
+atomic application now exist as inactive source integration. No accepted private
+transaction, runtime proof or real-node demo has been demonstrated.
 
 ## Work-package evidence
 
@@ -12,10 +12,10 @@ helpers exist; completed components do not substitute for the full north-star sc
 | NAP-02 consensus specification | Draft obligations/accounting/candidate layouts; complete normative protocol and sibling specs changes missing |
 | NAP-03 types/gates | Flag false, suite catalog nil and native decoder bounds zero in every current version; aprv body codec/raw transaction and signed-witness metadata implemented; compatibility/runtime vectors missing |
 | NAP-04 cryptography | Note/conservation, complete envelope encryption, recipient current-key/eligibility membership and assigned disclosure constraints implemented; ordinary two-input eligibility/conservation/group constraints implemented; recovery/remainder constraints implemented; commitment-bound V2 markers/global creation uniqueness implemented; other arities, runtime proofs and native transaction acceptance missing |
-| NAP-05 native state | COW supply, policy/key/control epochs, current-key and effective-freeze roots, spent markers, tree/root history and atomic outputs implemented; storage charges and runtime recovery evidence missing |
-| NAP-06 verification | Exact bundles, ABI2 bridge, current-consensus suites and deterministic decoder charges implemented; stateless PQ-envelope/group/witness admission and witness-sensitive cache added; approved entries/artifacts, evaluator proof routing/acceptance and measured work limits missing |
-| NAP-07 lifecycle | Policy lifecycle, bounded viewing-key admission, destruction guard and public holding freeze persistence implemented; PQ administrative ingress and authenticated native transactions missing |
-| NAP-08 groups/pool/AVM | Group binding, signed framing and native verifier helper wiring implemented; accepted transaction ingress, pool work accounting and gated AVM inspection missing |
+| NAP-05 native state | COW supply, policy/key/control epochs, current-key and effective-freeze roots, spent markers, tree/root history and atomic outputs implemented; creator storage obligations implemented; cleanup/refunds, API quotes and runtime recovery evidence missing |
+| NAP-06 verification | Exact bundles, ABI2 bridge, current-consensus suites and deterministic decoder charges implemented; stateless PQ-envelope/group/witness admission and witness-sensitive cache added; evaluator proof routing, coarse block work and proof/byte fees implemented; approved entries/artifacts, resource calibration and runtime acceptance missing |
+| NAP-07 lifecycle | Policy lifecycle, bounded viewing-key admission, destruction guard and public holding freeze persistence implemented; current-authorizer PQ/admin guards and child-COW native execution implemented; registration/adoption/shield and complete lifecycle ingress missing |
+| NAP-08 groups/pool/AVM | Group binding, signed framing and native verifier helper wiring implemented; native dispatch and accepted-block proof counting implemented; failed-attempt/pool scheduling and gated AVM inspection missing |
 | NAP-09 recovery | Existing KV path reused; privacy replay/restart/catchpoint/catchup behavior unverified |
 | NAP-10 APIs | Bounded internal output pages exist; REST streams, witness queries, decoding, simulation and error contracts missing |
 | NAP-11 SDK/wallet | Local note/encryption/output-recovery primitives exist; SDK, scanning, proving, receipts and wallet backup/recovery missing |
@@ -34,9 +34,9 @@ Other new authored files remain at most 100 lines and new functions at most 20.
 Go uses `algorand_native_privacy`; Rust uses opt-in `native-privacy`. No consensus
 version, including `ConsensusFuture`, sets `EnableNativeAssetPrivacy` to true;
 NativeAssetPrivacySuites is nil everywhere. No suite/artifact approval exists.
-The native destruction hook is inert under historical/default rules and requires
-private-supply validation when the consensus flag is enabled. It does not provide
-private transaction execution or privacy-state cleanup.
+All execution/storage prices and block proof capacity are zero. Local artifacts
+are configured before replay; no availability or approval is established. Native
+state cleanup, funding/refund lifecycle and upgrade evidence remain incomplete.
 
 ## Useful entry points
 
@@ -49,7 +49,7 @@ private transaction execution or privacy-state cleanup.
 - [Ordinary input spending/conservation and native planning](SPENDING_COMPOSITION.md).
 - [Recovery/remainder relations and authority boundaries](RECOVERY.md).
 - [V2 output-nullifier freshness correction and generation2 state](NULLIFIER_FRESHNESS.md).
-- [Native accounting and destruction behavior](NATIVE_ACCOUNTING.md).
+- [Native accounting](NATIVE_ACCOUNTING.md), [evaluator execution](NATIVE_EXECUTION.md) and [creator storage obligations](NATIVE_STORAGE.md).
 - [Canonical policy records and lifecycle ordering](POLICY_RECORDS.md).
 - [Current-key registry and native atomic updates](KEY_AUTHORIZATION.md).
 - [Key roles, epoch persistence and caller obligations](../../internal/assetprivacy/keys/README.md).
@@ -79,7 +79,7 @@ static matrix overlap from~1.28 GB to~671 MB. Transfer assembly also releases
 each component before generating the next. AES-256 uses 78,388 field columns per
 block; [resource implications](CRYPTO_RESOURCES.md) remain unresolved. No tests or proofs ran.
 [Complete single-envelope constraints](../../internal/assetprivacy/stark/src/envelope_air/README.md)
-now bind KEM/AAD/HKDF/GCM to one canonical opening/commitment. [Assigned disclosures](../../internal/assetprivacy/disclosure/README.md) and their envelope constraints now exist; linked native proof checking exists, with transaction execution/runtime evidence unfinished. [Recipient binding](../../internal/assetprivacy/stark/src/authorized_recipient_air/README.md) now joins current viewing/spending records.
+now bind KEM/AAD/HKDF/GCM to one canonical opening/commitment. [Assigned disclosures](../../internal/assetprivacy/disclosure/README.md) and their envelope constraints now exist; native proof routing/application exist; runtime evidence is missing. [Recipient binding](../../internal/assetprivacy/stark/src/authorized_recipient_air/README.md) now joins current viewing/spending records.
 Formatting and authored file/function limits were checked.
 These are not proof correctness, privacy, anonymity, interoperability or protocol
 validation. No tests have been added or run, as requested.

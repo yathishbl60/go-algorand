@@ -1,6 +1,6 @@
 # Native asset privacy implementation progress
 
-Updated 2026-10-28. [End-to-end status](END_TO_END_STATUS.md) is the canonical
+Updated 2026-10-29. [End-to-end status](END_TO_END_STATUS.md) is the canonical
 completion checklist. The full native feature remains in progress.
 
 ## Current user instructions
@@ -24,10 +24,10 @@ completion checklist. The full native feature remains in progress.
    root history and atomic encrypted output streams. Public holding changes
    preserve freeze state and atomically publish current eligibility; destruction
    checks outstanding private supply.
-   Authentication, complete native transaction handlers and storage pricing remain.
+   [Native execution](NATIVE_EXECUTION.md), PQ/admin guards and [storage obligations](NATIVE_STORAGE.md) exist; full lifecycle and calibrated pricing remain.
 3. Local canonical 512-byte notes, SHA3 commitments/nullifiers/ownership, fixed
    ML-KEM/HKDF/AES-GCM envelopes, role/epoch output recovery and bounded key
-   admission. Wallet scanning, SDK integration and native acceptance remain.
+   admission. Wallet scanning, SDK integration and runtime acceptance remain.
 4. [Native body codec and signed PQ/group/witness admission](NATIVE_TRANSACTION_INTEGRATION.md),
    witness-sensitive cache identity, [exact typed bundles](PROOF_BUNDLES.md),
    [ABI2 bridge](NATIVE_VERIFIER_BRIDGE.md) and [suite selection](NATIVE_SUITE_CATALOG.md) exist; catalogs/artifacts remain empty.
@@ -35,7 +35,7 @@ completion checklist. The full native feature remains in progress.
    ownership, nullifier and depth-32 membership constraints compose into fixed
    transfer/shield/unshield arities. [Ordinary staged spending](SPENDING_COMPOSITION.md)
    now joins current input eligibility and group conservation. [Recovery](RECOVERY.md)
-   now preserves frozen-owner remainders; authentication/execution remain.
+   now preserves frozen-owner remainders; runtime recovery evidence remains.
 6. SHA3/SHAKE, private HMAC/HKDF, full typed GCM and staged GCM constraints.
    Staged GCM covers all AES/GHASH blocks and the final tag in one AIR. Resource
    feasibility and complete envelope/note/disclosure bindings remain unverified.
@@ -55,7 +55,7 @@ completion checklist. The full native feature remains in progress.
    one canonical opening and its public commitment. All operations fit within
    65,536 rows using bounded frame writers and shared scratch. Enclosing
    recipient/disclosure and ordinary spending/group constraints exist; native
-   transaction ingress/execution and runtime proof evidence remain.
+   lifecycle ingress and runtime proof evidence remain.
 10. [Current-key authorization registry](KEY_AUTHORIZATION.md) replaces a stable
     account/role leaf on rotation and atomically couples it to native key history
     and pointers. Typed current roots and exact-record witnesses are available.
@@ -66,7 +66,7 @@ completion checklist. The full native feature remains in progress.
     membership for the same private account, independent epochs and note owner.
     Staged membership and compact matrix frames preserve every operation while
     keeping the full recipient schedule within 65,536 rows. [Current eligibility](ELIGIBILITY.md)
-    now binds the same private account. Native ingress/execution and runtime evidence remain.
+    now binds the same private account. Complete lifecycle ingress and runtime evidence remain.
 12. [Assigned disclosures](../../internal/assetprivacy/disclosure/README.md) persist
     prospective auditor/controller targets and bind complete encrypted openings
     to their current registered viewing keys. [Exact output-role plans](PROOF_PLANNING.md)
@@ -90,9 +90,10 @@ independent cryptographic security review has been supplied or completed.
 
 ## Next work
 
-Populate/approve catalog entries and actual artifacts, preserve live-asset references, then route native transactions through the bridge,
-issuer authentication, other arities and native execution, including body-field
-matching and group application. Establish resource feasibility, measured work limits
+Finish lifecycle ingress/shield/all modes, safe cleanup and funding/API quotes.
+Populate/approve catalog entries and actual artifacts; preserve live-asset references.
+Source execution now routes through the bridge with body/current-authority checks.
+Establish resource feasibility, calibrated work limits
 and runtime evidence for [V2 markers](NULLIFIER_FRESHNESS.md) before activation. Then finish
 API/SDK/wallet/CLI, replay/recovery and the six real-node scenarios. Maintain the
 full [north-star work-package scope](IMPLEMENTATION.md); the present components

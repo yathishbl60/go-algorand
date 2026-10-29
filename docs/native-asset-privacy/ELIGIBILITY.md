@@ -34,8 +34,8 @@ Any error discards the complete source and snapshot change. The public
 OpenAssetPrivacyControl view now permits Current/Epoch reads only. Writable
 control/eligibility stores remain private to native mutation helpers; there is
 no externally exposed arbitrary Frozen snapshot or registration endpoint.
-Actual signature/PQ/possession/suite/consent checks and storage charges remain
-native transaction ingress obligations, not consequences of matching an address.
+Current PQ/admin guards and [storage charges](NATIVE_STORAGE.md) are integrated;
+registration possession/consent ingress remains mandatory and unfinished.
 
 Existing public holders need no implicit scan at adoption: required recipient key
 registration initializes the account before private output membership is possible.

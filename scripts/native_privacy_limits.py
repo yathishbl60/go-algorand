@@ -15,7 +15,7 @@ def sources():
     roots = (Path("internal/assetprivacy"), Path("docs/native-asset-privacy"))
     files = [p for root in roots for p in root.rglob("*")
              if p.suffix in (".go", ".rs", ".md") and "target" not in p.parts]
-    for root in ("ledger/eval", "ledger/apply", "config", "data/transactions"):
+    for root in ("ledger", "node", "config", "data/transactions"):
         files.extend(Path(root).rglob("assetprivacy*.go"))
     files.extend(Path("scripts").glob("native_privacy*.py"))
     return sorted(set(files))

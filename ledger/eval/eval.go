@@ -561,7 +561,7 @@ func (cs *roundCowState) MinBalance(addr basics.Address, proto *config.Consensus
 	if err != nil {
 		return
 	}
-	return acct.MinBalance(proto), nil
+	return cs.assetPrivacyMinimumBalance(addr, acct.MinBalance(proto))
 }
 
 func (cs *roundCowState) Move(from basics.Address, to basics.Address, amt basics.MicroAlgos, fromRewards *basics.MicroAlgos, toRewards *basics.MicroAlgos) error {
@@ -730,6 +730,9 @@ func StartEvaluator(l LedgerForEvaluator, hdr bookkeeping.BlockHeader, evalOpts 
 	prevProto, ok := config.Consensus[prevHeader.CurrentProtocol]
 	if !ok {
 		return nil, protocol.Error(prevHeader.CurrentProtocol)
+	}
+	if err = checkAssetPrivacyUpgrade(prevProto, proto); err != nil {
+		return nil, err
 	}
 
 	// Round that lookups come from is previous block.  We validate
@@ -1199,6 +1202,9 @@ func (eval *BlockEvaluator) TransactionGroup(txgroup ...transactions.SignedTxnWi
 func (eval *BlockEvaluator) checkMinBalance(cow *roundCowState) error {
 	rewardlvl := cow.rewardsLevel()
 	for _, addr := range cow.modifiedAccounts() {
+		if err := cow.checkAssetPrivacyStorageBalance(addr); err != nil {
+			return err
+		}
 		// Skip FeeSink, RewardsPool, and StateProofSender MinBalance checks here.
 		// There's only a few accounts, so space isn't an issue, and we don't
 		// expect them to have low balances, but if they do, it may cause
@@ -1247,6 +1253,9 @@ func (eval *BlockEvaluator) checkMinBalance(cow *roundCowState) error {
 // an error is returned and the block evaluator state is unchanged.
 func (eval *BlockEvaluator) transaction(txn transactions.SignedTxn, evalParams *logic.EvalParams, gi int, ad transactions.ApplyData, cow *roundCowState, txib *transactions.SignedTxnInBlock) error {
 	var err error
+	if err = eval.checkAssetPrivacyAuthorization(txn, cow); err != nil {
+		return err
+	}
 
 	// Only compute the TxID once
 	txid := txn.ID()
@@ -1357,6 +1366,8 @@ func (eval *BlockEvaluator) applyTransaction(tx transactions.Transaction, cow *r
 	}
 
 	switch tx.Type {
+	case protocol.NativeAssetPrivacyTx:
+		err = eval.applyNativeAssetPrivacy(cow, evalParams, gi)
 	case protocol.PaymentTx:
 		err = apply.Payment(tx.PaymentTxnFields, tx.Header, cow, eval.specials, &ad)
 

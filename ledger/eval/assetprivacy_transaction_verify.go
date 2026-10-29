@@ -20,29 +20,37 @@ package eval
 
 import (
 	"github.com/algorand/go-algorand/data/transactions"
+	"github.com/algorand/go-algorand/internal/assetprivacy/proofbridge"
 )
 
 // VerifyAssetPrivacyTransaction binds the exact target body to current native state.
-// Signatures, public holdings/funding and atomic execution remain separate checks.
+// The evaluator separately checks PQ/current auth, fees, funding and atomic writes.
 func (cs *roundCowState) VerifyAssetPrivacyTransaction(group []transactions.Transaction, target uint32, registry, framed []byte) (*AssetPrivacyTransactionPlan, error) {
 	plan, err := cs.AssetPrivacyTransactionProofPlan(group, target)
 	if err != nil {
 		return nil, err
 	}
-	context := plan.Context()
-	verifier, err := cs.assetPrivacySuiteVerifier(context.Suite, registry)
-	if err != nil {
-		return nil, err
-	}
-	if plan.spend != nil {
-		err = plan.spend.Verify(verifier, framed)
-	} else {
-		err = plan.recovery.Verify(verifier, framed)
-	}
-	if err != nil {
+	if err = cs.verifyAssetPrivacyTransactionPlan(plan, registry, framed); err != nil {
 		return nil, err
 	}
 	return plan, nil
+}
+
+func (cs *roundCowState) verifyAssetPrivacyTransactionPlan(plan *AssetPrivacyTransactionPlan, registry, framed []byte) error {
+	if plan == nil {
+		return proofbridge.ErrContext
+	}
+	verifier, err := cs.assetPrivacySuiteVerifier(plan.Context().Suite, registry)
+	if err != nil {
+		return err
+	}
+	if plan.spend != nil {
+		return plan.spend.Verify(verifier, framed)
+	}
+	if plan.recovery != nil {
+		return plan.recovery.Verify(verifier, framed)
+	}
+	return proofbridge.ErrContext
 }
 
 func (p *AssetPrivacyTransactionPlan) Context() AssetPrivacyPlanContext {

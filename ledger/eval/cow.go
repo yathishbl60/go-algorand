@@ -99,7 +99,8 @@ type roundCowState struct {
 	// so that we could perform the validation test on these to ensure the block evaluator generate a valid changeset.
 	prevTotals ledgercore.AccountTotals
 
-	feesCollected basics.MicroAlgos
+	feesCollected            basics.MicroAlgos
+	nativePrivacyProofChecks uint64
 }
 
 var childPool = sync.Pool{
@@ -287,6 +288,7 @@ func (cb *roundCowState) child(hint int) *roundCowState {
 	ch.lookupParent = cb
 	ch.commitParent = cb
 	ch.proto = cb.proto
+	ch.nativePrivacyProofChecks = 0
 	ch.mods.PopulateStateDelta(cb.mods.Hdr, cb.mods.PrevTimestamp, hint, cb.mods.StateProofNext)
 
 	if ch.sdeltas == nil {
@@ -303,6 +305,7 @@ func (cb *roundCowState) child(hint int) *roundCowState {
 }
 
 func (cb *roundCowState) commitToParent() {
+	cb.commitAssetPrivacyProofChecks()
 	cb.commitParent.mods.Accts.MergeAccounts(cb.mods.Accts)
 
 	commitParentBaseIdx := uint64(len(cb.commitParent.mods.Txids))
@@ -356,6 +359,7 @@ func (cb *roundCowState) reset() {
 	clear(cb.compatibilityGetKeyCache)
 	cb.prevTotals = ledgercore.AccountTotals{}
 	cb.feesCollected = basics.MicroAlgos{}
+	cb.nativePrivacyProofChecks = 0
 }
 
 // recycle resets the roundcowstate and returns it to the sync.Pool

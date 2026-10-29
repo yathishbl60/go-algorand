@@ -38,7 +38,7 @@ func checkNativePrivacySigned(tx *transactions.SignedTxn, proto config.Consensus
 	if tx.Txn.Type != protocol.NativeAssetPrivacyTx {
 		return proofbridge.Limits{}, errNativePrivacyWitness
 	}
-	if !proto.EnableNativeAssetPrivacy {
+	if !proto.NativeAssetPrivacyExecutionConfigured() || !tx.NativeAssetPrivacySizeAllowed(proto) {
 		return proofbridge.Limits{}, policy.ErrDisabled
 	}
 	body, err := nativebody.Decode(tx.Txn.NativeAssetPrivacy)
@@ -53,7 +53,8 @@ func checkNativePrivacySigned(tx *transactions.SignedTxn, proto config.Consensus
 }
 
 func checkNativePrivacyConsent(tx *transactions.SignedTxn, proto config.ConsensusParams) error {
-	if len(tx.PQsig.Signature) == 0 || !tx.Sig.Blank() || !tx.Msig.Blank() || !tx.Lsig.Blank() {
+	if len(tx.PQsig.Signature) == 0 || !tx.Authorizer().IsPQCompliant() ||
+		!tx.Sig.Blank() || !tx.Msig.Blank() || !tx.Lsig.Blank() {
 		return errNativePrivacyConsent
 	}
 	return tx.PQsig.ValidateEnvelope(proto, tx.Authorizer())

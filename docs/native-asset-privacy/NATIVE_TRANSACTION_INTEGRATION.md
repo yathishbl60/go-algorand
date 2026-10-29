@@ -1,8 +1,8 @@
 # Native transaction integration boundaries
 
 Updated 2026-10-29. The candidate body codec, wire metadata and stateless admission
-hooks are implemented. Native evaluator dispatch and atomic execution remain
-unfinished; no native transaction, proof or real-node scenario has run.
+hooks, evaluator dispatch and child-COW application are implemented. No native
+transaction, proof or real-node scenario has run; activation remains disabled.
 
 ## Wire fields and disabled behavior
 
@@ -13,7 +13,7 @@ the encoded signed transaction and block commitment. Neither field carries local
 registry files, pins, budgets or private note openings.
 
 The metadata fields exist in both builds. Default builds reject the type and
-nonempty privacy fields. Tagged builds require EnableNativeAssetPrivacy before
+nonempty privacy fields. Tagged builds require explicit execution configuration before
 native body decoding; ordinary transaction types reject orphan bodies/witnesses.
 All current consensus versions keep the flag false, suite catalogs nil and
 native decoder bounds zero. No artifact or suite approval has been added.
@@ -31,8 +31,8 @@ tag3 shield and unsupported arities fail rather than selecting weaker relations.
 and signature dispatch. Native admission decodes the body, validates its suite
 through the complete current consensus catalog, and requires top-level PQsig with
 nonempty signature bytes. Classical, multisig and LogicSig alternatives fail.
-ValidateEnvelope checks an enabled scheme and claimed authorizer identity; normal
-PQ signature verification still runs afterward. Current account AuthAddr/rekey
+Admission also requires an off-Edwards-curve claimed authorizer. ValidateEnvelope
+checks enabled scheme/identity; normal PQ signature verification follows. AuthAddr/rekey
 reconciliation remains a ledger obligation, not a result of this envelope check.
 
 Binding recomputes the final ordinary group and SHA3 statement from all bodies,
@@ -41,7 +41,7 @@ suite/statement, declared size and exact full length without copying its payload
 The payload cap is min(MaxBundleBytes,MaxAllocationBytes), and the complete frame
 must also fit MaxTxnBytesPerBlock. This is framing/admission, not STARK checking.
 [Body-derived ledger plans](NATIVE_TRANSACTION_PROJECTION.md) now select and check
-actual proofs through the linked verifier; evaluator dispatch remains unfinished.
+actual proofs through the linked verifier; [native execution](NATIVE_EXECUTION.md) now applies the verified result.
 
 ## Cache and commitment identity
 
@@ -79,18 +79,18 @@ signed transaction, group, proposal or block allowance. Exact encoded size limit
 must still hold. TX gossip remains5000000 bytes; existing frame/proposal/block
 limits have not been raised to accommodate the candidate proof configuration.
 
-No measured node work budget, verification queue policy, per-peer proof admission,
-fee schedule or aggregate memory meter exists. The candidate's large proof/trace
-resource estimates remain unresolved. Enabling a flag or adding a catalog entry
-does not establish practical transport or validation feasibility.
+Coarse accepted-block proof counting and proof/byte fee formulas now exist; their
+capacities/prices remain zero and uncalibrated. Failed-attempt/peer scheduling and
+aggregate memory metering remain missing. Large proof/trace estimates remain
+unresolved; configuration alone cannot establish practical feasibility.
 
 ## Remaining native delivery
 
-Finish evaluator dispatch through current-state proof checking, enforce public
-conversion rules and storage funding, and atomically apply holdings, private
-supply, markers, commitments and encrypted outputs in one child COW. Native inner
-transactions/AVM inspection, all privacy modes, shield, lifecycle administration,
-API/SDK/wallet and the six real-node scenarios remain incomplete.
+The dispatcher now checks current PQ consent and proofs, applies public conversion
+and native state atomically, and meters creator storage in one child COW. Native
+inner/admin operations requiring independent PQ consent are rejected. AVM type
+inspection, other modes/arities, shield, lifecycle administration, API/SDK/wallet
+and six real-node scenarios remain incomplete. See [execution](NATIVE_EXECUTION.md).
 
 Tests, codec round trips, vectors, proofs, setup, node execution and performance
 measurements remain deferred/unexecuted. Compilation/source checks cannot prove

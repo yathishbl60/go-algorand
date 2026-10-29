@@ -32,7 +32,7 @@ the local document records the draft behavior, not a completed cross-repo update
 | `PutAssetPrivacySupply` | Validate both current and replacement supply, then add a KV delta |
 | `IncreaseAssetPrivateSupply` | Check the shield arithmetic and write the resulting aggregate |
 | `DecreaseAssetPrivateSupply` | Check the unshield arithmetic and write the resulting aggregate |
-| `CheckAssetPrivacyDestruction` | Require zero private supply and full creator holding; called by native asset destruction |
+| `CheckAssetPrivacyDestruction` | Require zero private supply/full creator holding and absence of native supply/policy records until authenticated cleanup exists |
 | `DeleteAssetPrivacySupply` | Refuse deletion while value remains; remove only an empty aggregate record |
 
 The methods read the current COW and its parents, so ordered group changes are
@@ -41,9 +41,10 @@ A failed lookup, decode or arithmetic check returns before the mutation. The
 caller must discard the transaction/group COW if a later operation fails.
 
 Native `AssetConfig` destruction now calls the read-only supply guard before
-mutating asset records. No ordinary transaction creates a private-supply record. Policy, signatures, proofs, public debits/credits and
-minimum-balance funding are mandatory caller responsibilities in later packages.
-Deleting the counter does not remove notes/nullifiers or authorize ASA destruction.
+mutating asset records. Existing native supply/policy records now block deletion
+even after full value reconciliation, preserving creator storage attribution.
+[Native execution](NATIVE_EXECUTION.md) verifies current consent/proofs and applies
+public/private changes. Deleting a supply record alone grants no destruction right.
 
 ## Storage and recovery path
 
@@ -59,7 +60,8 @@ privacy-specific validation. Those checks remain in NAP-09 and NAP-13.
 
 This aggregate record is only one part of native privacy state. Policy/key
 records, commitment trees, nullifiers, accepted roots, historical output streams,
-storage pricing and cleanup rules remain separate work.
+[creator storage metering](NATIVE_STORAGE.md) now share the COW. Approved pricing
+and authenticated cleanup/refunds remain separate work.
 
 ## Validation and remaining work
 
@@ -77,8 +79,8 @@ consensus flag is false. If enabled without the build tag or a ledger supplying
 the required checker, it rejects destruction. The guard does not remove private
 state; storage cleanup remains part of the complete lifecycle implementation.
 
-No transaction/witness struct or generated codec changed in this increment.
-The state codec is explicit, bounded and still inactive. Tests remain deferred.
+The aggregate state codec remains explicit, bounded and inactive. Subsequent
+wire/evaluator integration is documented separately. Tests remain deferred.
 The complete [candidate proof relation](CANDIDATE_PROFILE.md), native
 transaction pipeline, coordinated specification/SDK changes and real-node demo
 are still required. Do not label this accounting integration end-to-end privacy.

@@ -34,7 +34,7 @@ func (tx Transaction) checkNativeAssetPrivacy(proto config.ConsensusParams) erro
 		}
 		return nil
 	}
-	if !proto.EnableNativeAssetPrivacy {
+	if !proto.NativeAssetPrivacyExecutionConfigured() {
 		return policy.ErrDisabled
 	}
 	body, err := nativebody.Decode(tx.NativeAssetPrivacy)

@@ -46,7 +46,7 @@ supplying the manager address is never authorization at an RPC boundary.
 
 Private-only creation needs a distinct authenticated creation integration; the
 existing-asset adoption helper intentionally retains public mode. [Key epochs and current-record roots](KEY_AUTHORIZATION.md) now persist separately;
-issuer recovery constraints exist; complete authentication/execution remain unfinished.
+issuer recovery and current PQ/admin guards exist; full policy/lifecycle ingress remains unfinished.
 Live assets require [suite/reference retention across upgrades](NATIVE_SUITE_CATALOG.md);
 removing a suite can block reads and holding synchronization, with no implicit migration.
 
