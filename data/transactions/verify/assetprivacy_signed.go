@@ -23,7 +23,6 @@ import (
 
 	"github.com/algorand/go-algorand/config"
 	"github.com/algorand/go-algorand/data/transactions"
-	"github.com/algorand/go-algorand/internal/assetprivacy/nativebody"
 	"github.com/algorand/go-algorand/internal/assetprivacy/policy"
 	"github.com/algorand/go-algorand/internal/assetprivacy/proofbridge"
 	"github.com/algorand/go-algorand/internal/assetprivacy/suitecatalog"
@@ -41,11 +40,11 @@ func checkNativePrivacySigned(tx *transactions.SignedTxn, proto config.Consensus
 	if !proto.NativeAssetPrivacyExecutionConfigured() || !tx.NativeAssetPrivacySizeAllowed(proto) {
 		return proofbridge.Limits{}, policy.ErrDisabled
 	}
-	body, err := nativebody.Decode(tx.Txn.NativeAssetPrivacy)
+	suite, err := nativePrivacySignedSuite(tx)
 	if err != nil {
 		return proofbridge.Limits{}, err
 	}
-	selected, err := suitecatalog.Lookup(proto, body.Suite)
+	selected, err := suitecatalog.Lookup(proto, suite)
 	if err != nil {
 		return proofbridge.Limits{}, err
 	}

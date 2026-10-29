@@ -10,11 +10,11 @@ transaction, runtime proof or real-node demo has been demonstrated.
 | --- | --- |
 | NAP-01 profile | Pinned candidate documented; complete relation, security argument, vectors and measurements missing |
 | NAP-02 consensus specification | Draft obligations/accounting/candidate layouts; complete normative protocol and sibling specs changes missing |
-| NAP-03 types/gates | Flag false, suite catalog nil and native decoder bounds zero in every current version; aprv body codec/raw transaction and signed-witness metadata implemented; compatibility/runtime vectors missing |
+| NAP-03 types/gates | Flag false, suite catalog nil and native decoder bounds zero in every current version; NAPT/NAPL1 body codecs, raw transaction and signed-witness metadata implemented; compatibility/runtime vectors missing |
 | NAP-04 cryptography | Note/conservation, complete envelope encryption, recipient current-key/eligibility membership and assigned disclosure constraints implemented; ordinary two-input eligibility/conservation/group constraints implemented; recovery/remainder constraints implemented; commitment-bound V2 markers/global creation uniqueness implemented; other arities, runtime proofs and native transaction acceptance missing |
 | NAP-05 native state | COW supply, policy/key/control epochs, current-key and effective-freeze roots, spent markers, tree/root history and atomic outputs implemented; creator storage obligations implemented; JSON MBR reporting implemented; cleanup/refunds and runtime recovery evidence missing |
 | NAP-06 verification | Exact bundles, ABI2 bridge, current-consensus suites and deterministic decoder charges implemented; stateless PQ-envelope/group/witness admission and witness-sensitive cache added; evaluator proof routing, coarse block work and proof/byte fees implemented; approved entries/artifacts, resource calibration and runtime acceptance missing |
-| NAP-07 lifecycle | Policy lifecycle, bounded viewing-key admission, destruction guard and public holding freeze persistence implemented; current-authorizer PQ/admin guards and child-COW native execution implemented; registration/adoption/shield and complete lifecycle ingress missing |
+| NAP-07 lifecycle | Policy lifecycle, bounded viewing-key admission, destruction guard and public holding freeze persistence implemented; current PQ/admin guards, NAPL1 adoption/assignment/native-freeze and child-COW execution implemented; possession registration, shield, creation and complete administration missing |
 | NAP-08 groups/pool/AVM | Group binding, signed framing and native verifier helper wiring implemented; native dispatch and accepted-block proof counting implemented; failed-attempt/pool scheduling and gated AVM inspection missing |
 | NAP-09 recovery | Existing KV path reused; privacy replay/restart/catchpoint/catchup behavior unverified |
 | NAP-10 APIs | Bounded internal output pages and JSON native MBR reporting exist; REST streams, witness queries, decoding, simulation and error contracts missing |
@@ -50,7 +50,7 @@ state cleanup, funding/refund lifecycle and upgrade evidence remain incomplete.
 - [Recovery/remainder relations and authority boundaries](RECOVERY.md).
 - [V2 output-nullifier freshness correction and generation2 state](NULLIFIER_FRESHNESS.md).
 - [Native accounting](NATIVE_ACCOUNTING.md), [evaluator execution](NATIVE_EXECUTION.md) and [creator storage obligations](NATIVE_STORAGE.md).
-- [Canonical policy records](POLICY_RECORDS.md) and [next lifecycle ingress contract](LIFECYCLE_INGRESS.md).
+- [Canonical policy records](POLICY_RECORDS.md) and [implemented lifecycle ingress and remaining possession work](LIFECYCLE_INGRESS.md).
 - [Current-key registry and native atomic updates](KEY_AUTHORIZATION.md).
 - [Key roles, epoch persistence and caller obligations](../../internal/assetprivacy/keys/README.md).
 - [Current eligibility snapshots, atomic hooks and private recipient binding](ELIGIBILITY.md).

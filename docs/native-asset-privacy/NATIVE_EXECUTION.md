@@ -1,100 +1,98 @@
 # Candidate native evaluator execution
 
-Updated 2026-10-29. The `aprv` evaluator case now routes through current-authority
-PQ verification, native proof checking and child-COW application. This is source
-integration, not an activated or runtime-validated feature. Every protocol remains
+Updated 2026-10-29. `aprv` routes current PQ consent, value proofs or explicit
+public lifecycle operations, and child-COW application. Every protocol remains
 disabled, unpriced and without an approved suite/artifact. No node/proof has run.
 
 ## Explicit configuration gate
 
-The Go privacy tag and linked Rust backend are necessary, but insufficient.
-NativeAssetPrivacyExecutionConfigured additionally requires the consensus flag
-and all five values below; every current version leaves these values zero:
+The Go privacy tag is required; value proofs also require the linked Rust backend.
+NativeAssetPrivacyExecutionConfigured requires the flag and all five values below.
+Every current version leaves them zero; metadata alone cannot enable execution.
 
 | Consensus field | Required value and meaning |
 | --- | --- |
 | NativeAssetPrivacyFlatMinBalance | Positive creator charge per native KV item |
 | NativeAssetPrivacyByteMinBalance | Positive creator charge per full KV key/value byte |
 | NativeAssetPrivacyMaxProofChecksPerBlock | Positive accepted-block component budget |
-| NativeAssetPrivacyProofFeeFactor | At least 1000000 Micros per proof component |
+| NativeAssetPrivacyProofFeeFactor | At least1000000 Micros per proof component |
 | NativeAssetPrivacyByteFeeFactor | Positive Micros per canonical SignedTxn byte |
 
-These are draft configuration obligations, not selected safe prices/capacities.
-Approved catalog pins, retained public artifacts, backend compatibility and
-normative specification changes remain separate prerequisites. Adding metadata
-or choosing arbitrary nonzero values does not establish deployment readiness.
+These are draft obligations, not selected safe prices/capacities. Approved pins,
+retained artifacts, backend compatibility and normative specification changes
+remain separate prerequisites. Arbitrary nonzero values establish no readiness.
+StartEvaluator requires nonzero root history and valid catalog. After activation
+it forbids disabling privacy, changing history length or dropping/changing any old
+suite record. Default builds reject enabled protocols. This supplies no migration.
 
-StartEvaluator also requires a nonzero root-history length and valid catalog.
-After activation it forbids disabling privacy, changing that history length or
-dropping/changing any old suite record; adding suites is allowed. Default builds
-reject enabled protocols. This retains layouts/pins, not artifacts or a migration.
-
-## Authorization and ordered execution
+## Authorization and atomic dispatch
 
 BlockEvaluator.transaction checks actual top-level PQ authorization against the
-sender's current group-local account AuthAddr, falling back to Sender only when
-that address is unset. The authorizer must be off the Edwards curve under
-IsPQCompliant. Classical/multisig/LogicSig alternatives fail. PQsig.Verify checks
-the body; a generic signature-cache hit cannot skip current authorization.
+sender's current group-local AuthAddr, falling back to Sender when unset. The
+authorizer must satisfy IsPQCompliant off-Edwards-curve checking. Classical,
+multisig and LogicSig alternatives fail. A cache hit cannot skip current PQ verify.
 Privacy-policy ASA configuration, freezing and public issuer clawback also require
-this current PQ consent. Ordinary public holder transfers keep their existing
-authorization, subject to allowed modes. Native/admin inner transactions requiring
-independent PQ consent are rejected; sender equality alone grants no authority.
+this consent. Ordinary public transfers keep their existing authorization, subject
+to policy modes. Native/admin inner operations needing independent PQ consent fail.
 
 The native case rejects unconfigured execution and inner calls. It creates a
-child of the current transaction/group COW and performs these steps:
+child of the current transaction/group COW, bounds the complete signed group with
+Msgsize estimates and checks pooled fees before either branch:
 
-1. Bound the complete signed group using conservative Msgsize estimates before
-   exact fee marshaling. Keep existing group/body/protocol byte limits.
-2. Check pooled group fees before artifact lookup or Rust proof work.
-3. Derive the exact body/current-state plan, including current policy, roots,
-   distinct fresh markers, key/eligibility roots and retained recovery authority.
-4. Reserve the body's proof-component count on that child COW.
-5. Select current consensus pins, obtain local registry bytes, and verify every
-   required main/output-role proof through the real optional Rust backend.
-6. Apply public holdings, private supply, spent markers and complete encrypted
-   outputs/commitments. Commit the child only after every required step succeeds.
+- NAPL1 [lifecycle](LIFECYCLE_INGRESS.md) checks exact syntax, empty witness, suite,
+  final group and current principal. Adopt writes policy plus initial assignments;
+  Assign updates disclosure targets; Freeze updates native control and eligibility.
+  No P3 proof, registry read or proof-unit reservation occurs. Registration2 fails.
+- NAPT1 value operations derive the exact current policy/root/marker/key/eligibility
+  plan, reserve proof-component units, load selected registry bytes and verify all
+  main/output-role proofs. Only then apply public holdings, private supply, spent
+  markers and complete encrypted outputs/commitments.
+
+The child commits only after every required step succeeds. Failed native/group
+COWs retain neither tentative state nor proof reservations. Ordinary fee/rekey
+changes remain subject to the surrounding transaction/group rollback contract.
+Adoption preserves holdings/supply and rejects prior private-supply state. Its
+required initial controller must come from the existing ASA clawback authority.
+Native freeze changes the marker only: an existing public freeze still contributes
+OR to effective freeze; without a holding, marker/default rules apply.
 
 Normal public debits/credits require existing opted-in, unfrozen holdings and
 checked uint64 arithmetic. Authorized recovery may bypass public-credit freeze,
-while still requiring opt-in; recovery cannot debit a public holding. Positive
-public conversions require the policy's public mode. Failed native/group COWs
-retain no tentative state or proof-count reservation. Ordinary fee/rekey effects
-remain subject to the surrounding transaction/group rollback contract.
+but still needs opt-in and cannot debit a public holding. Positive conversions
+require public mode. Private-only final reconciliation is still incomplete.
 
 ## Proof work and fee construction
 
-Body.ProofChecks counts one main plus every mandatory output-role proof: 1..7.
-Each counts as one coarse worst-profile unit. COW parent-chain accounting enforces
-the configured block cap; successful commits merge counts and failed COWs discard
-them. This is not measured time/heap or a per-peer/failed-attempt scheduling budget.
+NAPT Body.ProofChecks counts one main plus every mandatory output-role proof:1..7.
+Each is one coarse worst-profile unit. Parent-chain COW accounting enforces the
+configured block cap; commits merge counts, failed COWs discard them. This is not
+measured time/heap or per-peer/failed-attempt scheduling. NAPL counts zero checks.
 
 SignedTxn.FeeFactor adds proofFactor*checks + byteFactor*canonicalSignedTxnLength
-to ordinary transaction/PQ fees, using saturating arithmetic and normal fee pooling.
-Micros are fixed point: 1000000 means one ordinary minimum-fee multiplier. The
-byte term includes the exact NAPW frame and actual PQ signature encoding, not just
-the native body. No practical price or aggregate memory meter has been established.
+to ordinary transaction/PQ fees, using saturating arithmetic and fee pooling.
+Micros are fixed point:1000000 is one ordinary minimum-fee multiplier. Byte cost
+includes complete witness/PQ encoding; lifecycle still pays full signed-byte cost.
+No practical price or aggregate memory meter has been established.
 
-**Fix a conservative upper-bound fee before finalizing the group and proving.**
-P3 proof and PQ signature lengths can vary. Use approved proof/signature encoding
-maxima to reserve enough pooled fee first; actual signed-byte pricing is then
-checked against that fixed fee. Changing Fee after proof generation changes TXID,
-group IDs and statement binding, invalidating the proof. SDK fee/proof builders
-and reproducible cost measurements remain pending; this document supplies none.
+**Fix a conservative upper-bound fee before finalizing a value group and proving.**
+P3 proof and PQ signature lengths can vary. Reserve approved encoding maxima first;
+actual byte pricing is checked against that fixed fee. Changing Fee after proving
+changes TXID, group and statement, invalidating the proof. Lifecycle has no proof,
+but its PQ signature/group must also cover the final fee. SDK builders are pending.
 
 ## Local artifacts, storage and remaining work
 
-Tagged Ledger initialization installs a local directory provider before tracker
-replay; MakeFull uses RootGenesisDir/native-privacy/registries. Filenames are the
-complete lowercase registry-digest hex plus `.napk`. Reads are bounded to 954 bytes,
-regular-file/no-follow checked and digest verified. Keep historical artifacts for
-replay. Provider bytes grant no approval; local availability/backend/resource
-failures must never become invalid-proof evidence. See [provider](../../internal/assetprivacy/artifactstore/README.md).
+Tagged Ledger initialization installs a directory provider before tracker replay;
+MakeFull uses RootGenesisDir/native-privacy/registries. Filenames are the complete
+lowercase registry-digest hex plus `.napk`. Reads are bounded to954 bytes, regular
+file/no-follow checked and digest verified. Preserve historical replay artifacts.
+Provider bytes grant no approval; local backend/resource/availability failures
+must not become invalid-proof evidence. See [provider](../../internal/assetprivacy/artifactstore/README.md).
 
-[Creator storage obligations](NATIVE_STORAGE.md) are charged with every native KV
-mutation, including incidental ordinary asset hooks, in the same COW. JSON MBR
-reporting includes these obligations. Safe cleanup/refunds, policy ingress, private-only
-final reconciliation, shield/all modes/arities, AVM type support, admission queues,
-SDK/wallet and six real-node scenarios remain unfinished. Runtime correctness,
-rollback/restart, cryptographic security and resource feasibility remain unproven.
-No tests, vectors, proofs, preprocessing, provider reads or node runs occurred.
+[Creator obligations](NATIVE_STORAGE.md) charge every native KV mutation in its
+COW, including ordinary asset hooks. [JSON MBR](ACCOUNT_REPORTING.md) includes them.
+Key-possession registration, shield/all modes/arities, authority synchronization,
+cleanup/refunds, AVM inspection, admission scheduling, complete APIs, SDK/wallet
+and all six real-node scenarios remain unfinished. See [delivery status](END_TO_END_STATUS.md).
+Runtime correctness, rollback/restart, crypto security and resource feasibility
+remain unproven. No tests, vectors, proofs, preprocessing or node runs occurred.

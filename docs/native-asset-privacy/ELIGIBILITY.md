@@ -25,8 +25,8 @@ Native publication occurs inside the same outer child COW as each source mutatio
 
 - Recipient viewing/spending registration initializes or reconciles the snapshot
   with key history, current pointers and the current-key authorization root.
-- Native SetAssetPrivacyFrozen updates marker history/current pointer and then
-  derives effective status from the still-current public holding/default state.
+- NAPL1 Freeze uses SetAssetPrivacyFrozen after current PQ/freeze-authority checks;
+  it updates the native marker and derives effective status from public/default state.
 - Public holding writes synchronize markers, put/delete the holding, and then
   reconcile effective status, including unchanged-Frozen balance writes.
 

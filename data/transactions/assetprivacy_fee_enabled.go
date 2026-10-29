@@ -21,7 +21,6 @@ package transactions
 import (
 	"github.com/algorand/go-algorand/config"
 	"github.com/algorand/go-algorand/data/basics"
-	"github.com/algorand/go-algorand/internal/assetprivacy/nativebody"
 	"github.com/algorand/go-algorand/protocol"
 )
 
@@ -39,11 +38,7 @@ func (s SignedTxn) nativeAssetPrivacyFeeContribution(proto config.ConsensusParam
 	if s.Txn.Type != protocol.NativeAssetPrivacyTx || !proto.NativeAssetPrivacyExecutionConfigured() || !s.NativeAssetPrivacySizeAllowed(proto) {
 		return 0
 	}
-	body, err := nativebody.Decode(s.Txn.NativeAssetPrivacy)
-	if err != nil {
-		return 0
-	}
-	checks, err := body.ProofChecks()
+	checks, err := s.nativeAssetPrivacyProofChecks()
 	if err != nil {
 		return 0
 	}

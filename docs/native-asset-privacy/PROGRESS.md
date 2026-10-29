@@ -22,9 +22,9 @@ completion checklist. The full native feature remains in progress.
    they do not authenticate reviewers or approve cryptography.
 2. Native COW supply, policy/key/control epochs, spent markers, commitment tree,
    root history and atomic encrypted output streams. Public holding changes
-   preserve freeze state and atomically publish current eligibility; destruction
-   checks outstanding private supply.
-   [Native execution](NATIVE_EXECUTION.md), PQ/admin guards and [storage obligations](NATIVE_STORAGE.md) exist; full lifecycle and calibrated pricing remain.
+   preserve freeze state and atomically publish current eligibility. Native destruction
+   stays blocked until cleanup exists. [NAPL1 lifecycle](LIFECYCLE_INGRESS.md)
+   adopts policy/assignments and controls native freeze; [execution](NATIVE_EXECUTION.md)/[storage](NATIVE_STORAGE.md) exist; registration and pricing remain.
 3. Local canonical 512-byte notes, SHA3 commitments/nullifiers/ownership, fixed
    ML-KEM/HKDF/AES-GCM envelopes, role/epoch output recovery and bounded key
    admission. Wallet scanning, SDK integration and runtime acceptance remain.
@@ -55,7 +55,7 @@ completion checklist. The full native feature remains in progress.
    one canonical opening and its public commitment. All operations fit within
    65,536 rows using bounded frame writers and shared scratch. Enclosing
    recipient/disclosure and ordinary spending/group constraints exist; native
-   lifecycle ingress and runtime proof evidence remain.
+   registration possession and runtime proof evidence remain.
 10. [Current-key authorization registry](KEY_AUTHORIZATION.md) replaces a stable
     account/role leaf on rotation and atomically couples it to native key history
     and pointers. Typed current roots and exact-record witnesses are available.
@@ -90,7 +90,7 @@ independent cryptographic security review has been supplied or completed.
 
 ## Next work
 
-Finish lifecycle ingress/shield/all modes, safe cleanup and funding/API quotes.
+Finish possession registration, shield/all modes, authority synchronization and cleanup.
 Populate/approve catalog entries and actual artifacts; preserve live-asset references.
 Source execution now routes through the bridge with body/current-authority checks.
 Establish resource feasibility, calibrated work limits

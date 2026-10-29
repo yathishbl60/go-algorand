@@ -1,8 +1,8 @@
 # Native privacy implementation guide
 
 Updated 2026-10-29. Start with [delivery status](END_TO_END_STATUS.md). This branch
-contains disabled protocol components and integrated native proof execution; it has no
-usable native transaction or supported wallet transfer command.
+contains disabled value execution and NAPL1 adoption/assignment/freeze routing.
+No protocol is activated and no wallet transfer command is supported.
 
 ## Build the components
 
@@ -33,7 +33,7 @@ writable `GOCACHE` or Cargo target/cache directory when using a sandbox.
 | --- | --- |
 | Canonical private opening and local encryption | [note](../../internal/assetprivacy/note/README.md) |
 | Fixed recipient/auditor/controller envelope | [envelope](../../internal/assetprivacy/envelope/README.md) |
-| Immutable policy identity, shrinking powers and next lifecycle ingress | [policy records](POLICY_RECORDS.md), [ingress contract](LIFECYCLE_INGRESS.md) |
+| Policy identity, shrinking powers and NAPL1 lifecycle ingress | [policy records](POLICY_RECORDS.md), [ingress contract](LIFECYCLE_INGRESS.md) |
 | Recipient envelope with current viewing/spending membership | [AuthorizedRecipientAir](../../internal/assetprivacy/stark/src/authorized_recipient_air/README.md) |
 | Required output roles and expected verifier vectors | [Proof planning](PROOF_PLANNING.md) |
 | Current key records and stable-index authorization root | [Registry and native interfaces](KEY_AUTHORIZATION.md) |
@@ -80,9 +80,9 @@ writable `GOCACHE` or Cargo target/cache directory when using a sandbox.
 6. Construct the complete relation's public vector from that same statement.
 7. Prove locally, then put its bounded witness outside the transaction bodies.
 
-Steps 6–7 have no supported end-to-end builder. Approved entries/artifacts,
-complete lifecycle/shield ingress and runtime evidence remain missing. Current-state
-VerifyAssetPrivacySpend/Recovery select catalog pins, not caller verifiers.
+Confirm NAPL adoption before deriving its inclusion-round policy identity. Steps6–7
+have no supported end-to-end builder; registration possession, approved artifacts,
+shield and runtime evidence remain absent. Spend/Recovery select current catalog pins.
 
 The [native evaluator](NATIVE_EXECUTION.md) checks current PQ authorization, roots,
 fresh markers, public conversion, proofs, fees and creator storage funding. Its

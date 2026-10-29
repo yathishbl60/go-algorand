@@ -1,8 +1,8 @@
 # Candidate native spend/recovery transaction body
 
-Candidate contract, 2026-10-28. The codec and stateless wire admission are
-implemented; **native execution and activation remain unfinished**.
-See [suite selection](NATIVE_SUITE_CATALOG.md) and [bridge](NATIVE_VERIFIER_BRIDGE.md).
+Candidate contract, 2026-10-29. NAPT codec/admission and evaluator routing exist;
+activation and runtime evidence remain absent. [NAPL lifecycle](LIFECYCLE_INGRESS.md)
+uses a separate family. See [suites](NATIVE_SUITE_CATALOG.md) and [bridge](NATIVE_VERIFIER_BRIDGE.md).
 
 TxType `aprv` exposes inert raw byte fields `Transaction.NativeAssetPrivacy`
 (`codec:"napb"`) and `SignedTxn.NativeAssetPrivacyProof` (`codec:"napw"`). Both
@@ -95,4 +95,4 @@ or allocation failures must not become invalid-proof cache entries.
 
 The [integration guide](NATIVE_TRANSACTION_INTEGRATION.md) distinguishes codec,
 admission and execution. No tests/round trips/proofs ran. Practical byte/work
-calibration and all mode/lifecycle ingress remain pending. [Execution/storage](NATIVE_EXECUTION.md) now integrate.
+calibration, registration, shield and other modes remain pending. [Execution/storage](NATIVE_EXECUTION.md) integrate.

@@ -19,7 +19,9 @@
 package eval
 
 import (
+	"github.com/algorand/go-algorand/data/transactions"
 	"github.com/algorand/go-algorand/data/transactions/logic"
+	"github.com/algorand/go-algorand/internal/assetprivacy/lifecyclebody"
 	"github.com/algorand/go-algorand/internal/assetprivacy/policy"
 )
 
@@ -47,7 +49,14 @@ func (eval *BlockEvaluator) executeNativeAssetPrivacy(cs *roundCowState, params 
 	if err = eval.checkAssetPrivacyExecutionFees(params.TxnGroup); err != nil {
 		return err
 	}
-	execution, err := eval.verifyAssetPrivacyExecution(cs, group, uint32(gi), params.TxnGroup[gi].NativeAssetPrivacyProof)
+	if lifecyclebody.IsLifecycle(group[gi].NativeAssetPrivacy) {
+		return cs.executeAssetPrivacyLifecycle(group, uint32(gi), params.TxnGroup[gi].NativeAssetPrivacyProof)
+	}
+	return eval.executeAssetPrivacyValue(cs, group, uint32(gi), params.TxnGroup[gi].NativeAssetPrivacyProof)
+}
+
+func (eval *BlockEvaluator) executeAssetPrivacyValue(cs *roundCowState, group []transactions.Transaction, target uint32, framed []byte) error {
+	execution, err := eval.verifyAssetPrivacyExecution(cs, group, target, framed)
 	if err != nil {
 		return err
 	}

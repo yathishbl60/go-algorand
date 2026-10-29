@@ -21,29 +21,23 @@ package verify
 import (
 	"github.com/algorand/go-algorand/config"
 	"github.com/algorand/go-algorand/data/transactions"
-	"github.com/algorand/go-algorand/internal/assetprivacy/nativebody"
+	"github.com/algorand/go-algorand/internal/assetprivacy/lifecyclebody"
 	"github.com/algorand/go-algorand/internal/assetprivacy/proofbridge"
-	"github.com/algorand/go-algorand/internal/assetprivacy/statement"
 	"github.com/algorand/go-algorand/internal/assetprivacy/witness"
 )
 
 func checkNativePrivacyBinding(group []transactions.SignedTxn, index int, limits proofbridge.Limits, proto config.ConsensusParams) error {
-	bodies, bounds, err := nativePrivacyBodies(group, proto)
+	digest, suite, err := nativePrivacyGroupBinding(group, index, proto)
 	if err != nil {
 		return err
 	}
-	body, err := nativebody.Decode(group[index].Txn.NativeAssetPrivacy)
-	if err != nil {
-		return err
-	}
-	digest, err := statement.Bind([32]byte(group[index].Txn.GenesisHash), body.Suite, uint32(index), bodies, bounds)
-	if err != nil {
-		return err
+	if lifecyclebody.IsLifecycle(group[index].Txn.NativeAssetPrivacy) {
+		return nil
 	}
 	if uint64(len(group[index].NativeAssetPrivacyProof)) > uint64(proto.MaxTxnBytesPerBlock) {
 		return errNativePrivacyWitness
 	}
 	cap := min(limits.MaxBundleBytes, limits.MaxAllocationBytes)
-	return witness.Check(group[index].NativeAssetPrivacyProof, witness.Binding{Profile: body.Suite, Statement: digest},
+	return witness.Check(group[index].NativeAssetPrivacyProof, witness.Binding{Profile: suite, Statement: digest},
 		witness.Limits{MaxProofBytes: cap})
 }

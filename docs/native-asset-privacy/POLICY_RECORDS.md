@@ -1,7 +1,7 @@
 # Candidate native policy records
 
-Added 2026-10-23. Policy state is now connected to native COW storage behind the
-disabled feature flag. No privacy transaction or public endpoint calls it yet.
+Updated 2026-10-29. Policy state and NAPL1 adoption now use native COW storage
+behind the disabled feature flag. No runtime adoption or public SDK has been demonstrated.
 
 ## Identity and canonical encoding
 
@@ -40,13 +40,14 @@ Within the future atomic administrative action, remove freeze/clawback keys
 before updating the policy, and clear the manager afterward if relinquishing it.
 All intermediate COW changes must commit or roll back together.
 
-These helpers receive a manager address after caller authentication. They do not
-verify signatures, PQ key control, policy registration proofs or storage funding. A future native handler must perform those checks. Merely
-supplying the manager address is never authorization at an RPC boundary.
+The helpers receive a manager identity, not signature evidence. NAPL1 adoption now
+checks current PQ authority, absent supply/policy, suite and group, then writes the
+policy plus initial targets atomically with storage funding. No value/key proof is
+accepted. Supplying the manager address alone grants no authorization.
 
 Private-only creation needs a distinct authenticated creation integration; the
 existing-asset adoption helper intentionally retains public mode. [Key epochs and current-record roots](KEY_AUTHORIZATION.md) now persist separately;
-issuer recovery and current PQ/admin guards exist; full policy/lifecycle ingress remains unfinished.
+issuer recovery/PQ guards and adoption exist; key possession, creation and full administration remain unfinished.
 Live assets require [suite/reference retention across upgrades](NATIVE_SUITE_CATALOG.md);
 removing a suite can block reads and holding synchronization, with no implicit migration.
 

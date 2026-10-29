@@ -22,6 +22,7 @@ import (
 	"errors"
 
 	"github.com/algorand/go-algorand/config"
+	"github.com/algorand/go-algorand/internal/assetprivacy/lifecyclebody"
 	"github.com/algorand/go-algorand/internal/assetprivacy/nativebody"
 	"github.com/algorand/go-algorand/internal/assetprivacy/policy"
 	"github.com/algorand/go-algorand/protocol"
@@ -36,6 +37,17 @@ func (tx Transaction) checkNativeAssetPrivacy(proto config.ConsensusParams) erro
 	}
 	if !proto.NativeAssetPrivacyExecutionConfigured() {
 		return policy.ErrDisabled
+	}
+	return tx.checkNativeAssetPrivacyBody()
+}
+
+func (tx Transaction) checkNativeAssetPrivacyBody() error {
+	if lifecyclebody.IsLifecycle(tx.NativeAssetPrivacy) {
+		body, err := lifecyclebody.Decode(tx.NativeAssetPrivacy)
+		if err != nil {
+			return err
+		}
+		return body.CheckSender([32]byte(tx.Sender))
 	}
 	body, err := nativebody.Decode(tx.NativeAssetPrivacy)
 	if err != nil {
