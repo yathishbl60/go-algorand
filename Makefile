@@ -180,6 +180,7 @@ MSGP := go run github.com/algorand/msgp@v1.1.64
 			echo " done."; \
 		fi; \
 		rm -f ./$@.out
+		@python3 scripts/native_privacy_array_codec.py $@
 ALWAYS:
 
 # build our fork of libsodium, placing artifacts into crypto/lib/ and crypto/include/

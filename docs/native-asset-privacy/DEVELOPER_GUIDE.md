@@ -1,6 +1,6 @@
 # Native privacy implementation guide
 
-Updated 2026-10-27. Start with [delivery status](END_TO_END_STATUS.md). This branch
+Updated 2026-10-28. Start with [delivery status](END_TO_END_STATUS.md). This branch
 contains disabled protocol components and linked verification helpers; it has no
 usable native transaction or supported wallet transfer command.
 
@@ -9,8 +9,8 @@ usable native transaction or supported wallet transfer command.
 From the node repository root, use the project's configured Go toolchain:
 
 ```sh
-go build -mod=readonly -tags algorand_native_privacy ./internal/assetprivacy/... ./ledger/eval ./ledger/apply ./config
-go vet -mod=readonly -tags algorand_native_privacy ./internal/assetprivacy/... ./ledger/eval
+go build -mod=readonly -tags algorand_native_privacy ./internal/assetprivacy/... ./data/transactions/... ./ledger/eval ./ledger/apply ./config
+go vet -mod=readonly -tags algorand_native_privacy ./internal/assetprivacy/... ./data/transactions/... ./ledger/eval
 go build -mod=readonly ./ledger/eval ./ledger/apply ./config
 ```
 
@@ -47,7 +47,7 @@ writable `GOCACHE` or Cargo target/cache directory when using a sandbox.
 | Zero private inputs, two outputs | [ShieldAir](../../internal/assetprivacy/stark/src/shield_air/README.md) |
 | Two ordinary eligible inputs with Transfer2/Unshield0 outputs | [Staged spending](SPENDING_COMPOSITION.md) |
 | Issuer recovery and frozen-owner remainder | [Recovery contracts](RECOVERY.md) |
-| Draft native transaction body; codec/handlers pending | [Body integration contract](NATIVE_TRANSACTION_BODY.md) |
+| Native body codec, signed admission and pending execution | [Integration guide](NATIVE_TRANSACTION_INTEGRATION.md) |
 | Consensus suite metadata, references and admission | [Native suite catalog](NATIVE_SUITE_CATALOG.md) |
 | Single committed-note envelope | [EnvelopeAir typed context and witness API](../../internal/assetprivacy/stark/src/envelope_air/README.md) |
 | Private candidate key derivation | [HKDF constraints](../../internal/assetprivacy/stark/src/hkdf_air/README.md) |
@@ -82,7 +82,7 @@ writable `GOCACHE` or Cargo target/cache directory when using a sandbox.
 
 Steps 6–7 are not available as a complete native transaction path. Current-state
 VerifyAssetPrivacySpend/Recovery select catalog pins, not caller verifiers;
-approved entries/artifacts, body integration and runtime evidence remain missing.
+approved entries/artifacts, evaluator dispatch and runtime evidence remain missing.
 
 Future native execution must check proofs and all current authorization, accepted
 roots, distinct fresh nullifiers, public conversion and storage funding. Apply

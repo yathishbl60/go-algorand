@@ -1,12 +1,12 @@
 # Candidate native spend/recovery transaction body
 
-Draft contract, 2026-10-27; **not implemented or activated**. This specifies the
-next node integration increment, not a complete protocol specification or release.
+Candidate contract, 2026-10-28. The codec and stateless wire admission are
+implemented; **native execution and activation remain unfinished**.
 See [suite selection](NATIVE_SUITE_CATALOG.md) and [bridge](NATIVE_VERIFIER_BRIDGE.md).
 
-Use TxType `aprv`. Add inert raw byte fields `Transaction.NativeAssetPrivacy`
-(`codec:"aprv"`) and `SignedTxn.NativeAssetPrivacyProof` (`codec:"aprvp"`). Both
-need allocation bounds and ordinary canonical msgp encoding. Raw fields avoid
+TxType `aprv` exposes inert raw byte fields `Transaction.NativeAssetPrivacy`
+(`codec:"napb"`) and `SignedTxn.NativeAssetPrivacyProof` (`codec:"napw"`). Both
+have allocation bounds and ordinary canonical msgp encoding. Raw fields avoid
 build-dependent Transaction/SignedTxn layouts and new generated struct methods.
 Absent fields retain historical bytes. The disabled-build stub and disabled
 consensus reject the new type and every nonempty privacy field. Reject body fields
@@ -93,5 +93,6 @@ Apply supply, public holdings, markers, commitments and outputs in one child COW
 that commits only after every required check succeeds. Local verifier availability
 or allocation failures must not become invalid-proof cache entries.
 
-No tests/codecs/node handlers are delivered by this document. Practical byte/work
-budgets, native storage charges and all mode/lifecycle operations remain pending.
+The [integration guide](NATIVE_TRANSACTION_INTEGRATION.md) distinguishes codec,
+admission and execution. No tests/round trips/proofs ran. Practical byte/work
+budgets, storage charges, dispatch and all mode/lifecycle operations remain pending.

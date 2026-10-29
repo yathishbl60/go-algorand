@@ -50,6 +50,9 @@ const (
 	// HeartbeatTx demonstrates the account is alive
 	HeartbeatTx TxType = "hb"
 
+	// NativeAssetPrivacyTx carries an opt-in native privacy body and separate witness.
+	NativeAssetPrivacyTx TxType = "aprv"
+
 	// Remember to add to TxnTypeNames and txnTypeLongNames in logic/fields.go when
 	// adding a new transaction type!
 

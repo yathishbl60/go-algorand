@@ -104,6 +104,9 @@ type Transaction struct {
 	// Transaction object. Unlike other txn types, the fields will be
 	// embedded under a named field in the transaction encoding.
 	*HeartbeatTxnFields `codec:"hb"`
+
+	// NativeAssetPrivacy is inert unless the build and consensus enable native privacy.
+	NativeAssetPrivacy []byte `codec:"napb,allocbound=bounds.MaxNativeAssetPrivacyBodyBytes"`
 }
 
 // ApplyData contains information about the transaction's execution.
@@ -367,7 +370,12 @@ func (tx Transaction) MatchAddress(addr basics.Address) bool {
 
 // WellFormed checks that the transaction looks reasonable on its own (but not necessarily valid against the actual ledger). It does not check signatures.
 func (tx Transaction) WellFormed(spec SpecialAddresses, proto config.ConsensusParams) error {
+	if err := tx.checkNativeAssetPrivacy(proto); err != nil {
+		return err
+	}
 	switch tx.Type {
+	case protocol.NativeAssetPrivacyTx:
+		// The tagged helper above checks the complete bounded native body shape.
 	case protocol.PaymentTx:
 		err := tx.PaymentTxnFields.wellFormed(tx.Header, spec, proto)
 		if err != nil {
@@ -448,6 +456,9 @@ func (tx Transaction) WellFormed(spec SpecialAddresses, proto config.ConsensusPa
 	}
 
 	nonZeroFields := make(map[protocol.TxType]bool)
+	if len(tx.NativeAssetPrivacy) != 0 {
+		nonZeroFields[protocol.NativeAssetPrivacyTx] = true
+	}
 	if tx.PaymentTxnFields != (PaymentTxnFields{}) {
 		nonZeroFields[protocol.PaymentTx] = true
 	}

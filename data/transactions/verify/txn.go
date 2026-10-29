@@ -219,9 +219,12 @@ func txnGroupBatchPrep(stxs []transactions.SignedTxn, contextHdr *bookkeeping.Bl
 	if err != nil {
 		return nil, err
 	}
+	if err := checkNativePrivacyGroup(stxs, groupCtx.consensusParams); err != nil {
+		return nil, err
+	}
 	for i := range stxs {
 		if err := stxs[i].Txn.WellFormed(groupCtx.specAddrs, groupCtx.consensusParams); err != nil {
-			return nil, fmt.Errorf("transaction %+v invalid : %w", stxs[i], &TxGroupError{err: err, GroupIndex: i, Reason: TxGroupErrorReasonNotWellFormed})
+			return nil, fmt.Errorf("transaction %+v invalid : %w", nativePrivacyDiagnostic(stxs[i]), &TxGroupError{err: err, GroupIndex: i, Reason: TxGroupErrorReasonNotWellFormed})
 		}
 	}
 
@@ -242,7 +245,7 @@ func txnGroupBatchPrep(stxs []transactions.SignedTxn, contextHdr *bookkeeping.Bl
 		prepErr := txnBatchPrep(i, groupCtx, batch)
 		if prepErr != nil {
 			// re-wrap the error with more details
-			prepErr.err = fmt.Errorf("transaction %+v invalid : %w", stxn, prepErr.err)
+			prepErr.err = fmt.Errorf("transaction %+v invalid : %w", nativePrivacyDiagnostic(stxn), prepErr.err)
 			return nil, prepErr
 		}
 	}

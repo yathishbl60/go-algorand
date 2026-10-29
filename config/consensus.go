@@ -827,6 +827,7 @@ func checkSetMax(value int, curMax *int) {
 // to enforce memory allocation limits. The values should be generous to
 // prevent correctness bugs, but not so large that DoS attacks are trivial
 func checkSetAllocBounds(p ConsensusParams) {
+	checkSetNativeAssetPrivacyAllocBounds(p)
 	checkSetMax(int(p.SoftCommitteeThreshold), &bounds.MaxVoteThreshold)
 	checkSetMax(int(p.CertCommitteeThreshold), &bounds.MaxVoteThreshold)
 	checkSetMax(int(p.NextCommitteeThreshold), &bounds.MaxVoteThreshold)

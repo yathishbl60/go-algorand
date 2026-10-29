@@ -40,6 +40,9 @@ type SignedTxn struct {
 
 	Txn      Transaction    `codec:"txn,required"`
 	AuthAddr basics.Address `codec:"sgnr"`
+
+	// NativeAssetPrivacyProof is outside TXID and remains inside block encoding.
+	NativeAssetPrivacyProof []byte `codec:"napw,allocbound=bounds.MaxNativeAssetPrivacyProofBytes"`
 }
 
 // SignedTxnInBlock is how a signed transaction is encoded in a block.

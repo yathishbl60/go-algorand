@@ -1,6 +1,6 @@
 # Consensus suite catalog and native verification admission
 
-Updated 2026-10-27. Catalog selection and native verification helpers compile;
+Updated 2026-10-28. Catalog selection and native verification helpers compile;
 no suite entries, approved artifacts, runtime proofs or native transaction
 acceptance exist. Every current version, including ConsensusFuture, has
 EnableNativeAssetPrivacy=false and NativeAssetPrivacySuites=nil.
@@ -51,9 +51,9 @@ The generic plan.Verify(verifier,frame) remains an internal cryptographic helper
 it cannot replace this current-consensus admission path in future transaction routing.
 
 Successful checking performs no state writes and grants no transaction authority.
-Native body-field matching, ordinary/PQ signatures, consent, mode rules, public
-debits/credits, pricing, replay protection and atomic application remain required.
-No transaction type, pool ingress or public RPC currently routes through these helpers.
+Current account consent, conversion state, mode rules, pricing, replay protection
+and atomic application remain required. The aprv type and stateless signed framing
+exist; evaluator dispatch/public RPC do not route through these helpers yet. See [integration](NATIVE_TRANSACTION_INTEGRATION.md).
 
 ## Reference identity and upgrade retention
 

@@ -1,6 +1,6 @@
 # Native asset privacy implementation progress
 
-Updated 2026-10-27. [End-to-end status](END_TO_END_STATUS.md) is the canonical
+Updated 2026-10-28. [End-to-end status](END_TO_END_STATUS.md) is the canonical
 completion checklist. The full native feature remains in progress.
 
 ## Current user instructions
@@ -28,9 +28,9 @@ completion checklist. The full native feature remains in progress.
 3. Local canonical 512-byte notes, SHA3 commitments/nullifiers/ownership, fixed
    ML-KEM/HKDF/AES-GCM envelopes, role/epoch output recovery and bounded key
    admission. Wallet scanning, SDK integration and native acceptance remain.
-4. Group binding, opaque witnesses, [Rust codec/verification](VERIFICATION_BOUNDARY.md),
-   [exact native bundle plans and typed Rust dispatch](PROOF_BUNDLES.md) exist.
-   [ABI2 bridge](NATIVE_VERIFIER_BRIDGE.md) and [consensus suite admission](NATIVE_SUITE_CATALOG.md) exist; catalogs/artifacts remain empty.
+4. [Native body codec and signed PQ/group/witness admission](NATIVE_TRANSACTION_INTEGRATION.md),
+   witness-sensitive cache identity, [exact typed bundles](PROOF_BUNDLES.md),
+   [ABI2 bridge](NATIVE_VERIFIER_BRIDGE.md) and [suite selection](NATIVE_SUITE_CATALOG.md) exist; catalogs/artifacts remain empty.
 5. Pinned Plonky3 hiding configuration and exact uint64 conservation. Note,
    ownership, nullifier and depth-32 membership constraints compose into fixed
    transfer/shield/unshield arities. [Ordinary staged spending](SPENDING_COMPOSITION.md)

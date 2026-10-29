@@ -86,6 +86,7 @@ type verifiedTransactionCache struct {
 }
 
 type txnAuth struct {
+	privacy  *privacyWitnessIdentity
 	sig      crypto.Signature
 	authAddr basics.Address
 	lsig     *transactions.LogicSig // 232B struct that is almost always nil
@@ -123,6 +124,9 @@ func (v *verifiedTxnCtx) matches(vctx unique.Handle[verificationContext], txn *t
 		v.sigs.authAddr == txn.AuthAddr
 
 	if !isEqual {
+		return false
+	}
+	if !nativePrivacyCacheMatches(v.sigs.privacy, txn) {
 		return false
 	}
 
@@ -326,6 +330,7 @@ func (v *verifiedTransactionCache) add(groupCtx *GroupContext) {
 		entry := verifiedTxnCtx{
 			vctx: vctx,
 			sigs: txnAuth{
+				privacy:  nativePrivacyCacheIdentity(&txn),
 				sig:      txn.Sig,
 				authAddr: txn.AuthAddr,
 			},

@@ -1,6 +1,6 @@
 # Native asset privacy: end-to-end delivery status
 
-Updated 2026-10-27. **Not end-to-end yet.** There is no native private transfer,
+Updated 2026-10-28. **Not end-to-end yet.** There is no native private transfer,
 accepted transaction path or real-node demo. Linked current-consensus verification
 helpers exist; completed components do not substitute for the full north-star scope.
 
@@ -10,12 +10,12 @@ helpers exist; completed components do not substitute for the full north-star sc
 | --- | --- |
 | NAP-01 profile | Pinned candidate documented; complete relation, security argument, vectors and measurements missing |
 | NAP-02 consensus specification | Draft obligations/accounting/candidate layouts; complete normative protocol and sibling specs changes missing |
-| NAP-03 types/gates | Flag false and suite catalog nil in every version; selection metadata implemented, transaction/witness types and codecs missing |
+| NAP-03 types/gates | Flag false, suite catalog nil and native decoder bounds zero in every current version; aprv body codec/raw transaction and signed-witness metadata implemented; compatibility/runtime vectors missing |
 | NAP-04 cryptography | Note/conservation, complete envelope encryption, recipient current-key/eligibility membership and assigned disclosure constraints implemented; ordinary two-input eligibility/conservation/group constraints implemented; recovery/remainder constraints implemented; commitment-bound V2 markers/global creation uniqueness implemented; other arities, runtime proofs and native transaction acceptance missing |
 | NAP-05 native state | COW supply, policy/key/control epochs, current-key and effective-freeze roots, spent markers, tree/root history and atomic outputs implemented; storage charges and runtime recovery evidence missing |
-| NAP-06 verification | Exact bundles, typed selection, registry codecs and native context implemented; ABI2 bridge links into tagged algod; authoritative current-consensus suite admission, reference compatibility and deterministic decoder charges implemented; approved entries/artifacts, transaction routing/acceptance, measured work limits and caching missing |
+| NAP-06 verification | Exact bundles, ABI2 bridge, current-consensus suites and deterministic decoder charges implemented; stateless PQ-envelope/group/witness admission and witness-sensitive cache added; approved entries/artifacts, evaluator proof routing/acceptance and measured work limits missing |
 | NAP-07 lifecycle | Policy lifecycle, bounded viewing-key admission, destruction guard and public holding freeze persistence implemented; PQ administrative ingress and authenticated native transactions missing |
-| NAP-08 groups/pool/AVM | Group binding and native verifier helper wiring implemented; transaction ingress, pool accounting and gated AVM inspection missing |
+| NAP-08 groups/pool/AVM | Group binding, signed framing and native verifier helper wiring implemented; accepted transaction ingress, pool work accounting and gated AVM inspection missing |
 | NAP-09 recovery | Existing KV path reused; privacy replay/restart/catchpoint/catchup behavior unverified |
 | NAP-10 APIs | Bounded internal output pages exist; REST streams, witness queries, decoding, simulation and error contracts missing |
 | NAP-11 SDK/wallet | Local note/encryption/output-recovery primitives exist; SDK, scanning, proving, receipts and wallet backup/recovery missing |
@@ -59,7 +59,7 @@ private transaction execution or privacy-state cleanup.
 - [Typed relations, source fingerprints and pinned artifact registries](ARTIFACT_SELECTION.md).
 - [Native Go/Rust verification bridge, C ABI and trusted request](NATIVE_VERIFIER_BRIDGE.md).
 - [Current consensus suite catalog, references and retention](NATIVE_SUITE_CATALOG.md).
-- [Draft native transaction body; codec and handlers still pending](NATIVE_TRANSACTION_BODY.md).
+- [Canonical native body contract](NATIVE_TRANSACTION_BODY.md) and [partial integration boundaries](NATIVE_TRANSACTION_INTEGRATION.md).
 - [Exact main/output bundles and typed Rust verification](PROOF_BUNDLES.md).
 - [Local note API](../../internal/assetprivacy/note/README.md).
 - [Envelope API](../../internal/assetprivacy/envelope/README.md).

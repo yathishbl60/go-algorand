@@ -1,9 +1,9 @@
 # Native Go/Rust proof-verification bridge
 
-Updated 2026-10-27. Current-consensus spend/recovery admission helpers select an
+Updated 2026-10-28. Current-consensus spend/recovery admission helpers select an
 optional linked Rust backend. A feature-enabled algod binary builds with the C
 symbols present. This is build/link evidence only: no bridge call, public setup,
-node, vector or proof has run. Native transaction ingress/execution remain missing.
+node, vector or proof has run. Evaluator proof routing/execution remain missing.
 
 ## Trusted native caller
 
@@ -33,10 +33,10 @@ main group binding and output domain/role/ordinal. Typed registry/bundle selecti
 binds all required kinds, commitments and public values; actual P3 verification
 must succeed for every component. No callback or fallback reports success.
 
-Proof checking writes no state and grants no transaction authority. Signatures,
-consent, body-field matching, modes, public balances, funding, replay protection
-and atomic ledger application remain mandatory. Pool/evaluator transaction routing
-is unfinished; the current helpers must not be mistaken for native acceptance.
+Proof checking writes no state and grants no transaction authority. Stateless
+PQ-envelope/group/witness checks exist; current ledger consent, modes, balances,
+funding, replay protection and atomic application remain mandatory. [Native
+integration](NATIVE_TRANSACTION_INTEGRATION.md) remains incomplete; helpers do not accept transactions.
 
 ## Build the linked backend
 
