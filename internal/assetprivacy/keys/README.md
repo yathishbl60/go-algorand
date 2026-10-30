@@ -27,6 +27,8 @@ validation. Falcon parsing uses the repository Falcon1024 public-key size,
 header 10, and its 1024 packed 14-bit coefficients, each below 12289. This follows
 the pinned `github.com/algorand/falcon` `modq_decode` shape. A syntactically valid
 key is not evidence it was generated honestly or that anyone knows its secret.
+`ValidatePublicKey(role,bytes)` exposes this shared syntax check and rejects unknown
+roles; Record.Validate additionally checks domain and nonzero epoch.
 
 ## Domains and epochs
 
@@ -60,16 +62,22 @@ COW. No local setting or transaction can enable this feature.
 
 Native `OpenAssetPrivacyKeys` derives the authoritative policy identity.
 `PutAssetPrivacyKey` additionally checks the table's native eligibility rules.
-Every caller still must verify complete account/manager authorization, PQ and
-KEM possession/registration proofs, the pinned suite, fees and storage funding.
-Auditor assignment authority is not expressible in the current policy record;
-callers must authenticate that assignment and bind it into the full proof.
-Controller viewing registration is restricted to the current clawback address;
-existing records remain readable after that authority is relinquished.
+Internal callers must verify complete account authorization and role-appropriate
+possession, suite, fees and storage funding. [NAPL admin registration](../../../docs/native-asset-privacy/LIFECYCLE_INGRESS.md)
+now accepts roles5..7 only, with Sender equal registered account/current ASA role,
+current off-curve PQ consent and separately verified new-key Falcon1024 possession.
+Expected epoch and current policy/suite bind the mutation; Created is ledger-derived.
+[NAPR](../registrationproof/README.md) signs the complete final group and key bytes.
+It updates history/pointer/current root atomically and consumes one coarse work
+unit plus proof/byte fees and creator storage. It never rekeys AuthAddr or creates
+new ASA powers. The Falcon1024 scheme must be enabled; no Rust artifact is read.
+Recipient/viewing/spending roles remain rejected until their possession relations
+exist. Auditor/controller viewing accounts derive from authenticated prospective
+[assignments](../disclosure/README.md), including retained viewing after relinquishment.
 
-No tests or possession proofs were added or executed, as requested. Build/vet
-checks provide static verification only. Public/native registration execution
-remains incomplete until the required cryptographic authorization is implemented.
+Admin possession verification source now exists; no signatures, key generation,
+tests, possession proofs or node runs occurred. Tagged builds/vet and authored
+limits passed. Complete lifecycle, recipient registration and runtime evidence remain.
 
 Native key reads expose a view without Put; writes use PutAssetPrivacyKey.
 Native key writes now atomically update the separate [current-key registry](../keyauth/README.md)

@@ -1,6 +1,6 @@
 # Native transaction integration boundaries
 
-Updated 2026-10-29. The candidate body codec, wire metadata and stateless admission
+Updated 2026-10-30. The candidate body codec, wire metadata and stateless admission
 hooks, evaluator dispatch and child-COW application are implemented. No native
 transaction, proof or real-node scenario has run; activation remains disabled.
 
@@ -8,8 +8,8 @@ transaction, proof or real-node scenario has run; activation remains disabled.
 
 `protocol.NativeAssetPrivacyTx` is `aprv`. Transaction.NativeAssetPrivacy is the
 bounded `napb` byte field in the signed body; SignedTxn.NativeAssetPrivacyProof is
-the bounded `napw` witness outside TXID/group IDs: a NAPW frame for NAPT, empty
-bytes for accepted NAPL. Signed encoding/block commitments cover both. Neither
+the bounded `napw` witness outside TXID/group IDs: NAPW for NAPT, NAPR for admin
+registration, empty for other NAPL. Signed/block encoding commits them. Neither
 field carries local registry files, pins, budgets or private note openings.
 
 The metadata fields exist in both builds. Default builds reject the type and
@@ -23,7 +23,7 @@ The [body contract](NATIVE_TRANSACTION_BODY.md) and
 bytes and operation arities. Decode scans into fixed two-slot staging storage,
 checks complete framing and only then copies returned input/output data. Every
 returned ciphertext is owned. NAPT permits shielded mode4 only; other modes/tag3
-shield fail. [NAPL1](LIFECYCLE_INGRESS.md) separately accepts Adopt/Assign/Freeze; Register2 fails.
+shield fail. [NAPL1](LIFECYCLE_INGRESS.md) accepts Adopt/Assign/Freeze and admin Register2, roles5..7 only.
 
 ## Stateless signed admission
 
@@ -36,8 +36,8 @@ checks enabled scheme/identity; normal PQ signature verification follows. AuthAd
 reconciliation remains a ledger obligation, not a result of this envelope check.
 
 Binding recomputes the final ordinary group and SHA3 statement from all bodies,
-target position, genesis and suite. NAPL requires empty witness; NAPT witness.Check
-validates NAPW magic/version, suite/statement, size and exact length without copying.
+target position, genesis and suite. NAPL Register requires exact NAPR framing and
+enabled Falcon1024; other NAPL requires empty witness. NAPT checks exact NAPW binding.
 The payload cap is min(MaxBundleBytes,MaxAllocationBytes), and the complete frame
 must also fit MaxTxnBytesPerBlock. This is framing/admission, not STARK checking.
 [Body-derived ledger plans](NATIVE_TRANSACTION_PROJECTION.md) now select and check
@@ -45,16 +45,16 @@ actual proofs through the linked verifier; [native execution](NATIVE_EXECUTION.m
 
 ## Cache and commitment identity
 
-The transfer verification cache includes witness length and SHA3-512 digest
-as owned value metadata. Empty-witness lifecycle operations conservatively miss it.
+The nonempty-witness signature cache includes exact length and SHA3-512 digest
+for NAPW/NAPR as owned metadata. Empty-witness lifecycle conservatively misses it.
 No caller-owned witness slice is retained. TXID commits the native body; cache
 context includes the consensus version and
 ordinary signature authorization material. Replacing proof bytes cannot reuse an
 entry for different witness bytes without a hash collision.
 
 This does not turn signature-cache success into privacy proof acceptance. Every
-value execution must rebuild current statements, policy, authority, modes, roots,
-markers, keys/eligibility, holdings and funding; lifecycle rechecks its current principal/state.
+value execution rebuilds current statements/state; lifecycle rechecks principal,
+policy/suite/epoch and actual new-key possession for Register before any writes.
 Local backend/resource failures must never populate invalid-proof cache entries.
 Generated array decoders append privacy fields after all historical positions;
 canonical map keys are distinct from existing application fields. Source order
@@ -68,9 +68,9 @@ commitment include witness bytes; proof substitution cannot preserve that leaf.
 
 Only tagged enabled consensus parameters with a nonempty catalog of at most16
 entries contribute decoder ceilings. The body ceiling is10465 bytes. The proof
-frame ceiling is the maximum per-entry min(MaxBundleBytes+137,512MiB+137,
-MaxTxnBytesPerBlock). These global parser ceilings aggregate supported versions;
-they do not approve malformed catalog entries or authenticate a suite.
+frame ceiling includes per-suite min(MaxBundleBytes+137,512MiB+137,blockBytes)
+and, when Falcon1024 enabled, min(8+Falcon1024MaxSignatureSize,blockBytes) for NAPR.
+These global ceilings aggregate versions; they authenticate neither suite nor proof.
 
 Current catalog admission separately validates every record. A future enabled
 version can enlarge global decoding bounds even while processing older chains;
@@ -90,11 +90,11 @@ unresolved; configuration alone cannot establish practical feasibility.
 The dispatcher now checks current PQ consent and proofs, applies public conversion
 and native state atomically, and meters creator storage in one child COW. Native
 inner/admin operations requiring independent PQ consent fail. NAPL adoption,
-assignment and freeze now route atomically; registration, shield, other modes, AVM/API/SDK/wallet
+assignment, freeze and admin possession registration route atomically; viewing/spending
+registration, shield, other modes, AVM/API/SDK/wallet
 and six real-node scenarios remain incomplete. See [execution](NATIVE_EXECUTION.md).
 
 Tests, codec round trips, vectors, proofs, setup, node execution and performance
 measurements remain deferred/unexecuted. Compilation/source checks cannot prove
 historical compatibility, authorization, soundness, privacy or end-to-end delivery.
 `python3 scripts/native_privacy_limits.py` checks authored file/function limits.
-See [delivery status](END_TO_END_STATUS.md) for the full remaining scope.

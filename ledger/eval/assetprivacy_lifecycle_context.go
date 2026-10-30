@@ -27,24 +27,27 @@ import (
 	"github.com/algorand/go-algorand/internal/assetprivacy/suitecatalog"
 )
 
-func (cs *roundCowState) checkAssetPrivacyLifecycleContext(body lifecyclebody.Body, group []transactions.Transaction, target uint32) error {
+func (cs *roundCowState) checkAssetPrivacyLifecycleContext(body lifecyclebody.Body, group []transactions.Transaction, target uint32) ([64]byte, error) {
 	if err := body.CheckSender(group[target].Sender); err != nil {
-		return err
+		return [64]byte{}, err
 	}
 	if _, err := suitecatalog.Lookup(cs.proto, body.Suite); err != nil {
-		return err
+		return [64]byte{}, err
 	}
+	if body.Operation != lifecyclebody.Adopt {
+		if err := cs.checkAssetPrivacyLifecyclePolicy(body); err != nil {
+			return [64]byte{}, err
+		}
+	}
+	return cs.assetPrivacyLifecycleBinding(body, group, target)
+}
+
+func (cs *roundCowState) assetPrivacyLifecycleBinding(body lifecyclebody.Body, group []transactions.Transaction, target uint32) ([64]byte, error) {
 	bodies, err := cs.assetPrivacyTransactionBodies(group, target)
 	if err != nil {
-		return err
+		return [64]byte{}, err
 	}
-	if _, err = statement.Bind(cs.GenesisHash(), body.Suite, target, group, bodies.Limits); err != nil {
-		return err
-	}
-	if body.Operation == lifecyclebody.Adopt {
-		return nil
-	}
-	return cs.checkAssetPrivacyLifecyclePolicy(body)
+	return statement.Bind(cs.GenesisHash(), body.Suite, target, group, bodies.Limits)
 }
 
 func (cs *roundCowState) checkAssetPrivacyLifecyclePolicy(body lifecyclebody.Body) error {

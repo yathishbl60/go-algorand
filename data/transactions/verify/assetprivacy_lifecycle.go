@@ -23,10 +23,11 @@ import (
 	"github.com/algorand/go-algorand/data/transactions"
 	"github.com/algorand/go-algorand/internal/assetprivacy/lifecyclebody"
 	"github.com/algorand/go-algorand/internal/assetprivacy/nativebody"
+	"github.com/algorand/go-algorand/internal/assetprivacy/registrationproof"
 	"github.com/algorand/go-algorand/internal/assetprivacy/statement"
 )
 
-// Only canonical supported lifecycle operations may omit the transfer witness.
+// Supported lifecycle operations use their own exact witness contract.
 func nativePrivacySignedSuite(tx *transactions.SignedTxn) ([64]byte, error) {
 	if lifecyclebody.IsLifecycle(tx.Txn.NativeAssetPrivacy) {
 		return nativePrivacyLifecycleSuite(tx)
@@ -36,14 +37,25 @@ func nativePrivacySignedSuite(tx *transactions.SignedTxn) ([64]byte, error) {
 }
 
 func nativePrivacyLifecycleSuite(tx *transactions.SignedTxn) ([64]byte, error) {
-	if len(tx.NativeAssetPrivacyProof) != 0 {
-		return [64]byte{}, errNativePrivacyWitness
-	}
 	body, err := lifecyclebody.Decode(tx.Txn.NativeAssetPrivacy)
 	if err != nil {
 		return [64]byte{}, err
 	}
+	if err = nativePrivacyLifecycleWitness(tx, body); err != nil {
+		return [64]byte{}, err
+	}
 	return body.Suite, body.CheckSender([32]byte(tx.Txn.Sender))
+}
+
+// Framing is stateless admission; only ledger execution verifies possession.
+func nativePrivacyLifecycleWitness(tx *transactions.SignedTxn, body lifecyclebody.Body) error {
+	if body.Operation == lifecyclebody.Register {
+		return registrationproof.Check(tx.NativeAssetPrivacyProof)
+	}
+	if len(tx.NativeAssetPrivacyProof) != 0 {
+		return errNativePrivacyWitness
+	}
+	return nil
 }
 
 // Lifecycle signatures still commit the complete ordinary group. No proof is

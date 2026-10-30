@@ -18,7 +18,11 @@
 
 package config
 
-import "github.com/algorand/go-algorand/config/bounds"
+import (
+	"github.com/algorand/go-algorand/config/bounds"
+	"github.com/algorand/go-algorand/crypto"
+	"github.com/algorand/go-algorand/protocol"
+)
 
 func checkSetNativeAssetPrivacyAllocBounds(p ConsensusParams) {
 	if !p.EnableNativeAssetPrivacy || len(p.NativeAssetPrivacySuites) == 0 ||
@@ -26,11 +30,19 @@ func checkSetNativeAssetPrivacyAllocBounds(p ConsensusParams) {
 		return
 	}
 	checkSetMax(bounds.NativeAssetPrivacyBodyCeiling, &bounds.MaxNativeAssetPrivacyBodyBytes)
+	checkSetNativeAssetPrivacyRegistrationBound(p)
 	for _, suite := range p.NativeAssetPrivacySuites {
 		if suite.MaxBundleBytes != 0 {
 			maximum := min(uint64(suite.MaxBundleBytes)+137,
 				uint64(bounds.NativeAssetPrivacyProofCeiling), uint64(p.MaxTxnBytesPerBlock))
 			checkSetMax(int(maximum), &bounds.MaxNativeAssetPrivacyProofBytes)
 		}
+	}
+}
+
+func checkSetNativeAssetPrivacyRegistrationBound(p ConsensusParams) {
+	if p.PQSchemeEnabled(protocol.PQSchemeFalcon1024) {
+		maximum := min(8+crypto.Falcon1024MaxSignatureSize, p.MaxTxnBytesPerBlock)
+		checkSetMax(maximum, &bounds.MaxNativeAssetPrivacyProofBytes)
 	}
 }

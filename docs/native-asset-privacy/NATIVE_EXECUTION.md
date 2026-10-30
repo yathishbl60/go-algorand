@@ -1,6 +1,6 @@
 # Candidate native evaluator execution
 
-Updated 2026-10-29. `aprv` routes current PQ consent, value proofs or explicit
+Updated 2026-10-30. `aprv` routes current PQ consent, value proofs or explicit
 public lifecycle operations, and child-COW application. Every protocol remains
 disabled, unpriced and without an approved suite/artifact. No node/proof has run.
 
@@ -39,10 +39,10 @@ The native case rejects unconfigured execution and inner calls. It creates a
 child of the current transaction/group COW, bounds the complete signed group with
 Msgsize estimates and checks pooled fees before either branch:
 
-- NAPL1 [lifecycle](LIFECYCLE_INGRESS.md) checks exact syntax, empty witness, suite,
-  final group and current principal. Adopt writes policy plus initial assignments;
-  Assign updates disclosure targets; Freeze updates native control and eligibility.
-  No P3 proof, registry read or proof-unit reservation occurs. Registration2 fails.
+- NAPL1 [lifecycle](LIFECYCLE_INGRESS.md) checks syntax, suite, final group and current
+  principal. Adopt/Assign/Freeze require empty witness. Register2 accepts admin
+  roles5..7 only: enabled Falcon1024 verifies typed NAPR possession of the exact new
+  key before atomic history/root writes; one work unit is reserved, no P3 artifact read.
 - NAPT1 value operations derive the exact current policy/root/marker/key/eligibility
   plan, reserve proof-component units, load selected registry bytes and verify all
   main/output-role proofs. Only then apply public holdings, private supply, spent
@@ -66,7 +66,8 @@ require public mode. Private-only final reconciliation is still incomplete.
 NAPT Body.ProofChecks counts one main plus every mandatory output-role proof:1..7.
 Each is one coarse worst-profile unit. Parent-chain COW accounting enforces the
 configured block cap; commits merge counts, failed COWs discard them. This is not
-measured time/heap or per-peer/failed-attempt scheduling. NAPL counts zero checks.
+measured time/heap or per-peer/failed-attempt scheduling. Admin registration counts
+one unit; other lifecycle operations count zero. These are uncalibrated charges.
 
 SignedTxn.FeeFactor adds proofFactor*checks + byteFactor*canonicalSignedTxnLength
 to ordinary transaction/PQ fees, using saturating arithmetic and fee pooling.
@@ -77,8 +78,8 @@ No practical price or aggregate memory meter has been established.
 **Fix a conservative upper-bound fee before finalizing a value group and proving.**
 P3 proof and PQ signature lengths can vary. Reserve approved encoding maxima first;
 actual byte pricing is checked against that fixed fee. Changing Fee after proving
-changes TXID, group and statement, invalidating the proof. Lifecycle has no proof,
-but its PQ signature/group must also cover the final fee. SDK builders are pending.
+changes TXID, group and statement, invalidating the proof. Admin NAPR possession
+and every PQ signature also cover the final fee/group. SDK builders are pending.
 
 ## Local artifacts, storage and remaining work
 
@@ -91,7 +92,7 @@ must not become invalid-proof evidence. See [provider](../../internal/assetpriva
 
 [Creator obligations](NATIVE_STORAGE.md) charge every native KV mutation in its
 COW, including ordinary asset hooks. [JSON MBR](ACCOUNT_REPORTING.md) includes them.
-Key-possession registration, shield/all modes/arities, authority synchronization,
+Viewing/spending possession registration, shield/all modes, authority synchronization,
 cleanup/refunds, AVM inspection, admission scheduling, complete APIs, SDK/wallet
 and all six real-node scenarios remain unfinished. See [delivery status](END_TO_END_STATUS.md).
 Runtime correctness, rollback/restart, crypto security and resource feasibility

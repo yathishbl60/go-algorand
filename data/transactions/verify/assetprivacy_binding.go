@@ -32,7 +32,7 @@ func checkNativePrivacyBinding(group []transactions.SignedTxn, index int, limits
 		return err
 	}
 	if lifecyclebody.IsLifecycle(group[index].Txn.NativeAssetPrivacy) {
-		return nil
+		return checkNativePrivacyLifecycleScheme(&group[index], proto)
 	}
 	if uint64(len(group[index].NativeAssetPrivacyProof)) > uint64(proto.MaxTxnBytesPerBlock) {
 		return errNativePrivacyWitness

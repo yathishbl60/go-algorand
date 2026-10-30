@@ -23,8 +23,8 @@ func IsLifecycle(encoded []byte) bool {
 	return len(encoded) >= 4 && string(encoded[:4]) == "NAPL"
 }
 
-// Decode copies fixed public fields by value and retains no input buffer.
-// Keep encoded immutable until return. No input-dependent allocation is needed.
+// Decode validates exact lengths and material before copying a registration key.
+// Returned fields retain no input buffer. Keep encoded immutable until return.
 func Decode(encoded []byte) (Body, error) {
 	if len(encoded) < HeaderSize || string(encoded[:5]) != "NAPL\x01" {
 		return Body{}, ErrEncoding

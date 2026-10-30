@@ -18,11 +18,6 @@
 
 package keys
 
-import (
-	"github.com/algorand/go-algorand/crypto"
-	"github.com/algorand/go-algorand/internal/assetprivacy/envelope"
-)
-
 func (r Record) Validate() error {
 	if err := r.Domain.Validate(); err != nil {
 		return err
@@ -30,17 +25,7 @@ func (r Record) Validate() error {
 	if r.Epoch == 0 {
 		return ErrEpoch
 	}
-	if r.Domain.Role == RecipientSpend {
-		return validateOwner(r.PublicKey)
-	}
-	if r.Domain.Role.viewing() {
-		_, err := envelope.ParsePublicKey(r.PublicKey)
-		return err
-	}
-	if len(r.PublicKey) != crypto.Falcon1024PublicKeySize || r.PublicKey[0] != 10 {
-		return ErrKey
-	}
-	return validateFalconCoefficients(r.PublicKey[1:])
+	return ValidatePublicKey(r.Domain.Role, r.PublicKey)
 }
 
 func (r Role) viewing() bool {

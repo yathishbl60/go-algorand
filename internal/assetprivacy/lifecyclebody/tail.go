@@ -22,6 +22,8 @@ import "github.com/algorand/go-algorand/internal/assetprivacy/policy"
 
 func (b *Body) readTail(encoded []byte) error {
 	switch b.Operation {
+	case Register:
+		return b.readRegistrationTail(encoded)
 	case Adopt:
 		b.Modes, b.Capabilities, b.Disclosures = policy.Modes(encoded[0]), policy.Capabilities(encoded[1]), policy.Disclosures(encoded[2])
 		copy(b.Auditor[:], encoded[3:35])
@@ -29,16 +31,15 @@ func (b *Body) readTail(encoded []byte) error {
 		copy(b.Auditor[:], encoded[:32])
 	case Freeze:
 		copy(b.Target[:], encoded[:32])
-		if encoded[32] > 1 {
-			return ErrFields
-		}
-		b.Frozen = encoded[32] == 1
+		return b.readFrozenTail(encoded)
 	}
 	return nil
 }
 
 func writeTail(encoded []byte, body Body) {
 	switch body.Operation {
+	case Register:
+		writeRegistrationTail(encoded, body)
 	case Adopt:
 		encoded[0], encoded[1], encoded[2] = byte(body.Modes), byte(body.Capabilities), byte(body.Disclosures)
 		copy(encoded[3:35], body.Auditor[:])
@@ -59,5 +60,14 @@ func (b Body) decodeTail(encoded []byte) (Body, error) {
 	if err := b.Validate(); err != nil {
 		return Body{}, err
 	}
+	b.PublicKey = append([]byte(nil), b.PublicKey...)
 	return b, nil
+}
+
+func (b *Body) readFrozenTail(encoded []byte) error {
+	if encoded[32] > 1 {
+		return ErrFields
+	}
+	b.Frozen = encoded[32] == 1
+	return nil
 }

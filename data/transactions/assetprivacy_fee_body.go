@@ -21,19 +21,30 @@ package transactions
 import (
 	"github.com/algorand/go-algorand/internal/assetprivacy/lifecyclebody"
 	"github.com/algorand/go-algorand/internal/assetprivacy/nativebody"
+	"github.com/algorand/go-algorand/internal/assetprivacy/registrationproof"
 )
 
 func (s SignedTxn) nativeAssetPrivacyProofChecks() (uint64, error) {
 	if lifecyclebody.IsLifecycle(s.Txn.NativeAssetPrivacy) {
-		if len(s.NativeAssetPrivacyProof) != 0 {
-			return 0, nativebody.ErrEncoding
-		}
-		_, err := lifecyclebody.Decode(s.Txn.NativeAssetPrivacy)
-		return 0, err
+		return s.nativeAssetPrivacyLifecycleChecks()
 	}
 	body, err := nativebody.Decode(s.Txn.NativeAssetPrivacy)
 	if err != nil {
 		return 0, err
 	}
 	return body.ProofChecks()
+}
+
+func (s SignedTxn) nativeAssetPrivacyLifecycleChecks() (uint64, error) {
+	body, err := lifecyclebody.Decode(s.Txn.NativeAssetPrivacy)
+	if err != nil {
+		return 0, err
+	}
+	if body.Operation == lifecyclebody.Register {
+		return 1, registrationproof.Check(s.NativeAssetPrivacyProof)
+	}
+	if len(s.NativeAssetPrivacyProof) != 0 {
+		return 0, nativebody.ErrEncoding
+	}
+	return 0, nil
 }

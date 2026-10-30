@@ -1,96 +1,96 @@
 # Candidate native lifecycle ingress
 
-Updated 2026-10-29. NAPL1 adoption, disclosure assignment and native freeze control
-now have codec, admission and evaluator routing. This is disabled source integration,
-not accepted runtime evidence. Registration, shield, other modes and complete
+Updated 2026-10-30. NAPL1 adoption, admin-key registration, disclosure assignment
+and native freeze have codec, admission and evaluator routing. This is disabled
+source integration. Viewing/spending registration, shield, other modes and full
 native delivery remain outstanding in [the plan](README.md). No tests/proofs ran.
 
-## Implemented canonical operations
+## Canonical operations
 
-Transaction type remains `aprv`, with signed body `napb` and signed witness `napw`.
-The [lifecycle codec](../../internal/assetprivacy/lifecyclebody/README.md) uses NAPL
-version1; existing NAPT1 spend/recovery bytes are unchanged. The fixed150-byte
-header is magic/version5, opcode1, assetBE8, policy64, suite64, expectedEpochBE8.
-Asset/suite are nonzero. Current-policy operations require nonzero policy identity.
-Exact lengths, version, enum/flags, unused zero fields and complete framing are
-checked before tail reads. No lifecycle body contains secret keys or proof roots.
+Transaction type is `aprv`, signed body `napb`, signed witness `napw`. [NAPL1](../../internal/assetprivacy/lifecyclebody/README.md)
+leaves existing NAPT1 value bytes unchanged. The fixed150-byte header is magic/
+version5, opcode1, assetBE8, policy64, suite64, expectedEpochBE8. Asset/suite are
+nonzero; policy is zero only for adoption. Exact sizes, enum/flags, unused zero
+fields and framing are checked before bounded owned copies. No secret is carried.
 
 | Opcode | Exact body size and tail |
 | --- | --- |
 | 1 Adopt | 185: modes1, capabilities1, disclosures1, auditor32; policy/epoch zero |
-| 2 Register | Reserved; rejected even if otherwise framed |
+| 2 Register | 1978: role1, account32, keyLengthBE2, Falcon1024 public key1793 |
 | 3 Assign | 182: auditor32; controller derived from current ASA state |
 | 4 Freeze | 183: targetAccount32, frozen1 restricted to0/1 |
 
-Every accepted operation requires empty `napw`; an unrelated value proof cannot
-turn an unsupported operation into an accepted one. Adoption validates policy
-syntax and retained Public mode; nonzero auditor is present exactly when required.
-Assign/Freeze carry no independent mode/capability/disclosure override.
+Adopt validates policy syntax/Public mode and auditor presence iff required.
+Assign/Freeze carry no independent policy override. Register accepts only
+FreezeAuthority5, ClawbackAuthority6 and ManagerAuthority7; roles1..4 still reject.
+Registration account must equal outer Sender, and expected epoch must not overflow.
 
 ## Current authority and atomic application
 
-All three operations require configured execution, a suite in the fully validated
-current catalog, nonzero sender, final ordinary group binding and actual top-level
-PQ verification against current sender/AuthAddr. The authorizer must be off the
-Edwards curve. Classical/multisig/LogicSig alternatives and native inner calls fail.
-A signature cache hit cannot replace the current ledger authorization check.
+Every operation requires configured execution, current catalog suite, final group
+binding and actual top-level PQ verification against current sender/AuthAddr. The
+authorizer must be off the Edwards curve. Classical/multisig/LogicSig alternatives
+and native inner calls fail. A cache hit cannot replace current ledger checks.
 
-Adopt/Assign require sender equal the current nonzero ASA manager. Adoption also
-requires absent policy and private-supply records, exact current ASA capabilities,
-and no change to existing public holdings, supply or note trees. It derives Created
-from inclusion round, writes the policy and creates initial disclosure assignments
-at expected epoch0 atomically. A required initial controller must have an existing
-nonzero ASA clawback address; no prior controller is invented after relinquishment.
+Adopt/Assign require the current nonzero ASA manager as sender. Adoption requires
+absent policy/private-supply records and exact current ASA capabilities; it preserves
+holdings, supply and note trees. Created comes from inclusion round. Policy and
+initial targets using expected epoch0 commit atomically. A required initial controller needs an
+existing nonzero ASA clawback; a prior controller is not invented after relinquishment.
 
-Assign compares the supplied expected epoch with current assignment state and
-increments by one without overflow. The current ASA clawback becomes controller;
-after relinquishment the prior controller viewing target persists. Auditor presence
-must match immutable policy flags. Assignment grants viewing access, not recovery.
+Assign compares/increments the current assignment epoch without overflow. Current
+ASA clawback becomes controller; after relinquishment the prior viewing target
+persists. Auditor presence follows immutable flags; viewing grants no recovery.
 
-Freeze requires the current nonzero ASA freeze account and retained CanFreeze.
-Its expected epoch applies to the target's native control record. It writes only
-the native marker and reconciles eligibility; it does not rewrite public holdings.
-For an existing public holding, effective frozen is publicFrozen OR nativeFrozen.
-Without a public holding, a native marker overrides DefaultFrozen; absence uses
-the default. Native unfreeze therefore cannot clear a public holding freeze.
+Freeze needs current nonzero ASA freeze and retained CanFreeze. Its expected epoch
+is the target's native control epoch. Only the marker/eligibility change. With a
+public holding, effective frozen is publicFrozen OR nativeFrozen; without one,
+marker overrides DefaultFrozen and absence uses default. Public freeze still wins.
 
-One disposable child applies all policy/assignment/control/root changes and
-[creator storage obligations](NATIVE_STORAGE.md). It commits only on success;
-later group failure discards them. A payment funding the creator can precede the
-operation in the same group. [JSON minimum balances](ACCOUNT_REPORTING.md) include
-existing obligations; future growth still requires an SDK funding estimate.
+One disposable child commits policy/assignment/key/control/root changes and
+[creator obligations](NATIVE_STORAGE.md); later group failure discards them. A
+funding payment may precede the operation. [JSON MBR](ACCOUNT_REPORTING.md) quotes
+existing obligations; future growth still needs an SDK estimate.
 
-These operations perform zero P3 checks, reserve no block proof-check units and
-read no registry artifact. They still pay ordinary transaction/PQ fees plus the
-full canonical signed-byte surcharge and satisfy configured execution/storage
-requirements. Byte and group limits apply before exact fee marshaling.
+## Separate administrative key possession
 
-## Bootstrap and missing key possession
+Register requires current policy/suite, sender equal its registered account and
+the current ASA role principal, plus retained freeze/clawback capability where
+applicable. Expected epoch must equal current role history (zero if absent).
+Created and next epoch derive from ordered ledger state, never caller claims.
+Registration changes role records/history/roots only: it neither rekeys AuthAddr
+nor grants issuer powers beyond the account’s current ASA role.
+
+The exact new Falcon1024 key verifies a typed [NAPR1 possession signature](../../internal/assetprivacy/registrationproof/README.md).
+Its message is the fixed Registration/Falcon1024 domain plus the complete group
+context digest. That context binds genesis, target, suite, operation, asset/policy,
+role/account, exact key, expected epoch and every finalized body. Actual
+Falcon1024 VerifyBytes runs before native writes. Current account PQ consent is a
+separate check; the new key's signature cannot authorize somebody else's account.
+Falcon1024 must be enabled even if account consent uses another enabled scheme.
+
+NAPR has magic4/version1/kind1/signatureLengthBE2 plus1..Falcon1024MaxSignatureSize
+signature bytes. No transfer witness or success callback substitutes for it. One
+coarse work unit and proof-fee factor are charged, plus full signed bytes and base/
+PQ fees. History, current pointer and key root update atomically after verification;
+admin records grant no recipient eligibility. No Rust/P3 artifact is read here.
+Adopt/Assign/Freeze require empty witness and zero proof units, but still pay full
+signed-byte/base/PQ fees and storage. Framing alone proves no possession.
+
+## Bootstrap and remaining possession work
 
 Policy.Identity includes Created. Confirm adoption before deriving its actual
-identity for later key registration; predicting an uncertain inclusion round is
-invalid. Keys/proofs cannot use an assumed future policy identity. Single-round
-bundling would require explicit semantics and measured proving latency.
+identity for key registration; an uncertain future inclusion round cannot be
+assumed. Finalize fees/group before creating possession or value proofs; changed
+fees change the signed group. Conservative encoding maxima are needed up front.
 
-[Key writes](../../ledger/eval/assetprivacy_keys_write.go) update history, current
-pointers, authorization roots and eligibility, but do not authenticate registration.
-ViewKeyAir, SpendKeyAir and RegisteredKeyAir prove record/hash membership, not
-possession of a newly registered ML-KEM private key or note spending secret.
-The [artifact registry](../../internal/assetprivacy/artifactregistry/types.go) and
-[bridge](../../internal/assetprivacy/proofbridge/verify.go) have no admission relation.
+ViewKeyAir, SpendKeyAir and RegisteredKeyAir hash/member public records; they do
+not prove possession of a new ML-KEM private key or note spending secret. Those
+registrations remain rejected pending distinct relations, pins/artifacts, binding,
+work/fee limits and real verification. Syntax, encapsulation, membership or transfer
+proofs cannot replace matching private-key or owner-secret possession.
 
-Registration must bind a separately typed possession proof to genesis, final group,
-target index, operation, asset/policy/suite, role/account, exact new key and expected
-epoch. Owner registration proves the network-bound secret preimage; ML-KEM needs
-valid matching private-key possession; Falcon needs new-key possession plus current
-account consent. Syntax, encapsulation, membership or transfer proofs cannot replace
-these checks. No success callback or key-acceptance fallback exists here.
-
-## Remaining native delivery
-
-Add possession relations, pins/artifacts, decoder/work/fee bounds and actual verifier
-routing before enabling registration/rotation. Require policy-mandated current keys
-before private value ingress. Complete native shield, new-ASA/private-only lifecycle,
-authority rotation/relinquishment synchronization, cleanup/refunds, APIs, SDK/wallet,
-all modes/recovery, restoration/upgrades and six real-node scenarios. Adoption alone
-does not establish end-to-end delivery or validate the cryptographic candidate.
+Require all mandatory current keys before private value ingress. Complete shield,
+new-ASA/private-only lifecycle, authority synchronization, cleanup/refunds, APIs,
+SDK/wallet, all modes/recovery, restoration/upgrades and six real-node scenarios.
+Admin registration alone does not establish end-to-end delivery or crypto security.

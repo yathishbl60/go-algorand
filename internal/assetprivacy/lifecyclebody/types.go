@@ -22,6 +22,8 @@ package lifecyclebody
 
 import (
 	"errors"
+	"github.com/algorand/go-algorand/crypto"
+	"github.com/algorand/go-algorand/internal/assetprivacy/keys"
 	"github.com/algorand/go-algorand/internal/assetprivacy/policy"
 )
 
@@ -29,18 +31,19 @@ const HeaderSize = 150
 
 type Kind byte
 
-// Operation 2 is reserved for registration and is deliberately not accepted.
+// Register accepts administrative Falcon keys; viewing/spending roles reject.
 const (
-	Adopt  Kind = 1
-	Assign Kind = 3
-	Freeze Kind = 4
+	Adopt    Kind = 1
+	Register Kind = 2
+	Assign   Kind = 3
+	Freeze   Kind = 4
 )
 
 var ErrEncoding = errors.New("invalid native lifecycle body encoding")
 var ErrOperation = errors.New("unsupported native lifecycle operation")
 var ErrHeader = errors.New("invalid native lifecycle body domain")
 var ErrFields = errors.New("noncanonical native lifecycle operation fields")
-var ErrSender = errors.New("native lifecycle sender must be nonzero")
+var ErrSender = errors.New("invalid native lifecycle sender or registration account")
 
 // Body carries public candidate operation fields only. Unused fields must be zero.
 type Body struct {
@@ -55,12 +58,17 @@ type Body struct {
 	Auditor       [32]byte
 	Target        [32]byte
 	Frozen        bool
+	Role          keys.Role
+	Account       [32]byte
+	PublicKey     []byte
 }
 
 func (operation Kind) encodedSize() int {
 	switch operation {
 	case Adopt:
 		return HeaderSize + 35
+	case Register:
+		return HeaderSize + 35 + crypto.Falcon1024PublicKeySize
 	case Assign:
 		return HeaderSize + 32
 	case Freeze:

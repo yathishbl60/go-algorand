@@ -27,17 +27,28 @@ import (
 // Current top-level PQ authorization is checked before fee/rekey application.
 // The caller owns the disposable execution child; these operations need no STARK.
 func (cs *roundCowState) executeAssetPrivacyLifecycle(group []transactions.Transaction, target uint32, framed []byte) error {
-	if uint64(target) >= uint64(len(group)) || len(framed) != 0 {
+	if uint64(target) >= uint64(len(group)) {
 		return lifecyclebody.ErrEncoding
 	}
 	body, err := lifecyclebody.Decode(group[target].NativeAssetPrivacy)
 	if err != nil {
 		return err
 	}
-	if err = cs.checkAssetPrivacyLifecycleContext(body, group, target); err != nil {
+	binding, err := cs.checkAssetPrivacyLifecycleContext(body, group, target)
+	if err != nil {
 		return err
 	}
-	return cs.applyAssetPrivacyLifecycle(body, group[target].Sender)
+	return cs.executeAssetPrivacyLifecycleBody(body, group[target].Sender, binding, framed)
+}
+
+func (cs *roundCowState) executeAssetPrivacyLifecycleBody(body lifecyclebody.Body, sender basics.Address, binding [64]byte, framed []byte) error {
+	if body.Operation == lifecyclebody.Register {
+		return cs.registerAssetPrivacyLifecycle(body, binding, framed)
+	}
+	if len(framed) != 0 {
+		return lifecyclebody.ErrEncoding
+	}
+	return cs.applyAssetPrivacyLifecycle(body, sender)
 }
 
 func (cs *roundCowState) applyAssetPrivacyLifecycle(body lifecyclebody.Body, sender basics.Address) error {

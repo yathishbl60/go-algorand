@@ -47,7 +47,7 @@ accepted. Supplying the manager address alone grants no authorization.
 
 Private-only creation needs a distinct authenticated creation integration; the
 existing-asset adoption helper intentionally retains public mode. [Key epochs and current-record roots](KEY_AUTHORIZATION.md) now persist separately;
-issuer recovery/PQ guards and adoption exist; key possession, creation and full administration remain unfinished.
+issuer PQ/adoption and admin Falcon possession exist; viewing/spending registration, creation and full administration remain unfinished.
 Live assets require [suite/reference retention across upgrades](NATIVE_SUITE_CATALOG.md);
 removing a suite can block reads and holding synchronization, with no implicit migration.
 

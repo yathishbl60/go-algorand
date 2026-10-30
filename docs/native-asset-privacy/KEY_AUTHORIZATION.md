@@ -1,9 +1,9 @@
 # Candidate current-key authorization registry
 
-Updated 2026-10-25. Disabled native persistence and private record constraints
-exist, including current-record membership and recipient envelope bindings.
-Input eligibility, full spending and authenticated native execution remain
-incomplete. A registry entry alone grants no authority.
+Updated 2026-10-30. Disabled native persistence, current-record membership,
+recipient envelope bindings and evaluator execution exist. NAPL admin registration
+now verifies separate current PQ consent and new Falcon key possession; viewing/
+spending registration remains incomplete. A registry entry alone grants no authority.
 
 ## Current state and rotation
 
@@ -45,6 +45,11 @@ updates in one child COW. Any error discards the complete change. Policy/domain,
 role eligibility and creation round checks precede publication. The caller must
 still authenticate account/manager control, key possession, suite, fees and
 storage funding; these internal methods are not RPC authorization boundaries.
+[NAPL admin registration](LIFECYCLE_INGRESS.md) now checks the exact current ASA
+role/account, expected epoch and current policy/suite. Typed NAPR Falcon1024
+VerifyBytes precedes writes; one work unit/full proof and byte fees are charged.
+Registration changes role history/root, never AuthAddr or the account’s ASA powers.
+Viewing/spending roles still reject pending matching possession relations.
 
 `AssetPrivacyKeyAuthorizationRoot` returns `keyauth.Root { Digest }` and count
 from current group-local state. This struct requires explicit unwrapping at the
@@ -77,8 +82,8 @@ now binds the recipient account; input control/recovery and complete native
 verification remain. Registry membership alone does not
 designate a policy auditor or restore a relinquished issuer power.
 
-Storage pricing, migration, replay/restart/catchpoint evidence, verifier work
-limits and complete native execution remain unfinished. Private proof/wallet
+Storage obligations and coarse work caps exist; safe pricing/calibration, migration,
+replay/restart/catchpoint evidence and complete native delivery remain unfinished. Private proof/wallet
 resource feasibility remains unmeasured. Source reviews, feature/default builds,
 vet, strict Clippy, formatting and size checks are the current evidence.
 No tests, traces, vectors, constraint evaluations or proofs have run.

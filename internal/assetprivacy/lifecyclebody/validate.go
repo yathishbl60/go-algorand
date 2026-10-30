@@ -27,6 +27,12 @@ func (b Body) Validate() error {
 	if b.Asset == 0 || b.Suite == [64]byte{} {
 		return ErrHeader
 	}
+	if b.Operation != Register && (b.Role != 0 || b.Account != [32]byte{} || len(b.PublicKey) != 0) {
+		return ErrFields
+	}
+	if b.Operation == Register {
+		return b.validateRegistration()
+	}
 	if b.Operation == Adopt {
 		return b.validateAdoption()
 	}
@@ -67,12 +73,13 @@ func (b Body) validateExisting() error {
 	return nil
 }
 
-// CheckSender checks syntax and nonzero identity, not account/PQ authorization.
+// CheckSender checks syntax, nonzero sender and registration account equality.
+// It does not authenticate the account or establish current issuer authority.
 func (b Body) CheckSender(sender [32]byte) error {
 	if err := b.Validate(); err != nil {
 		return err
 	}
-	if sender == [32]byte{} {
+	if sender == [32]byte{} || (b.Operation == Register && b.Account != sender) {
 		return ErrSender
 	}
 	return nil

@@ -1,7 +1,7 @@
 # Native privacy implementation guide
 
-Updated 2026-10-29. Start with [delivery status](END_TO_END_STATUS.md). This branch
-contains disabled value execution and NAPL1 adoption/assignment/freeze routing.
+Updated 2026-10-30. Start with [delivery status](END_TO_END_STATUS.md). This branch
+contains disabled value execution and NAPL1 lifecycle/admin-possession registration.
 No protocol is activated and no wallet transfer command is supported.
 
 ## Build the components
@@ -37,7 +37,7 @@ writable `GOCACHE` or Cargo target/cache directory when using a sandbox.
 | Recipient envelope with current viewing/spending membership | [AuthorizedRecipientAir](../../internal/assetprivacy/stark/src/authorized_recipient_air/README.md) |
 | Required output roles and expected verifier vectors | [Proof planning](PROOF_PLANNING.md) |
 | Current key records and stable-index authorization root | [Registry and native interfaces](KEY_AUTHORIZATION.md) |
-| Versioned public keys and owner commitments | [key epochs](../../internal/assetprivacy/keys/README.md) |
+| Key epochs and new Falcon admin possession | [keys](../../internal/assetprivacy/keys/README.md), [NAPR](../../internal/assetprivacy/registrationproof/README.md) |
 | Atomic freeze snapshots and private recipient eligibility | [Current eligibility](ELIGIBILITY.md) |
 | Unique native note creation, read-only paths and root history | [Generation2 note tree](../../internal/assetprivacy/notetree/README.md) |
 | Atomic encrypted outputs, pages and local recovery | [outputs](../../internal/assetprivacy/outputs/README.md) |
@@ -81,13 +81,13 @@ writable `GOCACHE` or Cargo target/cache directory when using a sandbox.
 7. Prove locally, then put its bounded witness outside the transaction bodies.
 
 Confirm NAPL adoption before deriving its inclusion-round policy identity. Steps6–7
-have no supported end-to-end builder; registration possession, approved artifacts,
+have no supported end-to-end builder; viewing/spending possession, approved artifacts,
 shield and runtime evidence remain absent. Spend/Recovery select current catalog pins.
 
 The [native evaluator](NATIVE_EXECUTION.md) checks current PQ authorization, roots,
 fresh markers, public conversion, proofs, fees and creator storage funding. Its
 child-COW applies verified public/private changes atomically. Internal persistence
-helpers alone grant no permission. Changing Fee after proving invalidates binding.
+helpers alone grant no permission. NAPR admin possession also binds the final fee/group.
 
 ## Contribution rules for this branch
 
