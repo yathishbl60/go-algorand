@@ -60,3 +60,6 @@ pub mod mlkem_keygen_noise_air;
 
 #[path = "mlkem_keygen_ntt_air/mod.rs"]
 pub mod mlkem_keygen_ntt_air;
+
+#[path = "mlkem_keygen_air/mod.rs"]
+pub mod mlkem_keygen_air;

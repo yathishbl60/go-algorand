@@ -4,6 +4,7 @@
 use crate::{mlkem_keygen_noise_air as noise, mlkem_ntt_air as ntt};
 
 pub const ROWS: usize = 16384;
+pub(crate) const FRAME_ROWS: usize = 10240;
 pub(super) const NOISE_ROWS: usize = 4096;
 pub(super) const NOISE_WIDTH: usize = 7826;
 pub(super) const RAW: usize = 768;

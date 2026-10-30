@@ -1,7 +1,9 @@
 // Copyright (C) 2026 Algorand Foundation Ltd.
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
-use super::{FLAGS, MlKemKeygenNttAir, NOISE_ROWS, NOISE_SCHEDULE, NTT_ROWS, PREPROCESSED, ROWS};
+use super::{
+    FLAGS, FRAME_ROWS, MlKemKeygenNttAir, NOISE_ROWS, NOISE_SCHEDULE, NTT_ROWS, PREPROCESSED, ROWS,
+};
 use crate::Value;
 use p3_air::BaseAir;
 use p3_field::PrimeCharacteristicRing;
@@ -9,7 +11,15 @@ use p3_matrix::dense::RowMajorMatrix;
 
 impl MlKemKeygenNttAir {
     pub(super) fn schedule(&self) -> RowMajorMatrix<Value> {
-        let mut values = Value::zero_vec(ROWS * PREPROCESSED);
+        self.schedule_rows(ROWS)
+    }
+
+    pub(crate) fn frame_preprocessed_trace(&self) -> RowMajorMatrix<Value> {
+        self.schedule_rows(FRAME_ROWS)
+    }
+
+    fn schedule_rows(&self, rows: usize) -> RowMajorMatrix<Value> {
+        let mut values = Value::zero_vec(rows * PREPROCESSED);
         copy_schedule(
             &mut values,
             &self.noise.preprocessed_trace().expect("noise schedule"),

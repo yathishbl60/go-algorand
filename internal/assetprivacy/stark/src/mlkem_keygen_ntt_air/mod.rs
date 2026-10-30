@@ -12,6 +12,7 @@ mod trace;
 mod writer;
 
 use crate::{Value, mlkem_keygen_noise_air::MlKemKeygenNoiseAir, mlkem_ntt_air::MlKemNttAir};
+pub(crate) use layout::FRAME_ROWS;
 use layout::*;
 pub use layout::{PREPROCESSED, ROWS, WIDTH, Wires, wires};
 use p3_air::{Air, AirBuilder, BaseAir};
