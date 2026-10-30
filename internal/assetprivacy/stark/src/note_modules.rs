@@ -57,3 +57,6 @@ pub mod mlkem_keygen_seed_air;
 
 #[path = "mlkem_keygen_noise_air/mod.rs"]
 pub mod mlkem_keygen_noise_air;
+
+#[path = "mlkem_keygen_ntt_air/mod.rs"]
+pub mod mlkem_keygen_ntt_air;

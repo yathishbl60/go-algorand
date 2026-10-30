@@ -1,6 +1,6 @@
-# Viewing-key possession: seed and noise stages
+# Viewing-key possession: seed, noise and transforms
 
-Updated 2026-10-30. Two private ML-KEM key-generation components now exist.
+Updated 2026-10-30. Private ML-KEM seed, noise and forward-transform components now exist.
 They are intermediate constraints for the complete registration relation, not an
 accepted possession proof. Viewing roles1/3/4 still reject. Every consensus flag
 remains false and every suite catalog empty; no new artifact entry was added.
@@ -24,6 +24,10 @@ fixed by the circuit constructor; every noise seed equals the same proven sigma.
 The six canonical coefficient vectors are bound into constant parent registers.
 Private rho remains available for the subsequent matrix relation.
 
+[MlKemKeygenNttAir](../../internal/assetprivacy/stark/src/mlkem_keygen_ntt_air/README.md)
+now binds all six forward transforms to that same seed/noise root. Its inputs
+alias the existing vectors; transformed outputs remain constant through padding.
+
 The trusted schedule has one seed frame and six noise frames,512 rows each, then
 512 padding rows. Its28 preprocessing columns are seven sets of active/first/
 last/transition flags. Public/proof metadata cannot choose or skip those stages.
@@ -35,13 +39,14 @@ Global Boolean seed bits and coefficient registers remain constant through paddi
 | --- | ---: | ---: | ---: | ---: |
 | Seed expansion | 512 | 3442 | 0 | 0 |
 | Seed plus six noise vectors | 4096 | 7826 | 28 | 0 |
+| Seed/noise plus six forward NTTs | 16384 | 9362 | 570 | 0 |
 
 Standalone seed expansion has no selected verifier layout. The parent supplies
 actual trusted frame flags, rather than manufacturing a dummy preprocessing key.
 Wire accessors expose private seed/rho/sigma bits and ordered polynomial slices
 for later direct bindings; these are witness interfaces, not ledger responses.
 
-Both components provide trace constructors and bounded crate-private direct
+The components provide trace constructors and bounded crate-private direct
 writers. Writers check the full target rectangle before writes, preserve cells
 outside it, and reuse hash/noise scratch. The parent clears its rectangle and
 writes all frames and root registers without allocating a second child trace.
@@ -54,7 +59,7 @@ of the exact registered public key. The enclosing relation still must:
 
 1. Derive every admitted matrix polynomial from the same rho, with the candidate's
    exact bounded sampling rules and correct key-generation row/column ordering.
-2. Bind forward NTTs of all six vectors and the correct modular matrix-vector
+2. Use those same six transformed vectors in the correct modular matrix-vector
    products plus error. Encryption's transposed multiplication is insufficient.
 3. Bind canonical packed public coefficients and rho to every byte of the actual
    registration key, without a host-only equality or independent witness copy.

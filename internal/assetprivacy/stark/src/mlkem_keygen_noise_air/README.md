@@ -20,8 +20,8 @@ computes fixed auxiliary values, clears only its rectangle, writes each child
 and installs global registers. It preserves outside data and avoids a second
 full child matrix. No trace/writer has been run or benchmarked.
 
-Matrix sampling, transforms, dot/error arithmetic and exact public-key packing
-remain separate required stages. Viewing registration still rejects. No artifact
+The [transform parent](../mlkem_keygen_ntt_air/README.md) binds all six NTTs.
+Matrix/dot/error arithmetic and exact key bytes remain missing. No artifact
 layout or callback can turn this partial relation into accepted possession.
 See [the full contract](../../../../../docs/native-asset-privacy/KEYGEN_POSSESSION.md).
 
