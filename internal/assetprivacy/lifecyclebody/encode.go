@@ -23,7 +23,7 @@ func Encode(body Body) ([]byte, error) {
 	if err := body.Validate(); err != nil {
 		return nil, err
 	}
-	encoded := make([]byte, body.Operation.encodedSize())
+	encoded := make([]byte, body.Operation.encodedSize(body.Role))
 	writeHeader(encoded, body)
 	writeTail(encoded[HeaderSize:], body)
 	return encoded, nil

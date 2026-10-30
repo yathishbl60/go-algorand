@@ -21,7 +21,6 @@ package lifecyclebody
 import (
 	"encoding/binary"
 
-	"github.com/algorand/go-algorand/crypto"
 	"github.com/algorand/go-algorand/internal/assetprivacy/keys"
 )
 
@@ -32,7 +31,7 @@ func (b Body) validateRegistration() error {
 	if b.Modes != 0 || b.Capabilities != 0 || b.Disclosures != 0 || b.Auditor != [32]byte{} || b.Target != [32]byte{} || b.Frozen {
 		return ErrFields
 	}
-	if b.Role < keys.FreezeAuthority || b.Role > keys.ManagerAuthority {
+	if registrationKeySize(b.Role) == 0 {
 		return ErrOperation
 	}
 	return keys.ValidatePublicKey(b.Role, b.PublicKey)
@@ -40,7 +39,7 @@ func (b Body) validateRegistration() error {
 
 // The caller has already checked the complete operation's exact length.
 func (b *Body) readRegistrationTail(encoded []byte) error {
-	if binary.BigEndian.Uint16(encoded[33:35]) != crypto.Falcon1024PublicKeySize {
+	if int(binary.BigEndian.Uint16(encoded[33:35])) != registrationKeySize(keys.Role(encoded[0])) {
 		return ErrEncoding
 	}
 	b.Role = keys.Role(encoded[0])

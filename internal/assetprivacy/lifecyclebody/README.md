@@ -4,7 +4,7 @@ This opt-in package implements bounded public `NAPL` version1 lifecycle bodies
 for the candidate `aprv` transaction. It performs no state reads, signatures,
 proof verification or native execution. It requires `algorand_native_privacy`;
 every current consensus version remains disabled. Registration syntax currently
-accepts only administrative Falcon1024 keys; no parsing result proves possession.
+accepts RecipientSpend commitments and admin Falcon keys; parsing proves no possession.
 
 ## Canonical layout
 
@@ -34,15 +34,14 @@ restricted to0 or1. The ledger must compare the expected epoch with current
 control state and authenticate the current freeze authority and capability.
 Unknown operations/versions and trailing bytes fail.
 
-Register is exactly1978 bytes: header, role1, nonzero account32, keyLengthBE2 and
-the exact1793-byte Falcon1024 public key. Only FreezeAuthority5, ClawbackAuthority6
-and ManagerAuthority7 roles are accepted. Policy/suite/asset are nonzero and the
-expected epoch must leave room for an increment. All unrelated fields are zero.
-Viewing and note-spending roles remain rejected until their distinct possession
-relations exist. Registration key syntax validates the Falcon header and every
-canonical coefficient through `keys.ValidatePublicKey`; this is not a signature
-or new-key possession check. Ledger execution must bind the registered account
-to the current applicable ASA authority and authenticated transaction sender.
+Register carries role1, nonzero account32, keyLengthBE2 and exact role material.
+RecipientSpend2 is249 bytes total with a nonzero owner commitment64. Admin roles
+FreezeAuthority5, ClawbackAuthority6 and ManagerAuthority7 are1978 bytes with an
+exact1793-byte Falcon1024 public key. Viewing roles1/3/4 reject. Policy/suite/asset
+must be nonzero; expected epoch leaves room for increment and unrelated fields
+are zero. Exact role/declared size is checked before tail reads and owned copying.
+`keys.ValidatePublicKey` validates syntax, not possession. The ledger authenticates
+the registered account and additionally matches admin roles to current ASA powers.
 
 ## API and authority boundary
 
@@ -69,8 +68,8 @@ success grants no manager, freeze, viewing or spending permission. See the
 Administrative registration now verifies a separately typed [NAPR signature](../registrationproof/README.md)
 of the finalized registration group under the exact new public key, in addition
 to current top-level PQ account authorization. It never rekeys AuthAddr or grants
-powers beyond the current ASA role. Viewing/spending registration still
-needs new possession relations and verifier routing. Syntax, existing membership
+powers beyond the current ASA role. RecipientSpend instead needs the exact
+NAPW owner-preimage proof; viewing registration still rejects. Existing membership
 proofs or transfer proofs cannot replace those checks. This codec carries public
 material only; no private key or note secret is accepted.
 

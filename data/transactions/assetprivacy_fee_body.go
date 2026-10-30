@@ -19,6 +19,7 @@
 package transactions
 
 import (
+	"github.com/algorand/go-algorand/internal/assetprivacy/keys"
 	"github.com/algorand/go-algorand/internal/assetprivacy/lifecyclebody"
 	"github.com/algorand/go-algorand/internal/assetprivacy/nativebody"
 	"github.com/algorand/go-algorand/internal/assetprivacy/registrationproof"
@@ -41,10 +42,21 @@ func (s SignedTxn) nativeAssetPrivacyLifecycleChecks() (uint64, error) {
 		return 0, err
 	}
 	if body.Operation == lifecyclebody.Register {
-		return 1, registrationproof.Check(s.NativeAssetPrivacyProof)
+		return s.nativeAssetPrivacyRegistrationChecks(body)
 	}
 	if len(s.NativeAssetPrivacyProof) != 0 {
 		return 0, nativebody.ErrEncoding
 	}
 	return 0, nil
+}
+
+// Pricing alone grants no admission: the group checker binds the exact NAPW.
+func (s SignedTxn) nativeAssetPrivacyRegistrationChecks(body lifecyclebody.Body) (uint64, error) {
+	if body.Role == keys.RecipientSpend {
+		if len(s.NativeAssetPrivacyProof) == 0 {
+			return 0, nativebody.ErrEncoding
+		}
+		return 1, nil
+	}
+	return 1, registrationproof.Check(s.NativeAssetPrivacyProof)
 }

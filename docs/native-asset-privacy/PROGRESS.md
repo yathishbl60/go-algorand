@@ -24,7 +24,7 @@ completion checklist. The full native feature remains in progress.
    root history and atomic encrypted output streams. Public holding changes
    preserve freeze state and atomically publish current eligibility. Native destruction
    stays blocked until cleanup exists. [NAPL1 lifecycle](LIFECYCLE_INGRESS.md)
-   adopts policy/assignments, controls native freeze and verifies admin Falcon possession; viewing/spending registration and pricing remain.
+   adopts policy/assignments, controls native freeze and verifies admin Falcon possession; viewing registration and pricing remain.
 3. Local canonical 512-byte notes, SHA3 commitments/nullifiers/ownership, fixed
    ML-KEM/HKDF/AES-GCM envelopes, role/epoch output recovery and bounded key
    admission. Wallet scanning, SDK integration and runtime acceptance remain.
@@ -55,7 +55,7 @@ completion checklist. The full native feature remains in progress.
    one canonical opening and its public commitment. All operations fit within
    65,536 rows using bounded frame writers and shared scratch. Enclosing
    recipient/disclosure and ordinary spending/group constraints exist; native
-   viewing/spending registration possession and runtime proof evidence remain.
+   viewing registration possession and runtime proof evidence remain.
 10. [Current-key authorization registry](KEY_AUTHORIZATION.md) replaces a stable
     account/role leaf on rotation and atomically couples it to native key history
     and pointers. Typed current roots and exact-record witnesses are available.
@@ -90,7 +90,7 @@ independent cryptographic security review has been supplied or completed.
 
 ## Next work
 
-Finish viewing/spending possession, other modes, authority synchronization and cleanup.
+Finish viewing possession, other modes, authority synchronization and cleanup.
 Populate/approve catalog entries and actual artifacts; preserve live-asset references.
 Source execution now routes through the bridge with body/current-authority checks.
 Establish resource feasibility, calibrated work limits

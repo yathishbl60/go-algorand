@@ -15,6 +15,7 @@ impl Target {
     ) -> Result<Self, Error> {
         match slot.layout {
             Layout::Shield => super::shield::build(context, registry, slot),
+            Layout::OwnerRegistration => super::owner_registration::build(context, registry),
             Layout::Transfer | Layout::Unshield => super::main::spend(context, registry, slot),
             Layout::PartialPrivate
             | Layout::FullPrivate

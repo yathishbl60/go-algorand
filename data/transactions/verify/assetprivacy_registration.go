@@ -22,6 +22,7 @@ import (
 	"github.com/algorand/go-algorand/config"
 	"github.com/algorand/go-algorand/crypto"
 	"github.com/algorand/go-algorand/data/transactions"
+	"github.com/algorand/go-algorand/internal/assetprivacy/keys"
 	"github.com/algorand/go-algorand/internal/assetprivacy/lifecyclebody"
 	"github.com/algorand/go-algorand/protocol"
 )
@@ -33,7 +34,7 @@ func checkNativePrivacyLifecycleScheme(tx *transactions.SignedTxn, proto config.
 	if err != nil {
 		return err
 	}
-	if body.Operation == lifecyclebody.Register && !proto.PQSchemeEnabled(protocol.PQSchemeFalcon1024) {
+	if body.Operation == lifecyclebody.Register && body.Role != keys.RecipientSpend && !proto.PQSchemeEnabled(protocol.PQSchemeFalcon1024) {
 		return crypto.ErrPQSchemeNotEnabled
 	}
 	return nil

@@ -85,14 +85,14 @@ and every PQ signature also cover the final fee/group. SDK builders are pending.
 
 Tagged Ledger initialization installs a directory provider before tracker replay;
 MakeFull uses RootGenesisDir/native-privacy/registries. Filenames are the complete
-lowercase registry-digest hex plus `.napk`. Reads are bounded to1036 bytes, regular
+lowercase registry-digest hex plus `.napk`. Reads are bounded to1118 bytes, regular
 file/no-follow checked and digest verified. Preserve historical replay artifacts.
 Provider bytes grant no approval; local backend/resource/availability failures
 must not become invalid-proof evidence. See [provider](../../internal/assetprivacy/artifactstore/README.md).
 
 [Creator obligations](NATIVE_STORAGE.md) charge every native KV mutation in its
 COW, including ordinary asset hooks. [JSON MBR](ACCOUNT_REPORTING.md) includes them.
-Viewing/spending possession registration, other modes, authority synchronization,
+Viewing-key possession registration, other modes, authority synchronization,
 cleanup/refunds, AVM inspection, admission scheduling, complete APIs, SDK/wallet
 and all six real-node scenarios remain unfinished. See [delivery status](END_TO_END_STATUS.md).
 Runtime correctness, rollback/restart, crypto security and resource feasibility

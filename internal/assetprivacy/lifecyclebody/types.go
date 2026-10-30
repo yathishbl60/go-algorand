@@ -22,7 +22,6 @@ package lifecyclebody
 
 import (
 	"errors"
-	"github.com/algorand/go-algorand/crypto"
 	"github.com/algorand/go-algorand/internal/assetprivacy/keys"
 	"github.com/algorand/go-algorand/internal/assetprivacy/policy"
 )
@@ -31,7 +30,7 @@ const HeaderSize = 150
 
 type Kind byte
 
-// Register accepts administrative Falcon keys; viewing/spending roles reject.
+// Register accepts owner commitments and administrative Falcon keys only.
 const (
 	Adopt    Kind = 1
 	Register Kind = 2
@@ -63,12 +62,12 @@ type Body struct {
 	PublicKey     []byte
 }
 
-func (operation Kind) encodedSize() int {
+func (operation Kind) encodedSize(role keys.Role) int {
 	switch operation {
 	case Adopt:
 		return HeaderSize + 35
 	case Register:
-		return HeaderSize + 35 + crypto.Falcon1024PublicKeySize
+		return registrationBodySize(role)
 	case Assign:
 		return HeaderSize + 32
 	case Freeze:

@@ -66,7 +66,7 @@ The native dispatcher now verifies current PQ consent, public holdings, fees and
 proofs before child-COW application of holdings, supply, markers and outputs.
 [Storage obligations](NATIVE_STORAGE.md) and proof-count reservations share rollback.
 The public planning/verifying helpers alone still grant no transaction authority.
-Native inner transactions fail. NAPL1 routes separately; viewing/spending registration, other modes,
+Native inner transactions fail. NAPL1 routes separately; viewing registration, other modes,
 REST/SDK/wallet and real-node scenarios remain pending. Flags remain false,
 catalogs empty and execution/storage parameters zero.
 

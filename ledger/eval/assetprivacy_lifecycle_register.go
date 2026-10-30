@@ -26,7 +26,7 @@ import (
 )
 
 // Current account PQ consent and the new key's possession are separate checks.
-func (cs *roundCowState) registerAssetPrivacyLifecycle(body lifecyclebody.Body, binding [64]byte, framed []byte) error {
+func (cs *roundCowState) registerAssetPrivacyAdmin(body lifecyclebody.Body, binding [64]byte, framed []byte) error {
 	if !cs.proto.PQSchemeEnabled(protocol.PQSchemeFalcon1024) {
 		return crypto.ErrPQSchemeNotEnabled
 	}

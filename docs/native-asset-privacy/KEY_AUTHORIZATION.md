@@ -49,7 +49,7 @@ storage funding; these internal methods are not RPC authorization boundaries.
 role/account, expected epoch and current policy/suite. Typed NAPR Falcon1024
 VerifyBytes precedes writes; one work unit/full proof and byte fees are charged.
 Registration changes role history/root, never AuthAddr or the account’s ASA powers.
-Viewing/spending roles still reject pending matching possession relations.
+[RecipientSpend possession](OWNER_REGISTRATION.md) now exists; viewing roles still reject.
 
 `AssetPrivacyKeyAuthorizationRoot` returns `keyauth.Root { Digest }` and count
 from current group-local state. This struct requires explicit unwrapping at the

@@ -8,7 +8,7 @@ membership remain required separate proofs in the complete native bundle.
 
 ## Native layout and public values
 
-This is artifact layout kind3 in NAPK version2. Its trusted schedule has1024 rows,
+This is artifact layout kind3 in NAPK version3. Its trusted schedule has1024 rows,
 7641 main columns and8 preprocessing columns, with both next-row openings. Two
 512-row NoteCommitmentAir frames reuse a7350-column workspace after291 globals.
 The constructor checks that the actual child width equals that fixed width.

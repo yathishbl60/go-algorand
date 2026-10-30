@@ -21,6 +21,7 @@ package verify
 import (
 	"github.com/algorand/go-algorand/config"
 	"github.com/algorand/go-algorand/data/transactions"
+	"github.com/algorand/go-algorand/internal/assetprivacy/keys"
 	"github.com/algorand/go-algorand/internal/assetprivacy/lifecyclebody"
 	"github.com/algorand/go-algorand/internal/assetprivacy/proofbridge"
 	"github.com/algorand/go-algorand/internal/assetprivacy/witness"
@@ -32,7 +33,7 @@ func checkNativePrivacyBinding(group []transactions.SignedTxn, index int, limits
 		return err
 	}
 	if lifecyclebody.IsLifecycle(group[index].Txn.NativeAssetPrivacy) {
-		return checkNativePrivacyLifecycleScheme(&group[index], proto)
+		return checkNativePrivacyLifecycleBinding(group[index], digest, suite, limits, proto)
 	}
 	if uint64(len(group[index].NativeAssetPrivacyProof)) > uint64(proto.MaxTxnBytesPerBlock) {
 		return errNativePrivacyWitness
@@ -40,4 +41,19 @@ func checkNativePrivacyBinding(group []transactions.SignedTxn, index int, limits
 	cap := min(limits.MaxBundleBytes, limits.MaxAllocationBytes)
 	return witness.Check(group[index].NativeAssetPrivacyProof, witness.Binding{Profile: suite, Statement: digest},
 		witness.Limits{MaxProofBytes: cap})
+}
+
+func checkNativePrivacyLifecycleBinding(tx transactions.SignedTxn, digest, suite [64]byte, limits proofbridge.Limits, proto config.ConsensusParams) error {
+	if err := checkNativePrivacyLifecycleScheme(&tx, proto); err != nil {
+		return err
+	}
+	body, err := lifecyclebody.Decode(tx.Txn.NativeAssetPrivacy)
+	if err != nil {
+		return err
+	}
+	if body.Operation != lifecyclebody.Register || body.Role != keys.RecipientSpend {
+		return nil
+	}
+	cap := min(limits.MaxBundleBytes, limits.MaxAllocationBytes)
+	return witness.Check(tx.NativeAssetPrivacyProof, witness.Binding{Profile: suite, Statement: digest}, witness.Limits{MaxProofBytes: cap})
 }

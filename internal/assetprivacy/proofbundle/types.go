@@ -42,17 +42,18 @@ const starkHeader = 73
 type Kind byte
 
 const (
-	Transfer          Kind = 1
-	Unshield          Kind = 2
-	ShieldKind        Kind = 3
-	PartialPrivate    Kind = 4
-	FullPrivate       Kind = 5
-	PartialPublic     Kind = 6
-	FullPublic        Kind = 7
-	Recipient         Kind = 17
-	Disclosure        Kind = 18
-	RetainedRecipient Kind = 19
-	RecoveryRecipient Kind = 20
+	Transfer                       Kind = 1
+	Unshield                       Kind = 2
+	ShieldKind                     Kind = 3
+	PartialPrivate                 Kind = 4
+	FullPrivate                    Kind = 5
+	PartialPublic                  Kind = 6
+	FullPublic                     Kind = 7
+	Recipient                      Kind = 17
+	Disclosure                     Kind = 18
+	RetainedRecipient              Kind = 19
+	RecoveryRecipient              Kind = 20
+	RecipientSpendRegistrationKind Kind = 21
 )
 
 // Slot is an immutable expected descriptor and public vector, selected by a plan.

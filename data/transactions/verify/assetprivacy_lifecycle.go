@@ -21,6 +21,7 @@ package verify
 import (
 	"github.com/algorand/go-algorand/config"
 	"github.com/algorand/go-algorand/data/transactions"
+	"github.com/algorand/go-algorand/internal/assetprivacy/keys"
 	"github.com/algorand/go-algorand/internal/assetprivacy/lifecyclebody"
 	"github.com/algorand/go-algorand/internal/assetprivacy/nativebody"
 	"github.com/algorand/go-algorand/internal/assetprivacy/registrationproof"
@@ -50,7 +51,13 @@ func nativePrivacyLifecycleSuite(tx *transactions.SignedTxn) ([64]byte, error) {
 // Framing is stateless admission; only ledger execution verifies possession.
 func nativePrivacyLifecycleWitness(tx *transactions.SignedTxn, body lifecyclebody.Body) error {
 	if body.Operation == lifecyclebody.Register {
-		return registrationproof.Check(tx.NativeAssetPrivacyProof)
+		if body.Role != keys.RecipientSpend {
+			return registrationproof.Check(tx.NativeAssetPrivacyProof)
+		}
+		if len(tx.NativeAssetPrivacyProof) == 0 {
+			return errNativePrivacyWitness
+		}
+		return nil
 	}
 	if len(tx.NativeAssetPrivacyProof) != 0 {
 		return errNativePrivacyWitness

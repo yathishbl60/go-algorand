@@ -3,6 +3,7 @@
 
 use super::super::shape::Shape;
 use super::Layout;
+use crate::owner_registration_air as own;
 use crate::{
     authorized_disclosure_air as ad, authorized_recipient_air as ar, recovery_group_air as rg,
     recovery_recipient_air as rc, retained_recipient_air as rr, shield_group_air as sh,
@@ -14,6 +15,7 @@ impl Layout {
         match self {
             Self::Transfer | Self::Unshield => sg::ROWS,
             Self::Shield => sh::ROWS,
+            Self::OwnerRegistration => own::ROWS,
             Self::PartialPrivate | Self::FullPrivate | Self::PartialPublic | Self::FullPublic => {
                 rg::ROWS
             }
@@ -24,10 +26,11 @@ impl Layout {
         }
     }
 
-    pub(super) fn shape(self) -> Shape {
-        let (width, preprocessed) = match self {
+    fn dimensions(self) -> (usize, usize) {
+        match self {
             Self::Transfer | Self::Unshield => (sg::WIDTH, sg::PREPROCESSED),
             Self::Shield => (sh::WIDTH, sh::PREPROCESSED),
+            Self::OwnerRegistration => (own::WIDTH, own::PREPROCESSED),
             Self::PartialPrivate | Self::FullPrivate | Self::PartialPublic | Self::FullPublic => {
                 (rg::WIDTH, rg::PREPROCESSED)
             }
@@ -35,7 +38,11 @@ impl Layout {
             Self::Disclosure => (ad::WIDTH, ad::PREPROCESSED),
             Self::Retained => (rr::WIDTH, rr::PREPROCESSED),
             Self::Recovered => (rc::WIDTH, rc::PREPROCESSED),
-        };
+        }
+    }
+
+    pub(super) fn shape(self) -> Shape {
+        let (width, preprocessed) = self.dimensions();
         Shape {
             width,
             preprocessed,
@@ -50,6 +57,7 @@ impl Layout {
             Self::Transfer => sg::TRANSFER_PUBLIC_VALUES,
             Self::Unshield => sg::UNSHIELD_PUBLIC_VALUES,
             Self::Shield => sh::PUBLIC_VALUES,
+            Self::OwnerRegistration => own::PUBLIC_VALUES,
             Self::PartialPrivate => 192,
             Self::FullPrivate => 160,
             Self::PartialPublic => 164,

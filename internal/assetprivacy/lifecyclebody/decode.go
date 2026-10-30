@@ -29,11 +29,11 @@ func Decode(encoded []byte) (Body, error) {
 	if len(encoded) < HeaderSize || string(encoded[:5]) != "NAPL\x01" {
 		return Body{}, ErrEncoding
 	}
-	operation := Kind(encoded[5])
-	if operation.encodedSize() == 0 {
-		return Body{}, ErrOperation
+	size, err := encodedBodySize(encoded, Kind(encoded[5]))
+	if err != nil {
+		return Body{}, err
 	}
-	if len(encoded) != operation.encodedSize() {
+	if len(encoded) != size {
 		return Body{}, ErrEncoding
 	}
 	body := readHeader(encoded)

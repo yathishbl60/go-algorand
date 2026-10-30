@@ -90,8 +90,8 @@ unresolved; configuration alone cannot establish practical feasibility.
 The dispatcher now checks current PQ consent and proofs, applies public conversion
 and native state atomically, and meters creator storage in one child COW. Native
 inner/admin operations requiring independent PQ consent fail. NAPL adoption,
-assignment, freeze and admin possession registration route atomically; viewing/spending
-registration, shield, other modes, AVM/API/SDK/wallet
+assignment, freeze, admin/owner registration and shield route atomically; viewing
+registration, other modes, AVM/API/SDK/wallet
 and six real-node scenarios remain incomplete. See [execution](NATIVE_EXECUTION.md).
 
 Tests, codec round trips, vectors, proofs, setup, node execution and performance

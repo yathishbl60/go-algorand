@@ -22,8 +22,8 @@ package artifactregistry
 
 import "errors"
 
-const EncodedSize = 1036
-const EntryCount = 11
+const EncodedSize = 1118
+const EntryCount = 12
 const headerSize = 134
 const entrySize = 82
 
@@ -54,6 +54,7 @@ const (
 	Disclosure        Kind = 18
 	RetainedRecipient Kind = 19
 	RecoveryRecipient Kind = 20
+	OwnerRegistration Kind = 21
 )
 
 // Entry contains canonical dimensions and eight raw SHA3 root words, not field cells.

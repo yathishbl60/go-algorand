@@ -64,20 +64,20 @@ Native `OpenAssetPrivacyKeys` derives the authoritative policy identity.
 `PutAssetPrivacyKey` additionally checks the table's native eligibility rules.
 Internal callers must verify complete account authorization and role-appropriate
 possession, suite, fees and storage funding. [NAPL admin registration](../../../docs/native-asset-privacy/LIFECYCLE_INGRESS.md)
-now accepts roles5..7 only, with Sender equal registered account/current ASA role,
+accepts admin roles5..7, with Sender equal registered account/current ASA role,
 current off-curve PQ consent and separately verified new-key Falcon1024 possession.
 Expected epoch and current policy/suite bind the mutation; Created is ledger-derived.
 [NAPR](../registrationproof/README.md) signs the complete final group and key bytes.
 It updates history/pointer/current root atomically and consumes one coarse work
 unit plus proof/byte fees and creator storage. It never rekeys AuthAddr or creates
 new ASA powers. The Falcon1024 scheme must be enabled; no Rust artifact is read.
-Recipient/viewing/spending roles remain rejected until their possession relations
-exist. Auditor/controller viewing accounts derive from authenticated prospective
+RecipientSpend now verifies its owner-secret NAPW proof and reconciles eligibility.
+Viewing roles still reject. Auditor/controller targets derive from authenticated
 [assignments](../disclosure/README.md), including retained viewing after relinquishment.
 
 Admin possession verification source now exists; no signatures, key generation,
 tests, possession proofs or node runs occurred. Tagged builds/vet and authored
-limits passed. Complete lifecycle, recipient registration and runtime evidence remain.
+limits passed. Viewing registration, complete lifecycle and runtime evidence remain.
 
 Native key reads expose a view without Put; writes use PutAssetPrivacyKey.
 Native key writes now atomically update the separate [current-key registry](../keyauth/README.md)

@@ -20,7 +20,7 @@ package artifactregistry
 
 import "crypto/sha3"
 
-const digestDomain = "Algorand/AssetPrivacy/Candidate1/ArtifactRegistryV2/"
+const digestDomain = "Algorand/AssetPrivacy/Candidate1/ArtifactRegistryV3/"
 
 // Digest is a bounded integrity helper, not validation, provenance or approval.
 // Only Load checks the independent pins and complete native layout contract.

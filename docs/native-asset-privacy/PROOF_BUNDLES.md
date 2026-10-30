@@ -29,6 +29,7 @@ count is seven, including the main proof. Current supported main relations are:
 | Full private recovery | 1 | recovered receipt 0 |
 | Partial public recovery | 1 | original-owner remainder 0 |
 | Full public recovery | 0 | none |
+| Owner registration21 | 0 | owner-secret possession; exactly one main slot |
 
 Shield3 now has native zero-input/two-output plans; other arities remain pending.
 Zero-knowledge ownership/eligibility/conservation constraints and issuer authority

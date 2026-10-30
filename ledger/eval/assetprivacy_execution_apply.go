@@ -50,7 +50,7 @@ func (eval *BlockEvaluator) executeNativeAssetPrivacy(cs *roundCowState, params 
 		return err
 	}
 	if lifecyclebody.IsLifecycle(group[gi].NativeAssetPrivacy) {
-		return cs.executeAssetPrivacyLifecycle(group, uint32(gi), params.TxnGroup[gi].NativeAssetPrivacyProof)
+		return eval.executeAssetPrivacyLifecycle(cs, group, uint32(gi), params.TxnGroup[gi].NativeAssetPrivacyProof)
 	}
 	return eval.executeAssetPrivacyValue(cs, group, uint32(gi), params.TxnGroup[gi].NativeAssetPrivacyProof)
 }

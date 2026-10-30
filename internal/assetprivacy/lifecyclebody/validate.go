@@ -21,7 +21,7 @@ package lifecyclebody
 import "github.com/algorand/go-algorand/internal/assetprivacy/policy"
 
 func (b Body) Validate() error {
-	if b.Operation.encodedSize() == 0 {
+	if b.Operation.encodedSize(b.Role) == 0 {
 		return ErrOperation
 	}
 	if b.Asset == 0 || b.Suite == [64]byte{} {

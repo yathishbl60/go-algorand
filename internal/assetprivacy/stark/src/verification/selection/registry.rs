@@ -6,8 +6,8 @@ use super::{Entry, layout::ORDER};
 
 pub(super) const HEADER: usize = 134;
 pub(super) const RECORD: usize = 82;
-pub(super) const SIZE: usize = HEADER + RECORD * 11;
-pub(super) const MAGIC: [u8; 5] = *b"NAPK\x02";
+pub(super) const SIZE: usize = HEADER + RECORD * 12;
+pub(super) const MAGIC: [u8; 5] = *b"NAPK\x03";
 
 /// Independent approved inputs. Never obtain these values from the artifact/witness.
 #[derive(Clone, Copy)]
@@ -61,7 +61,7 @@ fn preflight(bytes: &[u8], pin: Pin) -> Result<(), Error> {
     if bytes[..5] != MAGIC
         || bytes[5..69] != pin.profile
         || bytes[69..133] != pin.implementation
-        || bytes[133] != 11
+        || bytes[133] != 12
         || super::registry_digest::registry_digest(bytes)? != pin.digest
     {
         return Err(Error::Artifact);

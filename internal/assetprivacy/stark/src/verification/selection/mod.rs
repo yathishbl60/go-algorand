@@ -10,6 +10,7 @@ mod entry;
 mod layout;
 mod main;
 mod output;
+mod owner_registration;
 mod prepared;
 mod reference;
 mod registry;

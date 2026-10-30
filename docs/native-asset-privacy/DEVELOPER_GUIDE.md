@@ -81,7 +81,7 @@ writable `GOCACHE` or Cargo target/cache directory when using a sandbox.
 7. Prove locally, then put its bounded witness outside the transaction bodies.
 
 Confirm NAPL adoption before deriving its inclusion-round policy identity. Steps6–7
-have no supported end-to-end builder; viewing/spending possession, approved artifacts,
+have no supported end-to-end builder; viewing possession, approved artifacts,
 shield and runtime evidence remain absent. Spend/Recovery select current catalog pins.
 
 The [native evaluator](NATIVE_EXECUTION.md) checks current PQ authorization, roots,

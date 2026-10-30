@@ -37,6 +37,7 @@ func layouts() [EntryCount]layout {
 		{Disclosure, 65536, 23973, 2067, 1132},
 		{RetainedRecipient, 65536, 24229, 2067, 1100},
 		{RecoveryRecipient, 65536, 24869, 2071, 1100},
+		{OwnerRegistration, 512, 3540, 4, 64},
 	}
 }
 
