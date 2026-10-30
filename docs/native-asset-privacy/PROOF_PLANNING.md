@@ -75,7 +75,7 @@ Auditor assignment changes and key rotations are prospective. Controller viewing
 assignment follows current nonzero ASA clawback and is retained after relinquished
 power, so immutable mandatory disclosure remains possible without restoring that
 power. A changed nonzero clawback with an unsynchronized assignment fails closed.
-Full configuration integration must keep this transition atomic before activation.
+[ASA configuration synchronization](AUTHORITY_SYNCHRONIZATION.md) now makes this transition atomic in disabled source integration.
 
 Plans and proof-cache entries must expire on relevant preceding group changes.
 Future cache keys must cover trusted suite/artifact, complete vectors, role,

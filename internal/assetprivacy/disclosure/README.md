@@ -2,7 +2,7 @@
 
 Opt-in Go package `disclosure` persists the current auditor/controller viewing
 accounts for an immutable network, asset and policy identity. It does not verify
-manager signatures or grant issuer powers. Native transaction ingress is pending.
+manager signatures or grant issuer powers. Disabled native transaction ingress exists.
 
 `Open(KV,Domain,Flags)` validates the authoritative domain and required roles.
 `Current(round)` rejects malformed state, mismatched domains/flags and future
@@ -31,10 +31,11 @@ Only the internal mutator opens a writable store; no public writable view exists
 
 `GetAssetPrivacyDisclosureTargets` fails if required assignments are missing.
 If the ASA's current nonzero clawback differs from the assigned controller,
-reads fail closed until an authorized manager synchronizes the assignment.
-This includes a configuration change earlier in the same group. Removing the
-manager before a required synchronization can make private outputs unavailable;
-configuration transaction integration must address that lifecycle atomically.
+reads fail closed. The central native ASA parameter wrapper now synchronizes
+required controller changes atomically, retaining the auditor and incrementing
+the assignment epoch. Clawback relinquishment retains the prior viewing target;
+manager relinquishment in the same configuration does not orphan synchronization.
+Changed final authorities require current role keys before atomic-group commit.
 
 AuditorView and ControllerView registration must match these assigned accounts.
 A retained controller may rotate its encryption-only view key after relinquishing
@@ -44,6 +45,6 @@ No disclosure assignment or viewing-key membership grants spending authority.
 
 [Authorized disclosure constraints](../stark/src/authorized_disclosure_air/README.md)
 bind the exact role/account/current key root to a complete encrypted opening and
-its public note commitment. Native proof verification and transaction execution
-remain unfinished. Builds and source checks provide no runtime/security evidence;
+its public note commitment. Native source routing exists; full lifecycle/runtime
+delivery remains unfinished. Builds and source checks provide no runtime/security evidence;
 no tests, traces, vectors, constraint evaluations or proofs have run.

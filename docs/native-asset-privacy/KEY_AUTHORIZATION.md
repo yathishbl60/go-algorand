@@ -50,6 +50,7 @@ role/account, expected epoch and current policy/suite. Typed NAPR Falcon1024
 VerifyBytes precedes writes; one work unit/full proof and byte fees are charged.
 Registration changes role history/root, never AuthAddr or the account’s ASA powers.
 [RecipientSpend possession](OWNER_REGISTRATION.md) and [viewing possession](VIEWING_REGISTRATION.md) have separate native proof routing.
+[ASA authority synchronization](AUTHORITY_SYNCHRONIZATION.md) retains old records while checking changed final principals' current role keys and root membership before group commit.
 
 `AssetPrivacyKeyAuthorizationRoot` returns `keyauth.Root { Digest }` and count
 from current group-local state. This struct requires explicit unwrapping at the

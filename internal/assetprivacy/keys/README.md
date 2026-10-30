@@ -12,7 +12,7 @@ prove account control, or grant issuer powers. Native helpers require the disabl
 | RecipientView | ML-KEM768 public key | Nonzero account; caller must authorize |
 | RecipientSpend | Nonzero 64-byte note owner commitment | Nonzero account; caller must authorize |
 | AuditorView | ML-KEM768 public key | Auditor disclosure declared |
-| ControllerView | ML-KEM768 public key | Controller disclosure; current ASA clawback account |
+| ControllerView | ML-KEM768 public key | Required assigned controller, retained after clawback relinquishment |
 | FreezeAuthority | Falcon1024 public key | Retained freeze capability; current ASA freeze account |
 | ClawbackAuthority | Falcon1024 public key | Retained clawback capability; current ASA clawback account |
 | ManagerAuthority | Falcon1024 public key | Current nonzero ASA manager account |
@@ -74,6 +74,7 @@ new ASA powers. The Falcon1024 scheme must be enabled; no Rust artifact is read.
 RecipientSpend now verifies its owner-secret NAPW proof and reconciles eligibility.
 Viewing roles use separate kind22 seed possession. Auditor/controller targets derive from authenticated
 [assignments](../disclosure/README.md), including retained viewing after relinquishment.
+[ASA configuration](../../../docs/native-asset-privacy/AUTHORITY_SYNCHRONIZATION.md) retains key history and current leaves; changed final authorities need their own current role keys/root membership before group commit.
 
 Admin possession verification source now exists; no signatures, key generation,
 tests, possession proofs or node runs occurred. Tagged builds/vet and authored

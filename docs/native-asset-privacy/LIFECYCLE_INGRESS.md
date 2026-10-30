@@ -90,7 +90,7 @@ It reserves one work unit and atomically updates key/eligibility state only afte
 real verification. [Viewing registration](VIEWING_REGISTRATION.md) uses kind22 proof of a private seed for the exact ML-KEM key.
 Syntax, encapsulation or membership cannot replace that possession relation.
 
-Require all mandatory current keys before private value ingress. [Shield3](NATIVE_SHIELD.md) is source-wired; complete
-new-ASA/private-only lifecycle, authority synchronization, cleanup/refunds, APIs,
+[Ordinary ASA configuration](AUTHORITY_SYNCHRONIZATION.md) now synchronizes policy/controller state and checks changed final authorities' keys before group commit.
+Require all mandatory keys before private value ingress. Complete new-ASA/private-only lifecycle, cleanup/refunds, APIs,
 SDK/wallet, all modes/recovery, restoration/upgrades and six real-node scenarios.
 Admin registration alone does not establish end-to-end delivery or crypto security.

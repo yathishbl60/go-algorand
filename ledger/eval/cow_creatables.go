@@ -167,7 +167,7 @@ func (cs *roundCowState) putAssetHolding(addr basics.Address, aidx basics.AssetI
 }
 
 func (cs *roundCowState) PutAssetParams(addr basics.Address, aidx basics.AssetIndex, data basics.AssetParams) error {
-	return cs.putAssetParams(addr, aidx, ledgercore.AssetParamsDelta{Params: &data})
+	return cs.putAssetParamsWithPrivacy(addr, aidx, data)
 }
 
 func (cs *roundCowState) putAssetParams(addr basics.Address, aidx basics.AssetIndex, data ledgercore.AssetParamsDelta) error {

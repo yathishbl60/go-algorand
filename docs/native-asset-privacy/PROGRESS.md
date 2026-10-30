@@ -24,7 +24,7 @@ completion checklist. The full native feature remains in progress.
    root history and atomic encrypted output streams. Public holding changes
    preserve freeze state and atomically publish current eligibility. Native destruction
    stays blocked until cleanup exists. [NAPL1 lifecycle](LIFECYCLE_INGRESS.md)
-   adopts policy/assignments, controls native freeze and verifies admin Falcon, owner and viewing possession; approved artifacts and calibrated pricing remain.
+   adopts policy/assignments, controls native freeze and verifies all role possession. [ASA authority synchronization](AUTHORITY_SYNCHRONIZATION.md) couples configuration and final key readiness; artifacts/pricing remain.
 3. Local canonical 512-byte notes, SHA3 commitments/nullifiers/ownership, fixed
    ML-KEM/HKDF/AES-GCM envelopes, role/epoch output recovery and bounded key
    admission. Wallet scanning, SDK integration and runtime acceptance remain.
@@ -90,7 +90,7 @@ independent cryptographic security review has been supplied or completed.
 
 ## Next work
 
-Validate [viewing registration](VIEWING_REGISTRATION.md) with approved artifacts when authorized; complete other modes, authority synchronization and cleanup.
+Validate [viewing registration](VIEWING_REGISTRATION.md) and authority synchronization when authorized; complete other modes, creation and cleanup.
 Populate/approve catalog entries and actual artifacts; preserve live-asset references.
 Source execution now routes through the bridge with body/current-authority checks.
 Establish resource feasibility, calibrated work limits

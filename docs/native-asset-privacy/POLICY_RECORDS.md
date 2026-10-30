@@ -1,6 +1,6 @@
 # Candidate native policy records
 
-Updated 2026-10-29. Policy state and NAPL1 adoption now use native COW storage
+Updated 2026-10-30. Policy state and NAPL1 adoption now use native COW storage
 behind the disabled feature flag. No runtime adoption or public SDK has been demonstrated.
 
 ## Identity and canonical encoding
@@ -36,9 +36,10 @@ This method cannot grant powers to an immutable legacy asset.
 `UpdateAssetPrivacyPolicy` requires the current manager address, preserves the
 immutable identity fields and permits only capability relinquishment. Resulting
 policy capabilities must match the current ASA freeze/clawback addresses.
-Within the future atomic administrative action, remove freeze/clawback keys
-before updating the policy, and clear the manager afterward if relinquishing it.
-All intermediate COW changes must commit or roll back together.
+The central parameter wrapper now [synchronizes ordinary ASA configuration](AUTHORITY_SYNCHRONIZATION.md)
+with current capability bits and required controller assignments atomically,
+including manager relinquishment. Historical key material remains; current ASA
+authority and assignments determine its permitted use. Policy identity stays fixed.
 
 The helpers receive a manager identity, not signature evidence. NAPL1 adoption now
 checks current PQ authority, absent supply/policy, suite and group, then writes the
@@ -47,7 +48,7 @@ accepted. Supplying the manager address alone grants no authorization.
 
 Private-only creation needs a distinct authenticated creation integration; the
 existing-asset adoption helper intentionally retains public mode. [Key epochs and current-record roots](KEY_AUTHORIZATION.md) now persist separately;
-issuer PQ/adoption and admin Falcon possession exist; viewing registration, creation and full administration remain unfinished.
+issuer PQ/adoption and all role possession paths exist; creation and complete lifecycle remain unfinished.
 Live assets require [suite/reference retention across upgrades](NATIVE_SUITE_CATALOG.md);
 removing a suite can block reads and holding synchronization, with no implicit migration.
 

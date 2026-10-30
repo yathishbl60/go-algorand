@@ -1185,6 +1185,9 @@ func (eval *BlockEvaluator) TransactionGroup(txgroup ...transactions.SignedTxnWi
 	if err := CheckGroupFees(feesPaid, usage, eval.proto.MinFee()); err != nil {
 		return err
 	}
+	if err = eval.checkAssetPrivacyAuthorityGroup(cow, txgroup); err != nil {
+		return err
+	}
 
 	// committing is set before the first mutation that outlives this call (the Payset append)
 	// and stays set: from here on -- including the deferred tracer hook, which runs after a
