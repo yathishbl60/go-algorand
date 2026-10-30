@@ -27,7 +27,7 @@ import (
 )
 
 func (eval *BlockEvaluator) registerAssetPrivacyLifecycle(cs *roundCowState, body lifecyclebody.Body, binding [64]byte, framed []byte) error {
-	if body.Role != keys.RecipientSpend {
+	if body.Role.UsesFalconPossession() {
 		return cs.registerAssetPrivacyAdmin(body, binding, framed)
 	}
 	record, err := cs.prepareAssetPrivacyRegistration(body)
@@ -37,14 +37,14 @@ func (eval *BlockEvaluator) registerAssetPrivacyLifecycle(cs *roundCowState, bod
 	if err = cs.reserveAssetPrivacyProofChecks(1); err != nil {
 		return err
 	}
-	if err = eval.verifyAssetPrivacyOwner(cs, record, body.Suite, binding, framed); err != nil {
+	if err = eval.verifyAssetPrivacyRegistration(cs, record, body.Suite, binding, framed); err != nil {
 		return err
 	}
 	return cs.PutAssetPrivacyKey(record)
 }
 
-func (eval *BlockEvaluator) verifyAssetPrivacyOwner(cs *roundCowState, record keys.Record, suite, group [64]byte, framed []byte) error {
-	bundle, context, err := assetPrivacyOwnerBundle(record, suite, group)
+func (eval *BlockEvaluator) verifyAssetPrivacyRegistration(cs *roundCowState, record keys.Record, suite, group [64]byte, framed []byte) error {
+	bundle, context, err := assetPrivacyRegistrationBundle(record, suite, group)
 	if err != nil {
 		return err
 	}

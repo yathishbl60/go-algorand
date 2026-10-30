@@ -6,8 +6,8 @@ traces, constraints or proofs have been executed/generated for this candidate.
 
 ## Public schedule keys and exact relations
 
-Prepared::owner_registration, shield, transfer, unshield, recovery and output factories
-construct eight AIR types across twelve kinds:1,2,3,4,5,6,7,17,18,19,20,21. There
+Prepared::viewing_registration, owner_registration, shield, transfer, unshield, recovery and output factories
+construct nine AIR types across thirteen kinds:1..7,17..22. There
 are no public arbitrary AIR/relation/dimension/key override constructors. Exact
 operation, amounts/authority and envelope context enter the relation identity.
 
@@ -21,6 +21,7 @@ layout-kind byte, argument lengthu32LE and canonical public argument bytes:
 | unshield | domain104, creditBE8 |
 | shield | domain104, debitBE8; staged ShieldGroupAir |
 | owner_registration | domain104; owner/group are64 public cells |
+| viewing_registration | domain104, exact publicKey1184; key/group are1216 public cells |
 | recovery | domain104, creditBE8 (zero for private variants), current authority32 |
 | recipient/retained/recovered | complete public envelope context248 |
 | disclosure | public envelope context248, assigned authority32 |
@@ -45,7 +46,7 @@ for public preprocessing only. Hiding Merkle leaves still have five salts; cap
 height zero does not remove them. Private proofs use fresh OS-seeded prover_config;
 the deterministic configuration is private and never returned by setup.
 
-Gather all twelve Entries in canonical order, then encode_registry(profile,entries).
+Gather all thirteen Entries in canonical order, then encode_registry(profile,entries).
 The encoder writes the current build fingerprint as the new registry reference.
 The resulting file/digest is not approval. Independently approve profile,
 reference and full registry digest through [consensus metadata](NATIVE_SUITE_CATALOG.md).
@@ -54,8 +55,8 @@ publishing keys. Registry::bind(prepared) selects the expected layout and derive
 its artifact identity using that same reference. Registry::check_setup checks
 width/degree/root against a pinned key, not complete reusable prover data.
 
-The1118-byte NAPK version3 format/dimensions are in the [Go registry contract](../../internal/assetprivacy/artifactregistry/README.md).
-Its digest hashes ASCII Algorand/AssetPrivacy/Candidate1/ArtifactRegistryV3/ followed
+The1200-byte NAPK version4 format/dimensions are in the [Go registry contract](../../internal/assetprivacy/artifactregistry/README.md).
+Its digest hashes ASCII Algorand/AssetPrivacy/Candidate1/ArtifactRegistryV4/ followed
 by the entire file. Root words allow every64-byte value; approval/provenance comes
 from independent pins. Cross-language conformance remains unverified.
 
@@ -93,7 +94,7 @@ Native plans retain value-copy Domain/Suite/Group and copied statements, includi
 zero-output operations. Authoritative VerifyAssetPrivacySpend/Recovery rebuild
 those plans and select current consensus pins; generic caller-supplied Verifier
 helpers do not establish this provenance. All current catalogs remain empty.
-NAPK3/NAPV3 supersede unapproved versions1/2; no historical approved references exist.
+NAPK4/NAPV4 supersede unapproved versions1..3; no historical approved references exist.
 Approved artifacts, practical work pricing and runtime execution remain missing. No build/source result establishes proof correctness,
 privacy, interoperability or practical resource use. External specs/SDK integration
 is still required; sibling checkouts are absent.

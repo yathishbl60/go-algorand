@@ -16,6 +16,9 @@ impl Target {
         match slot.layout {
             Layout::Shield => super::shield::build(context, registry, slot),
             Layout::OwnerRegistration => super::owner_registration::build(context, registry),
+            Layout::ViewingRegistration => {
+                super::viewing_registration::build(context, registry, slot)
+            }
             Layout::Transfer | Layout::Unshield => super::main::spend(context, registry, slot),
             Layout::PartialPrivate
             | Layout::FullPrivate

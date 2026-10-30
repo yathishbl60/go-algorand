@@ -1,8 +1,10 @@
 # Private key-generation seed/noise and forward transforms
 
 MlKemKeygenNttAir joins the seed/noise composition to six forward ML-KEM NTTs.
-It has no public values or selected native verifier layout. Viewing registration
-still rejects; matrix arithmetic and exact public-key matching remain required.
+It has no public values or selected native verifier layout. Its enclosing
+[key-generation relation](../mlkem_keygen_air/README.md) now adds public matrix
+arithmetic and exact public-key matching; native viewing registration now selects
+that complete relation as kind22 in disabled source integration.
 
 ## Aliased roots and exact bindings
 
@@ -39,6 +41,11 @@ pin expected child widths/schedules. `wires` returns private seed/rho/sigma, raw
 and transformed slices only for a correctly sized row; nothing is serialized.
 `trace(seed)` delegates to the bounded crate-private direct writer.
 
+The enclosing relation can use `write_frame` and `frame_preprocessed_trace` for
+exactly10240 rows. This omits only the standalone6144-row inactive tail; it keeps
+the final NTT's last row and all required transitions. The standalone16384-row
+trace and preprocessing interfaces retain their full padding.
+
 The writer validates its full rectangle before writes, clears that rectangle,
 writes the seed/noise child directly, then uses its actual root coefficients as
 transform inputs. It writes each transform directly into shared scratch, records
@@ -46,9 +53,9 @@ its outputs and publishes constant roots. Cells outside the rectangle remain
 unchanged. No second full child main matrix is needed. No writer has been run.
 
 The [complete possession contract](../../../../../docs/native-asset-privacy/KEYGEN_POSSESSION.md)
-still requires the rho-derived matrix, matrix-vector product plus error, canonical
-public-key bytes, finalized registration context and real native verification.
-No artifact entry, accepted viewing-key registration or success callback was added.
+now has the enclosing matrix/product/error and canonical public-key constraints.
+Finalized native context and selected kind22 verification now route through the
+real bridge. No approved artifact or accepted viewing registration is demonstrated.
 
 Only builds/static checks have run. No tests, vectors, traces, constraint
 executions, setup, key pairs, proofs or node scenarios have been generated.

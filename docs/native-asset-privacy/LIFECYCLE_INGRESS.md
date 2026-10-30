@@ -1,8 +1,8 @@
 # Candidate native lifecycle ingress
 
-Updated 2026-10-30. NAPL1 adoption, admin-key registration, disclosure assignment
+Updated 2026-10-30. NAPL1 adoption, key registration, disclosure assignment
 and native freeze have codec, admission and evaluator routing. This is disabled
-source integration. Viewing registration, other modes and full
+source integration. Other modes and full
 native delivery remain outstanding in [the plan](README.md). No tests/proofs ran.
 
 ## Canonical operations
@@ -16,13 +16,13 @@ fields and framing are checked before bounded owned copies. No secret is carried
 | Opcode | Exact body size and tail |
 | --- | --- |
 | 1 Adopt | 185: modes1, capabilities1, disclosures1, auditor32; policy/epoch zero |
-| 2 Register | role1, account32, keyLengthBE2, owner64 (249 total) or Falcon1793 (1978) |
+| 2 Register | role1, account32, keyLengthBE2; owner64 (249), ML-KEM1184 (1369) or Falcon1793 (1978) |
 | 3 Assign | 182: auditor32; controller derived from current ASA state |
 | 4 Freeze | 183: targetAccount32, frozen1 restricted to0/1 |
 
 Adopt validates policy syntax/Public mode and auditor presence iff required.
 Assign/Freeze carry no independent policy override. Register accepts only
-RecipientSpend2 or admin roles5..7; viewing roles1/3/4 still reject.
+RecipientSpend2, viewing roles1/3/4 or admin roles5..7, with distinct possession proofs.
 Registration account must equal outer Sender, and expected epoch must not overflow.
 
 ## Current authority and atomic application
@@ -87,8 +87,8 @@ fees change the signed group. Conservative encoding maxima are needed up front.
 [RecipientSpend registration](OWNER_REGISTRATION.md) now verifies a separate kind21
 NAPW proof of the nonzero owner secret, bound to the exact current body/group.
 It reserves one work unit and atomically updates key/eligibility state only after
-real verification. Viewing roles still reject pending ML-KEM private-key possession.
-Syntax, encapsulation or membership cannot replace that missing relation.
+real verification. [Viewing registration](VIEWING_REGISTRATION.md) uses kind22 proof of a private seed for the exact ML-KEM key.
+Syntax, encapsulation or membership cannot replace that possession relation.
 
 Require all mandatory current keys before private value ingress. [Shield3](NATIVE_SHIELD.md) is source-wired; complete
 new-ASA/private-only lifecycle, authority synchronization, cleanup/refunds, APIs,

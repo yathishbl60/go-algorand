@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
 use super::super::{DecodeLimits, Error, Verifier};
+use crate::mlkem_keygen_air::MlKemKeygenAir;
 use crate::owner_registration_air::OwnerRegistrationAir;
 use crate::{
     authorized_disclosure_air::AuthorizedDisclosureAir,
@@ -14,6 +15,7 @@ use crate::{
 pub(super) enum Target<'a> {
     Shield(&'a Verifier<ShieldGroupAir>),
     OwnerRegistration(&'a Verifier<OwnerRegistrationAir>),
+    ViewingRegistration(&'a Verifier<MlKemKeygenAir>),
     Spend(&'a Verifier<SpendGroupAir>),
     Recovery(&'a Verifier<RecoveryGroupAir>),
     Recipient(&'a Verifier<AuthorizedRecipientAir>),
@@ -27,6 +29,7 @@ impl Target<'_> {
         match self {
             Self::Shield(v) => v.check_header(proof, limits),
             Self::OwnerRegistration(v) => v.check_header(proof, limits),
+            Self::ViewingRegistration(v) => v.check_header(proof, limits),
             Self::Spend(v) => v.check_header(proof, limits),
             Self::Recovery(v) => v.check_header(proof, limits),
             Self::Recipient(v) => v.check_header(proof, limits),
@@ -45,6 +48,7 @@ impl Target<'_> {
         match self {
             Self::Shield(v) => v.verify(proof, values, limits),
             Self::OwnerRegistration(v) => v.verify(proof, values, limits),
+            Self::ViewingRegistration(v) => v.verify(proof, values, limits),
             Self::Spend(v) => v.verify(proof, values, limits),
             Self::Recovery(v) => v.verify(proof, values, limits),
             Self::Recipient(v) => v.verify(proof, values, limits),
@@ -58,38 +62,13 @@ impl Target<'_> {
         match self {
             Self::Shield(v) => v.public_values_len(),
             Self::OwnerRegistration(v) => v.public_values_len(),
+            Self::ViewingRegistration(v) => v.public_values_len(),
             Self::Spend(v) => v.public_values_len(),
             Self::Recovery(v) => v.public_values_len(),
             Self::Recipient(v) => v.public_values_len(),
             Self::Disclosure(v) => v.public_values_len(),
             Self::Retained(v) => v.public_values_len(),
             Self::Recovered(v) => v.public_values_len(),
-        }
-    }
-
-    pub(super) fn profile(&self) -> [u8; 64] {
-        match self {
-            Self::Shield(v) => v.profile_id(),
-            Self::OwnerRegistration(v) => v.profile_id(),
-            Self::Spend(v) => v.profile_id(),
-            Self::Recovery(v) => v.profile_id(),
-            Self::Recipient(v) => v.profile_id(),
-            Self::Disclosure(v) => v.profile_id(),
-            Self::Retained(v) => v.profile_id(),
-            Self::Recovered(v) => v.profile_id(),
-        }
-    }
-
-    pub(super) fn registry(&self) -> [u8; 64] {
-        match self {
-            Self::Shield(v) => v.registry_id(),
-            Self::OwnerRegistration(v) => v.registry_id(),
-            Self::Spend(v) => v.registry_id(),
-            Self::Recovery(v) => v.registry_id(),
-            Self::Recipient(v) => v.registry_id(),
-            Self::Disclosure(v) => v.registry_id(),
-            Self::Retained(v) => v.registry_id(),
-            Self::Recovered(v) => v.registry_id(),
         }
     }
 }

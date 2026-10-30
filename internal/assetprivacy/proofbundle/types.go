@@ -54,6 +54,7 @@ const (
 	RetainedRecipient              Kind = 19
 	RecoveryRecipient              Kind = 20
 	RecipientSpendRegistrationKind Kind = 21
+	ViewingRegistrationKind        Kind = 22
 )
 
 // Slot is an immutable expected descriptor and public vector, selected by a plan.

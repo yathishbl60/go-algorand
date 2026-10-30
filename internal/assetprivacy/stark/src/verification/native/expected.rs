@@ -14,6 +14,7 @@ impl Target {
         match self {
             Self::Shield(v) => Expected::shield(v, values),
             Self::OwnerRegistration(v) => Expected::owner_registration(v, values),
+            Self::ViewingRegistration(v) => Expected::viewing_registration(v, values),
             Self::Spend(v) if slot.layout == Layout::Transfer => Expected::transfer(v, values),
             Self::Spend(v) => Expected::unshield(v, values),
             Self::Recovery(v) => Expected::recovery(recovery(slot.layout)?, v, values),

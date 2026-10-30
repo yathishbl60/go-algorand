@@ -3,7 +3,7 @@
 Updated 2026-10-30. Disabled native persistence, current-record membership,
 recipient envelope bindings and evaluator execution exist. NAPL admin registration
 now verifies separate current PQ consent and new Falcon key possession; viewing/
-spending registration remains incomplete. A registry entry alone grants no authority.
+spending possession source routing also exists. A registry entry alone grants no authority.
 
 ## Current state and rotation
 
@@ -49,7 +49,7 @@ storage funding; these internal methods are not RPC authorization boundaries.
 role/account, expected epoch and current policy/suite. Typed NAPR Falcon1024
 VerifyBytes precedes writes; one work unit/full proof and byte fees are charged.
 Registration changes role history/root, never AuthAddr or the account’s ASA powers.
-[RecipientSpend possession](OWNER_REGISTRATION.md) now exists; viewing roles still reject.
+[RecipientSpend possession](OWNER_REGISTRATION.md) and [viewing possession](VIEWING_REGISTRATION.md) have separate native proof routing.
 
 `AssetPrivacyKeyAuthorizationRoot` returns `keyauth.Root { Digest }` and count
 from current group-local state. This struct requires explicit unwrapping at the

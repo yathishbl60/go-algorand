@@ -4,7 +4,7 @@ Updated 2026-10-30. Shield tag3 now has canonical body, native plans, exact bund
 and Go/Rust verifier source routing. This is inactive source integration, not a
 usable transfer or runtime demonstration. Every consensus flag remains false,
 suite catalogs nil, prices/work capacity zero and approved artifacts absent.
-Viewing-key registration still rejects pending possession relations.
+[Viewing-key registration](VIEWING_REGISTRATION.md) now has separate possession source routing.
 
 ## Body, authority and current state
 
@@ -67,13 +67,13 @@ conservative full signed-byte fee before finalizing the group and proving.
 
 ## Versioned artifact/request boundary
 
-NAPK version3 has twelve canonical82-byte entries and a134-byte header:1118 bytes.
-Order is1,2,3,4,5,6,7,17,18,19,20,21; kind3 pins ShieldGroupAir dimensions above.
-The digest domain is Algorand/AssetPrivacy/Candidate1/ArtifactRegistryV3/.
-NAPV version3 embeds that registry in its1496-byte trusted header; the request
-remains at most15664 bytes. It is internal verifier data, not a peer-selected API.
+NAPK version4 has thirteen canonical82-byte entries and a134-byte header:1200 bytes.
+Order is1..7,17..22; kind3 pins ShieldGroupAir dimensions above.
+The digest domain is Algorand/AssetPrivacy/Candidate1/ArtifactRegistryV4/.
+NAPV version4 embeds that registry in its1578-byte trusted header; the request
+remains at most15746 bytes. It is internal verifier data, not a peer-selected API.
 
-These formats supersede unapproved version1. Old bytes/pins fail closed, with no
+These formats supersede unapproved versions1..3. Old bytes/pins fail closed, with no
 compatibility fallback. There are no approved historical suite references. Future
 live suites/artifacts require explicit retained compatible dispatch; this change
 supplies no production migration or historical acceptance evidence.
@@ -85,6 +85,6 @@ components. Rust workspace feature/default checks, Clippy, release FFI and
 linked algod builds passed. No runtime verifier checks occurred. No tests,
 codec round trips, vectors, traces, setup, proofs, signatures or node runs occurred.
 
-Viewing-key possession registration, approved preprocessing/pins, practical
+Approved preprocessing/pins, practical
 resource feasibility, other modes/arities, complete lifecycle, APIs/SDK/wallet,
 restoration/upgrades and six real-node scenarios remain [delivery gates](END_TO_END_STATUS.md).

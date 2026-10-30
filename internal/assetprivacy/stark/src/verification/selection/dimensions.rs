@@ -3,6 +3,7 @@
 
 use super::super::shape::Shape;
 use super::Layout;
+use crate::mlkem_keygen_air as view;
 use crate::owner_registration_air as own;
 use crate::{
     authorized_disclosure_air as ad, authorized_recipient_air as ar, recovery_group_air as rg,
@@ -16,6 +17,7 @@ impl Layout {
             Self::Transfer | Self::Unshield => sg::ROWS,
             Self::Shield => sh::ROWS,
             Self::OwnerRegistration => own::ROWS,
+            Self::ViewingRegistration => view::ROWS,
             Self::PartialPrivate | Self::FullPrivate | Self::PartialPublic | Self::FullPublic => {
                 rg::ROWS
             }
@@ -31,6 +33,7 @@ impl Layout {
             Self::Transfer | Self::Unshield => (sg::WIDTH, sg::PREPROCESSED),
             Self::Shield => (sh::WIDTH, sh::PREPROCESSED),
             Self::OwnerRegistration => (own::WIDTH, own::PREPROCESSED),
+            Self::ViewingRegistration => (view::WIDTH, view::PREPROCESSED),
             Self::PartialPrivate | Self::FullPrivate | Self::PartialPublic | Self::FullPublic => {
                 (rg::WIDTH, rg::PREPROCESSED)
             }
@@ -58,6 +61,7 @@ impl Layout {
             Self::Unshield => sg::UNSHIELD_PUBLIC_VALUES,
             Self::Shield => sh::PUBLIC_VALUES,
             Self::OwnerRegistration => own::PUBLIC_VALUES,
+            Self::ViewingRegistration => view::PUBLIC_VALUES,
             Self::PartialPrivate => 192,
             Self::FullPrivate => 160,
             Self::PartialPublic => 164,

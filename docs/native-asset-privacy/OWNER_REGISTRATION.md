@@ -3,14 +3,14 @@
 Updated 2026-10-30. NAPL Register now admits RecipientSpend role2 using a separate
 zero-knowledge owner-secret relation. This is disabled source integration; all
 consensus flags remain false and catalogs empty. No proof or node operation ran.
-ML-KEM viewing registration still rejects, so private transfers remain unusable.
+See [viewing registration](VIEWING_REGISTRATION.md) for the separate ML-KEM relation.
 
 ## Exact body and current account consent
 
 The NAPL1 header stays150 bytes. Register2 adds role1, account32, keyLengthBE2 and
 exact role material. RecipientSpend2 uses owner64, totaling249 bytes. Admin roles
 retain their1978-byte Falcon encoding and NAPR possession. Viewing roles1/3/4
-remain unsupported. Unknown roles, bad lengths, zero owners and trailing bytes
+use1369-byte bodies and a separate kind22 proof. Bad lengths, zero owners and trailing bytes
 reject before owned key copying. The body never carries the private secret.
 
 The registered account must equal outer Sender. Actual top-level PQ authorization
@@ -61,8 +61,8 @@ transaction fees. Conservative pricing for a nonempty owner witness alone grants
 no admission: mandatory group checking validates exact NAPW framing and binding.
 Choose a sufficient fee bound before group finalization and proving.
 
-NAPK version3 has12 entries/1118 bytes, appending kind21 after20. NAPV version3
-has a1496-byte header and15664-byte cap, preserving the largest seven-slot value
+NAPK version4 has13 entries/1200 bytes, including kinds21/22. NAPV version4
+has a1578-byte header and15746-byte cap, preserving the largest seven-slot value
 bundle. Unapproved prior formats/pins fail closed; no approved historical reference
 has been added. This is no production migration or artifact approval.
 
@@ -73,5 +73,5 @@ vectors, traces, setup/preprocessing, proofs, signatures, runtime verifier calls
 node scenarios have run. Soundness, witness privacy, practical resources, restart
 and interoperability remain unverified. See [delivery status](END_TO_END_STATUS.md).
 
-Viewing-key private possession, approved artifacts/pins, other modes/arities,
+Approved artifacts/pins, other modes/arities,
 complete lifecycle, APIs, SDK/wallet and all six node scenarios remain required.

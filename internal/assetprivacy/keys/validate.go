@@ -32,6 +32,16 @@ func (r Role) viewing() bool {
 	return r == RecipientView || r == AuditorView || r == ControllerView
 }
 
+// UsesStarkPossession selects owner or ML-KEM secret-possession verification.
+func (r Role) UsesStarkPossession() bool {
+	return r == RecipientSpend || r.viewing()
+}
+
+// UsesFalconPossession selects only the three administrative registration roles.
+func (r Role) UsesFalconPossession() bool {
+	return r >= FreezeAuthority && r <= ManagerAuthority
+}
+
 // Follows pinned Falcon modq_decode: packed 14-bit values must be below 12289.
 // This checks syntax only; full signature/possession verification is mandatory.
 func validateFalconCoefficients(encoded []byte) error {

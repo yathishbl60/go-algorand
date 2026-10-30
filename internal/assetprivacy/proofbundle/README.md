@@ -18,6 +18,13 @@ Recovery selects retained recipients only at the main plan's remainder index.
 Shield fixes kind3/public100 and two ordinary output recipients with no private
 inputs; its [main plan](../shieldplan/README.md) binds the positive public debit.
 
+Registration uses a single main slot without outputs: `OwnerRegistration` fixes
+kind21/public64, while `ViewingRegistration` fixes kind22/public1216. The latter
+contains1184 individual public-key bytes and32 finalized-group uint16 limbs for
+viewing roles1/3/4. Main output remains0xffffffff and role zero. These exact plans
+are distinct from admin roles5..7, which use Falcon NAPR possession rather than
+a STARK bundle. Native current-policy/PQ/epoch checks remain mandatory for each.
+
 ```go
 bundlePlan, err := nativeSnapshot.Bundle()
 // Handle err before using bundlePlan. Limits come from trusted local configuration.

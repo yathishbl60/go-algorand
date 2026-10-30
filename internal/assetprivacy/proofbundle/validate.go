@@ -38,6 +38,8 @@ func publicCount(kind Kind) int {
 	switch kind {
 	case RecipientSpendRegistrationKind:
 		return 64
+	case ViewingRegistrationKind:
+		return 1216
 	case Recipient, Disclosure:
 		return 1132
 	case RetainedRecipient, RecoveryRecipient:

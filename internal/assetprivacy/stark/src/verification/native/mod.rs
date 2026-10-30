@@ -18,9 +18,10 @@ mod shield;
 mod slot;
 mod target;
 mod verify;
+mod viewing_registration;
 
 pub use error::Failure;
 pub use verify::verify_request;
-pub const MAX_REQUEST_BYTES: usize = 15664;
+pub const MAX_REQUEST_BYTES: usize = 15746;
 pub const MAX_BUNDLE_BYTES: usize = 512 << 20;
-const HEADER: usize = 1496;
+const HEADER: usize = 1578;

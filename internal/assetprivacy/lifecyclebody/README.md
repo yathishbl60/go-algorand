@@ -4,7 +4,7 @@ This opt-in package implements bounded public `NAPL` version1 lifecycle bodies
 for the candidate `aprv` transaction. It performs no state reads, signatures,
 proof verification or native execution. It requires `algorand_native_privacy`;
 every current consensus version remains disabled. Registration syntax currently
-accepts RecipientSpend commitments and admin Falcon keys; parsing proves no possession.
+accepts viewing keys, RecipientSpend commitments and admin Falcon keys; parsing proves no possession.
 
 ## Canonical layout
 
@@ -35,9 +35,11 @@ control state and authenticate the current freeze authority and capability.
 Unknown operations/versions and trailing bytes fail.
 
 Register carries role1, nonzero account32, keyLengthBE2 and exact role material.
-RecipientSpend2 is249 bytes total with a nonzero owner commitment64. Admin roles
+Viewing roles RecipientView1, AuditorView3 and ControllerView4 are1369 bytes with
+an exact1184-byte ML-KEM-768 public key. RecipientSpend2 is249 bytes total with a
+nonzero owner commitment64. Admin roles
 FreezeAuthority5, ClawbackAuthority6 and ManagerAuthority7 are1978 bytes with an
-exact1793-byte Falcon1024 public key. Viewing roles1/3/4 reject. Policy/suite/asset
+exact1793-byte Falcon1024 public key. Policy/suite/asset
 must be nonzero; expected epoch leaves room for increment and unrelated fields
 are zero. Exact role/declared size is checked before tail reads and owned copying.
 `keys.ValidatePublicKey` validates syntax, not possession. The ledger authenticates
@@ -69,8 +71,9 @@ Administrative registration now verifies a separately typed [NAPR signature](../
 of the finalized registration group under the exact new public key, in addition
 to current top-level PQ account authorization. It never rekeys AuthAddr or grants
 powers beyond the current ASA role. RecipientSpend instead needs the exact
-NAPW owner-preimage proof; viewing registration still rejects. Existing membership
-proofs or transfer proofs cannot replace those checks. This codec carries public
+NAPW kind21 owner-preimage proof. Viewing registration requires the exact kind22
+key-generation possession proof and1216-cell expected public statement. Existing
+membership proofs or transfer proofs cannot replace those checks. This codec carries public
 material only; no private key or note secret is accepted.
 
 ## Current evidence

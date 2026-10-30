@@ -30,7 +30,7 @@ const HeaderSize = 150
 
 type Kind byte
 
-// Register accepts owner commitments and administrative Falcon keys only.
+// Register accepts owner commitments, ML-KEM viewing and administrative Falcon keys.
 const (
 	Adopt    Kind = 1
 	Register Kind = 2

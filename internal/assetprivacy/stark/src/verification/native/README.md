@@ -6,11 +6,11 @@ RPC format. It cannot authenticate its own registry selection or native statemen
 The native caller supplies current policy/Suite/Domain/Group and exact plan vectors.
 No keys, witnesses, signatures or private epochs are obtained from proof metadata.
 
-Request length is1496..15664 bytes. Header fields have these exact byte intervals:
+Request length is1578..15746 bytes. Header fields have these exact byte intervals:
 
 | Interval, end excluded | Encoding |
 | --- | --- |
-| 0..5 | ASCII NAPV then version3 |
+| 0..5 | ASCII NAPV then version4 |
 | 5..69 | Independently approved profile/Suite64 |
 | 69..133 | Independently selected verifier reference64 |
 | 133..197 | Independently approved registry digest64 |
@@ -21,8 +21,8 @@ Request length is1496..15664 bytes. Header fields have these exact byte interval
 | 365..369 | Trusted maximum bundle bytesu32BE |
 | 369..373 | Trusted maximum individual proof bytesu32BE |
 | 373..377 | Trusted per-decoder canonical allocation chargeu32BE |
-| 377..1495 | Exact1118-byte NAPK version3 registry file |
-| 1495 | Slot count byte,1..7 |
+| 377..1577 | Exact1200-byte NAPK version4 registry file |
+| 1577 | Slot count byte,1..7 |
 
 Each slot follows as kindu8, outputu32BE, roleu8, scalarCountu16BE, then exactly
 scalarCountu16LE cells. Unknown kinds and counts differing from compiled layout
@@ -33,7 +33,12 @@ roles as defined by [bundle framing](../../../../../../docs/native-asset-privacy
 The parser checks nonzero domain/group, registry pins plus supported reference, bounded
 limits and slots. The main public group must equal header Group. For main transfer,
 public debit/credit come from cells192/196; unshield credit from128. Shield debit
-comes from64 with no private inputs; group starts68. Owner registration has owner0/group32. Recovery public
+comes from64 with no private inputs; group starts68. Owner registration has owner0/group32.
+Viewing registration kind22 has exact public-key byte cells0..1184 and group1184..1216.
+Each key cell must fit u8; canonical polynomial decoding and bounded public matrix
+derivation precede constructing its verifier. Domain and complete public key bind
+its relation identity; group must equal the trusted header. Both registration
+proofs require one main slot and no outputs. NAPV/NAPK version3 are rejected. Recovery public
 credit starts96 for partial-public and64 for full-public; private variants use0.
 Current recovery authority is the last32 byte cells. These values select the exact
 Prepared factory; they never grant issuer signatures or administrative power.

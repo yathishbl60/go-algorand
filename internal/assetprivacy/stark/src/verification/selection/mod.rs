@@ -18,6 +18,7 @@ mod registry_codec;
 mod registry_digest;
 mod setup;
 mod shield;
+mod viewing_registration;
 
 pub use domain::Domain;
 pub use entry::Entry;

@@ -14,7 +14,9 @@ mod output_slots;
 mod owner_registration;
 mod shield;
 mod target;
+mod target_identity;
 mod verify;
+mod viewing_registration;
 
 pub use encode::encode_bundle;
 pub use expected::Expected;

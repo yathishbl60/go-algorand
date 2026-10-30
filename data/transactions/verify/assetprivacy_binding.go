@@ -21,7 +21,6 @@ package verify
 import (
 	"github.com/algorand/go-algorand/config"
 	"github.com/algorand/go-algorand/data/transactions"
-	"github.com/algorand/go-algorand/internal/assetprivacy/keys"
 	"github.com/algorand/go-algorand/internal/assetprivacy/lifecyclebody"
 	"github.com/algorand/go-algorand/internal/assetprivacy/proofbridge"
 	"github.com/algorand/go-algorand/internal/assetprivacy/witness"
@@ -51,7 +50,7 @@ func checkNativePrivacyLifecycleBinding(tx transactions.SignedTxn, digest, suite
 	if err != nil {
 		return err
 	}
-	if body.Operation != lifecyclebody.Register || body.Role != keys.RecipientSpend {
+	if body.Operation != lifecyclebody.Register || !body.Role.UsesStarkPossession() {
 		return nil
 	}
 	cap := min(limits.MaxBundleBytes, limits.MaxAllocationBytes)

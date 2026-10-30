@@ -17,9 +17,10 @@ pub enum Layout {
     Retained = 19,
     Recovered = 20,
     OwnerRegistration = 21,
+    ViewingRegistration = 22,
 }
 
-pub(super) const ORDER: [Layout; 12] = [
+pub(super) const ORDER: [Layout; 13] = [
     Layout::Transfer,
     Layout::Unshield,
     Layout::Shield,
@@ -32,6 +33,7 @@ pub(super) const ORDER: [Layout; 12] = [
     Layout::Retained,
     Layout::Recovered,
     Layout::OwnerRegistration,
+    Layout::ViewingRegistration,
 ];
 
 impl Layout {

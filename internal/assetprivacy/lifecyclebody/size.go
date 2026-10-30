@@ -29,7 +29,10 @@ func registrationKeySize(role keys.Role) int {
 	if role == keys.RecipientSpend {
 		return 64
 	}
-	if role >= keys.FreezeAuthority && role <= keys.ManagerAuthority {
+	if role.UsesStarkPossession() {
+		return 1184
+	}
+	if role.UsesFalconPossession() {
 		return crypto.Falcon1024PublicKeySize
 	}
 	return 0

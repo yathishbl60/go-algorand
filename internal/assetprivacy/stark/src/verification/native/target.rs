@@ -4,6 +4,7 @@
 use super::super::Verifier;
 use crate::authorized_disclosure_air::AuthorizedDisclosureAir;
 use crate::authorized_recipient_air::AuthorizedRecipientAir;
+use crate::mlkem_keygen_air::MlKemKeygenAir;
 use crate::owner_registration_air::OwnerRegistrationAir;
 use crate::recovery_group_air::RecoveryGroupAir;
 use crate::recovery_recipient_air::RecoveryRecipientAir;
@@ -14,6 +15,7 @@ use crate::spend_group_air::SpendGroupAir;
 pub(super) enum Target {
     Shield(Box<Verifier<ShieldGroupAir>>),
     OwnerRegistration(Box<Verifier<OwnerRegistrationAir>>),
+    ViewingRegistration(Box<Verifier<MlKemKeygenAir>>),
     Spend(Box<Verifier<SpendGroupAir>>),
     Recovery(Box<Verifier<RecoveryGroupAir>>),
     Recipient(Box<Verifier<AuthorizedRecipientAir>>),
