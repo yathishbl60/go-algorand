@@ -6,11 +6,11 @@ RPC format. It cannot authenticate its own registry selection or native statemen
 The native caller supplies current policy/Suite/Domain/Group and exact plan vectors.
 No keys, witnesses, signatures or private epochs are obtained from proof metadata.
 
-Request length is1332..15500 bytes. Header fields have these exact byte intervals:
+Request length is1414..15582 bytes. Header fields have these exact byte intervals:
 
 | Interval, end excluded | Encoding |
 | --- | --- |
-| 0..5 | ASCII NAPV then version1 |
+| 0..5 | ASCII NAPV then version2 |
 | 5..69 | Independently approved profile/Suite64 |
 | 69..133 | Independently selected verifier reference64 |
 | 133..197 | Independently approved registry digest64 |
@@ -21,8 +21,8 @@ Request length is1332..15500 bytes. Header fields have these exact byte interval
 | 365..369 | Trusted maximum bundle bytesu32BE |
 | 369..373 | Trusted maximum individual proof bytesu32BE |
 | 373..377 | Trusted per-decoder canonical allocation chargeu32BE |
-| 377..1331 | Exact954-byte NAPK registry file |
-| 1331 | Slot count byte,1..7 |
+| 377..1413 | Exact1036-byte NAPK version2 registry file |
+| 1413 | Slot count byte,1..7 |
 
 Each slot follows as kindu8, outputu32BE, roleu8, scalarCountu16BE, then exactly
 scalarCountu16LE cells. Unknown kinds and counts differing from compiled layout
@@ -32,7 +32,8 @@ roles as defined by [bundle framing](../../../../../../docs/native-asset-privacy
 
 The parser checks nonzero domain/group, registry pins plus supported reference, bounded
 limits and slots. The main public group must equal header Group. For main transfer,
-public debit/credit come from cells192/196; unshield credit from128. Recovery public
+public debit/credit come from cells192/196; unshield credit from128. Shield debit
+comes from64 with no private input fields; its group starts68. Recovery public
 credit starts96 for partial-public and64 for full-public; private variants use0.
 Current recovery authority is the last32 byte cells. These values select the exact
 Prepared factory; they never grant issuer signatures or administrative power.
@@ -61,4 +62,4 @@ The [full bridge contract](../../../../../../docs/native-asset-privacy/NATIVE_VE
 describes build flags, ABI safety, source identity and remaining integration. The
 node links against the real verifier, but no runtime request/proof/ABI conformance
 or setup has been executed. Native consent/body checks, approved suite/artifacts,
-transaction execution and end-to-end scenarios remain unfinished. Features stay off.
+complete native execution and end-to-end scenarios remain unfinished. Features stay off.

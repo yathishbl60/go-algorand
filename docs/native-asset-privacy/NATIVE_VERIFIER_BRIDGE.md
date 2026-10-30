@@ -1,20 +1,20 @@
 # Native Go/Rust proof-verification bridge
 
-Updated 2026-10-28. Current-consensus spend/recovery admission helpers select an
+Updated 2026-10-30. Current-consensus shield/spend/recovery helpers select an
 optional linked Rust backend. A feature-enabled algod binary builds with the C
 symbols present. This is build/link evidence only: no bridge call, public setup,
-node, vector or proof has run. Evaluator proof routing/execution remain missing.
+node, vector or proof has run. New shield Rust/FFI and linked algod builds passed.
 
 ## Trusted native caller
 
-Use roundCowState.VerifyAssetPrivacySpend/VerifyAssetPrivacyRecovery. They rebuild
+Use VerifyAssetPrivacyTransaction and its shield/spend/recovery plans. They rebuild
 current plans and select pins/budgets from authoritative policy and current
 [consensus suite catalog](NATIVE_SUITE_CATALOG.md). No caller-selected verifier,
 Pin or Limits argument exists on this path. All current catalogs are empty and
 privacy remains disabled. There is no approved/installed registry artifact.
 
 Suite.Verifier calls proofbridge.NewVerifier with the selected values. It owns
-an exact954-byte registry, checks metadata/digest and requires ABI2 plus a supported
+an exact1036-byte registry, checks metadata/digest and requires ABI2 plus a supported
 implementation reference. The legacy Implementation/source wire field holds this
 reference; it is not necessarily the current compiled fingerprint. The compiled
 historical compatibility array is currently empty, so only today's fingerprint
@@ -25,13 +25,14 @@ helper. Its immutable snapshot supplies Domain/Suite/Group and exact vectors,
 including zero-output operations. Go checks suite equality, NAPW profile/group,
 bounds and every NAPB descriptor, then constructs a small trusted NAPV request.
 **NAPV is not transaction/witness/RPC data** and peers cannot select its context,
-registry or budgets. Go copies the bounded payload before passing it to Rust.
+registry or budgets. NAPV2 has a1414-byte header with NAPK2/1036-byte registry;
+old unapproved v1 bytes/pins reject. No historical approved references exist.
 
 Rust derives concrete AIRs from native domain/values: conversion amounts, recovery
 current authority, envelope contexts and assigned disclosure targets. It checks
 main group binding and output domain/role/ordinal. Typed registry/bundle selection
 binds all required kinds, commitments and public values; actual P3 verification
-must succeed for every component. No callback or fallback reports success.
+must succeed for every component, including staged ShieldGroupAir kind3.
 
 Proof checking writes no state and grants no transaction authority. Stateless
 PQ-envelope/group/witness checks exist; current ledger consent, modes, balances,
@@ -92,8 +93,8 @@ backend copies, symbolic constraints, allocator metadata and CPU remain outside 
 
 Peak includes caller NAPW + owned Go payload + small request/vector copies + one
 Rust-decoded proof + backend overhead. These are additive, not one aggregate cap.
-Rust verifies components sequentially. No CPU meter, fee model or measured node
+Rust verifies components sequentially. Coarse proof-count/fee formulas exist; measured node
 budget exists. [Request bytes](../../internal/assetprivacy/stark/src/verification/native/README.md)
-remain max15500, bundle512MiB, proof128MiB. These are guards, not practical limits.
-Approved artifacts, historical-suite retention, native handlers, other arities,
+remain max15582, bundle512MiB, proof128MiB. These are guards, not practical limits.
+Approved artifacts, historical-suite retention, other modes/arities,
 runtime conformance and security/resource evidence remain [delivery gates](END_TO_END_STATUS.md).

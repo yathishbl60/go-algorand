@@ -44,6 +44,7 @@ type Kind byte
 const (
 	Transfer          Kind = 1
 	Unshield          Kind = 2
+	ShieldKind        Kind = 3
 	PartialPrivate    Kind = 4
 	FullPrivate       Kind = 5
 	PartialPublic     Kind = 6

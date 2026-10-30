@@ -4,10 +4,10 @@ Build tag: `algorand_native_privacy`. This package composes exact expected proof
 sets and frames opaque per-AIR bytes. It does not check STARKs, authenticate a
 transaction or authorize state writes. No runtime codec/proof checks have run.
 
-Use a native spend/recovery snapshot's `Bundle()` method. It fixes the main
+Use a native shield/spend/recovery snapshot's `Bundle()` method. It fixes the main
 kind, ordered output commitments and required recipient/disclosure proof kinds.
-Alternatively, `Spend(main, outputs)` or `Recovery(main, outputs)` accepts trusted
-local plans. Those generic entry points do not establish current-state provenance.
+Alternatively, `Spend(main, outputs)`, `Shield(main, outputs)` or
+`Recovery(main, outputs)` accepts trusted local plans. Those generic entry points do not establish current-state provenance.
 Missing output plans and inconsistent domain/commitment/ordinal/kinds fail.
 
 `Plan.Slots()` returns ordered immutable descriptors; `Slot.Values()` copies each
@@ -15,6 +15,8 @@ expected public vector. Main is first with role zero/output `0xffffffff`. Each
 actual output then has its required recipient followed by optional auditor and
 controller. Ordinary output plans cannot substitute recovery or retained kinds.
 Recovery selects retained recipients only at the main plan's remainder index.
+Shield fixes kind3/public100 and two ordinary output recipients with no private
+inputs; its [main plan](../shieldplan/README.md) binds the positive public debit.
 
 ```go
 bundlePlan, err := nativeSnapshot.Bundle()
@@ -44,5 +46,6 @@ per-AIR verifier. Cross-language conformance/proof execution remain unverified.
 
 Embed the bytes in the separately bound [NAPW witness](../witness/README.md) only
 after selecting the trusted profile and recomputing finalized-body group context.
-Approved suite/artifacts, Go/Rust transport, authenticated native transaction
-bodies, fees/funding/work bounds and atomic state application remain unfinished.
+Native bodies, Go/Rust transport, proof routing and fees/funding/work accounting
+exist as disabled source integration. Approved suites/artifacts, complete
+lifecycle/all modes and real-node acceptance remain unfinished.

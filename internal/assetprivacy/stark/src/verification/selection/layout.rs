@@ -7,6 +7,7 @@
 pub enum Layout {
     Transfer = 1,
     Unshield = 2,
+    Shield = 3,
     PartialPrivate = 4,
     FullPrivate = 5,
     PartialPublic = 6,
@@ -17,9 +18,10 @@ pub enum Layout {
     Recovered = 20,
 }
 
-pub(super) const ORDER: [Layout; 10] = [
+pub(super) const ORDER: [Layout; 11] = [
     Layout::Transfer,
     Layout::Unshield,
+    Layout::Shield,
     Layout::PartialPrivate,
     Layout::FullPrivate,
     Layout::PartialPublic,

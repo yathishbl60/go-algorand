@@ -12,6 +12,7 @@ impl Target {
     pub(super) fn expected<'a>(&'a self, slot: &'a Slot) -> Result<Expected<'a>, Error> {
         let values = &slot.values;
         match self {
+            Self::Shield(v) => Expected::shield(v, values),
             Self::Spend(v) if slot.layout == Layout::Transfer => Expected::transfer(v, values),
             Self::Spend(v) => Expected::unshield(v, values),
             Self::Recovery(v) => Expected::recovery(recovery(slot.layout)?, v, values),

@@ -24,6 +24,8 @@ func (kind Kind) arity() (int, int, error) {
 		return 2, 2, nil
 	case Unshield:
 		return 2, 0, nil
+	case Shield:
+		return 0, 2, nil
 	case PartialPrivate:
 		return 1, 2, nil
 	case FullPrivate, PartialPublic:
@@ -42,6 +44,8 @@ func (b Body) checkConversion() error {
 	switch b.Operation {
 	case Transfer:
 		return nil
+	case Shield:
+		return b.checkShieldConversion()
 	case Unshield, PartialPublic, FullPublic:
 		if b.Debit != 0 || b.Credit == 0 {
 			return ErrConversion
@@ -50,6 +54,13 @@ func (b Body) checkConversion() error {
 		if b.Debit != 0 || b.Credit != 0 {
 			return ErrConversion
 		}
+	}
+	return nil
+}
+
+func (b Body) checkShieldConversion() error {
+	if b.Debit == 0 || b.Credit != 0 {
+		return ErrConversion
 	}
 	return nil
 }

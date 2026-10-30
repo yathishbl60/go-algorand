@@ -2,7 +2,7 @@
 
 Updated 2026-10-30. NAPL1 adoption, admin-key registration, disclosure assignment
 and native freeze have codec, admission and evaluator routing. This is disabled
-source integration. Viewing/spending registration, shield, other modes and full
+source integration. Viewing/spending registration, other modes and full
 native delivery remain outstanding in [the plan](README.md). No tests/proofs ran.
 
 ## Canonical operations
@@ -90,7 +90,7 @@ registrations remain rejected pending distinct relations, pins/artifacts, bindin
 work/fee limits and real verification. Syntax, encapsulation, membership or transfer
 proofs cannot replace matching private-key or owner-secret possession.
 
-Require all mandatory current keys before private value ingress. Complete shield,
+Require all mandatory current keys before private value ingress. [Shield3](NATIVE_SHIELD.md) is source-wired; complete
 new-ASA/private-only lifecycle, authority synchronization, cleanup/refunds, APIs,
 SDK/wallet, all modes/recovery, restoration/upgrades and six real-node scenarios.
 Admin registration alone does not establish end-to-end delivery or crypto security.

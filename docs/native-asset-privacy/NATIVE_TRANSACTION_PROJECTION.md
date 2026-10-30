@@ -1,6 +1,6 @@
 # Body-derived native ledger proof planning
 
-Updated 2026-10-29. These internal helpers derive statements from canonical native
+Updated 2026-10-30. These internal helpers derive statements from canonical native
 transaction fields and current COW state. They do not execute a transaction or
 establish signed consent. The [evaluator](NATIVE_EXECUTION.md) now wraps them in
 current PQ consent and atomic application; no proof/node execution has occurred.
@@ -32,6 +32,8 @@ commitment tree count. Capacity subtraction is checked before uint32 index conve
 Round, TXID, output ordinal and Domain derive from that native snapshot. Nonces,
 commitments, role ciphertexts and disclosure flags come exclusively from the body.
 
+Shield3 branches before input indexing and projects zero inputs/two outputs,
+positive sender-bound debit, credit0 and current output-role plans.
 Transfer/unshield project the exact two input nullifiers/roots/counts and actual
 output commitments plus debit/credit. Recovery projects one input, operation kind,
 actual outputs and public credit. Existing current-state planners check accepted
@@ -39,7 +41,7 @@ roots, fresh markers, required key/eligibility/disclosure roots and current reco
 authority. Recovery additionally requires the target Sender to equal current
 retained ASA clawback authority; signatures remain a separate mandatory check.
 
-The returned AssetPrivacyTransactionPlan exposes copied spend/recovery snapshots,
+The returned AssetPrivacyTransactionPlan exposes copied shield/spend/recovery snapshots,
 a value-copy PublicConversion (asset, debit/source, credit/receiver) and immutable
 Domain/Suite/Group context. Public account fields are committed by TXID and final
 group binding; they cannot be supplied independently of the privacy body.
@@ -64,7 +66,7 @@ The native dispatcher now verifies current PQ consent, public holdings, fees and
 proofs before child-COW application of holdings, supply, markers and outputs.
 [Storage obligations](NATIVE_STORAGE.md) and proof-count reservations share rollback.
 The public planning/verifying helpers alone still grant no transaction authority.
-Native inner transactions fail. NAPL1 lifecycle routes separately; registration, other modes,
+Native inner transactions fail. NAPL1 routes separately; viewing/spending registration, other modes,
 REST/SDK/wallet and real-node scenarios remain pending. Flags remain false,
 catalogs empty and execution/storage parameters zero.
 

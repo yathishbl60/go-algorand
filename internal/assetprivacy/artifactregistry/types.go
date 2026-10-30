@@ -22,8 +22,8 @@ package artifactregistry
 
 import "errors"
 
-const EncodedSize = 954
-const EntryCount = 10
+const EncodedSize = 1036
+const EntryCount = 11
 const headerSize = 134
 const entrySize = 82
 
@@ -45,6 +45,7 @@ type Kind byte
 const (
 	Transfer          Kind = 1
 	Unshield          Kind = 2
+	Shield            Kind = 3
 	PartialPrivate    Kind = 4
 	FullPrivate       Kind = 5
 	PartialPublic     Kind = 6

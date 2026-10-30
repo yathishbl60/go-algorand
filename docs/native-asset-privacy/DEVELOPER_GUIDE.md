@@ -44,7 +44,7 @@ writable `GOCACHE` or Cargo target/cache directory when using a sandbox.
 | Shared holder/controller spent marker | [nullifier](../../internal/assetprivacy/nullifier/README.md) |
 | Final body/order binding | [statement](../../internal/assetprivacy/statement/README.md) |
 | Bounded outer proof frame | [witness](../../internal/assetprivacy/witness/README.md) |
-| Zero private inputs, two outputs | [ShieldAir](../../internal/assetprivacy/stark/src/shield_air/README.md) |
+| Native zero-input/two-output shield | [ShieldGroupAir and native plans](NATIVE_SHIELD.md) |
 | Two ordinary eligible inputs with Transfer2/Unshield0 outputs | [Staged spending](SPENDING_COMPOSITION.md) |
 | Issuer recovery and frozen-owner remainder | [Recovery contracts](RECOVERY.md) |
 | Native body/admission, current PQ authority, proof routing and atomic application | [Integration](NATIVE_TRANSACTION_INTEGRATION.md), [execution](NATIVE_EXECUTION.md), [storage](NATIVE_STORAGE.md) |

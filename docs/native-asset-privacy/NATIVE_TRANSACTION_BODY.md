@@ -1,4 +1,4 @@
-# Candidate native spend/recovery transaction body
+# Candidate native shield/spend/recovery transaction body
 
 Candidate contract, 2026-10-30. NAPT codec/admission and evaluator routing exist;
 activation and runtime evidence remain absent. [NAPL lifecycle](LIFECYCLE_INGRESS.md)
@@ -45,7 +45,7 @@ commitments, selected private accounts or membership paths appear in this body.
 | --- | ---: | ---: | ---: | --- |
 | Transfer | 1 | 2 | 2 | Debit/credit are uint64 |
 | Unshield | 2 | 2 | 0 | Debit0, positive credit |
-| Shield | 3 reserved | — | — | Reject until complete relation exists |
+| Shield | 3 | 0 | 2 | Positive debit from Sender, credit/receiver0 |
 | Partial private recovery | 4 | 1 | 2 | Debit/credit0 |
 | Full private recovery | 5 | 1 | 1 | Debit/credit0 |
 | Partial public recovery | 6 | 1 | 1 | Debit0, positive credit |
@@ -59,7 +59,7 @@ cannot prove disclosed identities. Future modes/arities need explicit dispatch.
 
 ## Projection, authorization and application
 
-Parse the target body once under current protocol limits. Derive spend/recovery
+Parse the target body under current protocol limits. Derive shield/spend/recovery
 drafts from those fields, never accept an independent caller draft at ingress.
 Recompute the final ordinary group ID and group statement from every canonical
 body, suite and target position. Derive output Record.Domain from network/ASA/
@@ -95,4 +95,4 @@ or allocation failures must not become invalid-proof cache entries.
 
 The [integration guide](NATIVE_TRANSACTION_INTEGRATION.md) distinguishes codec,
 admission and execution. No tests/round trips/proofs ran. Practical byte/work
-calibration, viewing/spending registration, shield and other modes remain pending. [Execution/storage](NATIVE_EXECUTION.md) integrate.
+calibration, viewing/spending registration and other modes remain pending. [Native shield](NATIVE_SHIELD.md) is source-integrated.

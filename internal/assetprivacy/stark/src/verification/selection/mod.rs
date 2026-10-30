@@ -16,6 +16,7 @@ mod registry;
 mod registry_codec;
 mod registry_digest;
 mod setup;
+mod shield;
 
 pub use domain::Domain;
 pub use entry::Entry;

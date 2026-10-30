@@ -28,6 +28,7 @@ func layouts() [EntryCount]layout {
 	return [EntryCount]layout{
 		{Transfer, 16384, 8506, 80, 264},
 		{Unshield, 16384, 8506, 80, 196},
+		{Shield, 1024, 7641, 8, 100},
 		{PartialPrivate, 8192, 8539, 60, 192},
 		{FullPrivate, 8192, 8539, 60, 160},
 		{PartialPublic, 8192, 8539, 60, 164},

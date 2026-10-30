@@ -11,7 +11,7 @@ pub fn registry_digest(bytes: &[u8]) -> Result<[u8; 64], Error> {
         return Err(Error::Artifact);
     }
     let mut hash = Sha3_512::new();
-    hash.update(b"Algorand/AssetPrivacy/Candidate1/ArtifactRegistryV1/");
+    hash.update(b"Algorand/AssetPrivacy/Candidate1/ArtifactRegistryV2/");
     hash.update(bytes);
     Ok(hash.finalize().into())
 }

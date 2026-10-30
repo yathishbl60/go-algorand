@@ -43,15 +43,25 @@ func (cs *roundCowState) projectAssetPrivacyTransaction(body nativebody.Body, re
 		Asset: basics.AssetIndex(body.Asset), Debit: body.Debit, DebitSource: body.DebitSource,
 		Credit: body.Credit, CreditReceiver: body.CreditReceiver}}
 	var err error
-	if body.Operation == nativebody.Transfer || body.Operation == nativebody.Unshield {
-		draft := spendplan.Statement{Kind: spendplan.Kind(body.Operation), Debit: body.Debit,
-			Credit: body.Credit, Outputs: assetPrivacyTransactionCommitments(body), Inputs: [2]spendplan.Input{
-				assetPrivacyTransactionInput(body.Inputs[0]), assetPrivacyTransactionInput(body.Inputs[1])}}
-		plan.spend, err = cs.AssetPrivacySpendProofPlan(plan.conversion.Asset, draft, records, bodies)
+	if body.Operation == nativebody.Shield {
+		plan.shield, err = cs.AssetPrivacyShieldProofPlan(records, bodies)
+	} else if body.Operation == nativebody.Transfer || body.Operation == nativebody.Unshield {
+		plan.spend, err = cs.projectAssetPrivacySpend(body, records, bodies)
 	} else {
-		draft := recoveryplan.Statement{Kind: recoveryplan.Kind(body.Operation - 3), Credit: body.Credit,
-			Outputs: assetPrivacyTransactionCommitments(body), Input: assetPrivacyTransactionInput(body.Inputs[0])}
-		plan.recovery, err = cs.AssetPrivacyRecoveryProofPlan(plan.conversion.Asset, draft, records, bodies)
+		plan.recovery, err = cs.projectAssetPrivacyRecovery(body, records, bodies)
 	}
 	return plan, err
+}
+
+func (cs *roundCowState) projectAssetPrivacySpend(body nativebody.Body, records []outputs.Record, bodies AssetPrivacySpendBodies) (*AssetPrivacySpendPlan, error) {
+	draft := spendplan.Statement{Kind: spendplan.Kind(body.Operation), Debit: body.Debit,
+		Credit: body.Credit, Outputs: assetPrivacyTransactionCommitments(body), Inputs: [2]spendplan.Input{
+			assetPrivacyTransactionInput(body.Inputs[0]), assetPrivacyTransactionInput(body.Inputs[1])}}
+	return cs.AssetPrivacySpendProofPlan(basics.AssetIndex(body.Asset), draft, records, bodies)
+}
+
+func (cs *roundCowState) projectAssetPrivacyRecovery(body nativebody.Body, records []outputs.Record, bodies AssetPrivacySpendBodies) (*AssetPrivacyRecoveryPlan, error) {
+	draft := recoveryplan.Statement{Kind: recoveryplan.Kind(body.Operation - 3), Credit: body.Credit,
+		Outputs: assetPrivacyTransactionCommitments(body), Input: assetPrivacyTransactionInput(body.Inputs[0])}
+	return cs.AssetPrivacyRecoveryProofPlan(basics.AssetIndex(body.Asset), draft, records, bodies)
 }

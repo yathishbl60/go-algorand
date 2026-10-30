@@ -19,5 +19,5 @@ package eval
 // NativeAssetPrivacyArtifactProvider supplies public local bytes only, never proof
 // verification or suite approval. Runtime selection validates all consensus pins.
 type NativeAssetPrivacyArtifactProvider interface {
-	Get(registryDigest [64]byte) ([954]byte, error)
+	Get(registryDigest [64]byte) ([1036]byte, error)
 }

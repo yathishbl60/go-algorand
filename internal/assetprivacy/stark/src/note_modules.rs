@@ -35,6 +35,8 @@ pub mod registered_key_air;
 pub mod retained_recipient_air;
 #[path = "shield_air/mod.rs"]
 pub mod shield_air;
+#[path = "shield_group_air/mod.rs"]
+pub mod shield_group_air;
 #[path = "spend_group_air/mod.rs"]
 pub mod spend_group_air;
 #[path = "spend_key_air/mod.rs"]

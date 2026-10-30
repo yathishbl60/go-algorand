@@ -11,6 +11,7 @@ mod layout;
 mod limits;
 mod main_slots;
 mod output_slots;
+mod shield;
 mod target;
 mod verify;
 

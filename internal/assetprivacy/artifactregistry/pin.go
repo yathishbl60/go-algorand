@@ -28,7 +28,7 @@ func (pin Pin) validate() error {
 }
 
 func checkInput(encoded []byte, pin Pin) error {
-	if string(encoded[:4]) != "NAPK" || encoded[4] != 1 || encoded[133] != EntryCount {
+	if string(encoded[:4]) != "NAPK" || encoded[4] != 2 || encoded[133] != EntryCount {
 		return ErrEncoding
 	}
 	if !bytes.Equal(encoded[5:69], pin.Profile[:]) || !bytes.Equal(encoded[69:133], pin.Implementation[:]) {

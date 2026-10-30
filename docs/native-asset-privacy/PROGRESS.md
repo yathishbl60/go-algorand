@@ -34,8 +34,8 @@ completion checklist. The full native feature remains in progress.
 5. Pinned Plonky3 hiding configuration and exact uint64 conservation. Note,
    ownership, nullifier and depth-32 membership constraints compose into fixed
    transfer/shield/unshield arities. [Ordinary staged spending](SPENDING_COMPOSITION.md)
-   now joins current input eligibility and group conservation. [Recovery](RECOVERY.md)
-   now preserves frozen-owner remainders; runtime recovery evidence remains.
+   joins eligibility/group conservation. [Native Shield3](NATIVE_SHIELD.md) is source-routed;
+   [recovery](RECOVERY.md) preserves frozen-owner remainders. Runtime evidence remains.
 6. SHA3/SHAKE, private HMAC/HKDF, full typed GCM and staged GCM constraints.
    Staged GCM covers all AES/GHASH blocks and the final tag in one AIR. Resource
    feasibility and complete envelope/note/disclosure bindings remain unverified.
@@ -82,15 +82,15 @@ interfaces, exact layouts, caller obligations and source-only checks.
 ## Verification scope
 
 Feature-enabled Go builds/vet and default native builds have passed. The Rust
-library builds with and without its feature; strict Clippy, formatting, authored
-size checks and local documentation links pass. Source reviews do not replace
+workspace feature/default checks, Clippy, release FFI and linked algod builds
+passed. Authored size/link checks pass; source reviews do not replace
 cryptographic vectors, constraint evaluations, proofs, node execution or replay.
 None of those runtime checks, tests or the six demo scenarios have run. No
 independent cryptographic security review has been supplied or completed.
 
 ## Next work
 
-Finish viewing/spending possession, shield/all modes, authority synchronization and cleanup.
+Finish viewing/spending possession, other modes, authority synchronization and cleanup.
 Populate/approve catalog entries and actual artifacts; preserve live-asset references.
 Source execution now routes through the bridge with body/current-authority checks.
 Establish resource feasibility, calibrated work limits

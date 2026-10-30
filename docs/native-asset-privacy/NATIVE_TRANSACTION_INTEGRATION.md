@@ -22,8 +22,8 @@ The [body contract](NATIVE_TRANSACTION_BODY.md) and
 [nativebody API](../../internal/assetprivacy/nativebody/README.md) define exact
 bytes and operation arities. Decode scans into fixed two-slot staging storage,
 checks complete framing and only then copies returned input/output data. Every
-returned ciphertext is owned. NAPT permits shielded mode4 only; other modes/tag3
-shield fail. [NAPL1](LIFECYCLE_INGRESS.md) accepts Adopt/Assign/Freeze and admin Register2, roles5..7 only.
+returned ciphertext is owned. NAPT permits shielded mode4; Shield3 has0inputs and2outputs.
+Other modes fail. [NAPL1](LIFECYCLE_INGRESS.md) accepts Adopt/Assign/Freeze and admin Register2, roles5..7.
 
 ## Stateless signed admission
 

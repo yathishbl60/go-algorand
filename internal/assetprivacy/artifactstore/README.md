@@ -5,7 +5,7 @@ artifact bytes for independently selected digests. It does not approve a suite,
 validate registry structure, choose pins/budgets or verify proofs. Every current
 consensus version keeps native privacy disabled and its suite catalog empty.
 
-`Provider.Get(registryDigest)` returns a fixed954-byte value and an error.
+`Provider.Get(registryDigest)` returns a fixed1036-byte value and an error.
 `NewDirectory(root)` implements that interface using an operator-supplied trusted
 local directory. Construction only remembers the path: it creates no directory,
 opens no file and installs no approval. An empty root or zero digest is unavailable.
@@ -21,7 +21,7 @@ nonblocking open prevents a FIFO replacement from waiting for a writer before
 regular-file rejection. Other platforms fail closed without opening a file.
 There is no Lstat/Open time-of-check race and no mutable global cache.
 
-Reads use a fixed954-byte buffer followed by a one-byte strict EOF probe. A short
+Reads use a fixed1036-byte buffer followed by a one-byte strict EOF probe. A short
 file, trailing bytes, failure to establish EOF or digest mismatch returns no
 partial artifact data. The returned value owns all bytes; no file/reader/pointer
 or caller slice escapes. File handles close before return. Concurrent Get calls

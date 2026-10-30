@@ -1,13 +1,13 @@
 # Typed relations and independently pinned public artifacts
 
-Updated 2026-10-27. Typed selection, catalog admission and the linked native bridge
-compile. No preprocessing files, approved suite entries, setup, codec conformance,
+Updated 2026-10-30. Native shield selection is now wired in source; compilation
+of this increment is tracked separately. No preprocessing files, approved suite entries, setup, codec conformance,
 traces, constraints or proofs have been executed/generated for this candidate.
 
 ## Public schedule keys and exact relations
 
-Prepared::transfer, unshield, recovery, recipient, disclosure, retained and recovered
-construct six concrete AIR types across ten kinds:1,2,4,5,6,7,17,18,19,20. There
+Prepared::shield, transfer, unshield, recovery, recipient, disclosure, retained and recovered
+construct seven AIR types across eleven kinds:1,2,3,4,5,6,7,17,18,19,20. There
 are no public arbitrary AIR/relation/dimension/key override constructors. Exact
 operation, amounts/authority and envelope context enter the relation identity.
 
@@ -19,6 +19,7 @@ layout-kind byte, argument lengthu32LE and canonical public argument bytes:
 | --- | --- |
 | transfer | domain104, debitBE8, creditBE8 |
 | unshield | domain104, creditBE8 |
+| shield | domain104, debitBE8; staged ShieldGroupAir |
 | recovery | domain104, creditBE8 (zero for private variants), current authority32 |
 | recipient/retained/recovered | complete public envelope context248 |
 | disclosure | public envelope context248, assigned authority32 |
@@ -43,7 +44,7 @@ for public preprocessing only. Hiding Merkle leaves still have five salts; cap
 height zero does not remove them. Private proofs use fresh OS-seeded prover_config;
 the deterministic configuration is private and never returned by setup.
 
-Gather all ten Entries in canonical order, then encode_registry(profile,entries).
+Gather all eleven Entries in canonical order, then encode_registry(profile,entries).
 The encoder writes the current build fingerprint as the new registry reference.
 The resulting file/digest is not approval. Independently approve profile,
 reference and full registry digest through [consensus metadata](NATIVE_SUITE_CATALOG.md).
@@ -52,8 +53,8 @@ publishing keys. Registry::bind(prepared) selects the expected layout and derive
 its artifact identity using that same reference. Registry::check_setup checks
 width/degree/root against a pinned key, not complete reusable prover data.
 
-The954-byte NAPK format/dimensions are in the [Go registry contract](../../internal/assetprivacy/artifactregistry/README.md).
-Its digest hashes ASCII Algorand/AssetPrivacy/Candidate1/ArtifactRegistryV1/ followed
+The1036-byte NAPK version2 format/dimensions are in the [Go registry contract](../../internal/assetprivacy/artifactregistry/README.md).
+Its digest hashes ASCII Algorand/AssetPrivacy/Candidate1/ArtifactRegistryV2/ followed
 by the entire file. Root words allow every64-byte value; approval/provenance comes
 from independent pins. Cross-language conformance remains unverified.
 
@@ -72,7 +73,7 @@ accepts the current fingerprint or a compiled COMPATIBLE_REFERENCES entry. That
 historical array is currently explicitly EMPTY, so there is no historical source
 compatibility today. Peers, manifests and registry files cannot extend it.
 
-Future reviewed identical v1 constraints, schedules, encodings, artifact-ID
+Future reviewed identical constraints, schedules, encodings, artifact-ID
 construction, decoder charges and parameters may support a frozen reference
 while build bytes change. Prepared relation IDs and
 VerifierArtifactV2 IDs bind that selected reference, keeping their preimages
@@ -91,7 +92,7 @@ Native plans retain value-copy Domain/Suite/Group and copied statements, includi
 zero-output operations. Authoritative VerifyAssetPrivacySpend/Recovery rebuild
 those plans and select current consensus pins; generic caller-supplied Verifier
 helpers do not establish this provenance. All current catalogs remain empty.
-Approved artifacts, signatures/body matching, measured work pricing and atomic
-execution remain missing. No build/source result establishes proof correctness,
+NAPK2/NAPV2 supersede unapproved version1; no historical approved references exist.
+Approved artifacts, practical work pricing and runtime execution remain missing. No build/source result establishes proof correctness,
 privacy, interoperability or practical resource use. External specs/SDK integration
 is still required; sibling checkouts are absent.

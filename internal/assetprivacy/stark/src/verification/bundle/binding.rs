@@ -6,7 +6,11 @@ use super::Expected;
 
 pub(super) fn check(slots: &[Expected<'_>]) -> Result<(), Error> {
     let main = &slots[0];
-    let first = if main.kind == 1 { 128 } else { 64 };
+    let first = match main.kind {
+        1 => 128,
+        3 => 0,
+        _ => 64,
+    };
     for output in &slots[1..] {
         context(output)?;
         commitment(main, output, first)?;

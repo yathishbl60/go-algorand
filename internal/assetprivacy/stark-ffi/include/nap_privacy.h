@@ -6,7 +6,7 @@
 #include <stddef.h>
 #include <stdint.h>
 
-/* ABI 2. Trusted caller owns/pins immutable ranges until return; no pointer escapes.
+/* ABI 2, NAPV request version 2. Caller pins immutable ranges until return.
  * request is native context/configuration, never a peer-supplied witness request.
  * 0=all proofs checked, 1=caller/range/config, 2=registry installation,
  * 3=invalid proof, 4=local backend panic, 5=local allocation failure.

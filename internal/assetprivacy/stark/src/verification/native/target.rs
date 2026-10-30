@@ -7,9 +7,11 @@ use crate::authorized_recipient_air::AuthorizedRecipientAir;
 use crate::recovery_group_air::RecoveryGroupAir;
 use crate::recovery_recipient_air::RecoveryRecipientAir;
 use crate::retained_recipient_air::RetainedRecipientAir;
+use crate::shield_group_air::ShieldGroupAir;
 use crate::spend_group_air::SpendGroupAir;
 
 pub(super) enum Target {
+    Shield(Box<Verifier<ShieldGroupAir>>),
     Spend(Box<Verifier<SpendGroupAir>>),
     Recovery(Box<Verifier<RecoveryGroupAir>>),
     Recipient(Box<Verifier<AuthorizedRecipientAir>>),

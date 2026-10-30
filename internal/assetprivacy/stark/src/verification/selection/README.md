@@ -6,7 +6,7 @@ It provides `Prepared`, `Domain`, `Layout`, `PublicSetup`, `Entry`, `Pin`, `Regi
 evidence exists. The [native bridge](../../../../../../docs/native-asset-privacy/NATIVE_VERIFIER_BRIDGE.md) links; approved suite data/transaction routing remain.
 
 Use `Prepared::transfer(domain, public_conversion)`, `unshield(domain, credit)`,
-`recovery(domain, operation, authority)`, or output factories `recipient(context)`,
+`shield(domain, debit)`, `recovery(domain, operation, authority)`, or output factories `recipient(context)`,
 `disclosure(context, authority)`, `retained(context)` and `recovered(context)`.
 Each produces the exact concrete AIR and canonical full relation ID. There is no
 generic public constructor or mutable AIR accessor. `air()` borrows for proving;
@@ -15,7 +15,7 @@ generic public constructor or mutable AIR accessor. `air()` borrows for proving;
 `Registry::load(bytes, Pin{profile,implementation,digest})` requires independent
 trusted pins and a supported reference identity. The current build fingerprint is
 supported; the explicit historical compatibility list is empty. It validates the fixed
-954-byte format, exact ten layout records and file digest before publishing keys.
+1036-byte NAPK version2 format, exact eleven layout records and file digest before publishing keys.
 Unknown kinds, reordered records, incorrect dimensions/next-row flags or trailing
 bytes fail. Root words are raw SHA3 words; zero is a valid output, not a key default.
 

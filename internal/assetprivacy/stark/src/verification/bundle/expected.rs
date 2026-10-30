@@ -53,6 +53,7 @@ fn public_count(kind: u8) -> usize {
     match kind {
         1 => 264,
         2 => 196,
+        3 => 100,
         4 => 192,
         5 => 160,
         6 => 164,

@@ -35,7 +35,7 @@ impl Header {
         let pin = super::header_fields::pin(cursor)?;
         let context = super::header_fields::context(cursor)?;
         let (bundle_limits, proof_limits) = super::header_fields::limits(cursor)?;
-        let registry = Registry::load(cursor.take(954)?, pin)?;
+        let registry = Registry::load(cursor.take(1036)?, pin)?;
         let count = usize::from(cursor.byte()?);
         if !(1..=7).contains(&count) {
             return Err(Error::Shape);

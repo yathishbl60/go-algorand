@@ -24,6 +24,7 @@ fn group_start(layout: Layout) -> Result<usize, Error> {
     match layout {
         Layout::Transfer => Ok(200),
         Layout::Unshield => Ok(132),
+        Layout::Shield => Ok(68),
         Layout::PartialPrivate => Ok(128),
         Layout::FullPrivate => Ok(96),
         Layout::PartialPublic => Ok(100),

@@ -6,7 +6,7 @@ Other builds return `ErrUnavailable`; no stub/callback reports successful checki
 The feature remains disabled in every consensus version.
 
 `NewVerifier(registryBytes, Pin, Limits)` validates/owns an independently pinned
-954-byte artifact registry and checks the linked ABI/reference compatibility. Pins and
+1036-byte artifact registry and checks the linked ABI/reference compatibility. Pins and
 limits must come from consensus-approved local suite configuration, never peer
 proofs/requests, the artifact itself or an evidence Manifest. `suitecatalog` selects
 these values from current consensus; all current catalogs are empty. No approved
@@ -17,13 +17,14 @@ value-copy Domain/Suite/Group. The generic `Verifier.Verify(plan, context, frame
 requires the same authoritative provenance. It compares Suite with the configured
 profile, validates the outer NAPW binding, copies the bounded payload, checks the
 complete expected NAPB framing, and sends exact public vectors/context to Rust.
-The trusted internal NAPV request is at most15500 bytes; it is not a network format.
+Trusted NAPV version2 has a1414-byte header including the1036-byte NAPK version2
+registry and is at most15582 bytes; it is not a network format. Version1 rejects.
 
 Rust rebuilds the concrete AIR constructors and relation/artifact IDs, checks main
 group/output-domain correspondence and every expected proof via the pinned P3
 backend. A nil result establishes cryptographic checking only: no signatures,
 fees, state writes, atomic execution or transaction acceptance happen here.
-Native transaction/pool ingress and authorized suite installation remain unfinished.
+Native dispatch exists; approved suites, artifacts and practical admission remain unfinished.
 
 `Limits` requires positive MaxBundleBytes (<=512 MiB), MaxProofBytes (<=128 MiB),
 MaxAllocationBytes (<=512 MiB). Go's owned payload copy and Rust's decoded-data

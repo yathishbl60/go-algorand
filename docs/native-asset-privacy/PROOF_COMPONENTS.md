@@ -76,8 +76,8 @@ conversion/group context in232 public scalars. [Layout](../../internal/assetpriv
 ## Remaining composition
 
 Current eligibility, disclosure/spend/recovery composition and linked verifier
-helpers exist. Native authentication, transaction routing and runtime evidence remain.
-[ShieldAir](../../internal/assetprivacy/stark/src/shield_air/README.md) has zero private inputs/two outputs;
+helpers and native routing exist; practical budgets and runtime evidence remain.
+[Native ShieldGroupAir](NATIVE_SHIELD.md) stages zero inputs/two outputs; older ShieldAir is not native-selected.
 [UnshieldAir](../../internal/assetprivacy/stark/src/unshield_air/README.md) has two inputs/zero outputs.
 Neither uses dummy notes. [AES byte constraints](../../internal/assetprivacy/stark/src/aes_air/README.md)
 [GCM](../../internal/assetprivacy/stark/src/gcm_air/README.md) and private [HMAC](../../internal/assetprivacy/stark/src/hmac_air/README.md)/[HKDF](../../internal/assetprivacy/stark/src/hkdf_air/README.md) exist; [bounded KEM](../../internal/assetprivacy/stark/src/mlkem_encapsulation_air/README.md) exists; [single-envelope/note constraints](../../internal/assetprivacy/stark/src/envelope_air/README.md) now join them.
@@ -93,8 +93,8 @@ and adversarial validation remain missing. Tests are deferred by user instructio
 
 ## Checks performed
 
-Rust feature-enabled compilation, Clippy with warnings denied, formatting and
-authored size checks pass. The full library and disabled-default configuration
-are built separately. No proofs or constraint tests were executed. These checks
+New shield Rust checks/Clippy, release FFI and linked algod builds passed.
+Authored size/source checks cover structure only; full feature/default builds
+remain distinct. No proofs or constraint tests were executed. These checks
 establish compilation/static properties; they do not establish proof correctness,
 cross-language interoperability, soundness, witness privacy or production readiness.

@@ -23,3 +23,7 @@ debit, commitments and finalized group digest from authoritative transaction dat
 This component does not verify encryption, recipient eligibility, mandatory
 disclosures, public asset funding, private supply, fees or storage charges.
 It cannot authorize native shielding. No proofs or tests have been executed.
+
+The native artifact kind3 selects [ShieldGroupAir](../shield_group_air/README.md),
+which reuses bounded note writers with trusted preprocessing and explicit group
+register bindings. This original parallel component is not the selected native AIR.

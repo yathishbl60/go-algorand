@@ -23,6 +23,7 @@ import "github.com/algorand/go-algorand/data/basics"
 // AssetPrivacyTransactionPlan derives only from a canonical target transaction.
 // It establishes neither signed consent nor atomic execution authority.
 type AssetPrivacyTransactionPlan struct {
+	shield     *AssetPrivacyShieldPlan
 	spend      *AssetPrivacySpendPlan
 	recovery   *AssetPrivacyRecoveryPlan
 	conversion AssetPrivacyPublicConversion
@@ -35,6 +36,13 @@ type AssetPrivacyPublicConversion struct {
 	DebitSource    basics.Address
 	Credit         uint64
 	CreditReceiver basics.Address
+}
+
+func (p *AssetPrivacyTransactionPlan) Shield() *AssetPrivacyShieldPlan {
+	if p == nil {
+		return nil
+	}
+	return copyAssetPrivacyPlan(p.shield)
 }
 
 func (p *AssetPrivacyTransactionPlan) Spend() *AssetPrivacySpendPlan {

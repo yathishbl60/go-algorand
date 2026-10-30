@@ -31,7 +31,7 @@ func (p *Plan) validate() error {
 }
 
 func publicCount(kind Kind) int {
-	counts := [...]int{0, 264, 196, 0, 192, 160, 164, 132}
+	counts := [...]int{0, 264, 196, 100, 192, 160, 164, 132}
 	if int(kind) < len(counts) && counts[kind] != 0 {
 		return counts[kind]
 	}

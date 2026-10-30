@@ -13,12 +13,13 @@ mod header_fields;
 mod main;
 mod output;
 mod request;
+mod shield;
 mod slot;
 mod target;
 mod verify;
 
 pub use error::Failure;
 pub use verify::verify_request;
-pub const MAX_REQUEST_BYTES: usize = 15500;
+pub const MAX_REQUEST_BYTES: usize = 15582;
 pub const MAX_BUNDLE_BYTES: usize = 512 << 20;
-const HEADER: usize = 1332;
+const HEADER: usize = 1414;

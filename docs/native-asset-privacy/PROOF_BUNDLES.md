@@ -1,6 +1,6 @@
 # Exact main/output proof bundles
 
-Updated 2026-10-25. Native spend/recovery snapshots now derive immutable bundle
+Updated 2026-10-30. Native shield/spend/recovery snapshots now derive immutable bundle
 plans. Go and Rust implement the same candidate framing; Rust has typed dispatch
 that requires actual backend verification of every selected component. No bundle
 round trip, cross-language conformance check or proof execution has run. Native
@@ -8,9 +8,9 @@ transactions and approved artifacts/pins remain unfinished; the [native bridge](
 
 ## Expected proof set
 
-`AssetPrivacySpendPlan.Bundle()` and `AssetPrivacyRecoveryPlan.Bundle()` derive
+Shield, Spend and Recovery native plan Bundle methods derive
 the expected descriptors/vectors from the existing current-state plans. Generic
-`proofbundle.Spend`/`Recovery` require trusted plan provenance. They compare each
+`proofbundle.Shield`/`Spend`/`Recovery` require trusted provenance. They compare each
 output's domain, commitment and ordinal with the main statement and require the
 correct recipient kind followed by exactly its planned auditor/controller roles.
 Output metadata/vectors and native Domain/Suite/Group are value snapshots; plan getters copy.
@@ -24,12 +24,13 @@ count is seven, including the main proof. Current supported main relations are:
 | --- | --- | --- |
 | Transfer | 2 | ordinary current-key/current-eligibility recipients |
 | Unshield | 0 | none |
+| Shield | 2 | ordinary current-key/current-eligibility recipients |
 | Partial private recovery | 2 | recovered receipt 0; original-owner remainder 1 |
 | Full private recovery | 1 | recovered receipt 0 |
 | Partial public recovery | 1 | original-owner remainder 0 |
 | Full public recovery | 0 | none |
 
-Shield and other arities still need native main plans and bundle integration.
+Shield3 now has native zero-input/two-output plans; other arities remain pending.
 Zero-knowledge ownership/eligibility/conservation constraints and issuer authority
 checks retain their existing separate obligations; framing does not establish them.
 
@@ -44,7 +45,7 @@ profile selector, statement digest or optional-role selector is carried here.
 
 | Kind byte | Meaning |
 | --- | --- |
-| 1, 2 | transfer, unshield main |
+| 1, 2, 3 | transfer, unshield, staged shield main |
 | 4, 5, 6, 7 | partial-private, full-private, partial-public, full-public recovery main |
 | 17 | ordinary recipient |
 | 18 | assigned auditor/controller disclosure |
@@ -52,7 +53,7 @@ profile selector, statement digest or optional-role selector is carried here.
 | 20 | recovered receipt with current recipient keys |
 
 Main uses output `0xffffffff`, role `0`. Output ordinals are `0` and `1`; roles
-are recipient `1`, auditor `2`, controller `3`. Kind `3` is not accepted. Missing,
+are recipient `1`, auditor `2`, controller `3`. Kind3 uses100 public cells. Missing,
 extra, duplicated, reordered, mismatched or trailing entries fail. Same-sized
 vectors do not permit substituting a weaker recipient relation. The outer
 [NAPW frame](../../internal/assetprivacy/witness/README.md) remains separately bound
@@ -60,10 +61,10 @@ to the trusted profile and recomputed finalized-body group statement.
 
 ## Rust checking and developer integration
 
-Construct `verification::bundle::Expected` with `transfer`, `unshield`, `recovery`,
+Construct `verification::bundle::Expected` with `shield`, `transfer`, `unshield`, `recovery`,
 `recipient`, `disclosure`, `retained` or `recovered`. Each constructor requires the
 corresponding concrete `Verifier<AIR>` type and exact native public vector. The
-private dispatcher has six concrete verifier variants; it accepts no user-supplied
+private dispatcher has seven concrete verifier variants; it accepts no user-supplied
 success callback. All selected artifacts must share one profile and registry ID.
 
 `encode_bundle(expected, proof_slices, limits)` frames existing per-AIR proofs.

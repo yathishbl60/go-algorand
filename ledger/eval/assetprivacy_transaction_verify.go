@@ -44,18 +44,15 @@ func (cs *roundCowState) verifyAssetPrivacyTransactionPlan(plan *AssetPrivacyTra
 	if err != nil {
 		return err
 	}
-	if plan.spend != nil {
-		return plan.spend.Verify(verifier, framed)
-	}
-	if plan.recovery != nil {
-		return plan.recovery.Verify(verifier, framed)
-	}
-	return proofbridge.ErrContext
+	return plan.verifyAssetPrivacyMainPlan(verifier, framed)
 }
 
 func (p *AssetPrivacyTransactionPlan) Context() AssetPrivacyPlanContext {
 	if p == nil {
 		return AssetPrivacyPlanContext{}
+	}
+	if p.shield != nil {
+		return p.shield.Context()
 	}
 	if p.spend != nil {
 		return p.spend.Context()

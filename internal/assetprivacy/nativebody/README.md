@@ -44,13 +44,15 @@ declared flags; the native evaluator must match them to the immutable policy.
 | --- | ---: | ---: | ---: | --- |
 | Transfer | 1 | 2 | 2 | Debit/credit uint64 |
 | Unshield | 2 | 2 | 0 | Debit0, credit>0 |
+| Shield | 3 | 0 | 2 | Debit>0, credit0 |
 | Partial private recovery | 4 | 1 | 2 | Debit/credit0 |
 | Full private recovery | 5 | 1 | 1 | Debit/credit0 |
 | Partial public recovery | 6 | 1 | 1 | Debit0, credit>0 |
 | Full public recovery | 7 | 1 | 0 | Debit0, credit>0 |
 
-Tag3 is reserved and rejected. Counts are exact operation arities rather than
-peer-selected capacities. Positive debit requires a nonzero source; positive
+Counts are exact operation arities rather than peer-selected capacities.
+Shield has no dummy private inputs, a positive public debit from the outer sender,
+and no public credit/receiver. Positive debit requires a nonzero source; positive
 credit requires a nonzero receiver. With zero conversion the corresponding
 address must be zero. Public recovery destinations remain public body fields.
 
@@ -69,6 +71,8 @@ Current policy identity/suite approval, immutable disclosures, permitted modes,
 full body/group binding, accepted roots, fresh markers, conversion holding rules,
 funding and atomic state application remain native evaluator obligations.
 Canonical body validity alone cannot accept a transaction or enable the feature.
+Shield syntax additionally needs actual native ShieldAir/bundle verification,
+current recipient/disclosure eligibility and public/private atomic accounting.
 
 No tests, codec round trips, runtime vectors, traces or proofs have run. Builds,
 vet, source review, formatting and physical limits establish source/compilation

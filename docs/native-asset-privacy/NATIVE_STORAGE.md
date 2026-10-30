@@ -83,7 +83,7 @@ Replay/catchpoint behavior of the existing native KV path remains unverified.
 
 [Native evaluator execution](NATIVE_EXECUTION.md) couples these charges to proof
 checking and atomic public/private application. This does not complete policy/key
-registration ingress, private-only final reconciliation, all modes/shield, operator
+registration ingress, private-only final reconciliation, other modes, operator
 pricing, normative sibling specifications, complete API/SDK/wallet or real-node delivery.
 
 Only compilation, vet and source checks have been used. No storage vectors,
