@@ -90,7 +90,7 @@ independent cryptographic security review has been supplied or completed.
 
 ## Next work
 
-Finish viewing possession, other modes, authority synchronization and cleanup.
+Finish [viewing possession](KEYGEN_POSSESSION.md) after the new seed/noise stages; complete other modes, authority synchronization and cleanup.
 Populate/approve catalog entries and actual artifacts; preserve live-asset references.
 Source execution now routes through the bridge with body/current-authority checks.
 Establish resource feasibility, calibrated work limits

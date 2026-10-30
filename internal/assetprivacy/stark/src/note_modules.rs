@@ -51,3 +51,9 @@ pub mod transfer_air;
 pub mod unshield_air;
 #[path = "view_key_air/mod.rs"]
 pub mod view_key_air;
+
+#[path = "mlkem_keygen_seed_air/mod.rs"]
+pub mod mlkem_keygen_seed_air;
+
+#[path = "mlkem_keygen_noise_air/mod.rs"]
+pub mod mlkem_keygen_noise_air;
