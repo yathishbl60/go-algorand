@@ -79,8 +79,9 @@ destruction's current authorization and cleanup guards still apply.
 ## Remaining evidence and private-only exit
 
 These transitions do not create a public withdrawal path for private-only assets.
-Their proof-bound final reconciliation atomically with authorized destruction
-still needs implementation. Private-only assets already fully held by the
+[Atomic final reconciliation](FINAL_RECONCILIATION.md) has source integration for
+the existing two-input holder/one-input recovery shapes, with charged cleanup
+after destruction. General note-count closure remains unfinished. Private-only assets already fully held by the
 creator with zero private supply can use the retirement path above.
 
 Builds, vet, formatting and source/link checks provide current evidence only.

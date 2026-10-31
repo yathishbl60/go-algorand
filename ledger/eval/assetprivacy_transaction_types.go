@@ -18,7 +18,10 @@
 
 package eval
 
-import "github.com/algorand/go-algorand/data/basics"
+import (
+	"github.com/algorand/go-algorand/data/basics"
+	"github.com/algorand/go-algorand/internal/assetprivacy/closure"
+)
 
 // AssetPrivacyTransactionPlan derives only from a canonical target transaction.
 // It establishes neither signed consent nor atomic execution authority.
@@ -27,6 +30,7 @@ type AssetPrivacyTransactionPlan struct {
 	spend      *AssetPrivacySpendPlan
 	recovery   *AssetPrivacyRecoveryPlan
 	conversion AssetPrivacyPublicConversion
+	closure    *closure.Record
 }
 
 // AssetPrivacyPublicConversion contains the exact public account/amount body fields.

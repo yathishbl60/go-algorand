@@ -59,7 +59,7 @@ OR to effective freeze; without a holding, marker/default rules apply.
 Normal public debits/credits require existing opted-in, unfrozen holdings and
 checked uint64 arithmetic. Authorized recovery may bypass public-credit freeze,
 but still needs opt-in and cannot debit a public holding. Positive conversions
-require public mode. Private-only final reconciliation is still incomplete.
+require Public except [exact final reconciliation](FINAL_RECONCILIATION.md). General note-count closure remains.
 
 ## Proof work and fee construction
 
@@ -92,7 +92,7 @@ must not become invalid-proof evidence. See [provider](../../internal/assetpriva
 
 [Creator obligations](NATIVE_STORAGE.md) charge every native KV mutation in its
 COW, including ordinary asset hooks. [JSON MBR](ACCOUNT_REPORTING.md) includes them.
-[Viewing registration](VIEWING_REGISTRATION.md), authority synchronization, creation and [retirement/cleanup](RETIREMENT_CLEANUP.md) have source routing. Other modes, private-only final reconciliation,
+[Viewing registration](VIEWING_REGISTRATION.md), authority synchronization, creation and [retirement/cleanup](RETIREMENT_CLEANUP.md) have source routing. General note-count closure,
 AVM inspection, admission scheduling, complete APIs, SDK/wallet
 and all six real-node scenarios remain unfinished. See [delivery status](END_TO_END_STATUS.md).
 Runtime correctness, rollback/restart, crypto security and resource feasibility

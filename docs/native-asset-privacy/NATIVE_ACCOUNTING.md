@@ -32,7 +32,7 @@ the local document records the draft behavior, not a completed cross-repo update
 | `PutAssetPrivacySupply` | Validate both current and replacement supply, then add a KV delta |
 | `IncreaseAssetPrivateSupply` | Check the shield arithmetic and write the resulting aggregate |
 | `DecreaseAssetPrivateSupply` | Check the unshield arithmetic and write the resulting aggregate |
-| `CheckAssetPrivacyDestruction` | Require zero private supply/full creator holding and absence of all remaining native bookkeeping after authenticated final cleanup |
+| `CheckAssetPrivacyDestruction` | Require zero private supply/full creator holding and authenticated cleanup or the scoped atomic-final-destruction allowance |
 | `DeleteAssetPrivacySupply` | Refuse deletion while value remains; remove only an empty aggregate record |
 
 The methods read the current COW and its parents, so ordered group changes are
@@ -42,7 +42,7 @@ caller must discard the transaction/group COW if a later operation fails.
 
 Native `AssetConfig` destruction now calls the read-only supply guard before
 mutating asset records. Existing native supply/policy records now block deletion
-unless [authenticated retirement/final cleanup](RETIREMENT_CLEANUP.md) removes them atomically before ordinary destruction, preserving creator attribution.
+unless [authenticated retirement/final cleanup](RETIREMENT_CLEANUP.md) removes them before ordinary destruction, preserving creator attribution; [final reconciliation](FINAL_RECONCILIATION.md) retains a charged closure/index for bounded later cleanup.
 [Native execution](NATIVE_EXECUTION.md) verifies current consent/proofs and applies
 public/private changes. Deleting a supply record alone grants no destruction right.
 

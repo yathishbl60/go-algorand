@@ -20,7 +20,7 @@ package storage
 
 func validSuffix(kind, suffix string) bool {
 	switch kind {
-	case "p", "s", "d", "x":
+	case "p", "s", "d", "x", "z":
 		return len(suffix) == 0
 	case "n":
 		return len(suffix) == 64

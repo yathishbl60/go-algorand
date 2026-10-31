@@ -31,12 +31,5 @@ func (cs *roundCowState) AssetPrivacyTransactionProofPlan(group []transactions.T
 	if err != nil {
 		return nil, err
 	}
-	if err = cs.checkAssetPrivacyTransactionPolicy(body); err != nil {
-		return nil, err
-	}
-	records, err := cs.assetPrivacyTransactionOutputs(body, bodies)
-	if err != nil {
-		return nil, err
-	}
-	return cs.projectAssetPrivacyTransaction(body, records, bodies)
+	return cs.projectAssetPrivacyValidatedTransaction(body, bodies)
 }

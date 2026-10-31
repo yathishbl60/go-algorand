@@ -56,7 +56,7 @@ Destruction rejects remaining native state. Retirement now requires current PQ
 manager authority, zero private supply and full creator holding, then blocks new
 activity. Bounded cleanup preserves fixed authentication records until the final
 ordinary destruction wrapper removes them and the empty inventory. Only complete
-cleanup releases its storage obligation. Private-only final reconciliation still
+cleanup releases its storage obligation. General note-count private-only final reconciliation still
 needs its atomic destruction proof path; ordinary withdrawals remain prohibited.
 
 Build/static evidence does not prove those transitions. No tests, vectors,

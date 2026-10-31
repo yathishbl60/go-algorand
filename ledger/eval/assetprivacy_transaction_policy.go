@@ -25,13 +25,17 @@ import (
 )
 
 func (cs *roundCowState) checkAssetPrivacyTransactionPolicy(body nativebody.Body) error {
+	return cs.checkAssetPrivacyTransactionPolicyMode(body, false)
+}
+
+func (cs *roundCowState) checkAssetPrivacyTransactionPolicyMode(body nativebody.Body, closing bool) error {
 	if err := cs.checkAssetPrivacyActive(basics.AssetIndex(body.Asset)); err != nil {
 		return err
 	}
-	return cs.checkAssetPrivacyActiveTransactionPolicy(body)
+	return cs.checkAssetPrivacyActiveTransactionPolicy(body, closing)
 }
 
-func (cs *roundCowState) checkAssetPrivacyActiveTransactionPolicy(body nativebody.Body) error {
+func (cs *roundCowState) checkAssetPrivacyActiveTransactionPolicy(body nativebody.Body, closing bool) error {
 	record, exists, err := cs.GetAssetPrivacyPolicy(basics.AssetIndex(body.Asset))
 	if err != nil {
 		return err
@@ -46,17 +50,17 @@ func (cs *roundCowState) checkAssetPrivacyActiveTransactionPolicy(body nativebod
 	if identity != body.Policy || record.Suite != body.Suite {
 		return policy.ErrRecord
 	}
-	if err = checkAssetPrivacyTransactionModes(record.Policy, body); err != nil {
+	if err = checkAssetPrivacyTransactionModes(record.Policy, body, closing); err != nil {
 		return err
 	}
 	return cs.checkAssetPrivacyIssuerInventory(record.Policy, body)
 }
 
-func checkAssetPrivacyTransactionModes(current policy.Policy, body nativebody.Body) error {
+func checkAssetPrivacyTransactionModes(current policy.Policy, body nativebody.Body, closing bool) error {
 	if current.Modes&body.Mode != body.Mode {
 		return policy.ErrModes
 	}
-	if body.Credit != 0 && !current.Modes.Allows(policy.Public) {
+	if body.Credit != 0 && !current.Modes.Allows(policy.Public) && !closing {
 		return policy.ErrModes
 	}
 	if body.Debit != 0 && body.Operation != nativebody.Shield && !current.Modes.Allows(policy.Public) {

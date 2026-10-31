@@ -14,7 +14,7 @@ transaction, runtime proof or real-node demo has been demonstrated.
 | NAP-04 cryptography | Note/conservation, complete encryption, current keys/eligibility, disclosures, ordinary spending and recovery/remainders implemented; V2 markers/global creation uniqueness and Shield3 source routing exist; confidential ordinary/recovery account bindings source-integrated; other arities and runtime acceptance missing |
 | NAP-05 native state | COW supply, policy/key/control epochs, key/eligibility roots, spent markers, tree/root history and outputs implemented; creator storage, JSON MBR, inventory, retirement/cleanup and final storage release source-integrated; runtime recovery/cleanup evidence missing |
 | NAP-06 verification | Exact bundles, ABI2 bridge, current-consensus suites and deterministic decoder charges implemented; stateless PQ-envelope/group/witness admission and witness-sensitive cache added; evaluator proof routing, typed NAPR admin possession, coarse block work and proof/byte fees implemented; approved entries/artifacts, resource calibration and runtime acceptance missing |
-| NAP-07 lifecycle | Policy/key lifecycle, effective freeze, PQ/admin guards, creation, possession, ordinary shielded/confidential operations, authority synchronization and retirement/cleanup/destruction source-integrated; artifacts, runtime acceptance, private-only final reconciliation and complete lifecycle missing |
+| NAP-07 lifecycle | Policy/key lifecycle, effective freeze, PQ/admin guards, creation, possession, ordinary shielded/confidential operations, authority synchronization and retirement/cleanup/destruction source-integrated; supported-arity atomic final reconciliation/charged post-destroy cleanup source-integrated; artifacts, runtime acceptance, general note-count closure and complete lifecycle missing |
 | NAP-08 groups/pool/AVM | Group binding, signed framing and native verifier helper wiring implemented; native dispatch and accepted-block proof counting implemented; failed-attempt/pool scheduling and gated AVM inspection missing |
 | NAP-09 recovery | Existing KV path reused; privacy replay/restart/catchpoint/catchup behavior unverified |
 | NAP-10 APIs | Bounded internal output pages and JSON native MBR reporting exist; REST streams, witness queries, decoding, simulation and error contracts missing |
@@ -56,7 +56,7 @@ retirement/cleanup and minimum-balance release have source integration; runtime 
 - [Viewing-key possession registration and exact public-key relation](VIEWING_REGISTRATION.md).
 - [Ordinary ASA authority synchronization and atomic-group key readiness](AUTHORITY_SYNCHRONIZATION.md).
 - [Native ASA creation and private-only creator inventory conversion](NATIVE_CREATION.md).
-- [Confidential ordinary/recovery modes](CONFIDENTIAL_MODE.md), [inventory](NATIVE_INVENTORY.md), and [retirement/cleanup/storage release](RETIREMENT_CLEANUP.md).
+- [Confidential modes](CONFIDENTIAL_MODE.md), [final reconciliation](FINAL_RECONCILIATION.md), [inventory](NATIVE_INVENTORY.md), and [retirement/cleanup](RETIREMENT_CLEANUP.md).
 - [Current eligibility snapshots, atomic hooks and private recipient binding](ELIGIBILITY.md).
 - [Bounded outer witness framing](../../internal/assetprivacy/witness/README.md).
 - [Rust verification boundary, trusted artifacts and bounded codec](VERIFICATION_BOUNDARY.md).

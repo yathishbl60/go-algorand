@@ -79,7 +79,7 @@ selects recovery-specific recipients only through the fixed main variant and
 RemainderIndex. Ordinary native output planning remains Kind1. Public recovery
 requires Public mode plus a private-input mode; private recovery requires a private
 mode. A public-credit shape never creates an exit from a private-only policy.
-Atomic final-destruction reconciliation is a separate unfinished operation.
+[Final reconciliation](FINAL_RECONCILIATION.md) permits full-public recovery only immediately before destruction.
 
 Plans perform no state writes or proof checks; current consensus fixes group limits.
 Native parsing, exact visibility/participant constraints, credit destination,

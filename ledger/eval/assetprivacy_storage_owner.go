@@ -25,7 +25,7 @@ import (
 )
 
 func (cs *roundCowState) assetPrivacyStorageOwner(asset uint64) (basics.Address, error) {
-	_, creator, err := cs.AssetParams(basics.AssetIndex(asset))
+	creator, err := cs.assetPrivacyStorageCreator(basics.AssetIndex(asset))
 	if err != nil {
 		return basics.Address{}, err
 	}
@@ -47,4 +47,23 @@ func (cs *roundCowState) assetPrivacyNextObligation(payer basics.Address, key st
 		}
 	}
 	return value.Change(uint64(len(key)), uint64(len(before)), exists, uint64(len(after)), present)
+}
+
+func (cs *roundCowState) assetPrivacyStorageCreator(asset basics.AssetIndex) (basics.Address, error) {
+	exists, err := cs.assetPrivacyExists(asset)
+	if err != nil {
+		return basics.Address{}, err
+	}
+	if exists {
+		_, creator, err := cs.AssetParams(asset)
+		return creator, err
+	}
+	record, found, err := cs.readAssetPrivacyClosure(asset)
+	if err != nil {
+		return basics.Address{}, err
+	}
+	if !found {
+		return basics.Address{}, storage.ErrPayer
+	}
+	return basics.Address(record.Creator), nil
 }

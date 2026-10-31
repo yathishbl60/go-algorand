@@ -24,8 +24,8 @@ import (
 	"github.com/algorand/go-algorand/internal/assetprivacy/recoveryplan"
 )
 
-// Public recovery shapes cannot introduce a withdrawal from a private-only policy.
-func (cs *roundCowState) checkAssetPrivacyRecoveryMode(asset basics.AssetIndex, kind recoveryplan.Kind) error {
+// Private-only credit requires the exact final reconciliation/destruction pair.
+func (cs *roundCowState) checkAssetPrivacyRecoveryMode(asset basics.AssetIndex, kind recoveryplan.Kind, bodies AssetPrivacySpendBodies) error {
 	declaration, err := cs.assetPrivacyRecoveryDeclaration(asset)
 	if err != nil {
 		return err
@@ -40,7 +40,7 @@ func (cs *roundCowState) checkAssetPrivacyRecoveryMode(asset basics.AssetIndex, 
 	}
 	public := kind.Public()
 	if public && !modes.Allows(policy.Public) {
-		return policy.ErrModes
+		return cs.checkAssetPrivacyClosingRecovery(asset, kind, bodies)
 	}
 	return nil
 }

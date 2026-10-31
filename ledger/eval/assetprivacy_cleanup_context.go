@@ -50,5 +50,8 @@ func (cs *roundCowState) checkAssetPrivacyLifecycleState(body lifecyclebody.Body
 	if body.Operation == lifecyclebody.Adopt {
 		return nil
 	}
+	if body.Operation == lifecyclebody.Cleanup {
+		return cs.checkAssetPrivacyCleanupPolicy(body)
+	}
 	return cs.checkAssetPrivacyLifecyclePolicy(body)
 }

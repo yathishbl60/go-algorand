@@ -25,6 +25,17 @@ import (
 )
 
 func (cs *roundCowState) cleanupAssetPrivacy(body lifecyclebody.Body, sender basics.Address) error {
+	exists, err := cs.assetPrivacyExists(basics.AssetIndex(body.Asset))
+	if err != nil {
+		return err
+	}
+	if !exists {
+		return cs.cleanupClosedAssetPrivacy(body, sender)
+	}
+	return cs.cleanupRetiredAssetPrivacy(body, sender)
+}
+
+func (cs *roundCowState) cleanupRetiredAssetPrivacy(body lifecyclebody.Body, sender basics.Address) error {
 	asset := basics.AssetIndex(body.Asset)
 	record, err := cs.assetPrivacyCleanupRecord(body, sender)
 	if err != nil {

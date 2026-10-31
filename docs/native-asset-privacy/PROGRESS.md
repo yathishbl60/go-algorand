@@ -90,7 +90,7 @@ independent cryptographic security review has been supplied or completed.
 
 ## Next work
 
-Validate viewing registration, authority synchronization, creation and cleanup when authorized; complete other modes and private-only final reconciliation.
+Validate viewing registration, authority synchronization, creation and cleanup when authorized; complete remaining arities and general note-count final closure; supported-arity [final reconciliation](FINAL_RECONCILIATION.md) has source integration.
 Populate/approve catalog entries and actual artifacts; preserve live-asset references.
 Source execution now routes through the bridge with body/current-authority checks.
 Establish resource feasibility, calibrated work limits

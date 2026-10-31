@@ -36,7 +36,7 @@ func (eval *BlockEvaluator) applyExistingAssetConfigWithPrivacy(tx transactions.
 	if !retired {
 		return apply.AssetConfig(tx.AssetConfigTxnFields, tx.Header, cs, eval.specials, ad, counter)
 	}
-	return eval.applyRetiredAssetDestruction(tx, cs, ad, counter, record)
+	return eval.routeRetiredAssetDestruction(tx, cs, ad, counter, record)
 }
 
 func (eval *BlockEvaluator) applyRetiredAssetDestruction(tx transactions.Transaction, cs *roundCowState, ad *transactions.ApplyData, counter uint64, record retirement.Record) error {
@@ -50,4 +50,15 @@ func (eval *BlockEvaluator) applyRetiredAssetDestruction(tx transactions.Transac
 	}
 	child.commitToParent()
 	return nil
+}
+
+func (eval *BlockEvaluator) routeRetiredAssetDestruction(tx transactions.Transaction, cs *roundCowState, ad *transactions.ApplyData, counter uint64, record retirement.Record) error {
+	closing, exists, err := cs.readAssetPrivacyClosure(tx.ConfigAsset)
+	if err != nil {
+		return err
+	}
+	if exists {
+		return eval.applyClosedAssetDestruction(tx, cs, ad, counter, record, closing)
+	}
+	return eval.applyRetiredAssetDestruction(tx, cs, ad, counter, record)
 }

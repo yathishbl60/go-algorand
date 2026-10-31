@@ -91,7 +91,7 @@ rule remains mandatory. Private-only creator inventory can use confidential
 Shield when its declared mode permits it; public credits still require Public.
 Retirement rejects these operations before proof work like other value operations.
 
-Private-only final reconciliation still needs its complete native proof path. Runtime validation, audits, approved artifacts,
+[Final reconciliation](FINAL_RECONCILIATION.md) has supported-arity source routing; general note-count closure remains. Runtime validation, audits, approved artifacts,
 resource calibration, APIs, SDK/wallet and all six demonstrations remain in
 [the delivery checklist](END_TO_END_STATUS.md). No tests, vectors, traces,
 constraint evaluations, setup, proofs, signatures or node execution have run.

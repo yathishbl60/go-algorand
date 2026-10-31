@@ -36,7 +36,7 @@ func (cs *roundCowState) AssetPrivacyRecoveryProofPlan(asset basics.AssetIndex, 
 	if err != nil {
 		return nil, err
 	}
-	if err = cs.checkAssetPrivacyRecoveryMode(asset, main.Kind()); err != nil {
+	if err = cs.checkAssetPrivacyRecoveryMode(asset, main.Kind(), bodies); err != nil {
 		return nil, err
 	}
 	if err = cs.checkAssetPrivacySpendInput(asset, context.config.Domain.Policy, main.Input()); err != nil {

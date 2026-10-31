@@ -27,7 +27,7 @@ import (
 var errAssetPrivacyCleanup = errors.New("native privacy asset destruction requires authenticated state cleanup")
 
 // CheckAssetPrivacyDestruction requires the authenticated finalizer to remove
-// every native record before the ordinary applier removes creator attribution.
+// native records, or use the scoped closure path retaining charged attribution.
 func (cs *roundCowState) CheckAssetPrivacyDestruction(asset basics.AssetIndex, holding uint64) error {
 	supply, exists, err := cs.GetAssetPrivacySupply(asset)
 	if err != nil {

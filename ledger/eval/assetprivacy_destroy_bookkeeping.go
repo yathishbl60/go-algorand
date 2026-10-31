@@ -32,8 +32,11 @@ func (cs *roundCowState) checkAssetPrivacyBookkeepingCleanup(asset basics.AssetI
 	if err != nil {
 		return err
 	}
-	if indexed || retired {
+	if retired {
 		return errAssetPrivacyCleanup
 	}
-	return nil
+	if indexed {
+		return cs.checkAssetPrivacyClosingGuard(asset)
+	}
+	return cs.requireAssetPrivacyUnclosed(asset)
 }

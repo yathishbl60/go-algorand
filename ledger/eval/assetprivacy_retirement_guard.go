@@ -30,6 +30,9 @@ func (cs *roundCowState) checkAssetPrivacyRetiredWrite(asset uint64, key string,
 	if !present {
 		return nil
 	}
+	if err := cs.checkAssetPrivacyClosedWrite(asset, key); err != nil {
+		return err
+	}
 	_, retired, err := cs.readAssetPrivacyRetirement(basics.AssetIndex(asset))
 	if err != nil {
 		return err

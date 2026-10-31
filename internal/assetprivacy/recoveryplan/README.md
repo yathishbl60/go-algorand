@@ -86,7 +86,7 @@ nonce/ciphertext/conversion correspondence, mode permissions, public-credit
 recipient/holding/funding checks, work limits and current issuer authorization
 remain mandatory. Full public recovery has no output-role proof, but still needs
 the authenticated current clawback action and complete main proof. Native private-
-only exit/recovery rules must be enforced by the future transaction body handler;
+only exit/recovery rules are enforced by the native final-group handler;
 these generic variants imply no permission to create public value in that mode.
 
 Key rotation is prospective. Keep old owner secrets and the decryption material

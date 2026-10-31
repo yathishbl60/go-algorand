@@ -37,7 +37,7 @@ func (cs *roundCowState) applyVerifiedAssetPrivacy(execution *assetPrivacyExecut
 			return err
 		}
 	}
-	return nil
+	return cs.sealAssetPrivacyClosure(execution.plan)
 }
 
 func (cs *roundCowState) adjustAssetPrivacyPrivateSupply(value AssetPrivacyPublicConversion) error {
