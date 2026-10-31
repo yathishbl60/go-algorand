@@ -12,7 +12,7 @@ transaction, runtime proof or real-node demo has been demonstrated.
 | NAP-02 consensus specification | Draft obligations/accounting/candidate layouts; complete normative protocol and sibling specs changes missing |
 | NAP-03 types/gates | Flag false, suite catalog nil and native decoder bounds zero in every current version; NAPT/NAPL1 body codecs, raw transaction and signed-witness metadata implemented; compatibility/runtime vectors missing |
 | NAP-04 cryptography | Note/conservation, complete envelope encryption, recipient current-key/eligibility membership and assigned disclosure constraints implemented; ordinary two-input eligibility/conservation/group constraints implemented; recovery/remainder constraints implemented; commitment-bound V2 markers/global creation uniqueness implemented; native Shield3/0-input2-output source routing added; other arities and runtime acceptance missing |
-| NAP-05 native state | COW supply, policy/key/control epochs, current-key and effective-freeze roots, spent markers, tree/root history and atomic outputs implemented; creator storage obligations implemented; JSON MBR reporting implemented; cleanup/refunds and runtime recovery evidence missing |
+| NAP-05 native state | COW supply, policy/key/control epochs, key/eligibility roots, spent markers, tree/root history and atomic outputs implemented; creator storage, JSON MBR reporting and complete mutation inventory source-integrated; retirement/cleanup/refunds and runtime recovery evidence missing |
 | NAP-06 verification | Exact bundles, ABI2 bridge, current-consensus suites and deterministic decoder charges implemented; stateless PQ-envelope/group/witness admission and witness-sensitive cache added; evaluator proof routing, typed NAPR admin possession, coarse block work and proof/byte fees implemented; approved entries/artifacts, resource calibration and runtime acceptance missing |
 | NAP-07 lifecycle | Policy lifecycle, viewing-key admission, destruction guard and holding freeze persistence implemented; PQ/admin guards, NAPL1 adoption/assignment/freeze/Create and child-COW execution implemented; all role possession, Shield3/private-only creator conversion and ASA authority synchronization source-integrated; approved artifacts, runtime acceptance, final private-only reconciliation and complete lifecycle missing |
 | NAP-08 groups/pool/AVM | Group binding, signed framing and native verifier helper wiring implemented; native dispatch and accepted-block proof counting implemented; failed-attempt/pool scheduling and gated AVM inspection missing |
@@ -56,6 +56,7 @@ state cleanup, funding/refund lifecycle and upgrade evidence remain incomplete.
 - [Viewing-key possession registration and exact public-key relation](VIEWING_REGISTRATION.md).
 - [Ordinary ASA authority synchronization and atomic-group key readiness](AUTHORITY_SYNCHRONIZATION.md).
 - [Native ASA creation and private-only creator inventory conversion](NATIVE_CREATION.md).
+- [Per-asset record inventory for bounded cleanup](NATIVE_INVENTORY.md).
 - [Current eligibility snapshots, atomic hooks and private recipient binding](ELIGIBILITY.md).
 - [Bounded outer witness framing](../../internal/assetprivacy/witness/README.md).
 - [Rust verification boundary, trusted artifacts and bounded codec](VERIFICATION_BOUNDARY.md).

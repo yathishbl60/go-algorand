@@ -10,7 +10,7 @@ key-authorization and eligibility namespaces contain wrapped tree keys or their
 exact fixed-size stable-index keys. Known key
 shapes and positive asset IDs are checked before attribution. Unknown or malformed
 `aprv:` keys fail with ErrNamespace; unrelated keys return native=false. Creator
-meter keys are excluded so ordinary writes cannot recursively alter obligations.
+meter and inventory keys are excluded so ordinary writes cannot recursively alter obligations.
 Domain/hash contents are not cryptographically authenticated by this helper.
 
 `Key(payer)` is ASCII `aprv:storage:` plus the nonzero32-byte creator address.
@@ -36,7 +36,9 @@ Charge every native mutation, including incidental holding/key/eligibility chang
 in the same child COW as its actual KV write. The account obligation must prevent
 withdrawal and closeout while state persists; deletion releases only the removed
 footprint, never a promise to refund a hidden owner or third-party contributor.
-Full cleanup, API/AVM reporting and runtime evidence remain separate obligations.
+The [native inventory](../inventory/README.md) now records every data mutation;
+its metadata, entries and neighbor changes are included in the same creator
+obligation before funding checks. Full cleanup/refunds and runtime evidence remain.
 
 Build, vet and authored source limits are permitted checks. No tests, counter
 vectors, runtime package calls, proofs or node execution have run for this package.

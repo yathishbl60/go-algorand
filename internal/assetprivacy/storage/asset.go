@@ -23,8 +23,8 @@ import (
 	"strings"
 )
 
-// Asset identifies only known canonical native namespaces. Counter keys are
-// deliberately excluded: the ledger must update those through its private meter.
+// Asset identifies canonical native data namespaces. Counter and inventory keys
+// are excluded: the ledger updates those through its private accounting adapter.
 func Asset(key string) (uint64, bool, error) {
 	if !strings.HasPrefix(key, "aprv:") {
 		return 0, false, nil

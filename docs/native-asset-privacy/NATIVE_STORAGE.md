@@ -9,7 +9,7 @@ withdrawal, closeout, replay or node scenario has been executed.
 
 The [storage package](../../internal/assetprivacy/storage/README.md) recognizes
 policy, supply, marker, disclosure, output, tree, permanent note-creation,
-key/control history and wrapped authorization/eligibility namespaces. Canonical
+key/control history and wrapped authorization/eligibility namespaces. A private [inventory](NATIVE_INVENTORY.md) indexes every data mutation and is charged too. Canonical
 key shapes and nonzero asset IDs are checked. Unknown/malformed `aprv:` keys fail;
 unrelated KV/AVM box accounting retains its existing path. The private meter's
 counter namespace cannot be mutated through ordinary native KV writes.
@@ -22,7 +22,7 @@ aggregates that creator's obligations across all its assets.
 Its key is ASCII `aprv:storage:` plus creator32:45 bytes. Its value is version1,
 Itemsu64BE and Bytesu64BE:17 bytes. A first counter therefore starts at one item
 and 62 bytes for itself. Full key/value lengths are charged, including internal
-tree nodes, history, stream metadata and markers. These are logical KV units,
+tree nodes, history, stream metadata, markers and inventory records. These are logical KV units,
 not measured database/index/filesystem heap or disk overhead.
 
 The counter remains charged after the last other entry is removed. It cannot be
@@ -36,7 +36,7 @@ Authenticated cleanup, refunds and migration remain separate protocol work.
 roundCowState.kvPut/kvDel call chargeAssetPrivacyStorage before their data delta.
 The meter reads the authoritative old value/current creator, replaces the old
 footprint with the new one, checks current funding, writes the counter directly
-into the same delta, and touches the payer account for later balance checks.
+into the same delta, and touches the payer account for later balance checks. Inventory/link writes are included before the funding check.
 Direct counter writes avoid recursive billing; ordinary callers cannot supply
 their own old lengths or obligation totals.
 

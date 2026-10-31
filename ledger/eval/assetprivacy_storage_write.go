@@ -41,6 +41,9 @@ func (cs *roundCowState) chargeAssetPrivacyKV(asset uint64, key string, value []
 	if err != nil || (!exists && !present) {
 		return err
 	}
+	if present && value == nil {
+		return storage.ErrEncoding
+	}
 	payer, err := cs.assetPrivacyStorageOwner(asset)
 	if err != nil {
 		return err
@@ -49,7 +52,7 @@ func (cs *roundCowState) chargeAssetPrivacyKV(asset uint64, key string, value []
 	if err != nil {
 		return err
 	}
-	return cs.storeAssetPrivacyObligation(payer, obligation)
+	return cs.chargeAssetPrivacyInventory(asset, payer, key, before, exists, value, present, obligation)
 }
 
 func (cs *roundCowState) storeAssetPrivacyObligation(payer basics.Address, obligation storage.Obligation) error {

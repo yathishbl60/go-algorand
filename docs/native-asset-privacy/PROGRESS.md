@@ -23,7 +23,7 @@ completion checklist. The full native feature remains in progress.
 2. Native COW supply, policy/key/control epochs, spent markers, commitment tree,
    root history and atomic encrypted output streams. Public holding changes
    preserve freeze state and atomically publish current eligibility. Native destruction
-   stays blocked until cleanup exists. [NAPL1 lifecycle](LIFECYCLE_INGRESS.md)
+   stays blocked until cleanup exists; a [complete mutation inventory](NATIVE_INVENTORY.md) now prepares bounded retirement/cleanup. [NAPL1 lifecycle](LIFECYCLE_INGRESS.md)
    adopts policy/assignments, controls freeze and verifies all role possession. [Native creation](NATIVE_CREATION.md) declares policy at birth and converts private-only creator inventory. [Authority synchronization](AUTHORITY_SYNCHRONIZATION.md) couples configuration and final key readiness; artifacts/pricing remain.
 3. Local canonical 512-byte notes, SHA3 commitments/nullifiers/ownership, fixed
    ML-KEM/HKDF/AES-GCM envelopes, role/epoch output recovery and bounded key
