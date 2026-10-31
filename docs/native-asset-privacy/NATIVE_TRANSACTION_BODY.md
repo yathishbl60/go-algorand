@@ -37,25 +37,25 @@ The fixed header is225 bytes. Each accepted-root count is1..2^32; roots are nonz
 Output nonces/commitments are nonzero. Each output includes one1629-byte recipient
 envelope, then auditor and controller envelopes iff the immutable policy flags
 require them. Unknown flags and missing/extra roles fail. Output maximum4984 bytes;
-two inputs/two outputs give a hard body ceiling of10465 bytes. Envelopes must pass
+two inputs/two outputs give10465 bytes in Shielded4; Confidential2 appends128 bytes, giving10593. Envelopes must pass
 canonical framing before expensive verification. No keys, epochs, private input
-commitments, selected private accounts or membership paths appear in this body.
+commitments or membership paths appear; only confidential mode discloses selected note accounts.
 
 | Operation | Native tag/main proof kind | Inputs | Outputs | Conversion fields |
 | --- | ---: | ---: | ---: | --- |
-| Transfer | 1 | 2 | 2 | Debit/credit are uint64 |
-| Unshield | 2 | 2 | 0 | Debit0, positive credit |
-| Shield | 3 | 0 | 2 | Positive debit from Sender, credit/receiver0 |
+| Transfer | tag1; main1/8 | 2 | 2 | Debit/credit are uint64 |
+| Unshield | tag2; main2/9 | 2 | 0 | Debit0, positive credit |
+| Shield | tag3; main3/10 | 0 | 2 | Positive debit from Sender, credit/receiver0 |
 | Partial private recovery | 4 | 1 | 2 | Debit/credit0 |
 | Full private recovery | 5 | 1 | 1 | Debit/credit0 |
 | Partial public recovery | 6 | 1 | 1 | Debit0, positive credit |
 | Full public recovery | 7 | 1 | 0 | Debit0, positive credit |
 
 Recoveryplan.Kind is tag-3. For partial private recovery output0 is recovered and
-output1 retained; partial public recovery output0 is retained. The current AIRs
-support shielded mode4 only. Public1/confidential2 must fail until their complete
-native semantics and participant-identity proof joins exist; a body mode alone
-cannot prove disclosed identities. Future modes/arities need explicit dispatch.
+output1 retained; partial public recovery output0 is retained. [Confidential2](CONFIDENTIAL_MODE.md)
+ordinary operations append input0/input1/output0/output1 accounts,32 bytes each.
+Actual note slots are nonzero; absent slots zero. Mode4 has no trailer. Main kinds8/9/10 bind these exact committed accounts.
+Public1 uses ordinary ASA transfers; confidential recovery and unknown modes reject.
 
 ## Projection, authorization and application
 

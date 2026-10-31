@@ -25,6 +25,8 @@ pub mod nullified_note_air;
 pub mod owned_note_air;
 #[path = "owner_registration_air/mod.rs"]
 pub mod owner_registration_air;
+#[path = "public_participants.rs"]
+pub mod public_participants;
 #[path = "recovery_group_air/mod.rs"]
 pub mod recovery_group_air;
 #[path = "recovery_note_air/mod.rs"]

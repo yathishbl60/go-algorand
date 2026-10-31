@@ -1,7 +1,7 @@
 // Copyright (C) 2026 Algorand Foundation Ltd.
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
-use super::{PUBLIC_VALUES, ShieldGroupAir};
+use super::ShieldGroupAir;
 use crate::{Value, sha3_air::digest_values};
 use p3_field::PrimeCharacteristicRing;
 
@@ -22,7 +22,7 @@ impl PublicStatement {
 impl ShieldGroupAir {
     pub fn public_values(&self, statement: &PublicStatement) -> Option<Vec<Value>> {
         statement.validate()?;
-        let mut values = Vec::with_capacity(PUBLIC_VALUES);
+        let mut values = Vec::with_capacity(self.public_count());
         for commitment in statement.outputs {
             values.extend(digest_values(commitment));
         }
@@ -30,6 +30,9 @@ impl ShieldGroupAir {
             values.push(Value::from_u16((self.debit >> (limb * 16)) as u16));
         }
         values.extend(digest_values(statement.group));
+        if let Some(participants) = &self.participants {
+            crate::public_participants::append(&mut values, participants);
+        }
         Some(values)
     }
 }

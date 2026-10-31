@@ -12,11 +12,10 @@ impl Target {
     pub(super) fn expected<'a>(&'a self, slot: &'a Slot) -> Result<Expected<'a>, Error> {
         let values = &slot.values;
         match self {
-            Self::Shield(v) => Expected::shield(v, values),
+            Self::Shield(v) => super::expected_main::shield(slot.layout, v, values),
             Self::OwnerRegistration(v) => Expected::owner_registration(v, values),
             Self::ViewingRegistration(v) => Expected::viewing_registration(v, values),
-            Self::Spend(v) if slot.layout == Layout::Transfer => Expected::transfer(v, values),
-            Self::Spend(v) => Expected::unshield(v, values),
+            Self::Spend(v) => super::expected_main::spend(slot.layout, v, values),
             Self::Recovery(v) => Expected::recovery(recovery(slot.layout)?, v, values),
             Self::Recipient(v) => Expected::recipient(slot.output, v, values),
             Self::Disclosure(v) => {

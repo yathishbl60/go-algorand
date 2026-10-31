@@ -4,6 +4,7 @@
 //! Exact main/output proof composition; expected slots and keys are selected locally.
 //! No native transaction authentication or state transition is performed here.
 mod binding;
+mod confidential;
 mod cursor;
 mod encode;
 mod expected;

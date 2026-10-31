@@ -5,12 +5,16 @@
 //! Requests are not transaction/witness data and cannot establish their own trust.
 mod binding;
 mod build;
+mod confidential;
+mod confidential_spend;
 mod cursor;
 mod error;
 mod expected;
+mod expected_main;
 mod header;
 mod header_fields;
 mod main;
+mod main_build;
 mod output;
 mod owner_registration;
 mod request;
@@ -22,6 +26,6 @@ mod viewing_registration;
 
 pub use error::Failure;
 pub use verify::verify_request;
-pub const MAX_REQUEST_BYTES: usize = 15746;
+pub const MAX_REQUEST_BYTES: usize = 16248;
 pub const MAX_BUNDLE_BYTES: usize = 512 << 20;
-const HEADER: usize = 1578;
+const HEADER: usize = 1824;

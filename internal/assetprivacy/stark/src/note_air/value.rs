@@ -6,6 +6,16 @@ use p3_keccak_air::NUM_KECCAK_COLS;
 use super::{NoteCommitmentAir, OPENING_START};
 
 impl NoteCommitmentAir {
+    /// Shares the exact committed account bytes, with each byte's bits LSB first.
+    pub fn account_bits<T: Copy>(&self, row: &[T]) -> Option<[T; 256]> {
+        if row.len() != self.width() {
+            return None;
+        }
+        Some(core::array::from_fn(|bit| {
+            row[self.opening_bit_column(137 + bit / 8, bit % 8)]
+        }))
+    }
+
     pub(crate) fn opening_bit_column(&self, byte: usize, bit: usize) -> usize {
         NUM_KECCAK_COLS + (OPENING_START + byte) * 8 + bit
     }

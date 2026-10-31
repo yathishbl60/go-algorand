@@ -42,8 +42,8 @@ func (p *parsed) readOutputs(encoded []byte, at int) error {
 		p.outputs[index] = output
 		at += size
 	}
-	if at != len(encoded) {
-		return ErrEncoding
+	if err := p.readParticipants(encoded[at:]); err != nil {
+		return err
 	}
 	return validateOutputs(p.outputs[:p.outputCount])
 }

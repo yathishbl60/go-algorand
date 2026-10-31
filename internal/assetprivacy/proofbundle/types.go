@@ -49,6 +49,9 @@ const (
 	FullPrivate                    Kind = 5
 	PartialPublic                  Kind = 6
 	FullPublic                     Kind = 7
+	ConfidentialTransfer           Kind = 8
+	ConfidentialUnshield           Kind = 9
+	ConfidentialShield             Kind = 10
 	Recipient                      Kind = 17
 	Disclosure                     Kind = 18
 	RetainedRecipient              Kind = 19

@@ -18,13 +18,11 @@
 
 package nativebody
 
-import "github.com/algorand/go-algorand/internal/assetprivacy/policy"
-
 func (b Body) validateHeader() error {
 	if _, _, err := b.Operation.arity(); err != nil {
 		return err
 	}
-	if b.Mode != policy.Modes(policy.Shielded) {
+	if !b.validMode() {
 		return ErrMode
 	}
 	if b.Asset == 0 || b.Policy == [64]byte{} || b.Suite == [64]byte{} {
@@ -51,7 +49,7 @@ func (b Body) Validate() error {
 	if encodedSize(b) > MaxSize {
 		return ErrEncoding
 	}
-	return nil
+	return b.validateParticipants()
 }
 
 // CheckSender binds a positive public debit to the nonzero outer transaction sender.

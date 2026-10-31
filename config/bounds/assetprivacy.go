@@ -17,7 +17,7 @@
 package bounds
 
 // NativeAssetPrivacyBodyCeiling bounds the canonical candidate body, not activation.
-const NativeAssetPrivacyBodyCeiling = 10465
+const NativeAssetPrivacyBodyCeiling = 10593
 
 // NativeAssetPrivacyProofCeiling includes the NAPW header and maximum bundle.
 const NativeAssetPrivacyProofCeiling = (512 << 20) + 137

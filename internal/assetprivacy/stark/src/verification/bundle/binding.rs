@@ -7,8 +7,8 @@ use super::Expected;
 pub(super) fn check(slots: &[Expected<'_>]) -> Result<(), Error> {
     let main = &slots[0];
     let first = match main.kind {
-        1 => 128,
-        3 => 0,
+        1 | 8 => 128,
+        3 | 10 => 0,
         _ => 64,
     };
     for output in &slots[1..] {

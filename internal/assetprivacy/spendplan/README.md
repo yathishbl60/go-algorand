@@ -5,14 +5,14 @@ candidate main spending/group relation. It does not parse/verify proofs, accept
 transactions, grant consent or mint a permission token. No proof-verifier callback
 or native operation handler is supplied by this package.
 
-`Build(Statement,Config)` snapshots one of two fixed operation shapes:
+`Build(Statement,Config)` snapshots these fixed operation shapes, with confidential variants8/9:
 
 - Transfer: two actual private inputs and two actual private output commitments.
 - Unshield: two actual private inputs, zero private outputs and Debit=0.
 
 There are no optional/dummy inputs. A zero amount does not remove an input's
 membership, ownership, nullifier or current-eligibility obligations. Statement
-contains Kind, Inputs[2], Outputs, Debit, Credit and finalized Group digest.
+contains Kind, Inputs[2], Outputs, Debit, Credit, Participants[4][32] and finalized Group digest.
 Input is public Nullifier64, accepted note Root64 and native metadata Count.
 Config contains the trusted tree Domain and typed current EligibilityRoot.
 
@@ -43,6 +43,10 @@ relation constructor; Count is native accepted-root metadata, never an AIR scala
 
 Intervals exclude their end. Unshield has no padded output or debit slots.
 
+ConfidentialTransfer8 and ConfidentialUnshield9 preserve these prefixes and append
+128 participant byte cells, producing392/324 cells. Actual note accounts are nonzero
+and absent output slots zero; ordinary variants require zero Participants. `Participants()` returns a value copy. See [mode bindings](../../../docs/native-asset-privacy/CONFIDENTIAL_MODE.md).
+
 `Plan.Domain()` returns the trusted domain by value; `Kind()` selects the relation. `Values()`, `Inputs()` and
 `Outputs()` return independent copies; no caller-owned mutable slice or vector is
 retained. Build computes vectors directly from the expected native statement,
@@ -56,7 +60,7 @@ operation output ordinal. This is a structural join, not a proof check. The
 separate output-role plans must enforce current immutable disclosure policy and
 verify every required recipient/auditor/controller proof against the same ordered
 commitments. No private input commitments, selected accounts or paths are exposed
-by this public-output join.
+by shielded public-output joins; confidential main statements disclose note accounts.
 
 ## Native trust boundary
 

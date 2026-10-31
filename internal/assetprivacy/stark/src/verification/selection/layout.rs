@@ -12,6 +12,9 @@ pub enum Layout {
     FullPrivate = 5,
     PartialPublic = 6,
     FullPublic = 7,
+    ConfidentialTransfer = 8,
+    ConfidentialUnshield = 9,
+    ConfidentialShield = 10,
     Recipient = 17,
     Disclosure = 18,
     Retained = 19,
@@ -20,7 +23,7 @@ pub enum Layout {
     ViewingRegistration = 22,
 }
 
-pub(super) const ORDER: [Layout; 13] = [
+pub(super) const ORDER: [Layout; 16] = [
     Layout::Transfer,
     Layout::Unshield,
     Layout::Shield,
@@ -28,6 +31,9 @@ pub(super) const ORDER: [Layout; 13] = [
     Layout::FullPrivate,
     Layout::PartialPublic,
     Layout::FullPublic,
+    Layout::ConfidentialTransfer,
+    Layout::ConfidentialUnshield,
+    Layout::ConfidentialShield,
     Layout::Recipient,
     Layout::Disclosure,
     Layout::Retained,

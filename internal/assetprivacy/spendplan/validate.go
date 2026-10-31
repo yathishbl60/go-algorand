@@ -31,7 +31,7 @@ func (c Config) validate() error {
 }
 
 func (s Statement) validate() error {
-	if (s.Kind != Transfer && s.Kind != Unshield) || s.Group == [64]byte{} {
+	if !s.Kind.valid() || s.Group == [64]byte{} {
 		return ErrStatement
 	}
 	if s.Inputs[0].Nullifier == s.Inputs[1].Nullifier {
@@ -42,14 +42,14 @@ func (s Statement) validate() error {
 			return ErrStatement
 		}
 	}
-	return s.checkOutputs()
+	return s.checkFields()
 }
 
 func (s Statement) checkOutputs() error {
-	if s.Kind == Transfer && len(s.Outputs) != 2 {
+	if s.Kind.transfer() && len(s.Outputs) != 2 {
 		return ErrStatement
 	}
-	if s.Kind == Unshield && (len(s.Outputs) != 0 || s.Debit != 0) {
+	if s.Kind.unshield() && (len(s.Outputs) != 0 || s.Debit != 0) {
 		return ErrStatement
 	}
 	for _, output := range s.Outputs {

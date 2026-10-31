@@ -44,8 +44,16 @@ impl PublicStatement {
 impl SpendGroupAir {
     /// Complete public vector enters the pinned transcript, including group digest.
     pub fn public_values(&self, statement: &PublicStatement) -> Option<Vec<Value>> {
+        let mut values = self.base_public_values(statement)?;
+        if let Some(participants) = &self.participants {
+            crate::public_participants::append(&mut values, participants);
+        }
+        Some(values)
+    }
+
+    fn base_public_values(&self, statement: &PublicStatement) -> Option<Vec<Value>> {
         statement.validate(self.operation)?;
-        let mut values = Vec::with_capacity(self.operation.public_count());
+        let mut values = Vec::with_capacity(self.public_count());
         for input in &statement.inputs {
             values.extend(digest_values(input.nullifier));
             values.extend(digest_values(input.root));

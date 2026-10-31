@@ -5,6 +5,7 @@
 //! Native policy/ledger checks and required output-envelope proofs remain separate.
 mod binding;
 mod components;
+mod confidential;
 mod frames;
 mod input;
 mod mapped_builder;
@@ -22,6 +23,7 @@ pub use operation::Operation;
 use p3_air::{Air, AirBuilder, BaseAir};
 use p3_matrix::dense::RowMajorMatrix;
 use params::*;
+pub use params::{CONFIDENTIAL_TRANSFER_PUBLIC_VALUES, CONFIDENTIAL_UNSHIELD_PUBLIC_VALUES};
 pub use params::{PREPROCESSED, ROWS, TRANSFER_PUBLIC_VALUES, UNSHIELD_PUBLIC_VALUES, WIDTH};
 pub use public::{InputPublic, PublicStatement};
 pub use trace::GroupWitness;
@@ -31,6 +33,7 @@ pub struct SpendGroupAir {
     input: SpendableNoteAir,
     output: NoteCommitmentAir,
     operation: Operation,
+    participants: Option<[[u8; 32]; 4]>,
 }
 
 impl SpendGroupAir {
@@ -48,6 +51,7 @@ impl SpendGroupAir {
             input: SpendableNoteAir::new(network, asset, policy)?,
             output,
             operation,
+            participants: None,
         })
     }
 }
@@ -57,7 +61,7 @@ impl BaseAir<Value> for SpendGroupAir {
         WIDTH
     }
     fn num_public_values(&self) -> usize {
-        self.operation.public_count()
+        self.public_count()
     }
     fn preprocessed_width(&self) -> usize {
         PREPROCESSED
@@ -74,5 +78,6 @@ impl<AB: AirBuilder<F = Value>> Air<AB> for SpendGroupAir {
         self.eval_amounts(builder);
         self.eval_conversion(builder);
         self.eval_bindings(builder);
+        self.eval_participants(builder);
     }
 }

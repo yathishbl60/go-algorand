@@ -21,11 +21,11 @@ consent proof. Current rekey/authorizer and PQ signature checks remain mandatory
 
 ## Exact field order
 
-Every integer is unsigned big-endian. HeaderSize=225 and MaxSize=10465 bytes.
+Every integer is unsigned big-endian. HeaderSize=225 and MaxSize=10593 bytes.
 The fixed header contains ASCII `NAPT`, version1, operation1, mode1, asset8,
 policy64, suite64, public debit8, debit source32, public credit8, receiver32,
 input count1 and output count1. Asset/policy/suite must be nonzero. Mode must be
-exactly shielded4; public1, confidential2 and combined/unknown values are rejected.
+Shielded4, or Confidential2 for Transfer/Unshield/Shield. Public1 and combined/unknown values reject.
 
 Inputs follow, each136 bytes: nullifier64, nonzero root64, accepted-root count8.
 Counts must be1..2^32. Every64-byte nullifier, including zero, is permitted;
@@ -39,6 +39,10 @@ Output nonce/commitment must be nonzero; two outputs cannot repeat a commitment.
 Each present envelope must have exact1629-byte framing and version1. Missing or
 extra role fields fail. An output is1726,3355 or4984 bytes. The codec checks the
 declared flags; the native evaluator must match them to the immutable policy.
+
+Confidential2 appends128 account bytes after all records in input0/input1/output0/
+output1 order. Actual note slots are nonzero; absent slots are zero. Shielded4
+has no trailer and requires zero participant fields. [Confidential proof bindings](../../../docs/native-asset-privacy/CONFIDENTIAL_MODE.md) authenticate the same committed note accounts.
 
 | Operation | Tag | Inputs | Outputs | Conversion |
 | --- | ---: | ---: | ---: | --- |
@@ -62,7 +66,7 @@ issuer power or prove remainder ownership/value preservation. The selected main
 relation, exact output-envelope variants and current native authority must do so.
 
 The body contains no transaction/group ID, round, tree index, private opening,
-viewing epoch/key, selected private input account or membership path. Native
+viewing epoch/key or membership path. Only the confidential trailer exposes selected note accounts. Native
 projection supplies output domain/index/round/transaction ID/ordinal from the
 actual ledger and finalized target body. The proof stays outside the transaction
 body in the exact SignedTxn witness field; proof framing is a separate package.

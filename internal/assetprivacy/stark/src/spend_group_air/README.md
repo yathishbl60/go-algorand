@@ -5,12 +5,14 @@ inputs with current eligibility and exact uint64 conservation. Operation is
 `Transfer(PublicValue{debit,credit})` or `Unshield{credit}`. The native verifier
 must choose the exact variant and conversion amounts from finalized bodies.
 The Rust `native-privacy` feature remains disabled by default.
+`confidential(network,asset,policy,operation,participants)` appends128 byte cells ordered input0,input1,output0,output1:392 transfer/324 unshield cells. Real accounts are nonzero; absent outputs are zero.
+Rows16384/main8506/preprocessing80 stay fixed. [Confidential bindings](CONFIDENTIAL.md) join disclosed accounts to committed notes and existing output encryption proofs.
 
 Each [SpendableNoteAir](../spendable_note_air/README.md) proves canonical private
 opening, committed owner secret, domain-bound nullifier, accepted note membership
 and current effective-unfrozen eligibility for the same hidden account. Key
-rotation does not replace old notes' committed owners. Private input commitments,
-accounts, paths, serials and secrets never become public joining values.
+rotation does not replace old notes' committed owners. With `new`, accounts stay
+hidden; with `confidential` they are public. Paths, serials and secrets stay private.
 The common current eligibility root must come from current group-local state;
 accepted note-root history cannot authenticate stale eligibility.
 
@@ -30,7 +32,7 @@ roots/group/eligibility root/output commitments, and duplicate output commitment
 Every64-byte nullifier is representable, including all zero. Distinctness and
 freshness still require native ledger checks; this AIR does not query state.
 
-`public_values(&statement)` returns Option<Vec<Value>> with the exact schema:
+`public_values(&statement)` returns Option<Vec<Value>> with this exact base schema:
 
 | Scalars, end excluded | Transfer264 | Unshield196 |
 | --- | --- | --- |
@@ -91,8 +93,7 @@ finalized bodies/group context, policy/mode, accepted input roots, fresh distinc
 nullifiers, real public debits/credits, fees, storage and atomic state updates.
 No header comparison or expected-vector planner can verify these proofs.
 
-Recovery/clawback, frozen original-owner remainders, other arities, full native
-proof decoding/verification/ingress, wallet/SDK and real-node demonstrations remain
-unfinished. This ordinary holder path cannot grant viewing keys spending power
+Recovery/clawback uses separate relations; other arities, wallet/SDK and real-node
+demonstrations remain unfinished. This holder path cannot grant viewing keys spending power
 or restore relinquished issuer authority. No tests, vectors, traces, constraint
 evaluations, proofs or benchmarks have run. No security review is established.

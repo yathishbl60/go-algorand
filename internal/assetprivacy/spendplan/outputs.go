@@ -24,7 +24,7 @@ import "github.com/algorand/go-algorand/internal/assetprivacy/outputs"
 // Body/group/nonce/round correspondence and policy roles remain native obligations.
 // Record.Index is a tree allocation index; Record.Output is the operation ordinal.
 func (p *Plan) CheckOutputs(records []outputs.Record) error {
-	if p == nil || (p.kind != Transfer && p.kind != Unshield) || len(records) != len(p.outputs) {
+	if p == nil || !p.kind.valid() || len(records) != len(p.outputs) {
 		return ErrOutputs
 	}
 	for index, record := range records {

@@ -8,11 +8,11 @@ suite catalogs nil, prices/work capacity zero and approved artifacts absent.
 
 ## Body, authority and current state
 
-NAPT1 Shield uses mode Shielded4, zero private inputs and exactly two outputs.
+NAPT1 Shield supports Shielded4 or [Confidential2](CONFIDENTIAL_MODE.md), zero private inputs and exactly two outputs.
 Debit must be positive, DebitSource equal outer Sender, and credit/receiver zero.
 There are no dummy notes, membership paths or spent markers for shielding. The
 existing225-byte header and bounded envelope/output codec remain unchanged.
-Maximum shield body size is10193 bytes, below the existing10465-byte ceiling.
+Maximum shield sizes are10193/10321 bytes respectively, below the10593-byte global ceiling.
 
 The evaluator checks actual top-level PQ consent against the current account's
 AuthAddr, including the off-Edwards-curve authorizer requirement. Current policy
@@ -42,7 +42,7 @@ It uses1024 rows,7641 main columns,8 preprocessing columns and100 public values.
 Two512-row note frames reuse one workspace, with shared constant amount/carry/
 group registers. It constrains zero private-input amounts, exact uint64 debit
 conservation, both output note commitments and their amount bits. Public group
-cells bind to constant trace registers. Trusted preprocessing selects both frames.
+cells bind to constant trace registers. Trusted preprocessing selects both frames. Confidential kind10 appends128 participant byte cells for228 total, binding the two output accounts.
 
 proofbundle.Shield requires main kind3 then both ordinary-recipient output proofs
 and mandatory disclosure proofs. Retained/recovery recipient relations cannot
@@ -67,11 +67,11 @@ conservative full signed-byte fee before finalizing the group and proving.
 
 ## Versioned artifact/request boundary
 
-NAPK version4 has thirteen canonical82-byte entries and a134-byte header:1200 bytes.
-Order is1..7,17..22; kind3 pins ShieldGroupAir dimensions above.
-The digest domain is Algorand/AssetPrivacy/Candidate1/ArtifactRegistryV4/.
-NAPV version4 embeds that registry in its1578-byte trusted header; the request
-remains at most15746 bytes. It is internal verifier data, not a peer-selected API.
+NAPK version5 has sixteen canonical82-byte entries and a134-byte header:1446 bytes.
+Order is1..10,17..22; kind3 pins ShieldGroupAir dimensions above; kind10 is confidential shield.
+The digest domain is Algorand/AssetPrivacy/Candidate1/ArtifactRegistryV5/.
+NAPV version5 embeds that registry in its1824-byte trusted header; the request
+remains at most16248 bytes. It is internal verifier data, not a peer-selected API.
 
 These formats supersede unapproved versions1..3. Old bytes/pins fail closed, with no
 compatibility fallback. There are no approved historical suite references. Future

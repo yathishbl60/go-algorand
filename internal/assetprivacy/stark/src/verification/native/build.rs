@@ -14,17 +14,14 @@ impl Target {
         slot: &Slot,
     ) -> Result<Self, Error> {
         match slot.layout {
-            Layout::Shield => super::shield::build(context, registry, slot),
             Layout::OwnerRegistration => super::owner_registration::build(context, registry),
             Layout::ViewingRegistration => {
                 super::viewing_registration::build(context, registry, slot)
             }
-            Layout::Transfer | Layout::Unshield => super::main::spend(context, registry, slot),
-            Layout::PartialPrivate
-            | Layout::FullPrivate
-            | Layout::PartialPublic
-            | Layout::FullPublic => super::main::recovery(context, registry, slot),
-            _ => super::output::build(context, registry, slot),
+            Layout::Recipient | Layout::Disclosure | Layout::Retained | Layout::Recovered => {
+                super::output::build(context, registry, slot)
+            }
+            _ => super::main_build::build(context, registry, slot),
         }
     }
 }

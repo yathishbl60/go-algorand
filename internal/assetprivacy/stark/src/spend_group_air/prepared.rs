@@ -14,6 +14,7 @@ impl SpendGroupAir {
         if input.outputs.len() != self.operation.output_count() {
             return None;
         }
+        self.check_participant_openings(input)?;
         self.check_inputs(input, statement)?;
         self.check_outputs(input, statement)?;
         let incoming = input.inputs.map(|input| amount(input.opening));

@@ -35,6 +35,7 @@ impl ShieldGroupAir {
         openings: &[[u8; 512]; 2],
         statement: &PublicStatement,
     ) -> Option<Amounts<Value>> {
+        self.check_participant_openings(openings)?;
         for (opening, expected) in openings.iter().zip(statement.outputs) {
             if self.output.commitment(opening)? != expected {
                 return None;

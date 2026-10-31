@@ -3,6 +3,7 @@
 
 pub const ROWS: usize = 1024;
 pub const PUBLIC_VALUES: usize = 100;
+pub const CONFIDENTIAL_PUBLIC_VALUES: usize = PUBLIC_VALUES + 128;
 pub const PREPROCESSED: usize = 8;
 pub(super) const NOTE_WIDTH: usize = 7350;
 pub(super) const CARRY: usize = 256;

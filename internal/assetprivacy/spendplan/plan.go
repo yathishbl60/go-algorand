@@ -22,18 +22,20 @@ import "github.com/algorand/go-algorand/internal/assetprivacy/tree"
 
 // Plan is an immutable expected statement, not a permission or verification token.
 type Plan struct {
-	kind    Kind
-	values  []uint16
-	domain  tree.Domain
-	inputs  [2]Input
-	outputs [][64]byte
+	kind         Kind
+	values       []uint16
+	domain       tree.Domain
+	inputs       [2]Input
+	outputs      [][64]byte
+	participants [4][32]byte
 }
 
-func (p *Plan) Domain() tree.Domain { return p.domain }
-func (p *Plan) Kind() Kind          { return p.kind }
-func (p *Plan) Values() []uint16    { return append([]uint16(nil), p.values...) }
-func (p *Plan) Inputs() [2]Input    { return p.inputs }
-func (p *Plan) Outputs() [][64]byte { return append([][64]byte(nil), p.outputs...) }
+func (p *Plan) Domain() tree.Domain       { return p.domain }
+func (p *Plan) Kind() Kind                { return p.kind }
+func (p *Plan) Values() []uint16          { return append([]uint16(nil), p.values...) }
+func (p *Plan) Inputs() [2]Input          { return p.inputs }
+func (p *Plan) Outputs() [][64]byte       { return append([][64]byte(nil), p.outputs...) }
+func (p *Plan) Participants() [4][32]byte { return p.participants }
 
 // Build snapshots exact main-proof inputs using a trusted native configuration.
 // It does not check cryptographic proofs, current nullifier freshness or consent.
@@ -46,5 +48,5 @@ func Build(statement Statement, config Config) (*Plan, error) {
 	}
 	return &Plan{kind: statement.Kind, values: publicValues(statement, config),
 		domain: config.Domain, inputs: statement.Inputs,
-		outputs: append([][64]byte(nil), statement.Outputs...)}, nil
+		outputs: append([][64]byte(nil), statement.Outputs...), participants: statement.Participants}, nil
 }

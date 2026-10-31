@@ -21,7 +21,7 @@ pub fn encode_registry(profile: [u8; 64], entries: &[Entry]) -> Result<Vec<u8>, 
     bytes.extend_from_slice(&MAGIC);
     bytes.extend_from_slice(&profile);
     bytes.extend_from_slice(&implementation::ID);
-    bytes.push(13);
+    bytes.push(16);
     for (entry, layout) in entries.iter().zip(ORDER) {
         if entry.layout != layout {
             return Err(Error::Artifact);

@@ -11,6 +11,9 @@ Use `Prepared::transfer(domain, public_conversion)`, `unshield(domain, credit)`,
 `owner_registration(domain)` and `viewing_registration(domain, public_key1184)`
 select the two possession relations. Viewing registration binds domain bytes then
 all1184 public-key bytes into its relation identity; its public schedule is key-independent.
+`confidential_transfer`, `confidential_unshield` and `confidential_shield` additionally
+bind four ordered participant addresses after the domain/conversion bytes. These
+typed factories retain the ordinary schedules but select distinct layout kinds.
 Each produces the exact concrete AIR and canonical full relation ID. There is no
 generic public constructor or mutable AIR accessor. `air()` borrows for proving;
 `layout()` and `relation_id(&registry)` return public metadata.
@@ -18,9 +21,11 @@ generic public constructor or mutable AIR accessor. `air()` borrows for proving;
 `Registry::load(bytes, Pin{profile,implementation,digest})` requires independent
 trusted pins and a supported reference identity. The current build fingerprint is
 supported; the explicit historical compatibility list is empty. It validates the fixed
-1200-byte NAPK version4 format, exact thirteen layout records and file digest before publishing keys.
+1446-byte NAPK version5 format, exact sixteen layout records and file digest before publishing keys.
 Unknown kinds, reordered records, incorrect dimensions/next-row flags or trailing
-bytes fail. Version3 registries are rejected. Kind22 has rows16384, width9394,
+bytes fail. Versions1..4 registries are rejected. Kinds8/9/10 are confidential
+transfer/unshield/shield with392/324/228 public cells. Their unchanged ordinary
+prefix is followed by128 participant byte cells. Kind22 has rows16384, width9394,
 preprocessing723 and1216 public cells: key1184 byte cells then group32 u16 limbs.
 Root words are raw SHA3 words; zero is a valid output, not a key default.
 

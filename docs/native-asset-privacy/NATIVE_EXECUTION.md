@@ -85,7 +85,7 @@ and every PQ signature also cover the final fee/group. SDK builders are pending.
 
 Tagged Ledger initialization installs a directory provider before tracker replay;
 MakeFull uses RootGenesisDir/native-privacy/registries. Filenames are the complete
-lowercase registry-digest hex plus `.napk`. Reads are bounded to1200 bytes, regular
+lowercase registry-digest hex plus `.napk`. Reads are bounded to1446 bytes, regular
 file/no-follow checked and digest verified. Preserve historical replay artifacts.
 Provider bytes grant no approval; local backend/resource/availability failures
 must not become invalid-proof evidence. See [provider](../../internal/assetprivacy/artifactstore/README.md).

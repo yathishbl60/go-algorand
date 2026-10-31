@@ -16,7 +16,7 @@ actual output then has its required recipient followed by optional auditor and
 controller. Ordinary output plans cannot substitute recovery or retained kinds.
 Recovery selects retained recipients only at the main plan's remainder index.
 Shield fixes kind3/public100 and two ordinary output recipients with no private
-inputs; its [main plan](../shieldplan/README.md) binds the positive public debit.
+inputs; its [main plan](../shieldplan/README.md) binds the positive public debit. Confidential shield uses kind10/public228, transfer kind8/public392 and unshield kind9/public324; output proof kinds stay unchanged.
 
 Registration uses a single main slot without outputs: `OwnerRegistration` fixes
 kind21/public64, while `ViewingRegistration` fixes kind22/public1216. The latter

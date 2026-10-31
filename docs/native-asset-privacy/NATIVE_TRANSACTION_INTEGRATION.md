@@ -22,8 +22,8 @@ The [body contract](NATIVE_TRANSACTION_BODY.md) and
 [nativebody API](../../internal/assetprivacy/nativebody/README.md) define exact
 bytes and operation arities. Decode scans into fixed two-slot staging storage,
 checks complete framing and only then copies returned input/output data. Every
-returned ciphertext is owned. NAPT permits shielded mode4; Shield3 has0inputs and2outputs.
-Other modes fail. [NAPL1](LIFECYCLE_INGRESS.md) accepts Adopt/Assign/Freeze, all role registrations and Create5 declarations on ordinary ASA creation.
+returned ciphertext is owned. NAPT permits Shielded4 and [Confidential2 ordinary operations](CONFIDENTIAL_MODE.md); Shield3 has0inputs and2outputs.
+Public1 uses ordinary ASA transfers; confidential recovery rejects. [NAPL1](LIFECYCLE_INGRESS.md) includes lifecycle registration, creation, retirement and cleanup.
 
 ## Stateless signed admission
 
@@ -67,7 +67,7 @@ commitment include witness bytes; proof substitution cannot preserve that leaf.
 ## Decoder and network resource limits
 
 Only tagged enabled consensus parameters with a nonempty catalog of at most16
-entries contribute decoder ceilings. The body ceiling is10465 bytes. The proof
+entries contribute decoder ceilings. The body ceiling is10593 bytes. The proof
 frame ceiling includes per-suite min(MaxBundleBytes+137,512MiB+137,blockBytes)
 and, when Falcon1024 enabled, min(8+Falcon1024MaxSignatureSize,blockBytes) for NAPR.
 These global ceilings aggregate versions; they authenticate neither suite nor proof.

@@ -32,13 +32,19 @@ commitments. Tree allocation indices are separate from operation ordinals.
 It does not establish freshness, final transaction/body identity, policy roles or
 current recipient eligibility; those remain ledger checks.
 
+`NewConfidential(...,participants)` adds confidential kind10 with228 public cells:
+the same100-cell prefix plus128 byte-valued participant cells. Input slots0/1
+must be zero and output slots2/3 nonzero. `Confidential()` and `Participants()`
+return value snapshots. Main note constraints bind the disclosed accounts to the
+same commitments used by complete output encryption proofs. [Mode details](../../../docs/native-asset-privacy/CONFIDENTIAL_MODE.md).
+
 ## Complete proof bundle
 
 `proofbundle.Shield(main,outputPlans)` joins main kind3/public100 to exactly two
 ordinary recipient output plans and each output's policy-required disclosure
 slots. It compares domain, ordinal and commitments and rejects retained/recovery
 recipient substitutions. The normal bundle maximum remains seven slots: one main
-plus up to three roles for each of the two outputs.
+plus up to three roles for each of the two outputs; confidential main uses kind10/public228.
 
 The main conservation proof alone cannot authorize a shield. The native caller
 must derive every statement from ordered current state, prove complete encryption,

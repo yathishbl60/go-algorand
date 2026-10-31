@@ -22,7 +22,7 @@ import "encoding/binary"
 
 func (v *Verifier) writeHeader(encoded []byte, context Context, slots byte) {
 	copy(encoded[:4], "NAPV")
-	encoded[4] = 4
+	encoded[4] = 5
 	copy(encoded[5:69], v.pin.Profile[:])
 	copy(encoded[69:133], v.pin.Implementation[:])
 	copy(encoded[133:197], v.pin.Digest[:])
@@ -33,6 +33,6 @@ func (v *Verifier) writeHeader(encoded []byte, context Context, slots byte) {
 	binary.BigEndian.PutUint32(encoded[365:369], v.limits.MaxBundleBytes)
 	binary.BigEndian.PutUint32(encoded[369:373], v.limits.MaxProofBytes)
 	binary.BigEndian.PutUint32(encoded[373:377], v.limits.MaxAllocationBytes)
-	copy(encoded[377:1577], v.encoded[:])
-	encoded[1577] = slots
+	copy(encoded[377:1823], v.encoded[:])
+	encoded[1823] = slots
 }

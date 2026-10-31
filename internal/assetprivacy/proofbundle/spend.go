@@ -42,9 +42,9 @@ func Spend(main *spendplan.Plan, outputs []*proofplan.Plan) (*Plan, error) {
 
 func spendOutputCount(kind spendplan.Kind) int {
 	switch kind {
-	case spendplan.Transfer:
+	case spendplan.Transfer, spendplan.ConfidentialTransfer:
 		return 2
-	case spendplan.Unshield:
+	case spendplan.Unshield, spendplan.ConfidentialUnshield:
 		return 0
 	default:
 		return -1

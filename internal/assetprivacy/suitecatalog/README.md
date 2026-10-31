@@ -36,7 +36,7 @@ field name does not authorize caller-selected implementations. `Suite.Limits()`
 returns the three selected budget values by value. Neither getter changes state.
 
 `Suite.Verifier(registryBytes)` revalidates the selected record, then calls only
-proofbridge.NewVerifier. This checks exact owned1200-byte registry encoding,
+proofbridge.NewVerifier. This checks exact owned1446-byte registry encoding,
 independently pinned digest/profile/reference and linked backend ABI/compatibility.
 The bytes may come from an untrusted source but must match the selected pins.
 The input buffer must remain stable while NewVerifier copies it. The zero Suite

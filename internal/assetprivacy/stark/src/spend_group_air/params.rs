@@ -4,6 +4,8 @@
 pub const ROWS: usize = 16384;
 pub const TRANSFER_PUBLIC_VALUES: usize = 264;
 pub const UNSHIELD_PUBLIC_VALUES: usize = 196;
+pub const CONFIDENTIAL_TRANSFER_PUBLIC_VALUES: usize = TRANSFER_PUBLIC_VALUES + 128;
+pub const CONFIDENTIAL_UNSHIELD_PUBLIC_VALUES: usize = UNSHIELD_PUBLIC_VALUES + 128;
 pub(super) const CARRY: usize = 256;
 pub(super) const WORK: usize = CARRY + 3;
 pub const WIDTH: usize = WORK + crate::spendable_note_air::WIDTH;

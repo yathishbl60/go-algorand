@@ -22,8 +22,8 @@ package artifactregistry
 
 import "errors"
 
-const EncodedSize = 1200
-const EntryCount = 13
+const EncodedSize = 1446
+const EntryCount = 16
 const headerSize = 134
 const entrySize = 82
 
@@ -43,19 +43,22 @@ type Pin struct {
 type Kind byte
 
 const (
-	Transfer            Kind = 1
-	Unshield            Kind = 2
-	Shield              Kind = 3
-	PartialPrivate      Kind = 4
-	FullPrivate         Kind = 5
-	PartialPublic       Kind = 6
-	FullPublic          Kind = 7
-	Recipient           Kind = 17
-	Disclosure          Kind = 18
-	RetainedRecipient   Kind = 19
-	RecoveryRecipient   Kind = 20
-	OwnerRegistration   Kind = 21
-	ViewingRegistration Kind = 22
+	Transfer             Kind = 1
+	Unshield             Kind = 2
+	Shield               Kind = 3
+	PartialPrivate       Kind = 4
+	FullPrivate          Kind = 5
+	PartialPublic        Kind = 6
+	FullPublic           Kind = 7
+	ConfidentialTransfer Kind = 8
+	ConfidentialUnshield Kind = 9
+	ConfidentialShield   Kind = 10
+	Recipient            Kind = 17
+	Disclosure           Kind = 18
+	RetainedRecipient    Kind = 19
+	RecoveryRecipient    Kind = 20
+	OwnerRegistration    Kind = 21
+	ViewingRegistration  Kind = 22
 )
 
 // Entry contains canonical dimensions and eight raw SHA3 root words, not field cells.

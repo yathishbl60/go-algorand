@@ -61,8 +61,8 @@ transaction fees. Conservative pricing for a nonempty owner witness alone grants
 no admission: mandatory group checking validates exact NAPW framing and binding.
 Choose a sufficient fee bound before group finalization and proving.
 
-NAPK version4 has13 entries/1200 bytes, including kinds21/22. NAPV version4
-has a1578-byte header and15746-byte cap, preserving the largest seven-slot value
+NAPK version5 has16 entries/1446 bytes, including kinds21/22. NAPV version5
+has a1824-byte header and16248-byte cap, preserving the largest seven-slot value
 bundle. Unapproved prior formats/pins fail closed; no approved historical reference
 has been added. This is no production migration or artifact approval.
 

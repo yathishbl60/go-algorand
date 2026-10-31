@@ -55,12 +55,13 @@ type Input struct {
 // Statement has exactly two actual private inputs. Outputs are actual commitments:
 // two for Transfer, zero for Unshield. There are no optional/dummy input slots.
 type Statement struct {
-	Kind    Kind
-	Inputs  [2]Input
-	Outputs [][64]byte
-	Debit   uint64
-	Credit  uint64
-	Group   [64]byte
+	Kind         Kind
+	Inputs       [2]Input
+	Outputs      [][64]byte
+	Debit        uint64
+	Credit       uint64
+	Group        [64]byte
+	Participants [4][32]byte
 }
 
 // Config comes from current native state, not proof-advertised values or roots.

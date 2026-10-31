@@ -11,10 +11,10 @@ transaction, runtime proof or real-node demo has been demonstrated.
 | NAP-01 profile | Pinned candidate documented; complete relation, security argument, vectors and measurements missing |
 | NAP-02 consensus specification | Draft obligations/accounting/candidate layouts; complete normative protocol and sibling specs changes missing |
 | NAP-03 types/gates | Flag false, suite catalog nil and native decoder bounds zero in every current version; NAPT/NAPL1 body codecs, raw transaction and signed-witness metadata implemented; compatibility/runtime vectors missing |
-| NAP-04 cryptography | Note/conservation, complete envelope encryption, recipient current-key/eligibility membership and assigned disclosure constraints implemented; ordinary two-input eligibility/conservation/group constraints implemented; recovery/remainder constraints implemented; commitment-bound V2 markers/global creation uniqueness implemented; native Shield3/0-input2-output source routing added; other arities and runtime acceptance missing |
+| NAP-04 cryptography | Note/conservation, complete encryption, current keys/eligibility, disclosures, ordinary spending and recovery/remainders implemented; V2 markers/global creation uniqueness and Shield3 source routing exist; confidential transfer/shield/unshield account bindings source-integrated; confidential recovery, other arities and runtime acceptance missing |
 | NAP-05 native state | COW supply, policy/key/control epochs, key/eligibility roots, spent markers, tree/root history and outputs implemented; creator storage, JSON MBR, inventory, retirement/cleanup and final storage release source-integrated; runtime recovery/cleanup evidence missing |
 | NAP-06 verification | Exact bundles, ABI2 bridge, current-consensus suites and deterministic decoder charges implemented; stateless PQ-envelope/group/witness admission and witness-sensitive cache added; evaluator proof routing, typed NAPR admin possession, coarse block work and proof/byte fees implemented; approved entries/artifacts, resource calibration and runtime acceptance missing |
-| NAP-07 lifecycle | Policy/key lifecycle, effective freeze, PQ/admin guards, native creation, all role possession, Shield3/creator conversion, authority synchronization and retirement/bounded cleanup/final destruction source-integrated; approved artifacts, runtime acceptance, private-only final reconciliation and complete lifecycle missing |
+| NAP-07 lifecycle | Policy/key lifecycle, effective freeze, PQ/admin guards, creation, possession, ordinary shielded/confidential operations, authority synchronization and retirement/cleanup/destruction source-integrated; artifacts, runtime acceptance, confidential recovery, private-only final reconciliation and complete lifecycle missing |
 | NAP-08 groups/pool/AVM | Group binding, signed framing and native verifier helper wiring implemented; native dispatch and accepted-block proof counting implemented; failed-attempt/pool scheduling and gated AVM inspection missing |
 | NAP-09 recovery | Existing KV path reused; privacy replay/restart/catchpoint/catchup behavior unverified |
 | NAP-10 APIs | Bounded internal output pages and JSON native MBR reporting exist; REST streams, witness queries, decoding, simulation and error contracts missing |
@@ -56,7 +56,7 @@ retirement/cleanup and minimum-balance release have source integration; runtime 
 - [Viewing-key possession registration and exact public-key relation](VIEWING_REGISTRATION.md).
 - [Ordinary ASA authority synchronization and atomic-group key readiness](AUTHORITY_SYNCHRONIZATION.md).
 - [Native ASA creation and private-only creator inventory conversion](NATIVE_CREATION.md).
-- [Per-asset inventory](NATIVE_INVENTORY.md) and [retirement, cleanup and final storage release](RETIREMENT_CLEANUP.md).
+- [Confidential ordinary modes](CONFIDENTIAL_MODE.md), [inventory](NATIVE_INVENTORY.md), and [retirement/cleanup/storage release](RETIREMENT_CLEANUP.md).
 - [Current eligibility snapshots, atomic hooks and private recipient binding](ELIGIBILITY.md).
 - [Bounded outer witness framing](../../internal/assetprivacy/witness/README.md).
 - [Rust verification boundary, trusted artifacts and bounded codec](VERIFICATION_BOUNDARY.md).

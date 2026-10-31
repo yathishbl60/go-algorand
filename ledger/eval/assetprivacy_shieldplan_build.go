@@ -29,7 +29,7 @@ func (context assetPrivacySpendContext) buildShield(body nativebody.Body, record
 		return nil, shieldplan.ErrStatement
 	}
 	commitments := [2][64]byte{body.Outputs[0].Commitment, body.Outputs[1].Commitment}
-	main, err := shieldplan.New(context.config.Domain, context.group, body.Debit, commitments)
+	main, err := context.newShieldMain(body, commitments)
 	if err != nil {
 		return nil, err
 	}

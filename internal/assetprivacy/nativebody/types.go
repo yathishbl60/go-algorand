@@ -23,7 +23,7 @@ package nativebody
 import "github.com/algorand/go-algorand/internal/assetprivacy/policy"
 
 const HeaderSize = 225
-const MaxSize = 10465
+const MaxSize = 10593
 const inputSize = 136
 const outputHeaderSize = 97
 
@@ -52,6 +52,7 @@ type Body struct {
 	CreditReceiver [32]byte
 	Inputs         []Input
 	Outputs        []Output
+	Participants   [4][32]byte
 }
 
 type Input struct {

@@ -34,7 +34,7 @@ func Encode(body Body) ([]byte, error) {
 	for _, output := range body.Outputs {
 		at += writeOutput(encoded[at:], output)
 	}
-	return encoded, nil
+	return body.finishEncoding(encoded, at), nil
 }
 
 func encodedSize(body Body) int {
@@ -43,7 +43,7 @@ func encodedSize(body Body) int {
 		outputBytes, _ := outputSize(output.Disclosures)
 		size += outputBytes
 	}
-	return size
+	return size + body.participantSize()
 }
 
 func writeOutput(encoded []byte, output Output) int {

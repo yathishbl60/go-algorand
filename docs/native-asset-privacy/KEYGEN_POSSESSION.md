@@ -4,7 +4,7 @@ Updated 2026-10-30. The full candidate public-key generation relation now joins
 private seed/noise/transforms, public matrix products and exact packed key bytes.
 Viewing roles1/3/4 now route to real selected kind22 verification as disabled
 source integration. Every consensus flag remains false and every suite catalog
-empty. NAPK4 adds the layout slot, without approved artifacts or historical pins.
+empty. NAPK5 adds the layout slot, without approved artifacts or historical pins.
 
 ## Relation implemented
 

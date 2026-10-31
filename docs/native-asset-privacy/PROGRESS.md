@@ -35,7 +35,7 @@ completion checklist. The full native feature remains in progress.
    ownership, nullifier and depth-32 membership constraints compose into fixed
    transfer/shield/unshield arities. [Ordinary staged spending](SPENDING_COMPOSITION.md)
    joins eligibility/group conservation. [Native Shield3](NATIVE_SHIELD.md) is source-routed;
-   [recovery](RECOVERY.md) preserves frozen-owner remainders. Runtime evidence remains.
+   [recovery](RECOVERY.md) preserves frozen-owner remainders. [Confidential ordinary modes](CONFIDENTIAL_MODE.md) now bind public note participants; confidential recovery and runtime evidence remain.
 6. SHA3/SHAKE, private HMAC/HKDF, full typed GCM and staged GCM constraints.
    Staged GCM covers all AES/GHASH blocks and the final tag in one AIR. Resource
    feasibility and complete envelope/note/disclosure bindings remain unverified.

@@ -27,7 +27,7 @@ func publicValues(s Statement, c Config) []uint16 {
 		values = appendDigest(values, input.Nullifier)
 		values = appendDigest(values, input.Root)
 	}
-	if s.Kind == Transfer {
+	if s.Kind.transfer() {
 		for _, output := range s.Outputs {
 			values = appendDigest(values, output)
 		}
@@ -35,7 +35,7 @@ func publicValues(s Statement, c Config) []uint16 {
 	}
 	values = appendAmount(values, s.Credit)
 	values = appendDigest(values, s.Group)
-	return appendDigest(values, c.EligibilityRoot.Digest)
+	return appendParticipants(appendDigest(values, c.EligibilityRoot.Digest), s)
 }
 
 func appendDigest(values []uint16, digest [64]byte) []uint16 {

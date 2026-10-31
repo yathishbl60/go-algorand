@@ -8,7 +8,7 @@ membership remain required separate proofs in the complete native bundle.
 
 ## Native layout and public values
 
-This is artifact layout kind3 in NAPK version4. Its trusted schedule has1024 rows,
+This is artifact layout kind3, or confidential kind10, in NAPK version5. The schedule has1024 rows,
 7641 main columns and8 preprocessing columns, with both next-row openings. Two
 512-row NoteCommitmentAir frames reuse a7350-column workspace after291 globals.
 The constructor checks that the actual child width equals that fixed width.
@@ -28,6 +28,17 @@ canonical note commitment frame. Globals persist through every row transition.
 Debit public limbs equal the constructor debit; group globals equal the same
 public vector consumed by the transcript. No witness-selected domain is accepted.
 
+`ShieldGroupAir::confidential(network,asset,policy,debit,participants)` additionally
+binds public note participants ordered input0,input1,output0,output1. The two input
+addresses must be zero; the two real output addresses must be nonzero. It appends
+128 individual byte cells after the unchanged100-cell prefix, for228 public cells.
+Rows/main/preprocessing remain1024/7641/8; no extra witness columns are needed.
+Each active output frame binds its committed account bytes137..169 to the declared
+address, with bytewise LSB-first bits, and public cells equal constructor bytes.
+Existing complete recipient/encryption proofs join through the same commitments;
+host checks or a public address alone cannot replace those independent proofs.
+The public debit source remains the existing native body field, not a dummy input.
+
 Eight trusted preprocessing flags select active/first/last/transition for the
 two child frames. Output commitments enter the respective NoteCommitmentAir
 public range. Reordered output roles or different preprocessing dimensions cannot
@@ -40,7 +51,9 @@ independent trusted consensus inputs, not values approved by an artifact itself.
 nonzero group, complete canonical note openings, and uint128 conservation before
 allocating its private matrix. It writes each child directly into the parent
 workspace and fills globals throughout. It does not allocate two full child main
-matrices. `public_values(statement)` returns the exact100 cells after validation.
+matrices. `public_values(statement)` returns100 base cells or228 confidential cells.
+Confidential trace preflight also matches output opening accounts before allocation;
+the AIR enforces the same binding independently. No trace was executed.
 
 Raw main cells total62,595,072 bytes and preprocessing65,536 bytes. Keccak scratch,
 allocator, commitments, hiding/LDE/quotient matrices and proving overhead remain

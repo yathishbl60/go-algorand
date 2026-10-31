@@ -32,18 +32,19 @@ var ErrOutputs = errors.New("native privacy outputs do not match shield statemen
 
 // Plan owns its fixed public fields. It grants no debit or output permission.
 type Plan struct {
-	domain  tree.Domain
-	group   [64]byte
-	debit   uint64
-	outputs [2][64]byte
-	values  [PublicValues]uint16
+	domain       tree.Domain
+	group        [64]byte
+	debit        uint64
+	outputs      [2][64]byte
+	values       [PublicValues]uint16
+	confidential bool
+	participants [4][32]byte
 }
 
 func (p *Plan) Domain() tree.Domain { return p.domain }
 func (p *Plan) Group() [64]byte     { return p.group }
 func (p *Plan) Debit() uint64       { return p.debit }
 func (p *Plan) Outputs() [][64]byte { return append([][64]byte(nil), p.outputs[:]...) }
-func (p *Plan) Values() []uint16    { return append([]uint16(nil), p.values[:]...) }
 
 // New binds a positive public debit to exactly two distinct output commitments.
 // Ledger authorization, current recipients, proofs and funding remain required.

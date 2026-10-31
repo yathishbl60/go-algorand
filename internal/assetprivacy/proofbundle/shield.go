@@ -29,9 +29,16 @@ func Shield(main *shieldplan.Plan, outputs []*proofplan.Plan) (*Plan, error) {
 	if main == nil || len(outputs) != 2 {
 		return nil, ErrPlan
 	}
-	plan := &Plan{slots: []Slot{{kind: ShieldKind, output: MainOutput, values: main.Values()}}}
+	plan := &Plan{slots: []Slot{{kind: shieldMainKind(main), output: MainOutput, values: main.Values()}}}
 	if err := plan.addOutputs(main.Domain(), main.Outputs(), outputs, -1, Recipient); err != nil {
 		return nil, err
 	}
 	return plan, nil
+}
+
+func shieldMainKind(main *shieldplan.Plan) Kind {
+	if main.Confidential() {
+		return ConfidentialShield
+	}
+	return ShieldKind
 }

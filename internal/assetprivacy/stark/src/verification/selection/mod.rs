@@ -4,7 +4,10 @@
 //! Typed relation preparation and independently pinned public preprocessing keys.
 mod bind;
 mod check_setup;
+mod confidential;
+mod confidential_air;
 mod dimensions;
+mod dimensions_other;
 mod domain;
 mod entry;
 mod layout;

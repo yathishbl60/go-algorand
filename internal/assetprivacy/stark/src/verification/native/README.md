@@ -6,11 +6,11 @@ RPC format. It cannot authenticate its own registry selection or native statemen
 The native caller supplies current policy/Suite/Domain/Group and exact plan vectors.
 No keys, witnesses, signatures or private epochs are obtained from proof metadata.
 
-Request length is1578..15746 bytes. Header fields have these exact byte intervals:
+Request length is1824..16248 bytes. Header fields have these exact byte intervals:
 
 | Interval, end excluded | Encoding |
 | --- | --- |
-| 0..5 | ASCII NAPV then version4 |
+| 0..5 | ASCII NAPV then version5 |
 | 5..69 | Independently approved profile/Suite64 |
 | 69..133 | Independently selected verifier reference64 |
 | 133..197 | Independently approved registry digest64 |
@@ -21,8 +21,8 @@ Request length is1578..15746 bytes. Header fields have these exact byte interval
 | 365..369 | Trusted maximum bundle bytesu32BE |
 | 369..373 | Trusted maximum individual proof bytesu32BE |
 | 373..377 | Trusted per-decoder canonical allocation chargeu32BE |
-| 377..1577 | Exact1200-byte NAPK version4 registry file |
-| 1577 | Slot count byte,1..7 |
+| 377..1823 | Exact1446-byte NAPK version5 registry file |
+| 1823 | Slot count byte,1..7 |
 
 Each slot follows as kindu8, outputu32BE, roleu8, scalarCountu16BE, then exactly
 scalarCountu16LE cells. Unknown kinds and counts differing from compiled layout
@@ -38,10 +38,19 @@ Viewing registration kind22 has exact public-key byte cells0..1184 and group1184
 Each key cell must fit u8; canonical polynomial decoding and bounded public matrix
 derivation precede constructing its verifier. Domain and complete public key bind
 its relation identity; group must equal the trusted header. Both registration
-proofs require one main slot and no outputs. NAPV/NAPK version3 are rejected. Recovery public
+proofs require one main slot and no outputs. NAPV/NAPK versions1..4 reject. Recovery public
 credit starts96 for partial-public and64 for full-public; private variants use0.
 Current recovery authority is the last32 byte cells. These values select the exact
 Prepared factory; they never grant issuer signatures or administrative power.
+
+Confidential kinds8/9/10 preserve transfer/unshield/shield prefix vectors, group
+and conversion offsets. The appended128 byte cells start264/196/100 respectively;
+they encode input0,input1,output0,output1 accounts in that order. Every cell must
+fit u8. Real note positions are nonzero and absent note positions zero, enforced
+by the typed AIR constructors. Domain, conversion and these exact accounts bind
+the relation identity. Main note commitments join disclosed output identities to
+the existing complete recipient/encryption proofs; no syntax-only identity check
+substitutes for actual main and output proof verification.
 
 Output context is the first248 byte cells. Its domain, role and ordinal must match
 the native header/slot; disclosure authority is cells1100..1132. Role-specific

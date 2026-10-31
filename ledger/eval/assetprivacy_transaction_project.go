@@ -54,7 +54,7 @@ func (cs *roundCowState) projectAssetPrivacyTransaction(body nativebody.Body, re
 }
 
 func (cs *roundCowState) projectAssetPrivacySpend(body nativebody.Body, records []outputs.Record, bodies AssetPrivacySpendBodies) (*AssetPrivacySpendPlan, error) {
-	draft := spendplan.Statement{Kind: spendplan.Kind(body.Operation), Debit: body.Debit,
+	draft := spendplan.Statement{Kind: assetPrivacySpendKind(body), Debit: body.Debit, Participants: body.Participants,
 		Credit: body.Credit, Outputs: assetPrivacyTransactionCommitments(body), Inputs: [2]spendplan.Input{
 			assetPrivacyTransactionInput(body.Inputs[0]), assetPrivacyTransactionInput(body.Inputs[1])}}
 	return cs.AssetPrivacySpendProofPlan(basics.AssetIndex(body.Asset), draft, records, bodies)
