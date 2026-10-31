@@ -42,7 +42,7 @@ func (eval *BlockEvaluator) checkAssetPrivacyAuthorization(tx transactions.Signe
 }
 
 func (cs *roundCowState) verifyAssetPrivacyPQ(tx transactions.SignedTxn) error {
-	if !tx.Sig.Blank() || !tx.Msig.Blank() || !tx.Lsig.Blank() || len(tx.PQsig.Signature) == 0 {
+	if tx.Txn.GenesisHash != cs.GenesisHash() || !tx.Sig.Blank() || !tx.Msig.Blank() || !tx.Lsig.Blank() || len(tx.PQsig.Signature) == 0 {
 		return errAssetPrivacyAuthorization
 	}
 	account, err := cs.Get(tx.Txn.Sender, false)

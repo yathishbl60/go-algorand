@@ -49,7 +49,7 @@ The pointer repeats version 1, domain 137 and epochBE8 (146 bytes). Each histori
 record repeats version 1, domain 137, epochBE8, CreatedBE8, and exact public-key
 bytes (154 bytes plus role-specific material). Unknown versions, malformed
 shapes, swapped domains/epochs, future creation rounds, missing pointed-to
-records and attempted history overwrites fail closed.
+records and attempted history overwrites fail closed. Histories can be removed only by [authenticated retirement/cleanup](../../../docs/native-asset-privacy/RETIREMENT_CLEANUP.md) after full reconciliation.
 
 ## Internal APIs and required callers
 

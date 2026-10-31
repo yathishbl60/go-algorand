@@ -12,7 +12,7 @@ not raw proposed configuration fields. For an existing native policy it creates
 one disposable child for the parameters, current policy capabilities and required
 controller assignment. A failure discards that child; later atomic-group failure
 discards the enclosing group. Missing policy or disabled/default builds retain
-the ordinary parameter path. Asset destruction remains guarded pending cleanup.
+the ordinary parameter path. [Retirement and cleanup](RETIREMENT_CLEANUP.md) now guard final asset destruction.
 
 The previous current-capability bits must match the previous nonzero Freeze and
 Clawback addresses. New bits derive from the resulting addresses and may only be

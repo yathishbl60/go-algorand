@@ -26,7 +26,7 @@ import (
 
 func (eval *BlockEvaluator) applyAssetConfigWithPrivacy(tx transactions.Transaction, cs *roundCowState, params *logic.EvalParams, gi int, ad *transactions.ApplyData, counter uint64) error {
 	if !tx.IsNativeAssetPrivacyCreation() {
-		return apply.AssetConfig(tx.AssetConfigTxnFields, tx.Header, cs, eval.specials, ad, counter)
+		return eval.applyExistingAssetConfigWithPrivacy(tx, cs, ad, counter)
 	}
 	body, err := eval.assetPrivacyCreationContext(tx, cs, params, gi)
 	if err != nil {

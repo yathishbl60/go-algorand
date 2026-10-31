@@ -92,8 +92,8 @@ must not become invalid-proof evidence. See [provider](../../internal/assetpriva
 
 [Creator obligations](NATIVE_STORAGE.md) charge every native KV mutation in its
 COW, including ordinary asset hooks. [JSON MBR](ACCOUNT_REPORTING.md) includes them.
-[Viewing registration](VIEWING_REGISTRATION.md) and [authority synchronization](AUTHORITY_SYNCHRONIZATION.md) have source routing. Other modes, creation,
-cleanup/refunds, AVM inspection, admission scheduling, complete APIs, SDK/wallet
+[Viewing registration](VIEWING_REGISTRATION.md), authority synchronization, creation and [retirement/cleanup](RETIREMENT_CLEANUP.md) have source routing. Other modes, private-only final reconciliation,
+AVM inspection, admission scheduling, complete APIs, SDK/wallet
 and all six real-node scenarios remain unfinished. See [delivery status](END_TO_END_STATUS.md).
 Runtime correctness, rollback/restart, crypto security and resource feasibility
 remain unproven. No tests, vectors, proofs, preprocessing or node runs occurred.

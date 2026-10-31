@@ -1,8 +1,8 @@
 # Candidate inventory for bounded native cleanup
 
 Updated 2026-10-31. Every native data mutation now has disabled source integration
-with a creator-funded per-asset inventory. This prepares authenticated retirement
-and bounded cleanup; it does not yet permit destruction or release a counter.
+with a creator-funded per-asset inventory. [Authenticated retirement and bounded
+cleanup](RETIREMENT_CLEANUP.md) now consume it before final destruction/storage release.
 Every consensus flag remains false, catalogs empty and execution/storage prices
 zero. No inventory transition, proof or node scenario has run.
 
@@ -45,20 +45,19 @@ funding. It then stages the counter/inventory and data in the same execution COW
 Later operation/group failure discards all of them. At most four inventory
 records change per data mutation; no full asset scan or growing hole scan occurs.
 
-`Read` and `First` are internal point-read interfaces for the next cleanup work.
+`Read`, `First` and bounded `Keys` are internal interfaces for cleanup.
 They confer no manager/PQ authorization, supply reconciliation or refund rights.
 The inventory is ordinary authenticated ledger state, not a separate verifier or
 proof-success shortcut. It does not expose private note openings or keys.
 
-## Remaining destruction work
+## Destruction integration and remaining evidence
 
-Destruction still rejects native policy/supply state. Before enabling it, native
-retirement must require current PQ manager authority, zero private supply and
-full creator holding; prevent subsequent value/key/control changes; remove every
-indexed record in bounded transactions; then remove fixed bookkeeping while ASA
-parameters still provide creator attribution. Only complete cleanup may release
-its storage obligation. Private-only final reconciliation must remain atomic
-with authorized destruction, rather than enabling ordinary public withdrawals.
+Destruction rejects remaining native state. Retirement now requires current PQ
+manager authority, zero private supply and full creator holding, then blocks new
+activity. Bounded cleanup preserves fixed authentication records until the final
+ordinary destruction wrapper removes them and the empty inventory. Only complete
+cleanup releases its storage obligation. Private-only final reconciliation still
+needs its atomic destruction proof path; ordinary withdrawals remain prohibited.
 
 Build/static evidence does not prove those transitions. No tests, vectors,
 runtime inventory walks, cleanup, replay, crash recovery, catchpoints or node

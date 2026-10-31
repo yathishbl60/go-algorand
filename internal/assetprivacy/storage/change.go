@@ -20,7 +20,8 @@ package storage
 
 // Change replaces the complete old footprint with the complete new footprint.
 // An absent leg ignores its byte length; present entries require a nonempty key.
-// The own counter is never passed here and remains charged after the last delete.
+// The own counter is not passed here. Only authenticated final cleanup can remove
+// a counter proven to contain precisely its own footprint and no other entries.
 func (o Obligation) Change(keyBytes, beforeBytes uint64, existed bool, afterBytes uint64, present bool) (Obligation, error) {
 	if err := o.checkChange(keyBytes, existed || present); err != nil {
 		return Obligation{}, err

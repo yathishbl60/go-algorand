@@ -31,7 +31,7 @@ var ErrEncoding = errors.New("invalid native privacy storage obligation")
 var ErrArithmetic = errors.New("native privacy storage obligation arithmetic failed")
 var ErrPrices = errors.New("native privacy storage prices must be nonzero")
 
-// Obligation includes its own permanent counter key/value in Items and Bytes.
+// Obligation includes its own live counter key/value in Items and Bytes.
 // Byte counts include complete KV keys and values, not only user payloads.
 type Obligation struct {
 	Items uint64

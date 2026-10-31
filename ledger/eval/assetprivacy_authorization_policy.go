@@ -21,7 +21,6 @@ package eval
 import (
 	"github.com/algorand/go-algorand/data/basics"
 	"github.com/algorand/go-algorand/data/transactions"
-	"github.com/algorand/go-algorand/internal/assetprivacy/policy"
 	"github.com/algorand/go-algorand/protocol"
 )
 
@@ -33,14 +32,7 @@ func (cs *roundCowState) assetPrivacyNeedsPQ(tx transactions.Transaction) (bool,
 	if asset == 0 {
 		return false, nil
 	}
-	record, exists, err := cs.GetAssetPrivacyPolicy(asset)
-	if err != nil || !exists {
-		return false, err
-	}
-	if tx.Type == protocol.AssetTransferTx && !record.Policy.Modes.Allows(policy.Public) {
-		return false, policy.ErrModes
-	}
-	return admin, nil
+	return cs.assetPrivacyExistingNeedsPQ(tx, asset, admin)
 }
 
 func assetPrivacyAffectedAsset(tx transactions.Transaction) (basics.AssetIndex, bool) {

@@ -54,8 +54,9 @@ it must not change while a plan is being assembled. Input lengths are not proofs
 
 ## Delivery limits
 
-This inventory is a prerequisite for bounded authenticated retirement/cleanup.
-The destruction guard remains in place. Cleanup, refunds, private-only final
+This inventory now feeds [bounded retirement/cleanup](../../../docs/native-asset-privacy/RETIREMENT_CLEANUP.md).
+`Keys` returns a checked prefix capped at64 entries, verifying exact chain totals
+when complete. Destruction requires successful final cleanup. Private-only final
 reconciliation and runtime replay/catchpoint evidence remain unfinished.
 Unapproved pre-inventory experimental state has no implicit migration path.
 

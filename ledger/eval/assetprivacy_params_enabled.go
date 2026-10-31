@@ -39,6 +39,9 @@ func (cs *roundCowState) putAssetParamsWithPrivacy(addr basics.Address, asset ba
 }
 
 func (cs *roundCowState) putPrivacyAssetParamsAtomic(addr basics.Address, asset basics.AssetIndex, after basics.AssetParams, declaration policy.Record) error {
+	if err := cs.checkAssetPrivacyActive(asset); err != nil {
+		return err
+	}
 	before, err := cs.assetPrivacyParamsBefore(addr, asset)
 	if err != nil {
 		return err

@@ -17,7 +17,8 @@ Domain/hash contents are not cryptographically authenticated by this helper.
 The record is exactly17 bytes: version1, Itemsu64BE and Bytesu64BE. Unknown
 versions, wrong lengths and impossible minimum counters fail. `New(payer)` starts
 with one item and62 bytes for its own45-byte key plus17-byte value. The own
-counter remains charged even when the last foreign entry is removed.
+counter remains charged through ordinary deletes. Authenticated final cleanup
+may remove it only when precisely its own footprint remains.
 
 `Obligation.Change(keyBytes,beforeBytes,existed,afterBytes,present)` replaces the
 entire old key/value footprint with the new one. Inserts/deletes alter item count;
@@ -38,7 +39,7 @@ withdrawal and closeout while state persists; deletion releases only the removed
 footprint, never a promise to refund a hidden owner or third-party contributor.
 The [native inventory](../inventory/README.md) now records every data mutation;
 its metadata, entries and neighbor changes are included in the same creator
-obligation before funding checks. Full cleanup/refunds and runtime evidence remain.
+obligation before funding checks. [Retirement/final cleanup](../../../docs/native-asset-privacy/RETIREMENT_CLEANUP.md) now releases exact footprints; runtime evidence remains.
 
 Build, vet and authored source limits are permitted checks. No tests, counter
 vectors, runtime package calls, proofs or node execution have run for this package.

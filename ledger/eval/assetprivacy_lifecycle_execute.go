@@ -56,6 +56,10 @@ func (cs *roundCowState) applyAssetPrivacyLifecycle(body lifecyclebody.Body, sen
 	switch body.Operation {
 	case lifecyclebody.Adopt:
 		return cs.adoptAssetPrivacyLifecycle(body, sender)
+	case lifecyclebody.Retire:
+		return cs.retireAssetPrivacy(body, sender)
+	case lifecyclebody.Cleanup:
+		return cs.cleanupAssetPrivacy(body, sender)
 	case lifecyclebody.Assign:
 		_, err := cs.SetAssetPrivacyDisclosureTargets(asset, sender, basics.Address(body.Auditor), body.ExpectedEpoch)
 		return err

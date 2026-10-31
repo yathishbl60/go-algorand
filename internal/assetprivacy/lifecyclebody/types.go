@@ -37,6 +37,8 @@ const (
 	Assign   Kind = 3
 	Freeze   Kind = 4
 	Create   Kind = 5
+	Retire   Kind = 6
+	Cleanup  Kind = 7
 )
 
 var ErrEncoding = errors.New("invalid native lifecycle body encoding")
@@ -61,6 +63,7 @@ type Body struct {
 	Role          keys.Role
 	Account       [32]byte
 	PublicKey     []byte
+	CleanupLimit  uint16
 }
 
 func (operation Kind) encodedSize(role keys.Role) int {
@@ -73,6 +76,10 @@ func (operation Kind) encodedSize(role keys.Role) int {
 		return HeaderSize + 32
 	case Freeze:
 		return HeaderSize + 33
+	case Retire:
+		return HeaderSize
+	case Cleanup:
+		return HeaderSize + 2
 	default:
 		return 0
 	}

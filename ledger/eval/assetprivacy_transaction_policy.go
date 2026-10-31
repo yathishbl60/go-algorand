@@ -25,6 +25,13 @@ import (
 )
 
 func (cs *roundCowState) checkAssetPrivacyTransactionPolicy(body nativebody.Body) error {
+	if err := cs.checkAssetPrivacyActive(basics.AssetIndex(body.Asset)); err != nil {
+		return err
+	}
+	return cs.checkAssetPrivacyActiveTransactionPolicy(body)
+}
+
+func (cs *roundCowState) checkAssetPrivacyActiveTransactionPolicy(body nativebody.Body) error {
 	record, exists, err := cs.GetAssetPrivacyPolicy(basics.AssetIndex(body.Asset))
 	if err != nil {
 		return err

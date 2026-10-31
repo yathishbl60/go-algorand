@@ -32,7 +32,7 @@ the local document records the draft behavior, not a completed cross-repo update
 | `PutAssetPrivacySupply` | Validate both current and replacement supply, then add a KV delta |
 | `IncreaseAssetPrivateSupply` | Check the shield arithmetic and write the resulting aggregate |
 | `DecreaseAssetPrivateSupply` | Check the unshield arithmetic and write the resulting aggregate |
-| `CheckAssetPrivacyDestruction` | Require zero private supply/full creator holding and absence of native supply/policy records until authenticated cleanup exists |
+| `CheckAssetPrivacyDestruction` | Require zero private supply/full creator holding and absence of all remaining native bookkeeping after authenticated final cleanup |
 | `DeleteAssetPrivacySupply` | Refuse deletion while value remains; remove only an empty aggregate record |
 
 The methods read the current COW and its parents, so ordered group changes are
@@ -42,7 +42,7 @@ caller must discard the transaction/group COW if a later operation fails.
 
 Native `AssetConfig` destruction now calls the read-only supply guard before
 mutating asset records. Existing native supply/policy records now block deletion
-even after full value reconciliation, preserving creator storage attribution.
+unless [authenticated retirement/final cleanup](RETIREMENT_CLEANUP.md) removes them atomically before ordinary destruction, preserving creator attribution.
 [Native execution](NATIVE_EXECUTION.md) verifies current consent/proofs and applies
 public/private changes. Deleting a supply record alone grants no destruction right.
 
@@ -61,7 +61,7 @@ privacy-specific validation. Those checks remain in NAP-09 and NAP-13.
 This aggregate record is only one part of native privacy state. Policy/key
 records, commitment trees, nullifiers, accepted roots, historical output streams,
 [creator storage metering](NATIVE_STORAGE.md) now share the COW. Approved pricing
-and authenticated cleanup/refunds remain separate work.
+remains outstanding; [retirement/cleanup](RETIREMENT_CLEANUP.md) now releases exact storage footprints in source.
 
 ## Validation and remaining work
 
@@ -77,7 +77,7 @@ Tagged native accounting/config/apply/evaluator compilation, default native buil
 and static analysis passed. The destruction hook returns immediately when the
 consensus flag is false. If enabled without the build tag or a ledger supplying
 the required checker, it rejects destruction. The guard does not remove private
-state; storage cleanup remains part of the complete lifecycle implementation.
+state itself; the authenticated evaluator wrapper now finalizes cleanup first.
 
 The aggregate state codec remains explicit, bounded and inactive. Subsequent
 wire/evaluator integration is documented separately. Tests remain deferred.

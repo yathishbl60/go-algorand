@@ -25,11 +25,11 @@ and 62 bytes for itself. Full key/value lengths are charged, including internal
 tree nodes, history, stream metadata, markers and inventory records. These are logical KV units,
 not measured database/index/filesystem heap or disk overhead.
 
-The counter remains charged after the last other entry is removed. It cannot be
-removed implicitly through account closeout or ASA destruction. Destruction
-rejects any existing native supply or policy record, even with zero private
-supply/full creator holding, preserving asset parameters for storage attribution.
-Authenticated cleanup, refunds and migration remain separate protocol work.
+Ordinary deletions retain the counter's own footprint. [Authenticated retirement
+and cleanup](RETIREMENT_CLEANUP.md) now remove bounded batches, then fixed state
+while ASA parameters still identify the creator. Final destruction releases the
+counter only if it contains precisely itself. Other asset obligations retain it.
+These are minimum-balance releases, not transfers or third-party reimbursements.
 
 ## Central mutation and checked prices
 
@@ -76,7 +76,7 @@ Full and basic JSON account responses now add the native obligation to their
 existing `min-balance`, using KV and consensus prices at the returned account round.
 Unavailable/pruned rounds and corrupt counters fail instead of quoting less.
 [Account reporting](ACCOUNT_REPORTING.md) describes format boundaries. SDK funding
-estimators, cleanup/refunds and private-recipient reimbursement remain pending.
+estimators and private-recipient reimbursement remain pending; cleanup release is source-integrated.
 Replay/catchpoint behavior of the existing native KV path remains unverified.
 
 ## Remaining evidence and scope

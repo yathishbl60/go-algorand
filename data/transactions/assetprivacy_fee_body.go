@@ -46,6 +46,9 @@ func (s SignedTxn) nativeAssetPrivacyLifecycleChecks() (uint64, error) {
 	if len(s.NativeAssetPrivacyProof) != 0 {
 		return 0, nativebody.ErrEncoding
 	}
+	if body.Operation == lifecyclebody.Cleanup {
+		return 1, nil
+	}
 	return 0, nil
 }
 

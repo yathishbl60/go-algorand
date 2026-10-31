@@ -21,8 +21,8 @@ package lifecyclebody
 import "github.com/algorand/go-algorand/internal/assetprivacy/policy"
 
 func (b Body) Validate() error {
-	if b.Operation.encodedSize(b.Role) == 0 {
-		return ErrOperation
+	if err := b.validateOperation(); err != nil {
+		return err
 	}
 	if (b.Asset == 0) != (b.Operation == Create) || b.Suite == [64]byte{} {
 		return ErrHeader
@@ -70,7 +70,7 @@ func (b Body) validateExisting() error {
 	if b.Operation == Freeze && (b.Target == [32]byte{} || b.Auditor != [32]byte{}) {
 		return ErrFields
 	}
-	return nil
+	return b.validateCleanup()
 }
 
 // CheckSender checks syntax, nonzero sender and registration account equality.

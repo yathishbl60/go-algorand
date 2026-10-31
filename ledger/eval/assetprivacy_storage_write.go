@@ -33,6 +33,9 @@ func (cs *roundCowState) chargeAssetPrivacyStorage(key string, value []byte, pre
 	if err != nil || !native {
 		return err
 	}
+	if err = cs.checkAssetPrivacyRetiredWrite(asset, key, present); err != nil {
+		return err
+	}
 	return cs.chargeAssetPrivacyKV(asset, key, value, present)
 }
 

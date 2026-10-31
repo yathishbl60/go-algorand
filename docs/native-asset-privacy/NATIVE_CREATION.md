@@ -65,12 +65,12 @@ application repeats those checks in the execution child.
 Ordinary public transfers and all ordinary public credits/withdrawals remain
 forbidden by a private-only policy. This conversion grants no general Public mode
 and does not change asset ID or total supply. Final private-only reconciliation
-atomically with destruction and authenticated state cleanup remain unfinished.
+atomically with destruction remains unfinished; [zero-supply retirement/cleanup](RETIREMENT_CLEANUP.md) is source-integrated.
 
 ## Evidence and remaining delivery
 
 Build/static checks and source review establish only compilation and stated source
 properties. No tests, vectors, signatures, key generation, traces, setup/proofs,
 runtime verification, replay or node scenarios have run. Practical resources,
-security, all modes, cleanup, APIs, SDK/wallet and all six real-node demos remain
+security, all modes, runtime cleanup, APIs, SDK/wallet and all six real-node demos remain
 required by [the delivery checklist](END_TO_END_STATUS.md).

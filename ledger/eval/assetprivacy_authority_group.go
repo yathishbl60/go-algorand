@@ -46,6 +46,9 @@ func (eval *BlockEvaluator) checkAssetPrivacyAuthorityChange(cs *roundCowState, 
 	if err != nil || !exists {
 		return err
 	}
+	if _, exists, err = cs.GetCreator(basics.CreatableIndex(asset), basics.AssetCreatable); err != nil || !exists {
+		return err
+	}
 	before, _, err := eval.state.AssetParams(asset)
 	if err != nil {
 		return err

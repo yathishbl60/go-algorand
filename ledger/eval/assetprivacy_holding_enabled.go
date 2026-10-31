@@ -39,6 +39,9 @@ func (cs *roundCowState) putAssetHoldingWithPrivacy(addr basics.Address, asset b
 }
 
 func (cs *roundCowState) putPrivacyHoldingAtomic(addr basics.Address, asset basics.AssetIndex, data ledgercore.AssetHoldingDelta, declaration policy.Record) error {
+	if err := cs.checkAssetPrivacyActive(asset); err != nil {
+		return err
+	}
 	child := cs.child(0)
 	defer child.recycle()
 	if err := child.synchronizePrivacyHolding(addr, asset, data, declaration); err != nil {

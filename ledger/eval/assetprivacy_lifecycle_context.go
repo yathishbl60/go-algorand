@@ -34,10 +34,8 @@ func (cs *roundCowState) checkAssetPrivacyLifecycleContext(body lifecyclebody.Bo
 	if _, err := suitecatalog.Lookup(cs.proto, body.Suite); err != nil {
 		return [64]byte{}, err
 	}
-	if body.Operation != lifecyclebody.Adopt {
-		if err := cs.checkAssetPrivacyLifecyclePolicy(body); err != nil {
-			return [64]byte{}, err
-		}
+	if err := cs.checkAssetPrivacyLifecycleState(body); err != nil {
+		return [64]byte{}, err
 	}
 	return cs.assetPrivacyLifecycleBinding(body, group, target)
 }

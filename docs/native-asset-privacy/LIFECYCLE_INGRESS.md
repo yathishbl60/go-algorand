@@ -20,6 +20,8 @@ fields and framing are checked before bounded owned copies. No secret is carried
 | 3 Assign | 182: auditor32; controller derived from current ASA state |
 | 4 Freeze | 183: targetAccount32, frozen1 restricted to0/1 |
 | 5 Create | 185: same declaration tail as Adopt; asset/policy/epoch zero; only acfg creation |
+| 6 Retire | 150: no tail; expected epoch0; current manager and reconciled supply |
+| 7 Cleanup | 152: limitBE2 in1..32; exact current cleanup epoch |
 
 Adopt validates policy syntax/Public mode and auditor presence iff required.
 Assign/Freeze carry no independent policy override. Register accepts only
@@ -92,6 +94,6 @@ real verification. [Viewing registration](VIEWING_REGISTRATION.md) uses kind22 p
 Syntax, encapsulation or membership cannot replace that possession relation.
 
 [Ordinary ASA configuration](AUTHORITY_SYNCHRONIZATION.md) now synchronizes policy/controller state and checks changed final authorities' keys before group commit.
-Require all mandatory keys before private value ingress. [Native creation](NATIVE_CREATION.md) and private-only issuer conversion are source-integrated; cleanup/refunds, APIs,
+Require all mandatory keys before private value ingress. [Native creation](NATIVE_CREATION.md), issuer conversion and [retirement/cleanup](RETIREMENT_CLEANUP.md) are source-integrated; APIs,
 SDK/wallet, all modes/recovery, restoration/upgrades and six real-node scenarios.
 Admin registration alone does not establish end-to-end delivery or crypto security.

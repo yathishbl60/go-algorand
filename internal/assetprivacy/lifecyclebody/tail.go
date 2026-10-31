@@ -32,6 +32,8 @@ func (b *Body) readTail(encoded []byte) error {
 	case Freeze:
 		copy(b.Target[:], encoded[:32])
 		return b.readFrozenTail(encoded)
+	case Cleanup:
+		b.readCleanupTail(encoded)
 	}
 	return nil
 }
@@ -40,6 +42,8 @@ func writeTail(encoded []byte, body Body) {
 	switch body.Operation {
 	case Register:
 		writeRegistrationTail(encoded, body)
+	case Cleanup:
+		writeCleanupTail(encoded, body)
 	case Adopt, Create:
 		encoded[0], encoded[1], encoded[2] = byte(body.Modes), byte(body.Capabilities), byte(body.Disclosures)
 		copy(encoded[3:35], body.Auditor[:])
