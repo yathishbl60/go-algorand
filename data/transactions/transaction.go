@@ -457,7 +457,7 @@ func (tx Transaction) WellFormed(spec SpecialAddresses, proto config.ConsensusPa
 
 	nonZeroFields := make(map[protocol.TxType]bool)
 	if len(tx.NativeAssetPrivacy) != 0 {
-		nonZeroFields[protocol.NativeAssetPrivacyTx] = true
+		nonZeroFields[tx.Type] = true
 	}
 	if tx.PaymentTxnFields != (PaymentTxnFields{}) {
 		nonZeroFields[protocol.PaymentTx] = true

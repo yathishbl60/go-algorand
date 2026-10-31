@@ -51,8 +51,8 @@ func (cs *roundCowState) assetPrivacyPublicHolding(asset basics.AssetIndex, addr
 	if !exists {
 		return basics.AssetHolding{}, fmt.Errorf("asset %d missing from %s: public conversion requires opt-in", asset, address)
 	}
-	if holding.Frozen && !bypassFreeze {
-		return basics.AssetHolding{}, fmt.Errorf("asset %d frozen in %s", asset, address)
+	if err = cs.checkAssetPrivacyConversionFrozen(asset, address, bypassFreeze); err != nil {
+		return basics.AssetHolding{}, err
 	}
 	return holding, nil
 }

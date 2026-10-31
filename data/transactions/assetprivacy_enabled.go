@@ -29,6 +29,9 @@ import (
 )
 
 func (tx Transaction) checkNativeAssetPrivacy(proto config.ConsensusParams) error {
+	if tx.IsNativeAssetPrivacyCreation() {
+		return tx.CheckNativeAssetPrivacyCreation(proto)
+	}
 	if tx.Type != protocol.NativeAssetPrivacyTx {
 		if len(tx.NativeAssetPrivacy) != 0 {
 			return errors.New("orphan native asset privacy body")
@@ -46,6 +49,9 @@ func (tx Transaction) checkNativeAssetPrivacyBody() error {
 		body, err := lifecyclebody.Decode(tx.NativeAssetPrivacy)
 		if err != nil {
 			return err
+		}
+		if body.Operation == lifecyclebody.Create {
+			return lifecyclebody.ErrOperation
 		}
 		return body.CheckSender([32]byte(tx.Sender))
 	}

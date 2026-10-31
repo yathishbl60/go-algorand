@@ -41,6 +41,9 @@ func nativePrivacyLifecycleSuite(tx *transactions.SignedTxn) ([64]byte, error) {
 	if err != nil {
 		return [64]byte{}, err
 	}
+	if (body.Operation == lifecyclebody.Create) != tx.Txn.IsNativeAssetPrivacyCreation() {
+		return [64]byte{}, lifecyclebody.ErrOperation
+	}
 	if err = nativePrivacyLifecycleWitness(tx, body); err != nil {
 		return [64]byte{}, err
 	}

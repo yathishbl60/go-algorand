@@ -10,7 +10,7 @@ have allocation bounds and ordinary canonical msgp encoding. Raw fields avoid
 build-dependent Transaction/SignedTxn layouts and new generated struct methods.
 Absent fields retain historical bytes. The disabled-build stub and disabled
 consensus reject the new type and every nonempty privacy field. Reject body fields
-on other types and orphan witnesses. Behavior uses `algorand_native_privacy`.
+on unrelated types and orphan witnesses. The sole other body placement is [Create5 on ordinary ASA creation](NATIVE_CREATION.md). Behavior uses `algorand_native_privacy`.
 
 ## Canonical body version1
 

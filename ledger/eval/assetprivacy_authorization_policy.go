@@ -26,7 +26,7 @@ import (
 )
 
 func (cs *roundCowState) assetPrivacyNeedsPQ(tx transactions.Transaction) (bool, error) {
-	if tx.Type == protocol.NativeAssetPrivacyTx {
+	if tx.Type == protocol.NativeAssetPrivacyTx || tx.IsNativeAssetPrivacyCreation() {
 		return true, nil
 	}
 	asset, admin := assetPrivacyAffectedAsset(tx)

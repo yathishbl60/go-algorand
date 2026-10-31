@@ -1,7 +1,7 @@
 # Candidate native lifecycle body codec
 
 This opt-in package implements bounded public `NAPL` version1 lifecycle bodies
-for the candidate `aprv` transaction. It performs no state reads, signatures,
+for candidate `aprv` operations and ordinary `acfg` creation declarations. It performs no state reads, signatures,
 proof verification or native execution. It requires `algorand_native_privacy`;
 every current consensus version remains disabled. Registration syntax currently
 accepts viewing keys, RecipientSpend commitments and admin Falcon keys; parsing proves no possession.
@@ -12,17 +12,23 @@ accepts viewing keys, RecipientSpend commitments and admin Falcon keys; parsing 
 | --- | --- |
 | 0..4 | ASCII NAPL |
 | 4..5 | Version1 |
-| 5..6 | Operation1 Adopt,2 Register,3 Assign or4 Freeze |
-| 6..14 | Nonzero asset uint64BE |
-| 14..78 | Policy digest; zero only for adoption |
+| 5..6 | Operation1 Adopt,2 Register,3 Assign,4 Freeze or5 Create |
+| 6..14 | Asset uint64BE; zero exactly for Create |
+| 14..78 | Policy digest; zero exactly for Adopt/Create |
 | 78..142 | Nonzero suite digest |
-| 142..150 | Expected epoch uint64BE; zero for adoption |
+| 142..150 | Expected epoch uint64BE; zero for Adopt/Create |
 
 Adopt is exactly185 bytes: header followed by modes1, capabilities1,
 disclosures1 and auditor32. The policy syntax must be valid, allow Public mode
 and declare controller disclosure if clawback is retained. Auditor is nonzero
 exactly when auditor disclosure is required. Ledger execution must derive the
 capabilities and inclusion-round policy identity from authoritative state.
+
+Create has the same185-byte declaration shape, with Public optional. Only an
+ordinary `acfg` with ConfigAsset0 may carry it; no witness is allowed. ASA fields
+stay in their ordinary encoding. Current PQ creator consent, exact actual powers,
+suite and atomic ID/round-derived policy initialization are enforced by the
+[creation integration](../../../docs/native-asset-privacy/NATIVE_CREATION.md).
 
 Assign is exactly182 bytes: header and auditor32. Zero auditor is structurally
 allowed because the current policy decides whether an auditor is required.
@@ -62,7 +68,7 @@ account equal Sender. It authenticates neither account nor current ASA role.
 The enclosing transaction path must enforce feature/configuration/suite gates,
 current top-level PQ account authority, operation principal and policy/suite
 identity, expected epoch, operation-specific witness rules, fees, creator storage
-funding and atomic group rollback. Adopt/Assign/Freeze require an empty witness;
+funding and atomic group rollback. Create/Adopt/Assign/Freeze require an empty witness;
 administrative registration requires actual new-key possession verification. A public address or parsing
 success grants no manager, freeze, viewing or spending permission. See the
 [lifecycle contract](../../../docs/native-asset-privacy/LIFECYCLE_INGRESS.md).

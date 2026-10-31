@@ -7,10 +7,10 @@ native delivery remain outstanding in [the plan](README.md). No tests/proofs ran
 
 ## Canonical operations
 
-Transaction type is `aprv`, signed body `napb`, signed witness `napw`. [NAPL1](../../internal/assetprivacy/lifecyclebody/README.md)
+Lifecycle type is `aprv`; Create5 declares policy on ordinary `acfg` creation. Body is `napb`, witness `napw`. [NAPL1](../../internal/assetprivacy/lifecyclebody/README.md)
 leaves existing NAPT1 value bytes unchanged. The fixed150-byte header is magic/
-version5, opcode1, assetBE8, policy64, suite64, expectedEpochBE8. Asset/suite are
-nonzero; policy is zero only for adoption. Exact sizes, enum/flags, unused zero
+version5, opcode1, assetBE8, policy64, suite64, expectedEpochBE8. Suite is nonzero;
+asset is zero only for Create; policy is zero for Adopt/Create. Exact sizes, enum/flags, unused zero
 fields and framing are checked before bounded owned copies. No secret is carried.
 
 | Opcode | Exact body size and tail |
@@ -19,6 +19,7 @@ fields and framing are checked before bounded owned copies. No secret is carried
 | 2 Register | role1, account32, keyLengthBE2; owner64 (249), ML-KEM1184 (1369) or Falcon1793 (1978) |
 | 3 Assign | 182: auditor32; controller derived from current ASA state |
 | 4 Freeze | 183: targetAccount32, frozen1 restricted to0/1 |
+| 5 Create | 185: same declaration tail as Adopt; asset/policy/epoch zero; only acfg creation |
 
 Adopt validates policy syntax/Public mode and auditor presence iff required.
 Assign/Freeze carry no independent policy override. Register accepts only
@@ -74,7 +75,7 @@ signature bytes. No transfer witness or success callback substitutes for it. One
 coarse work unit and proof-fee factor are charged, plus full signed bytes and base/
 PQ fees. History, current pointer and key root update atomically after verification;
 admin records grant no recipient eligibility. No Rust/P3 artifact is read here.
-Adopt/Assign/Freeze require empty witness and zero proof units, but still pay full
+Adopt/Assign/Freeze/Create require empty witness and zero proof units, but still pay full
 signed-byte/base/PQ fees and storage. Framing alone proves no possession.
 
 ## Bootstrap and remaining possession work
@@ -91,6 +92,6 @@ real verification. [Viewing registration](VIEWING_REGISTRATION.md) uses kind22 p
 Syntax, encapsulation or membership cannot replace that possession relation.
 
 [Ordinary ASA configuration](AUTHORITY_SYNCHRONIZATION.md) now synchronizes policy/controller state and checks changed final authorities' keys before group commit.
-Require all mandatory keys before private value ingress. Complete new-ASA/private-only lifecycle, cleanup/refunds, APIs,
+Require all mandatory keys before private value ingress. [Native creation](NATIVE_CREATION.md) and private-only issuer conversion are source-integrated; cleanup/refunds, APIs,
 SDK/wallet, all modes/recovery, restoration/upgrades and six real-node scenarios.
 Admin registration alone does not establish end-to-end delivery or crypto security.

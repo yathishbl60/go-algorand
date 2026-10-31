@@ -36,6 +36,7 @@ const (
 	Register Kind = 2
 	Assign   Kind = 3
 	Freeze   Kind = 4
+	Create   Kind = 5
 )
 
 var ErrEncoding = errors.New("invalid native lifecycle body encoding")
@@ -64,7 +65,7 @@ type Body struct {
 
 func (operation Kind) encodedSize(role keys.Role) int {
 	switch operation {
-	case Adopt:
+	case Adopt, Create:
 		return HeaderSize + 35
 	case Register:
 		return registrationBodySize(role)

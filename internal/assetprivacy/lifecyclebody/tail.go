@@ -24,7 +24,7 @@ func (b *Body) readTail(encoded []byte) error {
 	switch b.Operation {
 	case Register:
 		return b.readRegistrationTail(encoded)
-	case Adopt:
+	case Adopt, Create:
 		b.Modes, b.Capabilities, b.Disclosures = policy.Modes(encoded[0]), policy.Capabilities(encoded[1]), policy.Disclosures(encoded[2])
 		copy(b.Auditor[:], encoded[3:35])
 	case Assign:
@@ -40,7 +40,7 @@ func writeTail(encoded []byte, body Body) {
 	switch body.Operation {
 	case Register:
 		writeRegistrationTail(encoded, body)
-	case Adopt:
+	case Adopt, Create:
 		encoded[0], encoded[1], encoded[2] = byte(body.Modes), byte(body.Capabilities), byte(body.Disclosures)
 		copy(encoded[3:35], body.Auditor[:])
 	case Assign:

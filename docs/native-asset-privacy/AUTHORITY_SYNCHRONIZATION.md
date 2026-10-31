@@ -69,6 +69,6 @@ administrative registration role.
 Builds, static analysis and source review provide the current evidence; this
 document describes candidate source semantics. No tests, runtime proofs, key or
 signature generation, replay, catchup or restoration scenarios have run. The
-candidate remains unreviewed and disabled. Creation/private-only lifecycle,
+candidate remains unreviewed and disabled. [Native creation](NATIVE_CREATION.md) has source routing; private-only final reconciliation,
 cleanup/refunds, other modes, APIs, SDK/wallet, resource calibration and all six
 real-node scenarios remain in [the delivery checklist](END_TO_END_STATUS.md).

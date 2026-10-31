@@ -34,8 +34,8 @@ var errNativePrivacyConsent = errors.New("native privacy requires top-level post
 
 // This is stateless admission only; normal PQ verification and ledger auth still run.
 func checkNativePrivacySigned(tx *transactions.SignedTxn, proto config.ConsensusParams) (proofbridge.Limits, error) {
-	if tx.Txn.Type != protocol.NativeAssetPrivacyTx {
-		return proofbridge.Limits{}, errNativePrivacyWitness
+	if err := checkNativePrivacySignedType(tx, proto); err != nil {
+		return proofbridge.Limits{}, err
 	}
 	if !proto.NativeAssetPrivacyExecutionConfigured() || !tx.NativeAssetPrivacySizeAllowed(proto) {
 		return proofbridge.Limits{}, policy.ErrDisabled
@@ -60,7 +60,7 @@ func checkNativePrivacyConsent(tx *transactions.SignedTxn, proto config.Consensu
 }
 
 func nativePrivacyDiagnostic(tx transactions.SignedTxn) any {
-	if tx.Txn.Type == protocol.NativeAssetPrivacyTx || len(tx.NativeAssetPrivacyProof) != 0 {
+	if tx.Txn.Type == protocol.NativeAssetPrivacyTx || len(tx.Txn.NativeAssetPrivacy) != 0 || len(tx.NativeAssetPrivacyProof) != 0 {
 		return tx.ID()
 	}
 	return tx

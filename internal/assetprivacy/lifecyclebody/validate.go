@@ -24,7 +24,7 @@ func (b Body) Validate() error {
 	if b.Operation.encodedSize(b.Role) == 0 {
 		return ErrOperation
 	}
-	if b.Asset == 0 || b.Suite == [64]byte{} {
+	if (b.Asset == 0) != (b.Operation == Create) || b.Suite == [64]byte{} {
 		return ErrHeader
 	}
 	if b.Operation != Register && (b.Role != 0 || b.Account != [32]byte{} || len(b.PublicKey) != 0) {
@@ -33,13 +33,13 @@ func (b Body) Validate() error {
 	if b.Operation == Register {
 		return b.validateRegistration()
 	}
-	if b.Operation == Adopt {
-		return b.validateAdoption()
+	if b.Operation == Adopt || b.Operation == Create {
+		return b.validateDeclaration()
 	}
 	return b.validateExisting()
 }
 
-func (b Body) validateAdoption() error {
+func (b Body) validateDeclaration() error {
 	if b.Policy != [64]byte{} || b.ExpectedEpoch != 0 || b.Target != [32]byte{} || b.Frozen {
 		return ErrFields
 	}
@@ -47,7 +47,7 @@ func (b Body) validateAdoption() error {
 	if err := declaration.Validate(); err != nil {
 		return err
 	}
-	if !b.Modes.Allows(policy.Public) {
+	if b.Operation == Adopt && !b.Modes.Allows(policy.Public) {
 		return policy.ErrPublicRequired
 	}
 	required := b.Disclosures&policy.AuditorDisclosure != 0

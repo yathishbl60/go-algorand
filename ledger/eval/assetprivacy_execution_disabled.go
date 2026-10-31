@@ -23,6 +23,7 @@ import (
 	"github.com/algorand/go-algorand/data/basics"
 	"github.com/algorand/go-algorand/data/transactions"
 	"github.com/algorand/go-algorand/data/transactions/logic"
+	"github.com/algorand/go-algorand/protocol"
 )
 
 func (cs *roundCowState) chargeAssetPrivacyStorage(string, []byte, bool) error { return nil }
@@ -31,10 +32,16 @@ func (cs *roundCowState) checkAssetPrivacyStorageBalance(basics.Address) error {
 func (cs *roundCowState) assetPrivacyMinimumBalance(_ basics.Address, base basics.MicroAlgos) (basics.MicroAlgos, error) {
 	return base, nil
 }
-func (eval *BlockEvaluator) checkAssetPrivacyAuthorization(transactions.SignedTxn, *roundCowState) error {
+func (eval *BlockEvaluator) checkAssetPrivacyAuthorization(tx transactions.SignedTxn, _ *roundCowState) error {
+	if tx.Txn.Type == protocol.NativeAssetPrivacyTx || len(tx.Txn.NativeAssetPrivacy) != 0 || len(tx.NativeAssetPrivacyProof) != 0 {
+		return errors.New("native asset privacy requires the enabled build")
+	}
 	return nil
 }
-func (cs *roundCowState) checkAssetPrivacyInnerAuthorization(transactions.Transaction) error {
+func (cs *roundCowState) checkAssetPrivacyInnerAuthorization(tx transactions.Transaction) error {
+	if tx.Type == protocol.NativeAssetPrivacyTx || len(tx.NativeAssetPrivacy) != 0 {
+		return errors.New("native asset privacy requires the enabled build")
+	}
 	return nil
 }
 func (eval *BlockEvaluator) applyNativeAssetPrivacy(*roundCowState, *logic.EvalParams, int) error {

@@ -16,7 +16,7 @@ Maximum shield body size is10193 bytes, below the existing10465-byte ceiling.
 
 The evaluator checks actual top-level PQ consent against the current account's
 AuthAddr, including the off-Edwards-curve authorizer requirement. Current policy
-must allow both Public and Shielded. Policy/suite identity and output disclosure
+must allow Shielded and normally Public; [private-only creator inventory](NATIVE_CREATION.md) is the sole debit exception. Policy/suite identity and output disclosure
 flags must match authoritative state; a body cannot choose weaker roles or keys.
 
 AssetPrivacyShieldProofPlan derives the exact target body, finalized group and
@@ -55,8 +55,8 @@ No callback or parser-only result can authorize a debit or append.
 The same execution child checks group fees and reserves the complete proof count,
 then obtains the current consensus-pinned registry and verifies every actual
 main/output proof through the optional Rust backend. Only after success does it
-debit Sender's existing opted-in, unfrozen public holding, increase private supply
-by that debit, and append both fresh encrypted outputs/commitments. It consumes
+debit Sender's existing opted-in, effectively public/native-unfrozen holding, increase private supply
+by that debit, and append both fresh encrypted outputs/commitments. The source must be effectively unfrozen under public and native markers. It consumes
 no input nullifiers. Output creation freshness still uses permanent native state.
 
 The [creator storage meter](NATIVE_STORAGE.md) charges the complete mutation set.

@@ -82,9 +82,8 @@ Replay/catchpoint behavior of the existing native KV path remains unverified.
 ## Remaining evidence and scope
 
 [Native evaluator execution](NATIVE_EXECUTION.md) couples these charges to proof
-checking and atomic public/private application. This does not complete policy/key
-registration ingress, private-only final reconciliation, other modes, operator
-pricing, normative sibling specifications, complete API/SDK/wallet or real-node delivery.
+checking and atomic public/private application. Policy/key ingress and [creation](NATIVE_CREATION.md) have source routing; private-only final reconciliation, other modes, operator
+pricing, normative sibling specifications, complete API/SDK/wallet and real-node delivery remain unfinished.
 
 Only compilation, vet and source checks have been used. No storage vectors,
 funding/withdrawal/closeout tests, proofs, setup, runtime provider reads, replay,

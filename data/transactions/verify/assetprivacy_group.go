@@ -28,7 +28,7 @@ import (
 func checkNativePrivacyGroup(group []transactions.SignedTxn, proto config.ConsensusParams) error {
 	for index := range group {
 		tx := &group[index]
-		if tx.Txn.Type != protocol.NativeAssetPrivacyTx {
+		if tx.Txn.Type != protocol.NativeAssetPrivacyTx && !tx.Txn.IsNativeAssetPrivacyCreation() {
 			if len(tx.NativeAssetPrivacyProof) != 0 {
 				return errNativePrivacyWitness
 			}

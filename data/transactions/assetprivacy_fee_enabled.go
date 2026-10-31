@@ -35,7 +35,7 @@ func (s SignedTxn) NativeAssetPrivacySizeAllowed(proto config.ConsensusParams) b
 }
 
 func (s SignedTxn) nativeAssetPrivacyFeeContribution(proto config.ConsensusParams) basics.Micros {
-	if s.Txn.Type != protocol.NativeAssetPrivacyTx || !proto.NativeAssetPrivacyExecutionConfigured() || !s.NativeAssetPrivacySizeAllowed(proto) {
+	if (s.Txn.Type != protocol.NativeAssetPrivacyTx && !s.Txn.IsNativeAssetPrivacyCreation()) || !proto.NativeAssetPrivacyExecutionConfigured() || !s.NativeAssetPrivacySizeAllowed(proto) {
 		return 0
 	}
 	checks, err := s.nativeAssetPrivacyProofChecks()

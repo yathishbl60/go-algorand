@@ -39,14 +39,20 @@ func (cs *roundCowState) checkAssetPrivacyTransactionPolicy(body nativebody.Body
 	if identity != body.Policy || record.Suite != body.Suite {
 		return policy.ErrRecord
 	}
-	return checkAssetPrivacyTransactionModes(record.Policy, body)
+	if err = checkAssetPrivacyTransactionModes(record.Policy, body); err != nil {
+		return err
+	}
+	return cs.checkAssetPrivacyIssuerInventory(record.Policy, body)
 }
 
 func checkAssetPrivacyTransactionModes(current policy.Policy, body nativebody.Body) error {
 	if current.Modes&body.Mode != body.Mode {
 		return policy.ErrModes
 	}
-	if (body.Debit != 0 || body.Credit != 0) && !current.Modes.Allows(policy.Public) {
+	if body.Credit != 0 && !current.Modes.Allows(policy.Public) {
+		return policy.ErrModes
+	}
+	if body.Debit != 0 && body.Operation != nativebody.Shield && !current.Modes.Allows(policy.Public) {
 		return policy.ErrModes
 	}
 	for _, output := range body.Outputs {

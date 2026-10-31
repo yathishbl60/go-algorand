@@ -23,6 +23,9 @@ import "github.com/algorand/go-algorand/data/transactions"
 // Inner bodies have no independent approved PQ consent over their exact fields.
 // Ordinary public holder transfers retain existing inner authorization semantics.
 func (cs *roundCowState) checkAssetPrivacyInnerAuthorization(tx transactions.Transaction) error {
+	if len(tx.NativeAssetPrivacy) != 0 {
+		return errAssetPrivacyAuthorization
+	}
 	if !cs.proto.EnableNativeAssetPrivacy {
 		return nil
 	}

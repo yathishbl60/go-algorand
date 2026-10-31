@@ -46,9 +46,9 @@ checks current PQ authority, absent supply/policy, suite and group, then writes 
 policy plus initial targets atomically with storage funding. No value/key proof is
 accepted. Supplying the manager address alone grants no authorization.
 
-Private-only creation needs a distinct authenticated creation integration; the
-existing-asset adoption helper intentionally retains public mode. [Key epochs and current-record roots](KEY_AUTHORIZATION.md) now persist separately;
-issuer PQ/adoption and all role possession paths exist; creation and complete lifecycle remain unfinished.
+[Native creation](NATIVE_CREATION.md) declares policy in ordinary ASA creation and
+permits private-only creator inventory conversion. Existing-asset adoption retains Public mode.
+[Key epochs and current-record roots](KEY_AUTHORIZATION.md) persist separately; issuer PQ and all role possession paths exist. Complete lifecycle remains unfinished.
 Live assets require [suite/reference retention across upgrades](NATIVE_SUITE_CATALOG.md);
 removing a suite can block reads and holding synchronization, with no implicit migration.
 

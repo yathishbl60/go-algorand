@@ -14,7 +14,7 @@ field carries local registry files, pins, budgets or private note openings.
 
 The metadata fields exist in both builds. Default builds reject the type and
 nonempty privacy fields. Tagged builds require explicit execution configuration before
-native body decoding; ordinary transaction types reject orphan bodies/witnesses.
+native body decoding; only [ordinary ASA creation with Create5](NATIVE_CREATION.md) admits another body placement, with empty witness.
 All current consensus versions keep the flag false, suite catalogs nil and
 native decoder bounds zero. No artifact or suite approval has been added.
 
@@ -23,7 +23,7 @@ The [body contract](NATIVE_TRANSACTION_BODY.md) and
 bytes and operation arities. Decode scans into fixed two-slot staging storage,
 checks complete framing and only then copies returned input/output data. Every
 returned ciphertext is owned. NAPT permits shielded mode4; Shield3 has0inputs and2outputs.
-Other modes fail. [NAPL1](LIFECYCLE_INGRESS.md) accepts Adopt/Assign/Freeze and admin Register2, roles5..7.
+Other modes fail. [NAPL1](LIFECYCLE_INGRESS.md) accepts Adopt/Assign/Freeze, all role registrations and Create5 declarations on ordinary ASA creation.
 
 ## Stateless signed admission
 
