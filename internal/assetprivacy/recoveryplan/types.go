@@ -52,11 +52,12 @@ const (
 // Statement consumes one actual input. Count is accepted-root native metadata.
 // Private variants use actual output commitments; public variants credit an amount.
 type Statement struct {
-	Kind    Kind
-	Input   spendplan.Input
-	Outputs [][64]byte
-	Credit  uint64
-	Group   [64]byte
+	Kind         Kind
+	Input        spendplan.Input
+	Outputs      [][64]byte
+	Credit       uint64
+	Group        [64]byte
+	Participants [4][32]byte
 }
 
 // Authority is the current ASA clawback account, not a view target or auth proof.

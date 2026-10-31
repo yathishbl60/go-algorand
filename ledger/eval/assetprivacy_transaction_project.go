@@ -61,7 +61,7 @@ func (cs *roundCowState) projectAssetPrivacySpend(body nativebody.Body, records 
 }
 
 func (cs *roundCowState) projectAssetPrivacyRecovery(body nativebody.Body, records []outputs.Record, bodies AssetPrivacySpendBodies) (*AssetPrivacyRecoveryPlan, error) {
-	draft := recoveryplan.Statement{Kind: recoveryplan.Kind(body.Operation - 3), Credit: body.Credit,
+	draft := recoveryplan.Statement{Kind: assetPrivacyRecoveryKind(body), Credit: body.Credit, Participants: body.Participants,
 		Outputs: assetPrivacyTransactionCommitments(body), Input: assetPrivacyTransactionInput(body.Inputs[0])}
 	return cs.AssetPrivacyRecoveryProofPlan(basics.AssetIndex(body.Asset), draft, records, bodies)
 }

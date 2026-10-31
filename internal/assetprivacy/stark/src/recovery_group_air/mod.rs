@@ -7,12 +7,14 @@ mod authority;
 mod binding;
 mod checks;
 mod components;
+mod confidential;
 mod constants;
 mod fixed;
 mod frames;
 mod input;
 mod operation;
 mod params;
+mod participant_binding;
 mod prepared;
 mod preservation;
 mod public;
@@ -36,6 +38,7 @@ pub struct RecoveryGroupAir {
     output: NoteCommitmentAir,
     operation: Operation,
     authority: [u8; 32],
+    participants: Option<[[u8; 32]; 4]>,
 }
 
 impl RecoveryGroupAir {
@@ -54,6 +57,7 @@ impl RecoveryGroupAir {
             output: NoteCommitmentAir::new(network, asset, policy)?,
             operation,
             authority,
+            participants: None,
         })
     }
 }
@@ -63,7 +67,7 @@ impl BaseAir<Value> for RecoveryGroupAir {
         WIDTH
     }
     fn num_public_values(&self) -> usize {
-        self.operation.public_count()
+        self.public_count()
     }
     fn preprocessed_width(&self) -> usize {
         PREPROCESSED
@@ -82,5 +86,6 @@ impl<AB: AirBuilder<F = Value>> Air<AB> for RecoveryGroupAir {
         self.eval_conversion(builder);
         self.eval_bindings(builder);
         self.eval_preservation(builder);
+        self.eval_participants(builder);
     }
 }

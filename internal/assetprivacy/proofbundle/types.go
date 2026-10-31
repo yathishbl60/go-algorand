@@ -52,6 +52,10 @@ const (
 	ConfidentialTransfer           Kind = 8
 	ConfidentialUnshield           Kind = 9
 	ConfidentialShield             Kind = 10
+	ConfidentialPartialPrivate     Kind = 11
+	ConfidentialFullPrivate        Kind = 12
+	ConfidentialPartialPublic      Kind = 13
+	ConfidentialFullPublic         Kind = 14
 	Recipient                      Kind = 17
 	Disclosure                     Kind = 18
 	RetainedRecipient              Kind = 19

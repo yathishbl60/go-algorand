@@ -1,7 +1,7 @@
 # Independently pinned preprocessing registry reader
 
 `artifactregistry` is opt-in Go code under `algorand_native_privacy`. It reads an
-exact candidate registry of sixteen public preprocessing commitments. It does not
+exact candidate registry of twenty public preprocessing commitments. It does not
 approve a cryptographic suite, authenticate a proof or enable native acceptance.
 There is no default approved registry or fallback to proof-advertised metadata.
 
@@ -12,7 +12,7 @@ native boundary must additionally ensure the profile is allowed by its consensus
 configuration and matches the authoritative policy suite. A local profile evidence
 Manifest verifies supplied file integrity; it is not a preprocessing-key authority.
 
-Load first checks pins and exact size, then copies a fixed1446-byte snapshot. It
+Load first checks pins and exact size, then copies a fixed1774-byte snapshot. It
 checks header/profile/implementation/digest and every compiled layout before
 allocating/publishing the returned Registry. No input buffer is retained. The
 registry contains fixed value arrays; Profile(), Implementation(), Digest(),
@@ -22,18 +22,18 @@ while Load copies it; subsequent buffer mutation does not affect the result.
 
 ## Exact candidate binary layout
 
-The file is exactly1446 bytes, with no trailing bytes, padding, native integer
+The file is exactly1774 bytes, with no trailing bytes, padding, native integer
 sizes, aliases or optional records. The header occupies134 bytes:
 
 | Byte interval, end excluded | Encoding |
 | --- | --- |
 | 0..4 | ASCII `NAPK` |
-| 4 | Version5 |
+| 4 | Version6 |
 | 5..69 | Profile64, identical to independent Pin.Profile |
 | 69..133 | Selected reference64, identical to legacy Pin.Implementation |
-| 133 | Count16 |
+| 133 | Count20 |
 
-Exactly sixteen82-byte records follow in order kinds1..10,17..22. Each
+Exactly twenty82-byte records follow in order kinds1..14,17..22. Each
 record contains kind1, rowsu32LE, mainWidthu32LE, preprocessingWidthu32LE,
 publicCountu32LE, flags1 and eight rawu64LE root words (64 bytes). Flags must
 be3: bit0 main-next and bit1 preprocessing-next. Unknown bits fail closed.
@@ -54,6 +54,10 @@ trust. Missing keys or placeholders never create an approved registry implicitly
 | 8 | Confidential transfer | 16384 | 8506 | 80 | 392 |
 | 9 | Confidential unshield | 16384 | 8506 | 80 | 324 |
 | 10 | Confidential shield | 1024 | 7641 | 8 | 228 |
+| 11 | Confidential partial private recovery | 8192 | 8539 | 60 | 320 |
+| 12 | Confidential full private recovery | 8192 | 8539 | 60 | 288 |
+| 13 | Confidential partial public recovery | 8192 | 8539 | 60 | 292 |
+| 14 | Confidential full public recovery | 8192 | 8539 | 60 | 260 |
 | 17 | Ordinary recipient | 65536 | 24869 | 2075 | 1132 |
 | 18 | Assigned disclosure | 65536 | 23973 | 2067 | 1132 |
 | 19 | Retained remainder recipient | 65536 | 24229 | 2067 | 1100 |
@@ -61,7 +65,7 @@ trust. Missing keys or placeholders never create an approved registry implicitly
 | 21 | Owner registration | 512 | 3540 | 4 | 64 |
 | 22 | Viewing registration | 16384 | 9394 | 723 | 1216 |
 
-Version5 supersedes unapproved versions1..4; old format/pins fail closed. There are
+Version6 supersedes unapproved versions1..5; old format/pins fail closed. There are
 no approved historical references. Dimensions match current native AIRs. Kind alone
 selects a public schedule, not an entire transaction-specific relation. The Rust
 bridge must independently derive the full relation ID from the exact constructor
@@ -71,8 +75,8 @@ public relation identity. Role, output ordinal, body/group context, current root
 and applicable authority remain native statement/authentication obligations.
 
 The independent registry Digest is SHA3-512 of ASCII
-`Algorand/AssetPrivacy/Candidate1/ArtifactRegistryV5/` followed by the entire
-1446-byte file. `Digest(encoded)` is a fixed-size offline integrity helper only:
+`Algorand/AssetPrivacy/Candidate1/ArtifactRegistryV6/` followed by the entire
+1774-byte file. `Digest(encoded)` is a fixed-size offline integrity helper only:
 it checks length and computes that digest, without checking header/layouts,
 provenance or approval. A digest read from the same file is not an independent pin.
 

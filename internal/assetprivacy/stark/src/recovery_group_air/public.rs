@@ -39,7 +39,7 @@ impl RecoveryGroupAir {
     /// Complete public values, including group/authority, enter the pinned transcript.
     pub fn public_values(&self, statement: &PublicStatement) -> Option<Vec<Value>> {
         statement.validate(self.operation)?;
-        let mut values = Vec::with_capacity(self.operation.public_count());
+        let mut values = Vec::with_capacity(self.public_count());
         values.extend(digest_values(statement.input.nullifier));
         values.extend(digest_values(statement.input.root));
         for &commitment in &statement.outputs {
@@ -53,6 +53,7 @@ impl RecoveryGroupAir {
         );
         values.extend(digest_values(statement.group));
         values.extend(self.authority.into_iter().map(Value::from_u8));
+        self.append_participants(&mut values);
         Some(values)
     }
 }

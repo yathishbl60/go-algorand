@@ -6,6 +6,8 @@ mod bind;
 mod check_setup;
 mod confidential;
 mod confidential_air;
+mod confidential_recovery;
+mod confidential_recovery_air;
 mod dimensions;
 mod dimensions_other;
 mod domain;

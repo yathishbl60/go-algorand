@@ -26,13 +26,13 @@ import (
 // Recovery fixes the weaker remainder kind only at the main plan's retained index.
 // Current ordinary/PQ issuer signatures remain a separate native requirement.
 func Recovery(main *recoveryplan.Plan, outputs []*proofplan.Plan) (*Plan, error) {
-	if main == nil || main.Kind() < recoveryplan.PartialPrivate || main.Kind() > recoveryplan.FullPublic {
+	if main == nil || recoveryKind(main.Kind()) == 0 {
 		return nil, ErrPlan
 	}
 	if len(outputs) != len(main.Outputs()) {
 		return nil, ErrPlan
 	}
-	kind := Kind(main.Kind()) + 3
+	kind := recoveryKind(main.Kind())
 	plan := &Plan{slots: []Slot{{kind: kind, output: MainOutput, values: main.Values()}}}
 	remainder := -1
 	if index, ok := main.RemainderIndex(); ok {
@@ -42,4 +42,14 @@ func Recovery(main *recoveryplan.Plan, outputs []*proofplan.Plan) (*Plan, error)
 		return nil, err
 	}
 	return plan, nil
+}
+
+func recoveryKind(kind recoveryplan.Kind) Kind {
+	if kind >= recoveryplan.PartialPrivate && kind <= recoveryplan.FullPublic {
+		return Kind(kind) + 3
+	}
+	if kind.Confidential() {
+		return Kind(kind)
+	}
+	return 0
 }

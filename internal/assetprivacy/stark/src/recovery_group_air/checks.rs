@@ -13,6 +13,7 @@ impl RecoveryGroupAir {
         if input.outputs.len() != self.operation.output_count() {
             return None;
         }
+        self.check_participant_openings(input)?;
         if self.input.check_inputs(input.input, statement.input.root)? != statement.input.nullifier
         {
             return None;

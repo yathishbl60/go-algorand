@@ -1,8 +1,8 @@
 # Issuer recovery and frozen-owner remainders
 
-Updated 2026-10-25. Disabled recovery constraints and native expected-statement
-planning exist. They do not verify issuer signatures or implement an accepted
-recovery transaction. [V2 marker/creation correction](NULLIFIER_FRESHNESS.md) now
+Updated 2026-10-31. Recovery constraints, authoritative planning, native issuer
+authorization and atomic application have inactive source integration. No accepted
+recovery transaction has been demonstrated. [V2 marker/creation correction](NULLIFIER_FRESHNESS.md) now
 has source implementations; runtime proofs and native execution remain gates.
 
 ## Four exact shapes and value preservation
@@ -17,7 +17,8 @@ has source implementations; runtime proofs and native execution remain gates.
 Every variant consumes one actual canonical input. [RecoveryNoteAir](../../internal/assetprivacy/stark/src/recovery_note_air/README.md)
 proves its accepted note membership and same commitment-bound V2 marker as ordinary
 holder spending, without requiring the holder secret or Frozen=0. The input
-commitment/account/owner/path stay private. Merely knowing an opening, including
+commitment/owner/path stay private; Shielded4 also hides the account. Confidential2
+binds the public input0 account to that same input opening. Merely knowing an opening, including
 through audit access, does not confer any recovery authority.
 
 [RecoveryGroupAir](../../internal/assetprivacy/stark/src/recovery_group_air/README.md)
@@ -31,7 +32,11 @@ The main vector contains input nullifier32/root32 LEu16 limbs, each actual outpu
 commitment32 LEu16, public credit4 LEu16 only for public variants, full group
 context32 LEu16, then expected current clawback account32 u8 scalars. This account
 is native-derived statement data, not a proof of key possession or a signature.
-All expected operation/amount/artifact choices must come from native body parsing.
+All expected operation/amount/artifact choices come from native body parsing.
+[Confidential2](CONFIDENTIAL_MODE.md) appends128 account bytes to each vector,
+selecting kinds11..14 with320/288/292/260 cells. Actual output identities bind to
+their commitment frames; inactive slots are zero. The remainder account must
+still equal the input account. Authority and group offsets remain unchanged.
 
 ## Three recipient proof classes
 
@@ -76,23 +81,20 @@ requires Public mode plus a private-input mode; private recovery requires a priv
 mode. A public-credit shape never creates an exit from a private-only policy.
 Atomic final-destruction reconciliation is a separate unfinished operation.
 
-Body limits remain trusted pinned-profile estimates; MaxGroupSize must equal
-current consensus. Plans perform no state writes, debits/credits or proof checks.
-Native parser, exact visibility/participant constraints, actual credit destination,
-funding, fees, verification work bounds and atomic application remain unfinished.
-Rebuild/recheck after relevant prior group changes; history never restores removed
-issuer authority. FullPublic has no output role plans or recipient-key queries.
+Plans perform no state writes or proof checks; current consensus fixes group limits.
+Native parsing, exact visibility/participant constraints, credit destination,
+funding, fees, coarse work bounds and atomic application have source integration.
+Runtime evidence and practical resource calibration remain unfinished.
+Recheck after prior group changes; history never restores authority.
+FullPublic has no output role plans or recipient-key queries.
 
 RecoveryNote main/pre matrices are261,816,320/1,572,864 bytes; RecoveryGroup uses
 559,611,904/3,932,160 bytes. Recipient envelope classes still require many GiB before
 prover overhead. Source degree bounds are8 for recovery input and9 for its parent
 and recovery receipt classes. Actual security/resource budgets remain unvalidated.
-
 Prospective rotation requires retaining historical decryption/opening material.
 Changing an ASA controller address requires a real historical-key/data handover;
 new roots/current keys cannot recover unavailable old ciphertexts. Native enforced
 handover and complete wallet backup workflows remain unfinished, not inferred.
-
-No tests, vectors, traces, constraint evaluations, proofs, benchmarks or real-node
-scenarios have run. Builds, vet, Clippy, formatting and source/size review establish
-only reported compilation properties. Feature activation remains disabled.
+No tests, vectors, traces, setup, proofs, benchmarks or node scenarios have run. Builds, vet, Clippy, formatting and source/size review establish
+only compilation properties. Activation remains disabled.

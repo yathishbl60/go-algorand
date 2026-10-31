@@ -22,8 +22,8 @@ The [body contract](NATIVE_TRANSACTION_BODY.md) and
 [nativebody API](../../internal/assetprivacy/nativebody/README.md) define exact
 bytes and operation arities. Decode scans into fixed two-slot staging storage,
 checks complete framing and only then copies returned input/output data. Every
-returned ciphertext is owned. NAPT permits Shielded4 and [Confidential2 ordinary operations](CONFIDENTIAL_MODE.md); Shield3 has0inputs and2outputs.
-Public1 uses ordinary ASA transfers; confidential recovery rejects. [NAPL1](LIFECYCLE_INGRESS.md) includes lifecycle registration, creation, retirement and cleanup.
+returned ciphertext is owned. NAPT permits Shielded4 and [Confidential2 ordinary/recovery operations](CONFIDENTIAL_MODE.md); Shield3 has0inputs and2outputs.
+Public1 uses ordinary ASA transfers; recovery uses its exact selected private mode. [NAPL1](LIFECYCLE_INGRESS.md) includes lifecycle registration, creation, retirement and cleanup.
 
 ## Stateless signed admission
 

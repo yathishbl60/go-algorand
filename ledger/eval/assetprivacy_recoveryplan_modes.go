@@ -31,10 +31,14 @@ func (cs *roundCowState) checkAssetPrivacyRecoveryMode(asset basics.AssetIndex, 
 		return err
 	}
 	modes := declaration.Policy.Modes
-	if modes&policy.Modes(policy.Confidential|policy.Shielded) == 0 {
+	mode := policy.Shielded
+	if kind.Confidential() {
+		mode = policy.Confidential
+	}
+	if !modes.Allows(mode) {
 		return policy.ErrModes
 	}
-	public := kind == recoveryplan.PartialPublic || kind == recoveryplan.FullPublic
+	public := kind.Public()
 	if public && !modes.Allows(policy.Public) {
 		return policy.ErrModes
 	}

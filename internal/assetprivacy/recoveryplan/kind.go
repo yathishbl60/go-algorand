@@ -19,7 +19,7 @@
 package recoveryplan
 
 func (k Kind) outputCount() int {
-	switch k {
+	switch k.base() {
 	case PartialPrivate:
 		return 2
 	case FullPrivate, PartialPublic:
@@ -31,7 +31,7 @@ func (k Kind) outputCount() int {
 	}
 }
 
-func (k Kind) public() bool { return k == PartialPublic || k == FullPublic }
+func (k Kind) public() bool { return k.base() == PartialPublic || k.base() == FullPublic }
 
 // RemainderIndex selects only the original-owner remainder of partial recovery.
 // It grants no permission to use the weaker retained-recipient output relation.
@@ -39,7 +39,7 @@ func (p *Plan) RemainderIndex() (int, bool) {
 	if p == nil {
 		return 0, false
 	}
-	switch p.kind {
+	switch p.kind.base() {
 	case PartialPrivate:
 		return 1, true
 	case PartialPublic:

@@ -17,6 +17,7 @@ mod main;
 mod main_build;
 mod output;
 mod owner_registration;
+mod recovery;
 mod request;
 mod shield;
 mod slot;
@@ -26,6 +27,6 @@ mod viewing_registration;
 
 pub use error::Failure;
 pub use verify::verify_request;
-pub const MAX_REQUEST_BYTES: usize = 16248;
+pub const MAX_REQUEST_BYTES: usize = 16576;
 pub const MAX_BUNDLE_BYTES: usize = 512 << 20;
-const HEADER: usize = 1824;
+const HEADER: usize = 2152;

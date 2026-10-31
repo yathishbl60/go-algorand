@@ -35,6 +35,10 @@ pub enum RecoveryKind {
     FullPrivate = 5,
     PartialPublic = 6,
     FullPublic = 7,
+    ConfidentialPartialPrivate = 11,
+    ConfidentialFullPrivate = 12,
+    ConfidentialPartialPublic = 13,
+    ConfidentialFullPublic = 14,
 }
 
 #[derive(Clone, Copy)]

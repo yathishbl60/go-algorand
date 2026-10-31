@@ -45,7 +45,7 @@ func (s Statement) validate() error {
 	if len(s.Outputs) == 2 && s.Outputs[0] == s.Outputs[1] {
 		return ErrStatement
 	}
-	return nil
+	return s.checkParticipants()
 }
 
 func (s Statement) checkShape() error {

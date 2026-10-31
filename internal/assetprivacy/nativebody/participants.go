@@ -24,7 +24,7 @@ const participantBytes = 128
 
 func (b Body) validMode() bool {
 	return b.Mode == policy.Modes(policy.Shielded) ||
-		b.Mode == policy.Modes(policy.Confidential) && (b.Operation == Transfer || b.Operation == Unshield || b.Operation == Shield)
+		b.Mode == policy.Modes(policy.Confidential)
 }
 
 func (b Body) participantSize() int {
@@ -50,6 +50,20 @@ func (b Body) validateParticipants() error {
 		if (account != [32]byte{}) != active {
 			return ErrMode
 		}
+	}
+	return b.validateRemainderParticipant()
+}
+
+func (b Body) validateRemainderParticipant() error {
+	index := -1
+	if b.Operation == PartialPrivate {
+		index = 3
+	}
+	if b.Operation == PartialPublic {
+		index = 2
+	}
+	if index >= 0 && b.Participants[index] != b.Participants[0] {
+		return ErrMode
 	}
 	return nil
 }

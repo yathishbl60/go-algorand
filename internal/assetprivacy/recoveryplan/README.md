@@ -1,10 +1,8 @@
 # Expected native recovery proof statements
-
 Opt-in `recoveryplan` derives main proof statements for one actual private input
-and four recovery shapes. It grants no account/issuer authority and performs no
+and four recovery shapes in shielded or confidential mode. It grants no account/issuer authority and performs no
 cryptographic proof verification, amount checking or state application. There is
 no callback, permissive verifier or permission token in this package.
-
 | Kind | Ordered actual private outputs | Public credit | Vector scalars |
 | --- | --- | --- | --- |
 | PartialPrivate=1 | recovered0, original-owner remainder1 | zero | 192 |
@@ -12,7 +10,14 @@ no callback, permissive verifier or permission token in this package.
 | PartialPublic=3 | original-owner remainder0 | positive | 164 |
 | FullPublic=4 | none | positive | 132 |
 
-`Statement` supplies Kind, Input, Outputs, Credit and finalized Group digest.
+ConfidentialPartialPrivate=11, ConfidentialFullPrivate=12,
+ConfidentialPartialPublic=13 and ConfidentialFullPublic=14 retain these prefixes
+and append128 byte cells, for320/288/292/260 total. `Participants` orders input0,
+unused input1, output0 and output1; actual slots must be nonzero and absent slots
+zero. Partial recovery requires its declared remainder account equal input0.
+The AIR independently enforces these opening-account bindings and preservation.
+
+`Statement` supplies Kind, Input, Outputs, Credit, Participants and finalized Group digest.
 Input is `spendplan.Input`: nullifier64, accepted note root64 and Count native
 metadata. All nullifier hashes, including zero, are valid encodings. Note root,
 group and actual output commitments must be nonzero. Count must be1..2^32;
@@ -56,7 +61,7 @@ The expected main AIR must prove canonical input membership and its shared
 holder/recovery nullifier, positive recovered value, positive remainder for
 partial variants, exact conservation and remainder equality to the input's
 private account and already-committed owner. No private input commitment,
-selected account/path, note opening or owner is added to this public vector.
+path, note opening or owner secret is added. Confidential kinds expose accounts.
 Build alone proves none of these properties.
 
 ## Output roles and current native state

@@ -34,7 +34,7 @@ func publicValues(s Statement, c Config) []uint16 {
 	for _, value := range c.Authority {
 		values = append(values, uint16(value))
 	}
-	return values
+	return appendParticipants(values, s)
 }
 
 func appendDigest(values []uint16, digest [64]byte) []uint16 {

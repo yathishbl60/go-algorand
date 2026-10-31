@@ -1,7 +1,7 @@
 // Copyright (C) 2026 Algorand Foundation Ltd.
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
-use super::Layout;
+use super::Layout::{self, *};
 
 pub(super) enum ShapeKind {
     Spend,
@@ -18,22 +18,22 @@ pub(super) enum ShapeKind {
 impl Layout {
     pub(super) fn shape_kind(self) -> ShapeKind {
         match self {
-            Self::Transfer => ShapeKind::Spend,
-            Self::Unshield => ShapeKind::Spend,
-            Self::Shield => ShapeKind::Shield,
-            Self::PartialPrivate => ShapeKind::Recovery,
-            Self::FullPrivate => ShapeKind::Recovery,
-            Self::PartialPublic => ShapeKind::Recovery,
-            Self::FullPublic => ShapeKind::Recovery,
-            Self::ConfidentialTransfer => ShapeKind::Spend,
-            Self::ConfidentialUnshield => ShapeKind::Spend,
-            Self::ConfidentialShield => ShapeKind::Shield,
-            Self::Recipient => ShapeKind::Recipient,
-            Self::Disclosure => ShapeKind::Disclosure,
-            Self::Retained => ShapeKind::Retained,
-            Self::Recovered => ShapeKind::Recovered,
-            Self::OwnerRegistration => ShapeKind::Owner,
-            Self::ViewingRegistration => ShapeKind::Viewing,
+            Transfer | Unshield | ConfidentialTransfer | ConfidentialUnshield => ShapeKind::Spend,
+            Shield | ConfidentialShield => ShapeKind::Shield,
+            PartialPrivate
+            | FullPrivate
+            | PartialPublic
+            | FullPublic
+            | ConfidentialPartialPrivate
+            | ConfidentialFullPrivate
+            | ConfidentialPartialPublic
+            | ConfidentialFullPublic => ShapeKind::Recovery,
+            Recipient => ShapeKind::Recipient,
+            Disclosure => ShapeKind::Disclosure,
+            Retained => ShapeKind::Retained,
+            Recovered => ShapeKind::Recovered,
+            OwnerRegistration => ShapeKind::Owner,
+            ViewingRegistration => ShapeKind::Viewing,
         }
     }
 }

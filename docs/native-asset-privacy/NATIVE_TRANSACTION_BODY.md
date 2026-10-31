@@ -55,7 +55,8 @@ Recoveryplan.Kind is tag-3. For partial private recovery output0 is recovered an
 output1 retained; partial public recovery output0 is retained. [Confidential2](CONFIDENTIAL_MODE.md)
 ordinary operations append input0/input1/output0/output1 accounts,32 bytes each.
 Actual note slots are nonzero; absent slots zero. Mode4 has no trailer. Main kinds8/9/10 bind these exact committed accounts.
-Public1 uses ordinary ASA transfers; confidential recovery and unknown modes reject.
+Recovery uses input0, zero input1 and actual output slots; Public1 uses ordinary
+ASA transfers. Unknown modes reject.
 
 ## Projection, authorization and application
 

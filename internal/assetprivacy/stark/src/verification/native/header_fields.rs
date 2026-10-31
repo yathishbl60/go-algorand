@@ -9,7 +9,7 @@ use super::super::{
 use super::{cursor::Cursor, header::Context};
 
 pub(super) fn pin(cursor: &mut Cursor<'_>) -> Result<Pin, Error> {
-    if cursor.array::<5>()? != *b"NAPV\x05" {
+    if cursor.array::<5>()? != *b"NAPV\x06" {
         return Err(Error::Shape);
     }
     Ok(Pin {

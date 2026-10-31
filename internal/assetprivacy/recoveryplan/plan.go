@@ -25,12 +25,13 @@ import (
 
 // Plan is an immutable expected statement. It neither proves authority nor owns funds.
 type Plan struct {
-	kind      Kind
-	values    []uint16
-	domain    tree.Domain
-	authority [32]byte
-	input     spendplan.Input
-	outputs   [][64]byte
+	kind         Kind
+	values       []uint16
+	domain       tree.Domain
+	authority    [32]byte
+	input        spendplan.Input
+	outputs      [][64]byte
+	participants [4][32]byte
 }
 
 func (p *Plan) Domain() tree.Domain    { return p.domain }
@@ -50,5 +51,5 @@ func Build(statement Statement, config Config) (*Plan, error) {
 	}
 	return &Plan{kind: statement.Kind, values: publicValues(statement, config),
 		domain: config.Domain, authority: config.Authority, input: statement.Input,
-		outputs: append([][64]byte(nil), statement.Outputs...)}, nil
+		outputs: append([][64]byte(nil), statement.Outputs...), participants: statement.Participants}, nil
 }

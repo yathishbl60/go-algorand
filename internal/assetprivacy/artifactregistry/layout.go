@@ -25,7 +25,16 @@ type layout struct {
 
 // Layouts match the compiled NullifierV2 native AIRs and both next-row openings.
 func layouts() [EntryCount]layout {
-	return [EntryCount]layout{
+	var entries [EntryCount]layout
+	main, recovery, outputs := mainLayouts(), confidentialRecoveryLayouts(), outputLayouts()
+	copy(entries[:10], main[:])
+	copy(entries[10:14], recovery[:])
+	copy(entries[14:], outputs[:])
+	return entries
+}
+
+func mainLayouts() [10]layout {
+	return [10]layout{
 		{Transfer, 16384, 8506, 80, 264},
 		{Unshield, 16384, 8506, 80, 196},
 		{Shield, 1024, 7641, 8, 100},
@@ -36,6 +45,20 @@ func layouts() [EntryCount]layout {
 		{ConfidentialTransfer, 16384, 8506, 80, 392},
 		{ConfidentialUnshield, 16384, 8506, 80, 324},
 		{ConfidentialShield, 1024, 7641, 8, 228},
+	}
+}
+
+func confidentialRecoveryLayouts() [4]layout {
+	return [4]layout{
+		{ConfidentialPartialPrivate, 8192, 8539, 60, 320},
+		{ConfidentialFullPrivate, 8192, 8539, 60, 288},
+		{ConfidentialPartialPublic, 8192, 8539, 60, 292},
+		{ConfidentialFullPublic, 8192, 8539, 60, 260},
+	}
+}
+
+func outputLayouts() [6]layout {
+	return [6]layout{
 		{Recipient, 65536, 24869, 2075, 1132},
 		{Disclosure, 65536, 23973, 2067, 1132},
 		{RetainedRecipient, 65536, 24229, 2067, 1100},

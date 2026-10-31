@@ -6,11 +6,11 @@ RPC format. It cannot authenticate its own registry selection or native statemen
 The native caller supplies current policy/Suite/Domain/Group and exact plan vectors.
 No keys, witnesses, signatures or private epochs are obtained from proof metadata.
 
-Request length is1824..16248 bytes. Header fields have these exact byte intervals:
+Request length is2152..16576 bytes. Header fields have these exact byte intervals:
 
 | Interval, end excluded | Encoding |
 | --- | --- |
-| 0..5 | ASCII NAPV then version5 |
+| 0..5 | ASCII NAPV then version6 |
 | 5..69 | Independently approved profile/Suite64 |
 | 69..133 | Independently selected verifier reference64 |
 | 133..197 | Independently approved registry digest64 |
@@ -21,8 +21,8 @@ Request length is1824..16248 bytes. Header fields have these exact byte interval
 | 365..369 | Trusted maximum bundle bytesu32BE |
 | 369..373 | Trusted maximum individual proof bytesu32BE |
 | 373..377 | Trusted per-decoder canonical allocation chargeu32BE |
-| 377..1823 | Exact1446-byte NAPK version5 registry file |
-| 1823 | Slot count byte,1..7 |
+| 377..2151 | Exact1774-byte NAPK version6 registry file |
+| 2151 | Slot count byte,1..7 |
 
 Each slot follows as kindu8, outputu32BE, roleu8, scalarCountu16BE, then exactly
 scalarCountu16LE cells. Unknown kinds and counts differing from compiled layout
@@ -38,9 +38,12 @@ Viewing registration kind22 has exact public-key byte cells0..1184 and group1184
 Each key cell must fit u8; canonical polynomial decoding and bounded public matrix
 derivation precede constructing its verifier. Domain and complete public key bind
 its relation identity; group must equal the trusted header. Both registration
-proofs require one main slot and no outputs. NAPV/NAPK versions1..4 reject. Recovery public
+proofs require one main slot and no outputs. NAPV/NAPK versions1..5 reject. Recovery public
 credit starts96 for partial-public and64 for full-public; private variants use0.
-Current recovery authority is the last32 byte cells. These values select the exact
+Current recovery authority is the final32 cells of the original prefix.
+Confidential recovery kinds11..14 append128 byte cells at192/160/164/132;
+input0 is active, input1 zero, and actual outputs occupy slots2/3.
+Partial shapes require their declared remainder account equal input0. These values select the exact
 Prepared factory; they never grant issuer signatures or administrative power.
 
 Confidential kinds8/9/10 preserve transfer/unshield/shield prefix vectors, group

@@ -15,6 +15,10 @@ pub enum Layout {
     ConfidentialTransfer = 8,
     ConfidentialUnshield = 9,
     ConfidentialShield = 10,
+    ConfidentialPartialPrivate = 11,
+    ConfidentialFullPrivate = 12,
+    ConfidentialPartialPublic = 13,
+    ConfidentialFullPublic = 14,
     Recipient = 17,
     Disclosure = 18,
     Retained = 19,
@@ -23,7 +27,7 @@ pub enum Layout {
     ViewingRegistration = 22,
 }
 
-pub(super) const ORDER: [Layout; 16] = [
+pub(super) const ORDER: [Layout; 20] = [
     Layout::Transfer,
     Layout::Unshield,
     Layout::Shield,
@@ -34,6 +38,10 @@ pub(super) const ORDER: [Layout; 16] = [
     Layout::ConfidentialTransfer,
     Layout::ConfidentialUnshield,
     Layout::ConfidentialShield,
+    Layout::ConfidentialPartialPrivate,
+    Layout::ConfidentialFullPrivate,
+    Layout::ConfidentialPartialPublic,
+    Layout::ConfidentialFullPublic,
     Layout::Recipient,
     Layout::Disclosure,
     Layout::Retained,

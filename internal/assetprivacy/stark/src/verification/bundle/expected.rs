@@ -50,21 +50,5 @@ impl<'a> Expected<'a> {
 }
 
 fn public_count(kind: u8) -> usize {
-    match kind {
-        1 => 264,
-        2 => 196,
-        3 => 100,
-        8 => 392,
-        9 => 324,
-        10 => 228,
-        21 => 64,
-        22 => 1216,
-        4 => 192,
-        5 => 160,
-        6 => 164,
-        7 => 132,
-        17 | 18 => 1132,
-        19 | 20 => 1100,
-        _ => 0,
-    }
+    super::super::selection::Layout::from_byte(kind).map_or(0, |layout| layout.public_count())
 }

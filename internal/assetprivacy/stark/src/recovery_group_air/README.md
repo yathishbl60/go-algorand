@@ -9,7 +9,7 @@ new(network,asset,policy,operation,authority32) fixes a nonzero expected current
 ASA clawback account. Merely asserting those public bytes proves no possession.
 RecoveryNoteAir supplies private canonical input, shared public nullifier and
 accepted note membership without requiring the holder secret or Frozen=0.
-No private input commitment/account is published for composition.
+Shielded recovery publishes no private input commitment/account for composition.
 
 | Operation | Actual outputs, in order | Public scalars |
 | --- | --- | --- |
@@ -17,6 +17,19 @@ No private input commitment/account is published for composition.
 | FullPrivate | Recovered receipt | 160 |
 | PartialPublic{credit} | Retained remainder | 164 |
 | FullPublic{credit} | None | 132 |
+
+confidential(network,asset,policy,operation,authority32,participants) appends128
+byte-valued public cells to that same prefix. Participants are four32-byte
+accounts: input0, absent input1, output0 and output1. Real slots must be nonzero;
+absent slots zero. Partial variants reject declared remainder!=input0. The
+corresponding counts are320/288/292/260, with unchanged rows/width/preprocessing.
+Each constructor account is tied independently to the exact appended public
+bytes and canonical note account bits under trusted input/output stage masks.
+The input uses RecoveryNoteAir account wires; outputs use NoteCommitmentAir
+account bytes137..169, LSB-first. Existing private owner/account preservation
+still binds the same retained remainder. These public accounts identify note
+owners, not the outer signer or the constructor's independently checked authority.
+Honest preflight checks all accounts after exact arity and before allocation.
 
 Public credit must be positive. Private recovered value and every partial
 remainder must be positive, constrained by Boolean bit sums and private inverses.
@@ -65,8 +78,8 @@ clawback, actual sender/PQ signatures, modes/private-only exit rules, accepted r
 fresh shared marker, output policy, real credits/funding and atomic state changes.
 The weaker receipt/remainder relations can never be selected by an ordinary
 transaction or a proof's role label. [Native planning](../../../../../docs/native-asset-privacy/RECOVERY.md)
-currently supplies statements only; body parsing and deterministic verification
-remain unfinished. [Nullifier freshness](../../../../../docs/native-asset-privacy/NULLIFIER_FRESHNESS.md)
+describes native statements and authorization; runtime verification remains
+unexecuted. [Nullifier freshness](../../../../../docs/native-asset-privacy/NULLIFIER_FRESHNESS.md)
 implements the V2 marker/global-uniqueness correction; runtime evidence remains.
 
 Old note recovery requires the old decrypted opening or retained viewing keys;

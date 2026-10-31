@@ -14,6 +14,6 @@ pub(super) fn build(context: &Context, registry: &Registry, slot: &Slot) -> Resu
         Layout::ConfidentialTransfer
         | Layout::ConfidentialUnshield
         | Layout::ConfidentialShield => super::confidential::build(context, registry, slot),
-        _ => super::main::recovery(context, registry, slot),
+        _ => super::recovery::build(context, registry, slot),
     }
 }

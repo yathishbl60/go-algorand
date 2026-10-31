@@ -67,11 +67,11 @@ conservative full signed-byte fee before finalizing the group and proving.
 
 ## Versioned artifact/request boundary
 
-NAPK version5 has sixteen canonical82-byte entries and a134-byte header:1446 bytes.
-Order is1..10,17..22; kind3 pins ShieldGroupAir dimensions above; kind10 is confidential shield.
-The digest domain is Algorand/AssetPrivacy/Candidate1/ArtifactRegistryV5/.
-NAPV version5 embeds that registry in its1824-byte trusted header; the request
-remains at most16248 bytes. It is internal verifier data, not a peer-selected API.
+NAPK version6 has twenty canonical82-byte entries and a134-byte header:1774 bytes.
+Order is1..14,17..22; kind3 pins ShieldGroupAir dimensions above; kind10 is confidential shield.
+The digest domain is Algorand/AssetPrivacy/Candidate1/ArtifactRegistryV6/.
+NAPV version6 embeds that registry in its2152-byte trusted header; the request
+remains at most16576 bytes. It is internal verifier data, not a peer-selected API.
 
 These formats supersede unapproved versions1..3. Old bytes/pins fail closed, with no
 compatibility fallback. There are no approved historical suite references. Future

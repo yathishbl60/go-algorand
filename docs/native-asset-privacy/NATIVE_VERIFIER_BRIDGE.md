@@ -14,7 +14,7 @@ Pin or Limits argument exists on this path. All current catalogs are empty and
 privacy remains disabled. There is no approved/installed registry artifact.
 
 Suite.Verifier calls proofbridge.NewVerifier with the selected values. It owns
-an exact1446-byte registry, checks metadata/digest and requires ABI2 plus a supported
+an exact1774-byte registry, checks metadata/digest and requires ABI2 plus a supported
 implementation reference. The legacy Implementation/source wire field holds this
 reference; it is not necessarily the current compiled fingerprint. The compiled
 historical compatibility array is currently empty, so only today's fingerprint
@@ -25,7 +25,7 @@ helper. Its immutable snapshot supplies Domain/Suite/Group and exact vectors,
 including zero-output operations. Go checks suite equality, NAPW profile/group,
 bounds and every NAPB descriptor, then constructs a small trusted NAPV request.
 **NAPV is not transaction/witness/RPC data** and peers cannot select its context,
-registry or budgets. NAPV5 has a1824-byte header with NAPK5/1446-byte registry;
+registry or budgets. NAPV6 has a2152-byte header with NAPK6/1774-byte registry;
 old unapproved v1 bytes/pins reject. No historical approved references exist.
 
 Rust derives concrete AIRs from native domain/values: conversion amounts, recovery
@@ -95,6 +95,6 @@ Peak includes caller NAPW + owned Go payload + small request/vector copies + one
 Rust-decoded proof + backend overhead. These are additive, not one aggregate cap.
 Rust verifies components sequentially. Coarse proof-count/fee formulas exist; measured node
 budget exists. [Request bytes](../../internal/assetprivacy/stark/src/verification/native/README.md)
-remain max16248, bundle512MiB, proof128MiB. These are guards, not practical limits.
+remain max16576, bundle512MiB, proof128MiB. These are guards, not practical limits.
 Approved artifacts, historical-suite retention, other modes/arities,
 runtime conformance and security/resource evidence remain [delivery gates](END_TO_END_STATUS.md).

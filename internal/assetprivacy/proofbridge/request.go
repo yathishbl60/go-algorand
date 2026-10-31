@@ -23,8 +23,8 @@ import (
 	"github.com/algorand/go-algorand/internal/assetprivacy/proofbundle"
 )
 
-const requestHeader = 1824
-const maxRequestBytes = 16248
+const requestHeader = 2152
+const maxRequestBytes = 16576
 
 func (v *Verifier) request(plan *proofbundle.Plan, context Context) ([]byte, error) {
 	if plan == nil {

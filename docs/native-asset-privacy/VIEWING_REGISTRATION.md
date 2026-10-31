@@ -64,9 +64,9 @@ the full fee/group must be finalized before proving.
 
 ## Formats, limits and outstanding evidence
 
-NAPK5 contains16 records/1446 bytes; kind22 has16384 rows,9394 main columns,
-723 preprocessing columns and1216 public values. NAPV5 has a1824-byte header
-and16248-byte cap. Unapproved older versions reject; no approved historical
+NAPK6 contains20 records/1774 bytes; kind22 has16384 rows,9394 main columns,
+723 preprocessing columns and1216 public values. NAPV6 has a2152-byte header
+and16576-byte cap. Unapproved older versions reject; no approved historical
 reference, preprocessing pin or production migration is created by these changes.
 
 All checks so far are compilation, static analysis and source review. No tests,

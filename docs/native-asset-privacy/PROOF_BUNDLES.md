@@ -47,6 +47,7 @@ profile selector, statement digest or optional-role selector is carried here.
 | 1, 2, 3 | transfer, unshield, staged shield main |
 | 4, 5, 6, 7 | partial-private, full-private, partial-public, full-public recovery main |
 | 8, 9, 10 | confidential transfer/unshield/shield main; participant-bound |
+| 11..14 | confidential recovery main; same exact recovered/retained output ordering |
 | 17 | ordinary recipient |
 | 18 | assigned auditor/controller disclosure |
 | 19 | original-owner retained recipient |

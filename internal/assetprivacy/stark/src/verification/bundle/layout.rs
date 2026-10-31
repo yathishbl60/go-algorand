@@ -41,10 +41,10 @@ fn recipient_kind(ordinal: u32, recipient: u8, retained: Option<u32>) -> u8 {
 fn operation(kind: u8) -> Result<(u32, u8, Option<u32>), Error> {
     match kind {
         1 | 3 | 8 | 10 => Ok((2, 17, None)),
-        2 | 7 | 9 | 21 | 22 => Ok((0, 0, None)),
-        4 => Ok((2, 20, Some(1))),
-        5 => Ok((1, 20, None)),
-        6 => Ok((1, 20, Some(0))),
+        2 | 7 | 9 | 14 | 21 | 22 => Ok((0, 0, None)),
+        4 | 11 => Ok((2, 20, Some(1))),
+        5 | 12 => Ok((1, 20, None)),
+        6 | 13 => Ok((1, 20, Some(0))),
         _ => Err(Error::Shape),
     }
 }

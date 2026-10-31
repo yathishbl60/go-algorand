@@ -33,6 +33,10 @@ fn recovery(layout: Layout) -> Result<RecoveryKind, Error> {
         Layout::FullPrivate => Ok(RecoveryKind::FullPrivate),
         Layout::PartialPublic => Ok(RecoveryKind::PartialPublic),
         Layout::FullPublic => Ok(RecoveryKind::FullPublic),
+        Layout::ConfidentialPartialPrivate => Ok(RecoveryKind::ConfidentialPartialPrivate),
+        Layout::ConfidentialFullPrivate => Ok(RecoveryKind::ConfidentialFullPrivate),
+        Layout::ConfidentialPartialPublic => Ok(RecoveryKind::ConfidentialPartialPublic),
+        Layout::ConfidentialFullPublic => Ok(RecoveryKind::ConfidentialFullPublic),
         _ => Err(Error::Shape),
     }
 }

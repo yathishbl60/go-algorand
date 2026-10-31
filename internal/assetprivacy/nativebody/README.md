@@ -25,7 +25,7 @@ Every integer is unsigned big-endian. HeaderSize=225 and MaxSize=10593 bytes.
 The fixed header contains ASCII `NAPT`, version1, operation1, mode1, asset8,
 policy64, suite64, public debit8, debit source32, public credit8, receiver32,
 input count1 and output count1. Asset/policy/suite must be nonzero. Mode must be
-Shielded4, or Confidential2 for Transfer/Unshield/Shield. Public1 and combined/unknown values reject.
+Shielded4, or Confidential2 for every exact ordinary/recovery operation. Public1 and combined/unknown values reject.
 
 Inputs follow, each136 bytes: nullifier64, nonzero root64, accepted-root count8.
 Counts must be1..2^32. Every64-byte nullifier, including zero, is permitted;

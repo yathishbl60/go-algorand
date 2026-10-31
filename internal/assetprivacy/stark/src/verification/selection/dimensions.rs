@@ -58,12 +58,22 @@ impl Layout {
             Self::ConfidentialTransfer => sg::CONFIDENTIAL_TRANSFER_PUBLIC_VALUES,
             Self::ConfidentialUnshield => sg::CONFIDENTIAL_UNSHIELD_PUBLIC_VALUES,
             Self::ConfidentialShield => sh::CONFIDENTIAL_PUBLIC_VALUES,
+            Self::ConfidentialPartialPrivate => 320,
+            Self::ConfidentialFullPrivate => 288,
+            Self::ConfidentialPartialPublic => 292,
+            Self::ConfidentialFullPublic => 260,
+            _ => self.output_public_count(),
+        }
+    }
+    fn output_public_count(self) -> usize {
+        match self {
             Self::Recipient => ar::PUBLIC_VALUES,
             Self::Disclosure => ad::PUBLIC_VALUES,
             Self::Retained => rr::PUBLIC_VALUES,
             Self::Recovered => rc::PUBLIC_VALUES,
             Self::OwnerRegistration => own::PUBLIC_VALUES,
             Self::ViewingRegistration => view::PUBLIC_VALUES,
+            _ => 0,
         }
     }
 }

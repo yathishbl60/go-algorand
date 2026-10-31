@@ -27,10 +27,10 @@ fn group_start(layout: Layout) -> Result<usize, Error> {
         Layout::Shield | Layout::ConfidentialShield => Ok(68),
         Layout::OwnerRegistration => Ok(32),
         Layout::ViewingRegistration => Ok(1184),
-        Layout::PartialPrivate => Ok(128),
-        Layout::FullPrivate => Ok(96),
-        Layout::PartialPublic => Ok(100),
-        Layout::FullPublic => Ok(68),
+        Layout::PartialPrivate | Layout::ConfidentialPartialPrivate => Ok(128),
+        Layout::FullPrivate | Layout::ConfidentialFullPrivate => Ok(96),
+        Layout::PartialPublic | Layout::ConfidentialPartialPublic => Ok(100),
+        Layout::FullPublic | Layout::ConfidentialFullPublic => Ok(68),
         _ => Err(Error::Shape),
     }
 }
