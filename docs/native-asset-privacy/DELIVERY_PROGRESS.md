@@ -53,6 +53,9 @@ on an isolated local network.
 Record proof size, time and peak memory; exercise invalid-proof rejection and
 atomic rollback. This must use the actual protocol path and cryptography.
 Expand other features only after the critical path has credible evidence.
+The [full workload](PROOF_WORKLOAD.md) and [WHIR assessment](WHIR_ASSESSMENT.md)
+now quantify design costs. The [private-join draft](PRIVATE_JOIN_DRAFT.md) contains
+only a limited ideal-view argument and public algebra checks; no complete replacement has been selected.
 
 Bounded proof/setup and isolated-node execution are now authorized. The first
 Owner primitive passed; static transport/memory bounds block the full candidate.

@@ -1,6 +1,6 @@
 # NAP-01 candidate assessment
 
-Checked 2026-10-22 against primary project and standards sources. This is a
+Initial assessment 2026-10-22; Jolt/WHIR follow-up 2026-11-01 against primary sources. This is a
 selection assessment, not an independent security audit or an approved profile.
 The pinned Plonky3/encryption candidate is selected for implementation in
 [CANDIDATE_PROFILE.md](CANDIDATE_PROFILE.md), not approved for production. The release still requires
@@ -14,12 +14,20 @@ controls, bounded verification and local proving as a complete construction.
 | Winterfell | Project README describes an unaudited research implementation and cautions that its current proofs may leak secret inputs | Do not use its current defaults for private transfers |
 | RISC Zero | Repository describes 98-bit conjectured security with defaults; security documentation lists lower-than-128-bit component estimates and cautions about critical privacy requirements | A default deployment does not establish our target; no Groth16 wrapper |
 | Plonky3 hiding FRI | Current architecture documents hiding FRI support and explicit ZK paths, while requiring analysis of the complete composition | Selected and pinned for implementation; complete relation and security argument remain pending |
+| Hiding WHIR | A hiding PCS exists, but [actual metadata and composition gaps](WHIR_ASSESSMENT.md) do not establish complete private AIR or the resource/security target | Investigated; no replacement selected |
+| Lattice Jolt | Current official docs make Akita and `zk` mutually exclusive; Dory supports ZK using elliptic-curve commitments | No current PQ private-transfer replacement established |
 | ML-KEM-768 | FIPS 203 standardizes key encapsulation; NIST separately publishes KEM-use guidance | Candidate encryption component only; recipient anonymity and complete note encryption still require analysis |
 
 These conclusions are scoped to the reviewed sources. They do not establish
 that no suitable implementation can exist.
+The full candidate fails the [whole-operation gate](WHOLE_TRANSACTION_FEASIBILITY.md), including the user's 8 GiB complete-prover target; Owner success alone does not resolve this.
 
 ## Source details
+
+The current [Jolt quickstart](https://jolt.a16zcrypto.com/usage/quickstart.html) and
+[BlindFold description](https://jolt.a16zcrypto.com/how/blindfold.html) distinguish
+Akita's non-ZK integration from Dory's ZK path. No Jolt dependency was installed.
+The [HVZK IOPP paper](https://eprint.iacr.org/2026/391) supplies a commitment-layer construction, not this application's complete privacy proof.
 
 [Winterfell's repository](https://github.com/facebook/winterfell) explicitly
 describes production-readiness and secret-input limitations. Choosing a STARK
