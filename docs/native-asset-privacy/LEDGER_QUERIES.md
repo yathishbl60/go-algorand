@@ -88,7 +88,7 @@ cleanup can remove their historical records. Historical queries work only while
 that exact state remains available. Wallets still need encrypted backups, old
 viewing epochs, receipts and retained block/indexer data for long-term restoration.
 
-[Authorization/key/eligibility ledger queries](AUTHORIZATION_QUERIES.md) also exist. REST runtime/error evidence, their HTTP mapping,
+[Authorization/key/eligibility ledger queries](AUTHORIZATION_QUERIES.md) also exist. REST runtime/error evidence,
 transaction decoding/simulation, SDK/wallet callers and all six demos remain in
 [the delivery checklist](END_TO_END_STATUS.md). Builds, vet, linking, formatting
 and source limits establish compilation properties. Tests, retention/race cases,

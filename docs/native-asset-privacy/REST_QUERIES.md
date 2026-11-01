@@ -1,6 +1,6 @@
 # Candidate native privacy REST queries
 
-Updated 2026-11-01. Three read-only routes expose the
+Updated 2026-11-01. Six read-only routes expose the
 [pinned ledger queries](LEDGER_QUERIES.md) through ordinary API-token middleware.
 All consensus feature flags remain false and suite catalogs empty. No request,
 proof, test or node demonstration has run. Source/build checks are not end-to-end
@@ -13,6 +13,9 @@ validation, and these endpoints do not activate a protocol feature.
 | GET /v2/assets/{asset-id}/privacy | round optional |
 | GET /v2/assets/{asset-id}/privacy/outputs | round, start, limit, next optional |
 | GET /v2/assets/{asset-id}/privacy/notes/{note-index}/witness | round optional |
+| GET /v2/assets/{asset-id}/privacy/authorization | round optional |
+| GET /v2/assets/{asset-id}/privacy/accounts/{address}/keys/{role} | round optional |
+| GET /v2/assets/{asset-id}/privacy/accounts/{address}/eligibility | round optional |
 
 Use the existing X-Algo-API-Token authentication. The routes are registered only
 in algorand_native_privacy builds. In those builds, the ledger additionally checks
@@ -85,7 +88,7 @@ tag is excluded from generated route packages; small handwritten tagged handlers
 and a default no-op registration bridge keep runtime availability feature-gated.
 The main router passes exactly the existing public middleware to this bridge.
 
-Key/eligibility witnesses, transaction decoding/simulation, SDK/wallet callers,
+[Authorization/key/eligibility HTTP contracts](AUTHORIZATION_QUERIES.md) also exist. Transaction decoding/simulation, SDK/wallet callers,
 rate/resource calibration, validation and all six demos remain in
 [the delivery checklist](END_TO_END_STATUS.md). Tests, HTTP execution, cursor
 vectors, race/retention cases and proof execution remain deferred.

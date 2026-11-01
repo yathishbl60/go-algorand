@@ -29,4 +29,8 @@ func RegisterNativeAssetPrivacyHandlers(router NativePrivacyRouter, handler *Han
 	router.GET("/v2/assets/:asset-id/privacy", handler.GetNativeAssetPrivacy, middleware...)
 	router.GET("/v2/assets/:asset-id/privacy/outputs", handler.GetNativeAssetPrivacyOutputs, middleware...)
 	router.GET("/v2/assets/:asset-id/privacy/notes/:note-index/witness", handler.GetNativeAssetPrivacyWitness, middleware...)
+	router.GET("/v2/assets/:asset-id/privacy/authorization", handler.GetNativeAssetPrivacyAuthorization, middleware...)
+	router.GET("/v2/assets/:asset-id/privacy/accounts/:address/keys/:role", handler.GetNativeAssetPrivacyKey, middleware...)
+	router.GET("/v2/assets/:asset-id/privacy/accounts/:address/eligibility", handler.GetNativeAssetPrivacyEligibility, middleware...)
+
 }

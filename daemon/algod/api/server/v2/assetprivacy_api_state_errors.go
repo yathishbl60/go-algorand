@@ -20,6 +20,7 @@ package v2
 
 import (
 	"errors"
+
 	"github.com/algorand/go-algorand/internal/assetprivacy/accounting"
 	"github.com/algorand/go-algorand/internal/assetprivacy/closure"
 	"github.com/algorand/go-algorand/internal/assetprivacy/inventory"
@@ -40,7 +41,7 @@ func nativePrivacyCorruptState(err error) bool {
 			return true
 		}
 	}
-	return nativePrivacyCorruptTree(err)
+	return nativePrivacyCorruptTree(err) || nativePrivacyCorruptAuthorization(err)
 }
 
 func nativePrivacyCorruptTree(err error) bool {

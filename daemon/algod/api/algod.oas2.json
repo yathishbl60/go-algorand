@@ -2715,6 +2715,238 @@
           }
         }
       }
+    },
+    "/v2/assets/{asset-id}/privacy/authorization": {
+      "get": {
+        "operationId": "GetNativeAssetPrivacyAuthorization",
+        "summary": "Get current authorities, assigned views and authorization roots.",
+        "description": "Read-only, requires native privacy build and enabled consensus. No private key or proof execution. Roots apply at the selected round and must be rechecked for native execution.",
+        "tags": [
+          "public",
+          "nonparticipating",
+          "native-privacy"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/asset-id"
+          },
+          {
+            "in": "query",
+            "name": "round",
+            "required": false,
+            "type": "integer",
+            "format": "uint64",
+            "description": "Exact state round. Defaults to latest; unavailable history never falls back."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Owned public snapshot. Missing registration/membership is explicit and grants no permission.",
+            "schema": {
+              "$ref": "#/definitions/NativeAssetPrivacyAuthorization"
+            }
+          },
+          "400": {
+            "description": "Invalid parameters.",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "401": {
+            "description": "Invalid API token.",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "404": {
+            "description": "Feature disabled or asset/native policy absent.",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "410": {
+            "description": "Selected state unavailable or asset retired/closed.",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "500": {
+            "description": "Inconsistent native state.",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "503": {
+            "description": "Ledger temporarily unavailable.",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/v2/assets/{asset-id}/privacy/accounts/{address}/keys/{role}": {
+      "get": {
+        "operationId": "GetNativeAssetPrivacyKey",
+        "summary": "Get current public key registration and membership.",
+        "description": "Read-only, requires native privacy build and enabled consensus. No private key or proof execution. Roots apply at the selected round and must be rechecked for native execution.",
+        "tags": [
+          "public",
+          "nonparticipating",
+          "native-privacy"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/asset-id"
+          },
+          {
+            "$ref": "#/parameters/address"
+          },
+          {
+            "in": "path",
+            "name": "role",
+            "required": true,
+            "type": "integer",
+            "format": "uint64",
+            "minimum": 1,
+            "maximum": 7,
+            "description": "Native key role1..7. Address must be nonzero."
+          },
+          {
+            "in": "query",
+            "name": "round",
+            "required": false,
+            "type": "integer",
+            "format": "uint64",
+            "description": "Exact state round. Defaults to latest; unavailable history never falls back."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Owned public snapshot. Missing registration/membership is explicit and grants no permission.",
+            "schema": {
+              "$ref": "#/definitions/NativeAssetPrivacyKeySnapshot"
+            }
+          },
+          "400": {
+            "description": "Invalid parameters.",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "401": {
+            "description": "Invalid API token.",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "404": {
+            "description": "Feature disabled or asset/native policy absent.",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "410": {
+            "description": "Selected state unavailable or asset retired/closed.",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "500": {
+            "description": "Inconsistent native state.",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "503": {
+            "description": "Ledger temporarily unavailable.",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/v2/assets/{asset-id}/privacy/accounts/{address}/eligibility": {
+      "get": {
+        "operationId": "GetNativeAssetPrivacyEligibility",
+        "summary": "Get effective freeze and current eligibility membership.",
+        "description": "Read-only, requires native privacy build and enabled consensus. No private key or proof execution. Roots apply at the selected round and must be rechecked for native execution.",
+        "tags": [
+          "public",
+          "nonparticipating",
+          "native-privacy"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/asset-id"
+          },
+          {
+            "$ref": "#/parameters/address"
+          },
+          {
+            "in": "query",
+            "name": "round",
+            "required": false,
+            "type": "integer",
+            "format": "uint64",
+            "description": "Exact state round. Defaults to latest; unavailable history never falls back."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Owned public snapshot. Missing registration/membership is explicit and grants no permission.",
+            "schema": {
+              "$ref": "#/definitions/NativeAssetPrivacyEligibilitySnapshot"
+            }
+          },
+          "400": {
+            "description": "Invalid parameters.",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "401": {
+            "description": "Invalid API token.",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "404": {
+            "description": "Feature disabled or asset/native policy absent.",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "410": {
+            "description": "Selected state unavailable or asset retired/closed.",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "500": {
+            "description": "Inconsistent native state.",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "503": {
+            "description": "Ledger temporarily unavailable.",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
     }
   },
   "definitions": {
@@ -4782,6 +5014,380 @@
             "minLength": 88,
             "maxLength": 88
           }
+        }
+      }
+    },
+    "NativeAssetPrivacyMembershipPath": {
+      "type": "object",
+      "required": [
+        "root",
+        "count",
+        "index",
+        "leaf",
+        "siblings"
+      ],
+      "properties": {
+        "root": {
+          "type": "string",
+          "format": "byte",
+          "minLength": 88,
+          "maxLength": 88,
+          "description": "Root at the selected round; its purpose comes from the parent response."
+        },
+        "count": {
+          "type": "integer",
+          "format": "uint64",
+          "description": "Selected tree count, at most2^32."
+        },
+        "index": {
+          "type": "integer",
+          "format": "uint64",
+          "description": "Zero-based leaf index."
+        },
+        "leaf": {
+          "type": "string",
+          "format": "byte",
+          "minLength": 88,
+          "maxLength": 88,
+          "description": "Public committed leaf."
+        },
+        "siblings": {
+          "type": "array",
+          "minItems": 32,
+          "maxItems": 32,
+          "items": {
+            "type": "string",
+            "format": "byte",
+            "minLength": 88,
+            "maxLength": 88,
+            "description": "Bottom-up public sibling hash."
+          }
+        }
+      }
+    },
+    "NativeAssetPrivacyViewTargets": {
+      "type": "object",
+      "required": [
+        "flags",
+        "epoch",
+        "updated-round"
+      ],
+      "properties": {
+        "flags": {
+          "type": "integer",
+          "format": "uint64",
+          "description": "Required viewing roles; does not grant issuer power."
+        },
+        "epoch": {
+          "type": "integer",
+          "format": "uint64",
+          "description": "Current assignment epoch."
+        },
+        "updated-round": {
+          "type": "integer",
+          "format": "uint64",
+          "description": "Assignment update round."
+        },
+        "auditor": {
+          "type": "string",
+          "description": "Checksummed Algorand account address. Zero authority addresses grant no power."
+        },
+        "controller": {
+          "type": "string",
+          "description": "Checksummed Algorand account address. Zero authority addresses grant no power."
+        }
+      }
+    },
+    "NativeAssetPrivacyAuthorization": {
+      "type": "object",
+      "required": [
+        "round",
+        "asset-id",
+        "policy-id",
+        "manager",
+        "freeze",
+        "clawback",
+        "default-frozen",
+        "key-root",
+        "key-count",
+        "eligibility-root",
+        "eligibility-count"
+      ],
+      "properties": {
+        "round": {
+          "type": "integer",
+          "format": "uint64",
+          "description": "Pinned ledger round."
+        },
+        "asset-id": {
+          "type": "integer",
+          "format": "uint64",
+          "description": "ASA identifier."
+        },
+        "policy-id": {
+          "type": "string",
+          "format": "byte",
+          "minLength": 88,
+          "maxLength": 88,
+          "description": "Immutable native policy identity."
+        },
+        "manager": {
+          "type": "string",
+          "description": "Checksummed Algorand account address. Zero authority addresses grant no power."
+        },
+        "freeze": {
+          "type": "string",
+          "description": "Checksummed Algorand account address. Zero authority addresses grant no power."
+        },
+        "clawback": {
+          "type": "string",
+          "description": "Checksummed Algorand account address. Zero authority addresses grant no power."
+        },
+        "default-frozen": {
+          "type": "boolean",
+          "description": "ASA default freeze state."
+        },
+        "key-root": {
+          "type": "string",
+          "format": "byte",
+          "minLength": 88,
+          "maxLength": 88,
+          "description": "Current key registry root, distinct from the note root."
+        },
+        "key-count": {
+          "type": "integer",
+          "format": "uint64",
+          "description": "Current key registry slot count."
+        },
+        "eligibility-root": {
+          "type": "string",
+          "format": "byte",
+          "minLength": 88,
+          "maxLength": 88,
+          "description": "Current eligibility root, distinct from the note root."
+        },
+        "eligibility-count": {
+          "type": "integer",
+          "format": "uint64",
+          "description": "Current eligibility slot count."
+        },
+        "view-targets": {
+          "$ref": "#/definitions/NativeAssetPrivacyViewTargets"
+        }
+      }
+    },
+    "NativeAssetPrivacyKeyRecord": {
+      "type": "object",
+      "required": [
+        "epoch",
+        "created-round",
+        "public-key"
+      ],
+      "properties": {
+        "epoch": {
+          "type": "integer",
+          "format": "uint64",
+          "description": "Public current registration epoch, not an output-selected private epoch."
+        },
+        "created-round": {
+          "type": "integer",
+          "format": "uint64",
+          "description": "Registration creation round."
+        },
+        "public-key": {
+          "type": "string",
+          "format": "byte",
+          "minLength": 88,
+          "maxLength": 2392,
+          "description": "Registered public material: owner commitment for role2, ML-KEM768 public key for viewing roles, or Falcon1024 public key for issuer roles. No private key."
+        }
+      }
+    },
+    "NativeAssetPrivacyKeySnapshot": {
+      "type": "object",
+      "required": [
+        "round",
+        "asset-id",
+        "policy-id",
+        "account",
+        "role",
+        "policy-allowed",
+        "assigned",
+        "registered",
+        "key-root",
+        "key-count"
+      ],
+      "properties": {
+        "round": {
+          "type": "integer",
+          "format": "uint64",
+          "description": "Pinned ledger round."
+        },
+        "asset-id": {
+          "type": "integer",
+          "format": "uint64",
+          "description": "ASA identifier."
+        },
+        "policy-id": {
+          "type": "string",
+          "format": "byte",
+          "minLength": 88,
+          "maxLength": 88,
+          "description": "Immutable native policy identity."
+        },
+        "account": {
+          "type": "string",
+          "description": "Checksummed Algorand account address. Zero authority addresses grant no power."
+        },
+        "role": {
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 1,
+          "maximum": 7,
+          "description": "RecipientView1, RecipientSpend2, AuditorView3, ControllerView4, FreezeAuthority5, ClawbackAuthority6, ManagerAuthority7."
+        },
+        "policy-allowed": {
+          "type": "boolean",
+          "description": "Whether current policy supports the role."
+        },
+        "assigned": {
+          "type": "boolean",
+          "description": "Whether that role is assigned to this account under current ASA/view state. This is not signed consent."
+        },
+        "registered": {
+          "type": "boolean",
+          "description": "Whether a current registration and exact membership path are present. False is not a nonmembership proof."
+        },
+        "key-root": {
+          "type": "string",
+          "format": "byte",
+          "minLength": 88,
+          "maxLength": 88,
+          "description": "Selected current key registry root."
+        },
+        "key-count": {
+          "type": "integer",
+          "format": "uint64",
+          "description": "Selected key registry slot count."
+        },
+        "record": {
+          "$ref": "#/definitions/NativeAssetPrivacyKeyRecord"
+        },
+        "witness": {
+          "$ref": "#/definitions/NativeAssetPrivacyMembershipPath"
+        }
+      }
+    },
+    "NativeAssetPrivacyControlRecord": {
+      "type": "object",
+      "required": [
+        "epoch",
+        "updated-round",
+        "frozen"
+      ],
+      "properties": {
+        "epoch": {
+          "type": "integer",
+          "format": "uint64",
+          "description": "Current native marker epoch, distinct from eligibility revision."
+        },
+        "updated-round": {
+          "type": "integer",
+          "format": "uint64",
+          "description": "Marker update round."
+        },
+        "frozen": {
+          "type": "boolean",
+          "description": "Native marker value; effective freeze also depends on public holding/default."
+        }
+      }
+    },
+    "NativeAssetPrivacyEligibilityRecord": {
+      "type": "object",
+      "required": [
+        "revision",
+        "updated-round",
+        "frozen"
+      ],
+      "properties": {
+        "revision": {
+          "type": "integer",
+          "format": "uint64",
+          "description": "Current indexed eligibility revision."
+        },
+        "updated-round": {
+          "type": "integer",
+          "format": "uint64",
+          "description": "Eligibility update round."
+        },
+        "frozen": {
+          "type": "boolean",
+          "description": "Authenticated effective-freeze value."
+        }
+      }
+    },
+    "NativeAssetPrivacyEligibilitySnapshot": {
+      "type": "object",
+      "required": [
+        "round",
+        "asset-id",
+        "policy-id",
+        "account",
+        "frozen",
+        "member",
+        "eligibility-root",
+        "eligibility-count"
+      ],
+      "properties": {
+        "round": {
+          "type": "integer",
+          "format": "uint64",
+          "description": "Pinned ledger round."
+        },
+        "asset-id": {
+          "type": "integer",
+          "format": "uint64",
+          "description": "ASA identifier."
+        },
+        "policy-id": {
+          "type": "string",
+          "format": "byte",
+          "minLength": 88,
+          "maxLength": 88,
+          "description": "Immutable native policy identity."
+        },
+        "account": {
+          "type": "string",
+          "description": "Checksummed Algorand account address. Zero authority addresses grant no power."
+        },
+        "frozen": {
+          "type": "boolean",
+          "description": "Effective freeze recomputed from native marker, holding and default."
+        },
+        "member": {
+          "type": "boolean",
+          "description": "Whether an exact eligibility record/path is present. False grants no eligibility even when frozen=false."
+        },
+        "eligibility-root": {
+          "type": "string",
+          "format": "byte",
+          "minLength": 88,
+          "maxLength": 88,
+          "description": "Selected eligibility root."
+        },
+        "eligibility-count": {
+          "type": "integer",
+          "format": "uint64",
+          "description": "Selected eligibility slot count."
+        },
+        "marker": {
+          "$ref": "#/definitions/NativeAssetPrivacyControlRecord"
+        },
+        "record": {
+          "$ref": "#/definitions/NativeAssetPrivacyEligibilityRecord"
+        },
+        "witness": {
+          "$ref": "#/definitions/NativeAssetPrivacyMembershipPath"
         }
       }
     }

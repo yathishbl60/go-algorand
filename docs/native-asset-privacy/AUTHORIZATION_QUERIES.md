@@ -21,9 +21,10 @@ errors and unavailable historical state discard the entire response; there is
 no latest-round fallback. Returned material is owned, including public-key bytes.
 The typed ReadOnly adapter rejects every attempted store Apply.
 
-These are ledger methods, not additional REST routes in this slice. Existing
-[REST queries](REST_QUERIES.md) still expose asset state, encrypted outputs and
-note witnesses. HTTP/SDK serialization for these new methods remains pending.
+REST exposes /privacy/authorization, /privacy/accounts/{address}/keys/{role}
+and /privacy/accounts/{address}/eligibility beneath each ASA path. All accept
+optional round, reject zero/invalid addresses and roles outside1..7, and use the
+existing API-token middleware and [REST error contract](REST_QUERIES.md).
 
 ## Authorities and assigned views
 
@@ -61,7 +62,7 @@ A former issuer's current registration may remain in the global key tree. Its
 membership path still authenticates that stored registration; Assigned=false
 prevents interpreting it as the live issuer. No key-record membership substitutes
 for current account AuthAddr/PQ consent. Conversely, an assigned principal with
-no registration has Record=nil and Witness=nil, even if its account address is
+no registration has registered=false and omits record/witness in JSON, even if its address is
 correct. That absence is not a cryptographic nonmembership proof.
 
 For a present registration, its current pointer selects the record and epoch.
@@ -79,9 +80,10 @@ public holding disappears. Marker epochs and eligibility revisions are distinct.
 
 A present eligibility record must agree with this recomputed value and have an
 exact authenticated path under the returned eligibility root/count. Missing
-Record/Witness grants no recipient/spend eligibility, even when the reported
+record/witness returns member=false and grants no eligibility, even when the reported
 effective Frozen value is false. The query writes no missing record and performs
-no registration. Authorized recovery retains only its existing freeze exceptions.
+no registration. Ordinary flows require member=true AND frozen=false. Recovery
+retains only its existing authorized freeze exceptions.
 
 Retired and closed assets reject these queries because cleanup may remove their
 key/control/authorization state. Ordinary ASAs without native policy also reject.
@@ -90,7 +92,7 @@ its old roots, authority or eligibility as current execution permission.
 
 ## Remaining delivery
 
-HTTP/OpenAPI mapping for these records, SDK/wallet proving, key rotation/backup,
+SDK/wallet proving, key rotation/backup, HTTP runtime validation,
 general note-count closure, simulation, validation and all six demos remain in
 [the delivery checklist](END_TO_END_STATUS.md). Builds, vet, linking and source
 checks establish compilation properties only. Tests, vectors, race/retention

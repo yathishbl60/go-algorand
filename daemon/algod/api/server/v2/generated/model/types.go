@@ -699,6 +699,43 @@ type LightBlockHeaderProof struct {
 	Treedepth int `json:"treedepth"`
 }
 
+// NativeAssetPrivacyAuthorization defines model for NativeAssetPrivacyAuthorization.
+type NativeAssetPrivacyAuthorization struct {
+	// AssetId ASA identifier.
+	AssetId uint64 `json:"asset-id"`
+
+	// Clawback Checksummed Algorand account address. Zero authority addresses grant no power.
+	Clawback string `json:"clawback"`
+
+	// DefaultFrozen ASA default freeze state.
+	DefaultFrozen bool `json:"default-frozen"`
+
+	// EligibilityCount Current eligibility slot count.
+	EligibilityCount uint64 `json:"eligibility-count"`
+
+	// EligibilityRoot Current eligibility root, distinct from the note root.
+	EligibilityRoot []byte `json:"eligibility-root"`
+
+	// Freeze Checksummed Algorand account address. Zero authority addresses grant no power.
+	Freeze string `json:"freeze"`
+
+	// KeyCount Current key registry slot count.
+	KeyCount uint64 `json:"key-count"`
+
+	// KeyRoot Current key registry root, distinct from the note root.
+	KeyRoot []byte `json:"key-root"`
+
+	// Manager Checksummed Algorand account address. Zero authority addresses grant no power.
+	Manager string `json:"manager"`
+
+	// PolicyId Immutable native policy identity.
+	PolicyId []byte `json:"policy-id"`
+
+	// Round Pinned ledger round.
+	Round       uint64                         `json:"round"`
+	ViewTargets *NativeAssetPrivacyViewTargets `json:"view-targets,omitempty"`
+}
+
 // NativeAssetPrivacyClosure defines model for NativeAssetPrivacyClosure.
 type NativeAssetPrivacyClosure struct {
 	// CreatedRound Final reconciliation round.
@@ -729,6 +766,60 @@ type NativeAssetPrivacyClosure struct {
 	Total uint64 `json:"total"`
 }
 
+// NativeAssetPrivacyControlRecord defines model for NativeAssetPrivacyControlRecord.
+type NativeAssetPrivacyControlRecord struct {
+	// Epoch Current native marker epoch, distinct from eligibility revision.
+	Epoch uint64 `json:"epoch"`
+
+	// Frozen Native marker value; effective freeze also depends on public holding/default.
+	Frozen bool `json:"frozen"`
+
+	// UpdatedRound Marker update round.
+	UpdatedRound uint64 `json:"updated-round"`
+}
+
+// NativeAssetPrivacyEligibilityRecord defines model for NativeAssetPrivacyEligibilityRecord.
+type NativeAssetPrivacyEligibilityRecord struct {
+	// Frozen Authenticated effective-freeze value.
+	Frozen bool `json:"frozen"`
+
+	// Revision Current indexed eligibility revision.
+	Revision uint64 `json:"revision"`
+
+	// UpdatedRound Eligibility update round.
+	UpdatedRound uint64 `json:"updated-round"`
+}
+
+// NativeAssetPrivacyEligibilitySnapshot defines model for NativeAssetPrivacyEligibilitySnapshot.
+type NativeAssetPrivacyEligibilitySnapshot struct {
+	// Account Checksummed Algorand account address. Zero authority addresses grant no power.
+	Account string `json:"account"`
+
+	// AssetId ASA identifier.
+	AssetId uint64 `json:"asset-id"`
+
+	// EligibilityCount Selected eligibility slot count.
+	EligibilityCount uint64 `json:"eligibility-count"`
+
+	// EligibilityRoot Selected eligibility root.
+	EligibilityRoot []byte `json:"eligibility-root"`
+
+	// Frozen Effective freeze recomputed from native marker, holding and default.
+	Frozen bool                             `json:"frozen"`
+	Marker *NativeAssetPrivacyControlRecord `json:"marker,omitempty"`
+
+	// Member Whether an exact eligibility record/path is present. False grants no eligibility even when frozen=false.
+	Member bool `json:"member"`
+
+	// PolicyId Immutable native policy identity.
+	PolicyId []byte                               `json:"policy-id"`
+	Record   *NativeAssetPrivacyEligibilityRecord `json:"record,omitempty"`
+
+	// Round Pinned ledger round.
+	Round   uint64                            `json:"round"`
+	Witness *NativeAssetPrivacyMembershipPath `json:"witness,omitempty"`
+}
+
 // NativeAssetPrivacyInventory defines model for NativeAssetPrivacyInventory.
 type NativeAssetPrivacyInventory struct {
 	// Bytes Indexed data footprint; excludes index overhead.
@@ -736,6 +827,69 @@ type NativeAssetPrivacyInventory struct {
 
 	// Items Indexed data record count; excludes index overhead.
 	Items uint64 `json:"items"`
+}
+
+// NativeAssetPrivacyKeyRecord defines model for NativeAssetPrivacyKeyRecord.
+type NativeAssetPrivacyKeyRecord struct {
+	// CreatedRound Registration creation round.
+	CreatedRound uint64 `json:"created-round"`
+
+	// Epoch Public current registration epoch, not an output-selected private epoch.
+	Epoch uint64 `json:"epoch"`
+
+	// PublicKey Registered public material: owner commitment for role2, ML-KEM768 public key for viewing roles, or Falcon1024 public key for issuer roles. No private key.
+	PublicKey []byte `json:"public-key"`
+}
+
+// NativeAssetPrivacyKeySnapshot defines model for NativeAssetPrivacyKeySnapshot.
+type NativeAssetPrivacyKeySnapshot struct {
+	// Account Checksummed Algorand account address. Zero authority addresses grant no power.
+	Account string `json:"account"`
+
+	// AssetId ASA identifier.
+	AssetId uint64 `json:"asset-id"`
+
+	// Assigned Whether that role is assigned to this account under current ASA/view state. This is not signed consent.
+	Assigned bool `json:"assigned"`
+
+	// KeyCount Selected key registry slot count.
+	KeyCount uint64 `json:"key-count"`
+
+	// KeyRoot Selected current key registry root.
+	KeyRoot []byte `json:"key-root"`
+
+	// PolicyAllowed Whether current policy supports the role.
+	PolicyAllowed bool `json:"policy-allowed"`
+
+	// PolicyId Immutable native policy identity.
+	PolicyId []byte                       `json:"policy-id"`
+	Record   *NativeAssetPrivacyKeyRecord `json:"record,omitempty"`
+
+	// Registered Whether a current registration and exact membership path are present. False is not a nonmembership proof.
+	Registered bool `json:"registered"`
+
+	// Role RecipientView1, RecipientSpend2, AuditorView3, ControllerView4, FreezeAuthority5, ClawbackAuthority6, ManagerAuthority7.
+	Role uint64 `json:"role"`
+
+	// Round Pinned ledger round.
+	Round   uint64                            `json:"round"`
+	Witness *NativeAssetPrivacyMembershipPath `json:"witness,omitempty"`
+}
+
+// NativeAssetPrivacyMembershipPath defines model for NativeAssetPrivacyMembershipPath.
+type NativeAssetPrivacyMembershipPath struct {
+	// Count Selected tree count, at most2^32.
+	Count uint64 `json:"count"`
+
+	// Index Zero-based leaf index.
+	Index uint64 `json:"index"`
+
+	// Leaf Public committed leaf.
+	Leaf []byte `json:"leaf"`
+
+	// Root Root at the selected round; its purpose comes from the parent response.
+	Root     []byte   `json:"root"`
+	Siblings [][]byte `json:"siblings"`
 }
 
 // NativeAssetPrivacyNoteWitness defines model for NativeAssetPrivacyNoteWitness.
@@ -892,6 +1046,24 @@ type NativeAssetPrivacySnapshot struct {
 
 	// Total ASA fixed total, retained in closure after destruction.
 	Total uint64 `json:"total"`
+}
+
+// NativeAssetPrivacyViewTargets defines model for NativeAssetPrivacyViewTargets.
+type NativeAssetPrivacyViewTargets struct {
+	// Auditor Checksummed Algorand account address. Zero authority addresses grant no power.
+	Auditor *string `json:"auditor,omitempty"`
+
+	// Controller Checksummed Algorand account address. Zero authority addresses grant no power.
+	Controller *string `json:"controller,omitempty"`
+
+	// Epoch Current assignment epoch.
+	Epoch uint64 `json:"epoch"`
+
+	// Flags Required viewing roles; does not grant issuer power.
+	Flags uint64 `json:"flags"`
+
+	// UpdatedRound Assignment update round.
+	UpdatedRound uint64 `json:"updated-round"`
 }
 
 // ParticipationKey Represents a participation key used by the node.
@@ -1770,6 +1942,24 @@ type GetApplicationBoxesParamsInclude string
 // GetNativeAssetPrivacyParams defines parameters for GetNativeAssetPrivacy.
 type GetNativeAssetPrivacyParams struct {
 	// Round Exact ledger state round. Defaults to latest; unavailable historical state never falls back.
+	Round *uint64 `form:"round,omitempty" json:"round,omitempty"`
+}
+
+// GetNativeAssetPrivacyEligibilityParams defines parameters for GetNativeAssetPrivacyEligibility.
+type GetNativeAssetPrivacyEligibilityParams struct {
+	// Round Exact state round. Defaults to latest; unavailable history never falls back.
+	Round *uint64 `form:"round,omitempty" json:"round,omitempty"`
+}
+
+// GetNativeAssetPrivacyKeyParams defines parameters for GetNativeAssetPrivacyKey.
+type GetNativeAssetPrivacyKeyParams struct {
+	// Round Exact state round. Defaults to latest; unavailable history never falls back.
+	Round *uint64 `form:"round,omitempty" json:"round,omitempty"`
+}
+
+// GetNativeAssetPrivacyAuthorizationParams defines parameters for GetNativeAssetPrivacyAuthorization.
+type GetNativeAssetPrivacyAuthorizationParams struct {
+	// Round Exact state round. Defaults to latest; unavailable history never falls back.
 	Round *uint64 `form:"round,omitempty" json:"round,omitempty"`
 }
 
