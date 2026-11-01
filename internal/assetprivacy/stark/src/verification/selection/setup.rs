@@ -9,7 +9,7 @@ use std::panic::{AssertUnwindSafe, catch_unwind};
 
 /// Public-only reusable prover data; private masks/salts still need fresh prover_config.
 pub struct PublicSetup {
-    pub data: PreprocessedProverData<Config>,
+    pub(super) data: PreprocessedProverData<Config>,
     pub(super) entry: Entry,
 }
 

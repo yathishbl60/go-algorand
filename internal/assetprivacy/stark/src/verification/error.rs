@@ -14,6 +14,10 @@ pub enum Error {
     InvalidProof,
     BackendPanic,
     AllocationFailure,
+    TraceLimit,
+    TraceShape,
+    EntropyUnavailable,
+    ProvingFailure,
 }
 
 impl core::fmt::Display for Error {

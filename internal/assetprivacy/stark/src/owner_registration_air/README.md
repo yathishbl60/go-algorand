@@ -15,13 +15,14 @@ selection pins these dimensions under kind21 and constructor-domain identity.
 
 `public_values` and `trace` reject zero owner/group; trace construction also rejects
 zero secret or an owner mismatch before allocation. These host checks prepare the
-witness; independent AIR constraints enforce the actual relation. No trace ran.
+witness; independent AIR constraints enforce the actual relation.
 
 A valid proof grants no account authority by itself. Native callers authenticate
 current PQ Sender/AuthAddr, require registeredAccount==Sender, compare current
 policy/suite/epoch, recompute complete group binding and verify this exact typed
 one-slot NAPW bundle before writing key/eligibility state. Viewing-key possession
-remains a different missing relation. See the [native contract](../../../../../docs/native-asset-privacy/OWNER_REGISTRATION.md).
+uses the separate typed ViewingRegistration relation (kind22). See the [native contract](../../../../../docs/native-asset-privacy/OWNER_REGISTRATION.md).
 
-No tests, vectors, traces, setup or proofs have run. Source compilation is not
-soundness, privacy, resource or end-to-end evidence.
+[Bounded direct-P3 Owner proofs](../../../../../docs/native-asset-privacy/FEASIBILITY_RESULTS.md) verified with changed owner/group/proof rejection.
+No artifact-bound native transaction or automated test suite has run; the
+primitive result does not establish soundness, privacy or native delivery.

@@ -46,12 +46,20 @@ unsafe fn borrow<'a>(pointer: *const u8, length: usize, maximum: usize) -> Resul
 
 fn status(failure: native::Failure) -> u32 {
     match failure {
-        native::Failure::Request(Error::AllocationFailure)
-        | native::Failure::Proof(Error::AllocationFailure) => 5,
-        native::Failure::Request(Error::BackendPanic)
-        | native::Failure::Proof(Error::BackendPanic) => 4,
         native::Failure::Request(Error::Artifact) => 2,
-        native::Failure::Request(_) => 1,
-        native::Failure::Proof(_) => 3,
+        native::Failure::Request(error) => local_status(error).unwrap_or(1),
+        native::Failure::Proof(error) => local_status(error).unwrap_or(3),
+    }
+}
+
+fn local_status(error: Error) -> Option<u32> {
+    match error {
+        Error::AllocationFailure => Some(5),
+        Error::BackendPanic
+        | Error::TraceLimit
+        | Error::TraceShape
+        | Error::EntropyUnavailable
+        | Error::ProvingFailure => Some(4),
+        _ => None,
     }
 }

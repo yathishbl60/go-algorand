@@ -1,7 +1,7 @@
 # Candidate proving resource constraints
 
-Updated 2026-10-24. These are static column/element counts, not benchmark results.
-No proofs, timings or peak-memory measurements have run. The candidate must not
+Updated 2026-11-01. These are static counts; [bounded Owner runtime evidence](FEASIBILITY_RESULTS.md) is separate.
+Recipient memory/transport bounds fail the current gate. The candidate must not
 be activated before realistic prover and deterministic verifier budgets exist.
 
 ## Existing components

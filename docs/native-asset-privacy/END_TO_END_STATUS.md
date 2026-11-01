@@ -2,7 +2,7 @@
 
 Updated 2026-11-01. **Not end-to-end yet.** Native evaluator proof routing and
 atomic application now exist as inactive source integration. No accepted private
-transaction, runtime proof or real-node demo has been demonstrated.
+transaction or real-node demo has been demonstrated; [bounded Owner primitive proof validation passed](FEASIBILITY_RESULTS.md). [Delivery gates and rework risks](DELIVERY_PROGRESS.md).
 
 ## Work-package evidence
 
@@ -11,7 +11,7 @@ transaction, runtime proof or real-node demo has been demonstrated.
 | NAP-01 profile | Pinned candidate documented; complete relation, security argument, vectors and measurements missing |
 | NAP-02 consensus specification | Draft obligations/accounting/candidate layouts; complete normative protocol and sibling specs changes missing |
 | NAP-03 types/gates | Flag false, suite catalog nil and native decoder bounds zero in every current version; NAPT/NAPL1 body codecs, raw transaction and signed-witness metadata implemented; compatibility/runtime vectors missing |
-| NAP-04 cryptography | Note/conservation, complete encryption, current keys/eligibility, disclosures, ordinary spending and recovery/remainders implemented; V2 markers/global creation uniqueness and Shield3 source routing exist; confidential ordinary/recovery account bindings source-integrated; other arities and runtime acceptance missing |
+| NAP-04 cryptography | Note/conservation, complete encryption, current keys/eligibility, disclosures, ordinary spending and recovery/remainders implemented; V2 markers/global creation uniqueness and Shield3 source routing exist; confidential ordinary/recovery account bindings source-integrated; local typed proving API source-integrated; other arities and native runtime acceptance missing |
 | NAP-05 native state | COW supply, policy/key/control epochs, key/eligibility roots, spent markers, tree/root history and outputs implemented; creator storage, JSON MBR, inventory, retirement/cleanup and final storage release source-integrated; runtime recovery/cleanup evidence missing |
 | NAP-06 verification | Exact bundles, ABI2 bridge, current-consensus suites and deterministic decoder charges implemented; stateless PQ-envelope/group/witness admission and witness-sensitive cache added; evaluator proof routing, typed NAPR admin possession, coarse block work and proof/byte fees implemented; approved entries/artifacts, resource calibration and runtime acceptance missing |
 | NAP-07 lifecycle | Policy/key lifecycle, effective freeze, PQ/admin guards, creation, possession, ordinary shielded/confidential operations, authority synchronization and retirement/cleanup/destruction source-integrated; supported-arity atomic final reconciliation/charged post-destroy cleanup source-integrated; artifacts, runtime acceptance, general note-count closure and complete lifecycle missing |
@@ -20,7 +20,7 @@ transaction, runtime proof or real-node demo has been demonstrated.
 | NAP-10 APIs | Pinned ledger snapshots, bounded output pages/cursors, public note witnesses and JSON MBR reporting source-integrated; read-only REST/OpenAPI and error routing source-integrated; authorization/key/eligibility records and witnesses have ledger+HTTP source integration; raw pending/simulate wire propagation and early synthetic-signer rejection source-integrated; rollback-retained simulation work diagnostics source-integrated; typed semantic decoding and runtime evidence missing |
 | NAP-11 SDK/wallet | Local note/encryption/output recovery and typed node-repository Go query client/libgoal facade and goal query commands source-integrated; bounded local multi-epoch scanning and keyset-bound resume source-integrated; fixed-size encrypted scan-page archives/offline restore source-integrated; standalone SDK, proving/receipts, wallet-wide storage and complete backup/recovery missing |
 | NAP-12 demo | All six real-node scenarios missing |
-| NAP-13 validation | Tests intentionally deferred; adversarial/benchmark/recovery/upgrade evidence missing |
+| NAP-13 validation | Automated test files/suites deferred; adversarial/benchmark/recovery/upgrade evidence missing |
 | NAP-14 release | Coordinated specs/node/SDK/indexer package and external review evidence missing |
 
 ## Current authorization and defaults
@@ -78,16 +78,16 @@ retirement/cleanup and minimum-balance release have source integration; runtime 
 
 Go builds and static analysis passed for the modified packages with the feature
 enabled; native default builds also passed. New shield Rust workspace checks,
-Clippy, release FFI and linked algod builds passed. No proofs have been executed.
+Clippy, release FFI and linked algod builds passed. [Owner primitive proofs](FEASIBILITY_RESULTS.md) verified; complete native proofs remain missing.
 Membership alone has a ~641 MB base matrix; streaming assembly reduces its
 static matrix overlap from~1.28 GB to~671 MB. Transfer assembly also releases
 each component before generating the next. AES-256 uses 78,388 field columns per
-block; [resource implications](CRYPTO_RESOURCES.md) remain unresolved. No tests or proofs ran.
+block; [resource implications](CRYPTO_RESOURCES.md) remain unresolved. No automated tests ran.
 [Complete single-envelope constraints](../../internal/assetprivacy/stark/src/envelope_air/README.md)
 now bind KEM/AAD/HKDF/GCM to one canonical opening/commitment. [Assigned disclosures](../../internal/assetprivacy/disclosure/README.md) and their envelope constraints now exist; native proof routing/application exist; runtime evidence is missing. [Recipient binding](../../internal/assetprivacy/stark/src/authorized_recipient_air/README.md) now joins current viewing/spending records.
 Formatting and authored file/function limits were checked.
 These are not proof correctness, privacy, anonymity, interoperability or protocol
-validation. No tests have been added or run, as requested.
+validation. No automated test files have been added or test suites run, as requested.
 
 ## Completion evidence still required
 
