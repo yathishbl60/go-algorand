@@ -16,7 +16,7 @@ pub fn emit() -> io::Result<()> {
     for path in paths {
         println!("cargo:rerun-if-changed={}", root.join(path).display());
     }
-    for directory in ["stark/src", "stark/build_support", "stark-ffi/src"] {
+    for directory in files::source_directories() {
         println!("cargo:rerun-if-changed={}", root.join(directory).display());
     }
     Ok(())

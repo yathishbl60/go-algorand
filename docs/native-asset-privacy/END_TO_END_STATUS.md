@@ -40,7 +40,7 @@ retirement/cleanup and minimum-balance release have source integration; runtime 
 
 ## Useful entry points
 
-- [Candidate profile and outstanding crypto obligations](CANDIDATE_PROFILE.md).
+- [Candidate profile and outstanding crypto obligations](CANDIDATE_PROFILE.md); [optional compact primitive evidence](COMPACT_PRIMITIVE_RESULTS.md).
 - [Implemented proof components and their limits](PROOF_COMPONENTS.md).
 - [Developer and agent implementation guide](DEVELOPER_GUIDE.md).
 - [Native tree](../../internal/assetprivacy/tree/README.md), [spent markers](../../internal/assetprivacy/nullifier/README.md), and [group context](../../internal/assetprivacy/statement/README.md).

@@ -22,6 +22,7 @@ pipeline, including preprocessing, FFTs, auxiliary proofs and assembly.
 | Transaction/state/crypto/client source integration | Substantial inactive code exists |
 | Builds, static analysis and selected generation checks | Passed for completed slices |
 | Owner primitive proofs | Earlier and [serial-layout bounded runs](SERIAL_OWNER_RESULTS.md) verified |
+| Compact field/note/hash primitives | [Bounded Fp31 proofs](COMPACT_PRIMITIVE_RESULTS.md) verified with the vendored compatibility fix; no complete profile |
 | Accepted end-to-end native private transactions | None demonstrated |
 | Six real-node scenarios | 0/6 |
 | Automated tests | Not added/run; deferred |
@@ -56,9 +57,9 @@ Expand other features only after the critical path has credible evidence.
 The [full workload](PROOF_WORKLOAD.md) and [WHIR assessment](WHIR_ASSESSMENT.md)
 now quantify design costs. The [private-join draft](PRIVATE_JOIN_DRAFT.md) contains
 only a limited ideal-view argument and public algebra checks; no complete replacement has been selected.
-The [compact FRI assessment](COMPACT_PROFILE_ASSESSMENT.md) records checked field
-metadata and conditional narrow-table costs. Its complete 8 GiB/5 MB gates remain
-open; it changes no implemented profile and is not native acceptance evidence.
+The [compact FRI assessment](COMPACT_PROFILE_ASSESSMENT.md) records implemented
+primitives, a conditional sub-5MB wire budget and an unmeasured allocation draft.
+Its complete 8 GiB/5 MB gates remain open; current profile/defaults are unchanged.
 
 Bounded proof/setup and isolated-node execution are now authorized. The first
 Owner primitive passed; static transport/memory bounds block the full candidate.

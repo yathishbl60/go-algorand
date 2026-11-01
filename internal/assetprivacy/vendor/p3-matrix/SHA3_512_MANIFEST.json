@@ -1,0 +1,83 @@
+{
+  "upstream_repository": "https://github.com/Plonky3/Plonky3",
+  "upstream_rev": "1abcaa0795bc30ded29d54d0bc2cf495b6a20c2f",
+  "status": "vendored compatibility fix; no compact profile or security approval",
+  "source_files": 10,
+  "upstream_source_physical_lines": 8685,
+  "scratch_source_physical_lines": 8694,
+  "changed_source_files": 1,
+  "patch_physical_lines": 18,
+  "patch_sha3_512": "80a15acece2e4d5678709c26e868e68e5154825ff63a2a50ca69fc20a52a7ada1b8d86c96f9428f56bd983de383552771f30df6a07857b9342627f7faab89751",
+  "upstream_cargo_sha3_512": "de2a307b5940908fbd9f7f2ce1a0f91129eb5e6916962021fb424deb10ed9f8c1cbfce1a8b12a33e397a8785b6b33adab9c4e8400a3c8d9c2e3c35941afceb1f",
+  "standalone_cargo_sha3_512": "9bcb676557640d57855ec3e33c5b50cc031f3f1b31cd09a76d24799e9ab9ece3ea0d61d31dc1ceefebdda2447c7203f926f56d73f46b69dd19dee59424042d45",
+  "files": [
+    {
+      "path": "src/bitrev.rs",
+      "lines": 169,
+      "upstream_sha3_512": "e076c18708edb8099796053f0338812544a96ae939e4c4c52fcb88a7348409d073a704767e30971fbb2105445cbd13f804e81b276b467937b50743af8b258d56",
+      "scratch_sha3_512": "e076c18708edb8099796053f0338812544a96ae939e4c4c52fcb88a7348409d073a704767e30971fbb2105445cbd13f804e81b276b467937b50743af8b258d56"
+    },
+    {
+      "path": "src/dense.rs",
+      "lines": 2412,
+      "upstream_sha3_512": "c4bb9fd25180ca46342dbb92c02d38dfa7095b23022ddc768e8ea1e17b40444135a20a07604e93e1b6dcfe319f4c6c6574c6733d5f0bfa2fe01014ab20854f81",
+      "scratch_sha3_512": "c4bb9fd25180ca46342dbb92c02d38dfa7095b23022ddc768e8ea1e17b40444135a20a07604e93e1b6dcfe319f4c6c6574c6733d5f0bfa2fe01014ab20854f81"
+    },
+    {
+      "path": "src/extension.rs",
+      "lines": 624,
+      "upstream_sha3_512": "eeb1ba874baa371ca6d2c74e29fe669ad313c87edc5860532a4be7124b44e368718b394acae4d07d1de2cd0a4f24aaeae2367df2d92287c3032f85bc358837c2",
+      "scratch_sha3_512": "eeb1ba874baa371ca6d2c74e29fe669ad313c87edc5860532a4be7124b44e368718b394acae4d07d1de2cd0a4f24aaeae2367df2d92287c3032f85bc358837c2"
+    },
+    {
+      "path": "src/horizontally_truncated.rs",
+      "lines": 519,
+      "upstream_sha3_512": "0f8f32a1fff85ccc69ba2452d5d7a57ee7acf013516e9cd3c438bb59553bc0b41788902d8980e6ac4b65c3657a7622d8c5edeb7d714cb2bb32c804b148049645",
+      "scratch_sha3_512": "0f8f32a1fff85ccc69ba2452d5d7a57ee7acf013516e9cd3c438bb59553bc0b41788902d8980e6ac4b65c3657a7622d8c5edeb7d714cb2bb32c804b148049645"
+    },
+    {
+      "path": "src/interpolation.rs",
+      "lines": 1486,
+      "upstream_sha3_512": "1ec35c27863fbafc5e8bb3330cfbc1dba0e892204847d17a2b0b63949b995b0928aa1c2e5d6f0650aefbea11e5b9594ee2176d39a9bca6e4e4a9dfba77972139",
+      "scratch_sha3_512": "1ec35c27863fbafc5e8bb3330cfbc1dba0e892204847d17a2b0b63949b995b0928aa1c2e5d6f0650aefbea11e5b9594ee2176d39a9bca6e4e4a9dfba77972139"
+    },
+    {
+      "path": "src/lib.rs",
+      "lines": 1173,
+      "upstream_sha3_512": "9521ade2031b370b4eca614388c6625b9d39de8bf5bd2845683b3d655a24c20d1708ed09698b6e232328d124c2c48fb2355877a30c51c0e4cea566d927118309",
+      "scratch_sha3_512": "1c2e89e91dba9e8f6d0278efc37ebab5f74d0c74061d756643eeb245407a28505eb9c2827156652e7628fc588deee563341a840064094f5c9d864f1885891cec"
+    },
+    {
+      "path": "src/row_index_mapped.rs",
+      "lines": 1208,
+      "upstream_sha3_512": "dff38d0b3336c20ca0fa4553236b75db05ef35619776d577b6e55cbdf110cc135a1ea804d03221af794b62ce431cc38dc48812607796a8748b8aba72160b1440",
+      "scratch_sha3_512": "dff38d0b3336c20ca0fa4553236b75db05ef35619776d577b6e55cbdf110cc135a1ea804d03221af794b62ce431cc38dc48812607796a8748b8aba72160b1440"
+    },
+    {
+      "path": "src/stack.rs",
+      "lines": 487,
+      "upstream_sha3_512": "de4bd1ce86f5cb159a054e6ed81846ce5e0697aedc9db519c4e28f7008b2176232b6232b0cf9a0c51a8538d676cfa861e126a1c5ea5052148f6ebe26f7f230d3",
+      "scratch_sha3_512": "de4bd1ce86f5cb159a054e6ed81846ce5e0697aedc9db519c4e28f7008b2176232b6232b0cf9a0c51a8538d676cfa861e126a1c5ea5052148f6ebe26f7f230d3"
+    },
+    {
+      "path": "src/strided.rs",
+      "lines": 250,
+      "upstream_sha3_512": "77e05f68b5500eeeba41205cee305de8250151e40f0e3fa0dfaf4436963b878bc19bf5d440081beb3d56f7f0028457203627136d37e5cc07a3a1dec0947b8135",
+      "scratch_sha3_512": "77e05f68b5500eeeba41205cee305de8250151e40f0e3fa0dfaf4436963b878bc19bf5d440081beb3d56f7f0028457203627136d37e5cc07a3a1dec0947b8135"
+    },
+    {
+      "path": "src/util.rs",
+      "lines": 366,
+      "upstream_sha3_512": "a6a975f266696311a9d09f8c8d6b640e969405fd5227c64a58b2e52f514ced209900111b388853a62558b9460c925850d762215e71b426d466a02ef47c92c428",
+      "scratch_sha3_512": "a6a975f266696311a9d09f8c8d6b640e969405fd5227c64a58b2e52f514ced209900111b388853a62558b9460c925850d762215e71b426d466a02ef47c92c428"
+    }
+  ],
+  "omitted": "upstream benches and dev-dependencies; existing inline tests retained but not compiled or run",
+  "metadata_files_sha3_512": {
+    "LICENSE-MIT": "6f0ab9dd8ce4dadea70e18853c9f9b0c15534f5903e2fed5c3f01f1ff8dccbc0571ffa4116d2280884fdb68c6f7d5bb7f078d1b7c68bf23eb89868ffae3def02",
+    "LICENSE-APACHE": "7f4d7d96d5f32217d766f9632f0b9a197b0afe58828598b157924f9afaeba83e01d073dc24b65a3824c985eab3128bbc4125690ce502fe9208f4ea0625d3b3fd",
+    "README.md": "ba20de1c2428df93ca65b3a594db5a102a7f875ec5bed641ac90c24c73fc9f2964037294073061c212c400f3ee4ba2dfe98d04e663f8864ded79e10cbc68ad36",
+    "CHANGELOG.md": "a5b6f8cdd8248e199144e7111e79c51ff5fdc2ce5e5772939937c94933164dd3b1804b9291f137c295206c88fbc788265c51bb39a4941801e560361f54650a7f",
+    "Cargo.upstream.toml": "de2a307b5940908fbd9f7f2ce1a0f91129eb5e6916962021fb424deb10ed9f8c1cbfce1a8b12a33e397a8785b6b33adab9c4e8400a3c8d9c2e3c35941afceb1f"
+  }
+}

@@ -12,7 +12,7 @@ mod rho_pi;
 mod theta;
 
 pub(crate) use constants::{RC_POSITIONS, ROTATIONS, ROUND_CONSTANTS};
-pub(crate) use index::{parity_index, state_index};
+pub(crate) use index::{parity_index, rho_source, state_index};
 pub(crate) use native::{chi_iota, rho_pi, theta};
 
 use crate::Value;

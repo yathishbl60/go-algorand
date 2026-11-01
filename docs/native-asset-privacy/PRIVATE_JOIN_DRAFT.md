@@ -97,3 +97,4 @@ transfer automatically. Pinned hiding-WHIR diagnostics do not certify its full
 hiding reduction. Prove whole-wire and full-pipeline RAM bounds for all required
 operations/roles. This draft supplies no prover, acceptance path or security
 approval; algebraic plausibility does not satisfy those gates.
+The [D10 guard/rank evidence](COMPACT_PRIMITIVE_RESULTS.md) does not transfer this D5 lemma into a complete D10 hiding proof.

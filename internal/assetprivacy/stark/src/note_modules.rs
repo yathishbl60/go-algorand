@@ -19,6 +19,8 @@ pub mod membership_air;
 pub mod membership_vertical;
 #[path = "note_air/mod.rs"]
 pub mod note_air;
+#[path = "note_bytes_air/mod.rs"]
+pub mod note_bytes_air;
 #[path = "nullified_note_air/mod.rs"]
 pub mod nullified_note_air;
 #[path = "owned_note_air/mod.rs"]

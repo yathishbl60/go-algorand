@@ -8,11 +8,7 @@ use std::{
 
 pub fn collect(root: &Path) -> io::Result<Vec<String>> {
     let mut names = fixed_inputs();
-    let mut directories = vec![
-        root.join("stark/src"),
-        root.join("stark/build_support"),
-        root.join("stark-ffi/src"),
-    ];
+    let mut directories = source_directories().map(|path| root.join(path)).to_vec();
     while let Some(directory) = directories.pop() {
         for entry in fs::read_dir(directory)? {
             add(root, entry?, &mut directories, &mut names)?;
@@ -20,6 +16,16 @@ pub fn collect(root: &Path) -> io::Result<Vec<String>> {
     }
     names.sort();
     Ok(names)
+}
+
+pub fn source_directories() -> [&'static str; 5] {
+    [
+        "stark/src",
+        "stark/build_support",
+        "stark-ffi/src",
+        "field31/src",
+        "vendor/p3-matrix/src",
+    ]
 }
 
 fn add(
@@ -58,10 +64,27 @@ fn fixed_inputs() -> Vec<String> {
         "Cargo.lock",
         "rust-toolchain.toml",
         "stark/Cargo.toml",
+        "field31/Cargo.toml",
         "stark/build.rs",
         "stark-ffi/Cargo.toml",
         "stark-ffi/include/nap_privacy.h",
     ]
+    .into_iter()
+    .chain(vendor_inputs())
     .map(String::from)
-    .to_vec()
+    .collect()
+}
+
+fn vendor_inputs() -> [&'static str; 9] {
+    [
+        "vendor/p3-matrix/Cargo.toml",
+        "vendor/p3-matrix/Cargo.upstream.toml",
+        "vendor/p3-matrix/UPSTREAM.md",
+        "vendor/p3-matrix/SHA3_512_MANIFEST.json",
+        "vendor/p3-matrix/d10.patch",
+        "vendor/p3-matrix/README.md",
+        "vendor/p3-matrix/CHANGELOG.md",
+        "vendor/p3-matrix/LICENSE-MIT",
+        "vendor/p3-matrix/LICENSE-APACHE",
+    ]
 }

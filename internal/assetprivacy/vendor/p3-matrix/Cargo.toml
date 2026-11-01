@@ -1,0 +1,45 @@
+[package]
+name = "p3-matrix"
+description = "A matrix library providing common matrix operations and traits for finite field elements."
+version = "0.8.0"
+edition = "2024"
+license = "MIT OR Apache-2.0"
+repository = "https://github.com/Plonky3/Plonky3"
+homepage = "https://github.com/Plonky3/Plonky3"
+keywords = ["cryptography", "SNARK", "PLONK", "FRI", "plonky3"]
+categories = ["cryptography::cryptocurrencies"]
+autobenches = false
+autotests = false
+
+[features]
+parallel = ["p3-maybe-rayon/parallel"]
+
+[dependencies]
+p3-field = { git = "https://github.com/Plonky3/Plonky3", rev = "1abcaa0795bc30ded29d54d0bc2cf495b6a20c2f" }
+p3-maybe-rayon = { git = "https://github.com/Plonky3/Plonky3", rev = "1abcaa0795bc30ded29d54d0bc2cf495b6a20c2f" }
+p3-util = { git = "https://github.com/Plonky3/Plonky3", rev = "1abcaa0795bc30ded29d54d0bc2cf495b6a20c2f" }
+itertools = { version = "=0.15.0", default-features = false, features = ["use_alloc"] }
+rand = { version = "=0.10.1", default-features = false }
+serde = { version = "=1.0.229", default-features = false, features = ["derive"] }
+tracing = { version = "=0.1.44", default-features = false, features = ["attributes"] }
+
+[lints.rust]
+rust_2018_idioms = { level = "deny", priority = -1 }
+unused_must_use = "deny"
+rust_2024_incompatible_pat = "warn"
+
+[lints.rustdoc]
+all = "warn"
+
+[lints.clippy]
+all = { level = "warn", priority = -1 }
+nursery = { level = "warn", priority = -1 }
+semicolon_if_nothing_returned = "warn"
+match_bool = "warn"
+needless_pass_by_value = "warn"
+redundant_pub_crate = "allow"
+too_long_first_doc_paragraph = "allow"
+unused_peekable = "allow"
+tuple_array_conversions = "allow"
+transmute_undefined_repr = "allow"
+cognitive_complexity = "allow"

@@ -6,6 +6,8 @@
 
 #[cfg(feature = "native-privacy")]
 mod amount_witness;
+#[cfg(feature = "native-privacy-compact")]
+pub mod compact;
 #[cfg(feature = "native-privacy")]
 mod config;
 #[cfg(feature = "native-privacy")]

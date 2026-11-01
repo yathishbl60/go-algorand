@@ -1,0 +1,17 @@
+[package]
+name = "algorand-asset-privacy-field31"
+version = "0.1.0"
+edition = "2024"
+rust-version = "1.99"
+license = "AGPL-3.0-or-later"
+publish = false
+
+[dependencies]
+p3-baby-bear = { git = "https://github.com/Plonky3/Plonky3", rev = "1abcaa0795bc30ded29d54d0bc2cf495b6a20c2f" }
+p3-field = { git = "https://github.com/Plonky3/Plonky3", rev = "1abcaa0795bc30ded29d54d0bc2cf495b6a20c2f" }
+num-bigint = "=0.5.1"
+rand = "=0.10.1"
+serde = "=1.0.229"
+
+[lints.rust]
+unsafe_op_in_unsafe_fn = "forbid"

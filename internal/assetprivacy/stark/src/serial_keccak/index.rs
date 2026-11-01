@@ -16,7 +16,7 @@ pub(super) const fn coordinates(index: usize) -> (usize, usize, usize) {
     ((index / 64) % 5, index / 320, index % 64)
 }
 
-pub(super) const fn rho_source(index: usize) -> usize {
+pub(crate) const fn rho_source(index: usize) -> usize {
     let (x, y, z) = coordinates(index);
     let (a, b) = ((x + 3 * y) % 5, x);
     state_index(a, b, (z + 64 - ROTATIONS[5 * b + a] as usize) % 64)

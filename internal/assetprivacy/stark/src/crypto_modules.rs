@@ -7,6 +7,8 @@ pub mod aes256_air;
 pub mod aes_air;
 #[path = "aes_gcm_vertical/mod.rs"]
 pub mod aes_gcm_vertical;
+#[path = "compact_keccak_air/mod.rs"]
+pub mod compact_keccak_air;
 #[path = "envelope_aad_air/mod.rs"]
 pub mod envelope_aad_air;
 #[path = "envelope_air/mod.rs"]
