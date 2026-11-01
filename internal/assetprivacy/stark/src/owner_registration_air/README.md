@@ -1,28 +1,42 @@
-# Recipient owner-secret registration relation
+# Serial recipient owner-secret registration relation
 
-OwnerRegistrationAir checks the existing network-bound SHA3-512 SpendingKey
-commitment for a private nonzero32-byte secret. Public values are64 uint16 cells:
-owner32 then finalized group32, both consecutive little-endian limbs.
+OwnerRegistrationAir proves the network-bound SHA3-512 SpendingKey commitment for
+a private nonzero32-byte secret. Public values remain64 uint16 cells: owner32
+then finalized group32, both consecutive little-endian limbs.
 
-The fixed message is ASCII `Algorand/AssetPrivacy/Candidate1/SpendingKey/`, network32
-and secret32:109 bytes. Prefix bits are fixed by the verifier, secret bits use the
-SHA3 AIR's Boolean/message constraints, and a bounded secret-bit sum times a private
-inverse equals1. Global group limbs are constant and equal the public group.
+The109-byte message is ASCII `Algorand/AssetPrivacy/Candidate1/SpendingKey/`,
+network32 and secret32. SHA3-512 absorbs two72-byte-rate blocks with standard
+padding and all24 Keccak rounds per block. Each round is scheduled in three
+stages: Theta, Rho/Pi, then Chi/Iota. Fixed initialization/prefix, capacity,
+absorption, padding, final digest and group binding remain constrained.
 
-One512-row trusted frame has4 active/first/last/transition preprocessing flags.
-There are3540 main columns:33 root columns and3507 SHA3 workspace columns. Native
-selection pins these dimensions under kind21 and constructor-domain identity.
+The512-row frame uses1953 main columns:1600 Boolean state bits,320 C parities,
+a private inverse and32 group limbs. Its11 preprocessing columns are four
+schedule selectors plus seven Iota round-constant bits. C parity is an ungated
+five-way XOR; the actual symbolic degree is5. Group/inverse cells stay constant.
 
-`public_values` and `trace` reject zero owner/group; trace construction also rejects
-zero secret or an owner mismatch before allocation. These host checks prepare the
-witness; independent AIR constraints enforce the actual relation.
+The second-block absorption XOR of before/after Boolean state derives the256
+secret bits. Their bounded sum times the private inverse equals1, rejecting a
+zero secret. Final digest limbs equal public owner; group limbs equal public group.
+`public_values` rejects zero owner/group. `trace` checks nonzero secret and exact
+network-bound owner before allocation; independent AIR constraints enforce the
+relation. Native layout kind21 now pins512/1953/11/64, replacing3540/4 dimensions.
+Old source fingerprints/layouts do not become compatible or approved implicitly.
 
-A valid proof grants no account authority by itself. Native callers authenticate
-current PQ Sender/AuthAddr, require registeredAccount==Sender, compare current
-policy/suite/epoch, recompute complete group binding and verify this exact typed
-one-slot NAPW bundle before writing key/eligibility state. Viewing-key possession
-uses the separate typed ViewingRegistration relation (kind22). See the [native contract](../../../../../docs/native-asset-privacy/OWNER_REGISTRATION.md).
+The first serial direct-P3 proof run completed in1.719s/168.828MiB observed peak
+RSS. An expanded run completed in1.694s/187.578MiB, with valid trace constraints,
+seven corrupted-trace rejections and changed owner/group/proof-opening rejection.
+Symbolic degree5,16 quotient chunks and3,285,504 query-cell payload bytes were
+observed. These direct-P3 runs did not exercise the canonical native codec or node.
 
-[Bounded direct-P3 Owner proofs](../../../../../docs/native-asset-privacy/FEASIBILITY_RESULTS.md) verified with changed owner/group/proof rejection.
-No artifact-bound native transaction or automated test suite has run; the
-primitive result does not establish soundness, privacy or native delivery.
+[Serial layout analysis](../../../../../docs/native-asset-privacy/SERIAL_OWNER_LAYOUT.md)
+gives a conditional complete-proof upper bound of4,226,753 bytes; actual serialized
+native proof size is not established here. See [the native contract](../../../../../docs/native-asset-privacy/OWNER_REGISTRATION.md)
+and [bounded primitive evidence](../../../../../docs/native-asset-privacy/FEASIBILITY_RESULTS.md).
+No suite was activated, native transaction accepted or repository test files added.
+A primitive proof grants no account/spending authority and establishes no general
+soundness, privacy, resource feasibility or full-protocol validation.
+
+Native callers still check current PQ Sender/AuthAddr, registeredAccount==Sender,
+policy/suite/epoch, final group binding and exact one-slot NAPW before state writes.
+Viewing-key possession uses the separate typed ViewingRegistration relation(kind22).

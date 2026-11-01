@@ -62,11 +62,12 @@ trust. Missing keys or placeholders never create an approved registry implicitly
 | 18 | Assigned disclosure | 65536 | 23973 | 2067 | 1132 |
 | 19 | Retained remainder recipient | 65536 | 24229 | 2067 | 1100 |
 | 20 | Recovery recipient | 65536 | 24869 | 2071 | 1100 |
-| 21 | Owner registration | 512 | 3540 | 4 | 64 |
+| 21 | Serial Owner registration | 512 | 1953 | 11 | 64 |
 | 22 | Viewing registration | 16384 | 9394 | 723 | 1216 |
 
-Version6 supersedes unapproved versions1..5; old format/pins fail closed. There are
-no approved historical references. Dimensions match current native AIRs. Kind alone
+Version6 supersedes unapproved versions1..5. Serial Owner keeps kind21 but changes
+its compiled main/preprocessing widths to1953/11 and source fingerprint. Earlier
+3540/4 entries/pins fail closed; there are no approved historical references. Kind alone
 selects a public schedule, not an entire transaction-specific relation. The Rust
 bridge must independently derive the full relation ID from the exact constructor
 arguments, revision and selected supported reference; the artifact ID also binds the trusted
@@ -87,6 +88,11 @@ provenance, security/resource analysis, approved suite data, native transaction
 acceptance and adversarial/runtime evidence remain required. `suitecatalog` selects
 pins from current consensus. Current catalogs are empty, with no approved fallback.
 
-No tests, digest vectors, traces, preprocessing, constraint evaluations or proofs
-have run. Builds, vet, source review and physical limits establish only the
-reported source/compilation properties. Defaults remain disabled.
+[Serial Owner primitive runs](../../../docs/native-asset-privacy/OWNER_REGISTRATION.md) verified via direct pinned P3,
+with degree5/16 quotient chunks and3,285,504 query-cell payload bytes. Worker times
+were1.719s/168.828MiB and1.694s/187.578MiB observed RSS; the expanded run rejected
+seven corrupted traces and three changed public/proof cases. They did not
+exercise this registry/native codec or establish approved artifacts. The
+[conditional4,226,753-byte complete-proof bound](../../../docs/native-asset-privacy/SERIAL_OWNER_LAYOUT.md) is not measured serialized size.
+No automated suite ran or repository test files were added; no native transaction
+was accepted and defaults remain disabled. Primitive results do not establish soundness or native delivery.

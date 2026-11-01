@@ -2,10 +2,12 @@
 
 **Owner primitive validation passed. The complete candidate layout fails the
 current transport/resource gate. No native private transaction was accepted.**
+The later [serial Owner layout and bounded run](SERIAL_OWNER_RESULTS.md) reduce
+the Owner cost; the recipient and full-operation blockers below still apply.
 The user authorized bounded proof/setup and isolated-node validation; writing new
 automated test files remains deferred. Native consensus stays disabled.
 
-## Executed bounded validation
+## Earlier bounded validation: 3540-column Owner
 
 An isolated temporary worker used the real OwnerRegistrationAir with the pinned
 Plonky3 revision 1abcaa0795bc30ded29d54d0bc2cf495b6a20c2f and Rust 1.99.1,
@@ -43,7 +45,7 @@ indices; Merkle pruning removes sibling paths, not those row values.
 
 | Relation/set | Main-trace query-cell lower bound, bytes |
 | --- | ---: |
-| Owner registration: 192×3540×8 | 5,437,440 |
+| Earlier Owner registration: 192×3540×8 | 5,437,440 |
 | Shield main: 192×7641×8 | 11,736,576 |
 | Recipient output: 192×24869×8 | 38,198,784 |
 | Shield main plus two recipient outputs | 88,134,144 |

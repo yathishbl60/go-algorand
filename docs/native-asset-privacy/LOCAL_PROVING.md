@@ -3,7 +3,7 @@
 Updated 2026-11-01. Rust feature `native-privacy` exposes local proving through
 [typed Prepared factories](../../internal/assetprivacy/stark/src/verification/selection/prepared.rs).
 This API has build/static evidence only. [Bounded Owner primitive runs](FEASIBILITY_RESULTS.md)
-used direct P3 setup/prove/verify; no complete artifact-bound native proof exists.
+used direct P3 setup/prove/verify, including the [serial layout](SERIAL_OWNER_RESULTS.md); no complete artifact-bound native proof exists.
 Every consensus version remains disabled; there are no approved suite artifacts.
 
 ## Trusted inputs and preparation
@@ -40,7 +40,7 @@ it cannot choose verifier keys, entropy, prover configuration or acceptance.
 Post-construction shape/capacity checks still apply.
 
 These are local ceilings, not total-memory or CPU budgets. Owner registration's
-512×3540 main cells occupy14,499,840 raw bytes; shield's1024×7641 occupy62,595,072.
+512×1953 main cells occupy7,999,488 raw bytes; shield's1024×7641 occupy62,595,072.
 Preprocessing, Keccak scratch, hiding/LDE/quotient matrices and potentially large
 Plonky3 temporaries are additional. These are source counts, not measured peaks,
 practical feasibility evidence or recommended deployment limits.

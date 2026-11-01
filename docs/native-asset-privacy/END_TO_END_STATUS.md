@@ -2,7 +2,7 @@
 
 Updated 2026-11-01. **Not end-to-end yet.** Native evaluator proof routing and
 atomic application now exist as inactive source integration. No accepted private
-transaction or real-node demo has been demonstrated; [bounded Owner primitive proof validation passed](FEASIBILITY_RESULTS.md). [Delivery gates and rework risks](DELIVERY_PROGRESS.md).
+transaction or real-node demo has been demonstrated; [bounded serial Owner primitive validation passed](SERIAL_OWNER_RESULTS.md). [Delivery gates and rework risks](DELIVERY_PROGRESS.md).
 
 ## Work-package evidence
 
@@ -78,7 +78,7 @@ retirement/cleanup and minimum-balance release have source integration; runtime 
 
 Go builds and static analysis passed for the modified packages with the feature
 enabled; native default builds also passed. New shield Rust workspace checks,
-Clippy, release FFI and linked algod builds passed. [Owner primitive proofs](FEASIBILITY_RESULTS.md) verified; complete native proofs remain missing.
+Clippy, release FFI and linked algod builds passed. [Serial Owner primitive proofs](SERIAL_OWNER_RESULTS.md) verified; complete native proofs remain missing.
 Membership alone has a ~641 MB base matrix; streaming assembly reduces its
 static matrix overlap from~1.28 GB to~671 MB. Transfer assembly also releases
 each component before generating the next. AES-256 uses 78,388 field columns per

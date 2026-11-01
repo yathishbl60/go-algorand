@@ -19,7 +19,7 @@ client tooling, rather than a single isolated application feature.
 | --- | --- |
 | Transaction/state/crypto/client source integration | Substantial inactive code exists |
 | Builds, static analysis and selected generation checks | Passed for completed slices |
-| Owner primitive proofs | Two bounded direct-P3 runs verified; see [results](FEASIBILITY_RESULTS.md) |
+| Owner primitive proofs | Earlier and [serial-layout bounded runs](SERIAL_OWNER_RESULTS.md) verified |
 | Accepted end-to-end native private transactions | None demonstrated |
 | Six real-node scenarios | 0/6 |
 | Automated tests | Not added/run; deferred |
@@ -27,8 +27,8 @@ client tooling, rather than a single isolated application feature.
 
 Git changes from the foundations parent through commit 2e8fa9c14 total 73,807 net
 added lines: 57,909 source/scripts, 11,337 documentation, 2,942 schemas/configuration,
-and 1,619 generated/lockfile lines. This inventory excludes subsequent uncommitted
-local-prover work and does not establish implementation quality or completeness.
+and 1,619 generated/lockfile lines. This inventory excludes subsequent local-prover
+and layout work and does not establish implementation quality or completeness.
 
 ## Material rework risks
 

@@ -63,7 +63,7 @@ func outputLayouts() [6]layout {
 		{Disclosure, 65536, 23973, 2067, 1132},
 		{RetainedRecipient, 65536, 24229, 2067, 1100},
 		{RecoveryRecipient, 65536, 24869, 2071, 1100},
-		{OwnerRegistration, 512, 3540, 4, 64},
+		{OwnerRegistration, 512, 1953, 11, 64},
 		{ViewingRegistration, 16384, 9394, 723, 1216},
 	}
 }
