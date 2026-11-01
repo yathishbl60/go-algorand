@@ -53,6 +53,10 @@ paths, framing, signatures and transaction bodies. Query collisions do not reduc
 this encoding count. Current [transaction gossip](../../protocol/tags.go) permits
 5,000,000 bytes; current ordinary block capacity is 5,242,880 bytes.
 The complete Shield operation cannot fit those existing limits.
+Reducing main-trace width alone cannot resolve this: Shield preprocessing has
+8 columns and each recipient has 2075. Their preprocessing query cells alone
+cost 192×(8+2×2075)×8 = 6,386,688 bytes, before any main-trace opening.
+The redesign must address both main and preprocessing representations.
 
 ## Static recipient memory dimensions
 
