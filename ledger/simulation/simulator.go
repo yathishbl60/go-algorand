@@ -279,6 +279,9 @@ func (s Simulator) evaluate(hdr bookkeeping.BlockHeader, group []transactions.Si
 }
 
 func (s Simulator) simulateWithTracer(hdr bookkeeping.BlockHeader, txgroup []transactions.SignedTxnWithAD, tracer logic.EvalTracer, overrides ResultEvalOverrides) (*ledgercore.ValidatedBlock, error) {
+	if err := checkNativePrivacySimulationSigners(txgroup, overrides); err != nil {
+		return nil, err
+	}
 	var err error
 
 	if overrides.FixSigners {

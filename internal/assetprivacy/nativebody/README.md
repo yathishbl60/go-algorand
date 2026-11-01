@@ -13,6 +13,10 @@ references the input buffer. Keep the input immutable for the complete call.
 `Encode(body)` validates first and returns owned canonical bytes; keep every body
 slice immutable until it returns. There are no optional padding or trailing bytes.
 
+`Inspect(encoded)` uses the same full preflight and returns a fixed-size public
+Summary without copying envelopes. Its counts, commitments and nullifiers power
+[gated AVM reads](../../../docs/native-asset-privacy/AVM_INSPECTION.md); it proves no authorization.
+
 `Body.Validate()` checks these same structural/semantic rules, including maximum
 encoded size. `Body.CheckSender(nonzeroSender)` also binds any positive public
 debit to that outer sender; with zero debit the source must be zero and a nonzero

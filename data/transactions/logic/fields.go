@@ -230,6 +230,35 @@ const (
 	// RejectVersion uint64
 	RejectVersion
 
+	// NativePrivacyFamily is a gated public native privacy field.
+	NativePrivacyFamily
+	// NativePrivacyAsset is a gated public native privacy field.
+	NativePrivacyAsset
+	// NativePrivacyMode is a gated public native privacy field.
+	NativePrivacyMode
+	// NativePrivacyOperation is a gated public native privacy field.
+	NativePrivacyOperation
+	// NativePrivacyDebit is a gated public native privacy field.
+	NativePrivacyDebit
+	// NativePrivacyCredit is a gated public native privacy field.
+	NativePrivacyCredit
+	// NativePrivacyDebitSource is a gated public native privacy field.
+	NativePrivacyDebitSource
+	// NativePrivacyCreditReceiver is a gated public native privacy field.
+	NativePrivacyCreditReceiver
+	// NativePrivacyPolicy is a gated public native privacy field.
+	NativePrivacyPolicy
+	// NativePrivacySuite is a gated public native privacy field.
+	NativePrivacySuite
+	// NativePrivacyNumInputs is a gated public native privacy field.
+	NativePrivacyNumInputs
+	// NativePrivacyNumOutputs is a gated public native privacy field.
+	NativePrivacyNumOutputs
+	// NativePrivacyInputNullifiers is a gated public native privacy field.
+	NativePrivacyInputNullifiers
+	// NativePrivacyOutputCommitments is a gated public native privacy field.
+	NativePrivacyOutputCommitments
+
 	invalidTxnField // compile-time constant for number of fields
 )
 
@@ -379,6 +408,21 @@ var txnFieldSpecs = [...]txnFieldSpec{
 	{NumClearStateProgramPages, StackUint64, false, 7, 0, false, "Number of ClearState Program pages"},
 
 	{RejectVersion, StackUint64, false, 12, 12, false, "Application version for which the txn must reject"},
+
+	{NativePrivacyFamily, StackUint64, false, nativePrivacyAVMVersion, 0, false, "Body family: 0 ordinary, 1 NAPT value, 2 NAPL lifecycle; requires native privacy activation"},
+	{NativePrivacyAsset, StackUint64, false, nativePrivacyAVMVersion, 0, false, "Public asset ID; zero for native creation before allocation; requires native privacy activation"},
+	{NativePrivacyMode, StackUint64, false, nativePrivacyAVMVersion, 0, false, "NAPT selected mode or NAPL adoption/creation allowed modes; requires native privacy activation"},
+	{NativePrivacyOperation, StackUint64, false, nativePrivacyAVMVersion, 0, false, "Operation number in its body family; requires native privacy activation"},
+	{NativePrivacyDebit, StackUint64, false, nativePrivacyAVMVersion, 0, false, "Public units debited into private supply; requires native privacy activation"},
+	{NativePrivacyCredit, StackUint64, false, nativePrivacyAVMVersion, 0, false, "Public units credited from private supply; requires native privacy activation"},
+	{NativePrivacyDebitSource, StackAddress, false, nativePrivacyAVMVersion, 0, false, "Public debit source or zero address; requires native privacy activation"},
+	{NativePrivacyCreditReceiver, StackAddress, false, nativePrivacyAVMVersion, 0, false, "Public credit receiver or zero address; requires native privacy activation"},
+	{NativePrivacyPolicy, StackBytes64, false, nativePrivacyAVMVersion, 0, false, "Policy identity; 64 zero bytes when absent; requires native privacy activation"},
+	{NativePrivacySuite, StackBytes64, false, nativePrivacyAVMVersion, 0, false, "Suite identity; 64 zero bytes when absent; requires native privacy activation"},
+	{NativePrivacyNumInputs, StackUint64, false, nativePrivacyAVMVersion, 0, false, "Number of NAPT private inputs; requires native privacy activation"},
+	{NativePrivacyNumOutputs, StackUint64, false, nativePrivacyAVMVersion, 0, false, "Number of NAPT private outputs; requires native privacy activation"},
+	{NativePrivacyInputNullifiers, StackBytes64, true, nativePrivacyAVMVersion, 0, false, "Public spent markers; index must be below NativePrivacyNumInputs; requires native privacy activation"},
+	{NativePrivacyOutputCommitments, StackBytes64, true, nativePrivacyAVMVersion, 0, false, "Public note commitments; index must be below NativePrivacyNumOutputs; requires native privacy activation"},
 }
 
 // TxnFields contains info on the arguments to the txn* family of opcodes
@@ -503,18 +547,20 @@ var TxnTypeNames = [...]string{
 	string(protocol.ApplicationCallTx),
 	string(protocol.StateProofTx),
 	string(protocol.HeartbeatTx),
+	string(protocol.NativeAssetPrivacyTx),
 }
 
 // txnTypeLongNames provide a friendlier type constant name in assembler.
 var txnTypeLongNames = map[string]string{
-	string(protocol.PaymentTx):         "Payment",
-	string(protocol.KeyRegistrationTx): "KeyRegistration",
-	string(protocol.AssetConfigTx):     "AssetConfig",
-	string(protocol.AssetTransferTx):   "AssetTransfer",
-	string(protocol.AssetFreezeTx):     "AssetFreeze",
-	string(protocol.ApplicationCallTx): "ApplicationCall",
-	string(protocol.StateProofTx):      "State Proof",
-	string(protocol.HeartbeatTx):       "Consensus heartbeat",
+	string(protocol.PaymentTx):            "Payment",
+	string(protocol.KeyRegistrationTx):    "KeyRegistration",
+	string(protocol.AssetConfigTx):        "AssetConfig",
+	string(protocol.AssetTransferTx):      "AssetTransfer",
+	string(protocol.AssetFreezeTx):        "AssetFreeze",
+	string(protocol.ApplicationCallTx):    "ApplicationCall",
+	string(protocol.StateProofTx):         "State Proof",
+	string(protocol.HeartbeatTx):          "Consensus heartbeat",
+	string(protocol.NativeAssetPrivacyTx): "NativeAssetPrivacy",
 }
 
 // map txn type names (long and short) to index/enum value

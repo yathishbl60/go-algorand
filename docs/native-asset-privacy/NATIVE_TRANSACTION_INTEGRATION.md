@@ -1,16 +1,15 @@
 # Native transaction integration boundaries
 
-Updated 2026-10-30. The candidate body codec, wire metadata and stateless admission
-hooks, evaluator dispatch and child-COW application are implemented. No native
-transaction, proof or real-node scenario has run; activation remains disabled.
+Updated 2026-11-01. The candidate body codec, wire metadata and stateless admission
+hooks, evaluator dispatch and child-COW application are implemented. Activation
+remains disabled; no native transaction, proof or real-node scenario has run.
 
 ## Wire fields and disabled behavior
 
-`protocol.NativeAssetPrivacyTx` is `aprv`. Transaction.NativeAssetPrivacy is the
-bounded `napb` byte field in the signed body; SignedTxn.NativeAssetPrivacyProof is
-the bounded `napw` witness outside TXID/group IDs: NAPW for NAPT, NAPR for admin
-registration, empty for other NAPL. Signed/block encoding commits them. Neither
-field carries local registry files, pins, budgets or private note openings.
+`protocol.NativeAssetPrivacyTx` is `aprv`. Transaction.NativeAssetPrivacy is bounded
+`napb`; SignedTxn.NativeAssetPrivacyProof is bounded `napw` outside TXID/group IDs:
+NAPW for NAPT, NAPR for Register, otherwise empty. Block encoding commits both;
+neither contains registry files, pins, budgets or private note openings.
 
 The metadata fields exist in both builds. Default builds reject the type and
 nonempty privacy fields. Tagged builds require explicit execution configuration before
@@ -18,22 +17,17 @@ native body decoding; only [ordinary ASA creation with Create5](NATIVE_CREATION.
 All current consensus versions keep the flag false, suite catalogs nil and
 native decoder bounds zero. No artifact or suite approval has been added.
 
-The [body contract](NATIVE_TRANSACTION_BODY.md) and
-[nativebody API](../../internal/assetprivacy/nativebody/README.md) define exact
-bytes and operation arities. Decode scans into fixed two-slot staging storage,
-checks complete framing and only then copies returned input/output data. Every
-returned ciphertext is owned. NAPT permits Shielded4 and [Confidential2 ordinary/recovery operations](CONFIDENTIAL_MODE.md); Shield3 has0inputs and2outputs.
-Public1 uses ordinary ASA transfers; recovery uses its exact selected private mode. [NAPL1](LIFECYCLE_INGRESS.md) includes lifecycle registration, creation, retirement and cleanup.
+The [body codec](NATIVE_TRANSACTION_BODY.md) checks exact framing in fixed two-slot staging before copying owned outputs.
+NAPT supports Shielded4 and [Confidential2 ordinary/recovery operations](CONFIDENTIAL_MODE.md); Shield3 has 0 inputs and 2 outputs.
+Public1 uses ordinary ASA transfers. [NAPL1](LIFECYCLE_INGRESS.md) includes lifecycle registration, creation, retirement and cleanup.
 
 ## Stateless signed admission
 
 `txnGroupBatchPrep` calls checkNativePrivacyGroup before ordinary well-formedness
-and signature dispatch. Native admission decodes the body, validates its suite
-through the complete current consensus catalog, and requires top-level PQsig with
-nonempty signature bytes. Classical, multisig and LogicSig alternatives fail.
-Admission also requires an off-Edwards-curve claimed authorizer. ValidateEnvelope
-checks enabled scheme/identity; normal PQ signature verification follows. AuthAddr/rekey
-reconciliation remains a ledger obligation, not a result of this envelope check.
+and signature dispatch. It decodes the body, checks the complete current suite
+catalog and requires nonempty top-level PQsig and off-Edwards-curve authorizer.
+Classical/multisig/LogicSig fail. ValidateEnvelope checks enabled scheme/identity;
+normal PQ verification follows. Ledger execution reconciles AuthAddr/rekey.
 
 Binding recomputes the final ordinary group and SHA3 statement from all bodies,
 target position, genesis and suite. NAPL Register requires exact NAPR framing and
@@ -45,12 +39,10 @@ actual proofs through the linked verifier; [native execution](NATIVE_EXECUTION.m
 
 ## Cache and commitment identity
 
-The nonempty-witness signature cache includes exact length and SHA3-512 digest
-for NAPW/NAPR as owned metadata. Empty-witness lifecycle conservatively misses it.
-No caller-owned witness slice is retained. TXID commits the native body; cache
-context includes the consensus version and
-ordinary signature authorization material. Replacing proof bytes cannot reuse an
-entry for different witness bytes without a hash collision.
+The signature cache owns exact NAPW/NAPR length and SHA3-512 digest metadata;
+empty-witness lifecycle conservatively misses it. TXID commits the native body.
+Cache context includes consensus version and ordinary authorization material;
+different witness bytes cannot reuse an entry without a hash collision.
 
 This does not turn signature-cache success into privacy proof acceptance. Every
 value execution rebuilds current statements/state; lifecycle rechecks principal,
@@ -66,35 +58,42 @@ commitment include witness bytes; proof substitution cannot preserve that leaf.
 
 ## Decoder and network resource limits
 
-Only tagged enabled consensus parameters with a nonempty catalog of at most16
-entries contribute decoder ceilings. The body ceiling is10593 bytes. The proof
-frame ceiling includes per-suite min(MaxBundleBytes+137,512MiB+137,blockBytes)
-and, when Falcon1024 enabled, min(8+Falcon1024MaxSignatureSize,blockBytes) for NAPR.
-These global ceilings aggregate versions; they authenticate neither suite nor proof.
+Only tagged enabled consensus parameters with 1–16 catalog entries contribute
+decoder ceilings: body 10593 bytes; NAPW min(MaxBundleBytes+137,512MiB+137,blockBytes);
+NAPR min(8+Falcon1024MaxSignatureSize,blockBytes) when Falcon1024 enabled.
+These ceilings aggregate versions and authenticate neither suite nor proof.
 
-Current catalog admission separately validates every record. A future enabled
-version can enlarge global decoding bounds even while processing older chains;
-current-protocol validation and network/admission limits remain mandatory.
-The proof-field ceiling excludes body/PQ/msgpack overhead and is not a complete
-signed transaction, group, proposal or block allowance. Exact encoded size limits
-must still hold. TX gossip remains5000000 bytes; existing frame/proposal/block
-limits have not been raised to accommodate the candidate proof configuration.
+Current catalog admission validates every record. Future versions can enlarge
+global bounds while processing older chains; current-protocol limits still apply.
+Proof-field ceilings exclude body/PQ/msgpack overhead; exact signed-transaction,
+group, proposal and block limits still hold. TX gossip remains 5000000 bytes;
+existing frame/proposal/block limits have not been raised for candidate proofs.
 
-Coarse accepted-block proof counting and proof/byte fee formulas now exist; their
-capacities/prices remain zero and uncalibrated. Failed-attempt/peer scheduling and
-aggregate memory metering remain missing. Large proof/trace estimates remain
-unresolved; configuration alone cannot establish practical feasibility.
+Coarse accepted-block proof counting and proof/byte fees exist, with zero,
+uncalibrated capacities/prices. Failed-attempt/peer scheduling and aggregate memory
+metering remain missing; large proof/trace feasibility remains unresolved.
+
+## Pending and simulation wire propagation
+
+In `daemon/algod/api/server/v2/handlers.go`, PreEncodedTxInfo carries SignedTxn;
+pending lists do too. PreEncodedSimulateRequest decodes groups of SignedTxn, and
+`utils.go` convertSimulationRequest copies them unchanged. ConvertInnerTxn and
+convertTxnResult retain the signed object on response. Thus raw napb/napw already
+propagate through JSON/msgpack without new field-copy handlers. Generated models
+use a raw transaction map/RawMessage, not typed native semantic interpretation.
+Simulator.check uses ordinary group verification; its evaluator runs the same
+native consent/proof path. Empty-signature/fix-signer options do not supply native
+PQ consent or valid proofs; synthetic native signers reject before mutation.
+MaxSimulateBytes remains 1,000,000, potentially below a future proof bundle. Existing group fee usage includes native factors;
+native proof-work diagnostics and typed semantic decoding remain missing.
 
 ## Remaining native delivery
 
-The dispatcher now checks current PQ consent and proofs, applies public conversion
-and native state atomically, and meters creator storage in one child COW. Native
-inner/admin operations requiring independent PQ consent fail. NAPL adoption,
-assignment, freeze, admin/owner registration and shield route atomically; viewing
-registration, other modes, AVM/API/SDK/wallet
-and six real-node scenarios remain incomplete. See [execution](NATIVE_EXECUTION.md).
+The dispatcher checks current PQ consent/proofs and applies conversion, native
+state and creator storage in one child COW. Viewing/admin/owner registration,
+ordinary shielded/confidential operations, recovery and supported-arity final
+reconciliation and [gated AVM inspection](AVM_INSPECTION.md) have source integration.
+General note-count closure, full SDK/wallet and six real-node scenarios remain incomplete; see [execution](NATIVE_EXECUTION.md).
 
-Tests, codec round trips, vectors, proofs, setup, node execution and performance
-measurements remain deferred/unexecuted. Compilation/source checks cannot prove
-historical compatibility, authorization, soundness, privacy or end-to-end delivery.
-`python3 scripts/native_privacy_limits.py` checks authored file/function limits.
+Tests, round trips, vectors, proofs, setup, node execution and measurements remain
+deferred. Build/static checks do not establish compatibility, security or delivery.

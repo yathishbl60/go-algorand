@@ -3634,7 +3634,7 @@ func (cx *EvalContext) txnFieldToStack(stxn *transactions.SignedTxnWithAD, fs *t
 		sv.Uint = uint64(stxn.ApplyData.ApplicationID)
 
 	default:
-		return sv, fmt.Errorf("invalid txn field %s", fs.field)
+		return cx.nativePrivacyTxnField(txn, fs.field, arrayFieldIdx)
 	}
 
 	if fs.ftype.AVMType != sv.avmType() {

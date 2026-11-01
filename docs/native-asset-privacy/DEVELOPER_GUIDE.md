@@ -43,7 +43,7 @@ writable `GOCACHE` or Cargo target/cache directory when using a sandbox.
 | Unique native note creation, read-only paths and root history | [Generation2 note tree](../../internal/assetprivacy/notetree/README.md) |
 | Atomic encrypted outputs, pages and local recovery | [outputs](../../internal/assetprivacy/outputs/README.md) |
 | Shared holder/controller spent marker | [nullifier](../../internal/assetprivacy/nullifier/README.md) |
-| Final body/order binding | [statement](../../internal/assetprivacy/statement/README.md) |
+| Final body/order binding and AVM inspection | [AVM fields](AVM_INSPECTION.md), [statement](../../internal/assetprivacy/statement/README.md) |
 | Bounded outer proof frame | [witness](../../internal/assetprivacy/witness/README.md) |
 | Native zero-input/two-output shield | [ShieldGroupAir and native plans](NATIVE_SHIELD.md) |
 | Two ordinary eligible inputs with Transfer2/Unshield0 outputs | [Staged spending](SPENDING_COMPOSITION.md) |

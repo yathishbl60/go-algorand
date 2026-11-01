@@ -411,15 +411,16 @@ type VerCost struct {
 // TypeNameDescriptions contains descriptions about low level
 // protocol transaction types.
 var TypeNameDescriptions = map[string]string{
-	string(protocol.UnknownTx):         "Unknown type, invalid transaction",
-	string(protocol.PaymentTx):         "ALGO transfers (payment)",
-	string(protocol.KeyRegistrationTx): "Consensus keys registration",
-	string(protocol.AssetConfigTx):     "Asset creation and configuration",
-	string(protocol.AssetTransferTx):   "Asset transfer",
-	string(protocol.AssetFreezeTx):     "Asset freeze and unfreeze",
-	string(protocol.ApplicationCallTx): "Application calls",
-	string(protocol.StateProofTx):      "State Proof",
-	string(protocol.HeartbeatTx):       "Consensus heartbeat",
+	string(protocol.UnknownTx):            "Unknown type, invalid transaction",
+	string(protocol.PaymentTx):            "ALGO transfers (payment)",
+	string(protocol.KeyRegistrationTx):    "Consensus keys registration",
+	string(protocol.AssetConfigTx):        "Asset creation and configuration",
+	string(protocol.AssetTransferTx):      "Asset transfer",
+	string(protocol.AssetFreezeTx):        "Asset freeze and unfreeze",
+	string(protocol.ApplicationCallTx):    "Application calls",
+	string(protocol.StateProofTx):         "State Proof",
+	string(protocol.HeartbeatTx):          "Consensus heartbeat",
+	string(protocol.NativeAssetPrivacyTx): "Native asset privacy (requires activation)",
 }
 
 // OnCompletionDescriptions end up in the spec, describing what happens for each OnCompletion value.

@@ -77,12 +77,26 @@ func _() {
 	_ = x[ClearStateProgramPages-66]
 	_ = x[NumClearStateProgramPages-67]
 	_ = x[RejectVersion-68]
-	_ = x[invalidTxnField-69]
+	_ = x[NativePrivacyFamily-69]
+	_ = x[NativePrivacyAsset-70]
+	_ = x[NativePrivacyMode-71]
+	_ = x[NativePrivacyOperation-72]
+	_ = x[NativePrivacyDebit-73]
+	_ = x[NativePrivacyCredit-74]
+	_ = x[NativePrivacyDebitSource-75]
+	_ = x[NativePrivacyCreditReceiver-76]
+	_ = x[NativePrivacyPolicy-77]
+	_ = x[NativePrivacySuite-78]
+	_ = x[NativePrivacyNumInputs-79]
+	_ = x[NativePrivacyNumOutputs-80]
+	_ = x[NativePrivacyInputNullifiers-81]
+	_ = x[NativePrivacyOutputCommitments-82]
+	_ = x[invalidTxnField-83]
 }
 
-const _TxnField_name = "SenderFeeFirstValidFirstValidTimeLastValidNoteLeaseReceiverAmountCloseRemainderToVotePKSelectionPKVoteFirstVoteLastVoteKeyDilutionTypeTypeEnumXferAssetAssetAmountAssetSenderAssetReceiverAssetCloseToGroupIndexTxIDApplicationIDOnCompletionApplicationArgsNumAppArgsAccountsNumAccountsApprovalProgramClearStateProgramRekeyToConfigAssetConfigAssetTotalConfigAssetDecimalsConfigAssetDefaultFrozenConfigAssetUnitNameConfigAssetNameConfigAssetURLConfigAssetMetadataHashConfigAssetManagerConfigAssetReserveConfigAssetFreezeConfigAssetClawbackFreezeAssetFreezeAssetAccountFreezeAssetFrozenAssetsNumAssetsApplicationsNumApplicationsGlobalNumUintGlobalNumByteSliceLocalNumUintLocalNumByteSliceExtraProgramPagesNonparticipationLogsNumLogsCreatedAssetIDCreatedApplicationIDLastLogStateProofPKApprovalProgramPagesNumApprovalProgramPagesClearStateProgramPagesNumClearStateProgramPagesRejectVersioninvalidTxnField"
+const _TxnField_name = "SenderFeeFirstValidFirstValidTimeLastValidNoteLeaseReceiverAmountCloseRemainderToVotePKSelectionPKVoteFirstVoteLastVoteKeyDilutionTypeTypeEnumXferAssetAssetAmountAssetSenderAssetReceiverAssetCloseToGroupIndexTxIDApplicationIDOnCompletionApplicationArgsNumAppArgsAccountsNumAccountsApprovalProgramClearStateProgramRekeyToConfigAssetConfigAssetTotalConfigAssetDecimalsConfigAssetDefaultFrozenConfigAssetUnitNameConfigAssetNameConfigAssetURLConfigAssetMetadataHashConfigAssetManagerConfigAssetReserveConfigAssetFreezeConfigAssetClawbackFreezeAssetFreezeAssetAccountFreezeAssetFrozenAssetsNumAssetsApplicationsNumApplicationsGlobalNumUintGlobalNumByteSliceLocalNumUintLocalNumByteSliceExtraProgramPagesNonparticipationLogsNumLogsCreatedAssetIDCreatedApplicationIDLastLogStateProofPKApprovalProgramPagesNumApprovalProgramPagesClearStateProgramPagesNumClearStateProgramPagesRejectVersionNativePrivacyFamilyNativePrivacyAssetNativePrivacyModeNativePrivacyOperationNativePrivacyDebitNativePrivacyCreditNativePrivacyDebitSourceNativePrivacyCreditReceiverNativePrivacyPolicyNativePrivacySuiteNativePrivacyNumInputsNativePrivacyNumOutputsNativePrivacyInputNullifiersNativePrivacyOutputCommitmentsinvalidTxnField"
 
-var _TxnField_index = [...]uint16{0, 6, 9, 19, 33, 42, 46, 51, 59, 65, 81, 87, 98, 107, 115, 130, 134, 142, 151, 162, 173, 186, 198, 208, 212, 225, 237, 252, 262, 270, 281, 296, 313, 320, 331, 347, 366, 390, 409, 424, 438, 461, 479, 497, 514, 533, 544, 562, 579, 585, 594, 606, 621, 634, 652, 664, 681, 698, 714, 718, 725, 739, 759, 766, 778, 798, 821, 843, 868, 881, 896}
+var _TxnField_index = [...]uint16{0, 6, 9, 19, 33, 42, 46, 51, 59, 65, 81, 87, 98, 107, 115, 130, 134, 142, 151, 162, 173, 186, 198, 208, 212, 225, 237, 252, 262, 270, 281, 296, 313, 320, 331, 347, 366, 390, 409, 424, 438, 461, 479, 497, 514, 533, 544, 562, 579, 585, 594, 606, 621, 634, 652, 664, 681, 698, 714, 718, 725, 739, 759, 766, 778, 798, 821, 843, 868, 881, 900, 918, 935, 957, 975, 994, 1018, 1045, 1064, 1082, 1104, 1127, 1155, 1185, 1200}
 
 func (i TxnField) String() string {
 	idx := int(i) - 0
