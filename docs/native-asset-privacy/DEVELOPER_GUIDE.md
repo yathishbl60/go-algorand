@@ -1,6 +1,6 @@
 # Native privacy implementation guide
 
-Updated 2026-10-30. Start with [delivery status](END_TO_END_STATUS.md). This branch
+Updated 2026-11-01. Start with [delivery status](END_TO_END_STATUS.md). This branch
 contains disabled value execution and NAPL1 lifecycle/admin-possession registration.
 No protocol is activated and no wallet transfer command is supported.
 
@@ -36,6 +36,7 @@ writable `GOCACHE` or Cargo target/cache directory when using a sandbox.
 | Policy identity, shrinking powers and NAPL1 lifecycle ingress | [policy records](POLICY_RECORDS.md), [ingress contract](LIFECYCLE_INGRESS.md) |
 | Recipient envelope with current viewing/spending membership | [AuthorizedRecipientAir](../../internal/assetprivacy/stark/src/authorized_recipient_air/README.md) |
 | Required output roles and expected verifier vectors | [Proof planning](PROOF_PLANNING.md) |
+| Typed Go HTTP queries and libgoal entry point | [Go query client](GO_QUERY_CLIENT.md) |
 | Current key records and stable-index authorization root | [Registry and native interfaces](KEY_AUTHORIZATION.md) |
 | Key epochs and new Falcon admin possession | [keys](../../internal/assetprivacy/keys/README.md), [NAPR](../../internal/assetprivacy/registrationproof/README.md) |
 | Atomic freeze snapshots and private recipient eligibility | [Current eligibility](ELIGIBILITY.md) |
@@ -81,8 +82,8 @@ writable `GOCACHE` or Cargo target/cache directory when using a sandbox.
 7. Prove locally, then put its bounded witness outside the transaction bodies.
 
 Confirm NAPL adoption before deriving its inclusion-round policy identity. Steps6–7
-have no supported end-to-end builder; viewing possession, approved artifacts,
-shield and runtime evidence remain absent. Spend/Recovery select current catalog pins.
+have no supported end-to-end builder. Viewing possession and native shield source
+exist; approved artifacts and runtime evidence remain absent. Spend/Recovery select current catalog pins.
 
 The [native evaluator](NATIVE_EXECUTION.md) checks current PQ authorization, roots,
 fresh markers, public conversion, proofs, fees and creator storage funding. Its
