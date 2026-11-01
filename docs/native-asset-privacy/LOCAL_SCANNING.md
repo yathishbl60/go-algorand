@@ -59,7 +59,7 @@ role and epoch. `RecoveredWith()` exposes the local role/epoch explicitly.
 private accessors, never RPC inputs. Formatting/JSON/text serialization redact
 recovered-note/key handles; JSON-marshaling Notes does not create a wallet backup.
 Whole-page JSON encoding fails with `ErrNativePrivacyScanStorage`; redacted notes
-are not backups. Export openings explicitly and commit encrypted notes with progress.
+are not backups. Use SealScanPage/SaveScanPage or explicit protected opening storage.
 Clear exported plaintext bytes after use. A recovered note's `Destroy()` drops
 that handle's fields; it does not erase earlier copies or guarantee Go heap wiping.
 
@@ -81,7 +81,7 @@ outputs, deliberately begin a fresh ScanPage snapshot with Start=checkpoint.Next
 An unavailable/pruned cursor also fails; choosing a new round/rescan is explicit.
 
 Persist recovered openings and checkpoint atomically in authenticated, encrypted
-local storage; that storage/backup implementation is not provided. Never persist
+local storage; [encrypted page archives](ENCRYPTED_SCAN_ARCHIVES.md) now provide one-page storage. Never persist
 advanced progress before its notes. Checkpoint validation detects scope/cursor
 mismatches, but does not authenticate stored progress or prove prior scan coverage.
 Tampered progress can skip outputs; a key-set digest is not an integrity signature.
@@ -95,5 +95,5 @@ withhold/change records and make recoverable notes appear to be key misses; safe
 skipping, receipt authenticity and completeness cannot be inferred from this scan.
 No recovered value is an independently verified balance or proof of spendability.
 
-Standalone SDKs, spending/proving, receipts, backups and complete wallet recovery
+Standalone SDKs, spending/proving, receipts, wallet-wide backups and complete recovery
 remain in [delivery status](END_TO_END_STATUS.md). Tests and runtime evidence remain deferred.
