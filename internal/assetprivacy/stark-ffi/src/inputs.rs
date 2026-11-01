@@ -54,7 +54,7 @@ fn status(failure: native::Failure) -> u32 {
 
 fn local_status(error: Error) -> Option<u32> {
     match error {
-        Error::AllocationFailure => Some(5),
+        Error::AllocationFailure | Error::ProofBudget => Some(5),
         Error::BackendPanic
         | Error::TraceLimit
         | Error::TraceShape

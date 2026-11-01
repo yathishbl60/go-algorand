@@ -27,6 +27,7 @@ Mainnet approval and activation are separate network decisions.
 | Assets | New ASAs and eligible existing ASAs, retaining the same asset ID |
 | Configuration | Issuer declares allowed modes and authority capabilities; users choose within them |
 | Quantum requirement | New privacy proofs, commitments, encryption, and private spending authorization must meet a reviewed post-quantum security profile at launch |
+| Local prover memory | At most 8 GiB peak RAM for complete supported operations and maximum required disclosures, including preprocessing, FFTs, auxiliary proofs and assembly |
 | Disclosure | Holder-selected payment receipts; optional issuer-declared auditor access |
 | Issuer controls | Preserve declared freeze/clawback rights across public and private holdings |
 | Completion | Production release candidate suitable for upstream review, including independent security reviews and a multi-node demonstration |

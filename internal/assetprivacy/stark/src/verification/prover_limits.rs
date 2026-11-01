@@ -23,6 +23,13 @@ impl ProveLimits {
 }
 
 impl ProveLimits {
+    pub(crate) fn check_wire_floor(self, minimum: usize) -> Result<(), Error> {
+        if minimum > self.proof.wire.min(self.proof.allocation) {
+            return Err(Error::ProofBudget);
+        }
+        Ok(())
+    }
+
     pub(crate) fn check_trace_capacity(self, trace: &RowMajorMatrix<Value>) -> Result<(), Error> {
         let bytes = trace
             .values

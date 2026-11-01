@@ -18,6 +18,7 @@ pub enum Error {
     TraceShape,
     EntropyUnavailable,
     ProvingFailure,
+    ProofBudget,
 }
 
 impl core::fmt::Display for Error {

@@ -12,6 +12,8 @@ with consensus checking proofs, commitments, nullifiers, supply and authorizatio
 The scope also includes opt-in issuer/auditor controls, SDK/wallet flows and six
 real-node scenarios. It is a protocol extension plus a cryptographic system and
 client tooling, rather than a single isolated application feature.
+The user selected an 8 GiB peak-RAM ceiling for the complete local proving
+pipeline, including preprocessing, FFTs, auxiliary proofs and assembly.
 
 ## Authoritative progress
 

@@ -51,5 +51,5 @@ pub enum DisclosureRole {
 const MAIN_OUTPUT: u32 = u32::MAX;
 const HEADER: usize = 7;
 const ENTRY: usize = 10;
-const MAX_SLOTS: usize = 7;
+pub(super) const MAX_SLOTS: usize = 7;
 const MAGIC: [u8; 5] = *b"NAPB\x01";

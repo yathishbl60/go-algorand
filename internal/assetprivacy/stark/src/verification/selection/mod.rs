@@ -11,6 +11,7 @@ mod confidential_recovery_air;
 mod dimensions;
 mod dimensions_other;
 mod domain;
+mod encoding_floor;
 mod entry;
 mod layout;
 mod main;
@@ -30,6 +31,7 @@ mod shield;
 mod viewing_registration;
 
 pub use domain::Domain;
+pub use encoding_floor::minimum_bundle_query_bytes;
 pub use entry::Entry;
 pub use layout::Layout;
 pub use prepared::Prepared;

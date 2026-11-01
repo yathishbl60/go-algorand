@@ -14,6 +14,8 @@ Use one focused pull request per reviewable change; a package may require severa
 3. Follow the current user constraints: 20-line new functions, 100-line authored
    files, disabled defaults, and no tests until requested. Generated lockfiles
    are exempt from the file limit. Build/static checks remain authorized.
+   The final local prover must stay within 8 GiB peak RAM across preprocessing,
+   FFTs, auxiliary proofs and assembly for complete operations and required roles.
 4. The user authorized choosing and implementing a pinned, unreviewed candidate
    without a supplied crypto profile. Record parameters in the candidate profile
    and revise dependent code together. Never add permissive verification or mocks.

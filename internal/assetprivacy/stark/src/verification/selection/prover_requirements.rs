@@ -18,6 +18,7 @@ pub struct ProveRequirements {
     pub preprocessed_width: usize,
     pub public_values: usize,
     pub trace_bytes: usize,
+    pub minimum_query_bytes: usize,
 }
 
 impl<A: BaseAir<Value>> Prepared<A> {
@@ -30,6 +31,8 @@ impl ProveRequirements {
     fn from_layout(layout: Layout, limits: ProveLimits) -> Result<Self, Error> {
         let shape = layout.shape();
         let rows = layout.rows();
+        let minimum_query_bytes = layout.minimum_query_bytes()?;
+        limits.check_wire_floor(minimum_query_bytes)?;
         let trace_bytes = checked_trace_bytes(rows, shape.width, limits.trace_bytes)?;
         Ok(Self {
             rows,
@@ -37,6 +40,7 @@ impl ProveRequirements {
             preprocessed_width: shape.preprocessed,
             public_values: shape.public,
             trace_bytes,
+            minimum_query_bytes,
         })
     }
 

@@ -27,8 +27,13 @@ compatible: unsupported historical references remain rejected. See
 `verification::ProveLimits::new(trace_bytes, decode_limits)` supplies a local
 main-trace ceiling plus existing canonical proof wire/allocation ceilings.
 `prepared.prover_requirements(limits)` returns ProveRequirements: rows, width,
-preprocessed_width, public_values and nominal trace_bytes. These fields contain
+preprocessed_width, public_values, nominal trace_bytes and minimum_query_bytes. These contain
 no witness material. Check them before allocating a private matrix.
+
+`Layout::minimum_query_bytes()` and `selection::minimum_bundle_query_bytes(&layouts)`
+give necessary wire floors without setup/witnesses. `ProofBudget` rejects a floor
+above either encoding ceiling before the builder/backend. Passing does not prove
+complete size or memory fit; see the [whole-operation gate](WHOLE_TRANSACTION_FEASIBILITY.md).
 
 `prepared.prove(registry, setup, owned_trace, public_u16, limits)` consumes an
 already-built RowMajorMatrix. It checks exact width/element count and vector

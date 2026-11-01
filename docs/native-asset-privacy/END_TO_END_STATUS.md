@@ -1,7 +1,7 @@
 # Native asset privacy: end-to-end delivery status
 
 Updated 2026-11-01. **Not end-to-end yet.** Native evaluator proof routing and
-atomic application now exist as inactive source integration. No accepted private
+atomic application now exist as inactive source integration; [whole-operation resource gates](WHOLE_TRANSACTION_FEASIBILITY.md) still fail. No accepted private
 transaction or real-node demo has been demonstrated; [bounded serial Owner primitive validation passed](SERIAL_OWNER_RESULTS.md). [Delivery gates and rework risks](DELIVERY_PROGRESS.md).
 
 ## Work-package evidence
