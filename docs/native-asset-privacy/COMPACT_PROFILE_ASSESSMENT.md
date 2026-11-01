@@ -76,7 +76,8 @@ representations; their larger budget is not the current candidate calculation.
 For32768 hash rows,1920 core +10 private pads +10 hiding columns gives a main
 LDE of4068474880 bytes,3880MiB. That is one allocation, not total peak RAM.
 The [multipass allocation draft](STREAMING_PROVER_DRAFT.md) proposes5997MiB of
-controlled buffers, with unverified caps. No full-height proof measured this.
+controlled buffers, with unverified caps. A [full-capacity hash run](FULL_CAPACITY_HASH_RESULTS.md)
+observed5.504GiB RSS; it does not validate the complete allocation policy.
 Stock batch proving retains/clones data incompatible with the intended schedule.
 
 Fp31 also requires four16-bit amount limbs and separately bounded carries;

@@ -25,7 +25,8 @@ therefore required. DFT consumer hooks alone still allocate the full output.
 For32768 rows, raw core1920 plus10 private pads and10 hiding columns, with4-byte
 base values, the base is252968960 bytes; masked matrix508559360; main LDE
 4068474880. These are241.25/485/3880MiB. Auxiliary20 plus10 hiding columns adds
-62914560 bytes,60MiB. No Fp31 full-height proof established these measurements.
+62914560 bytes,60MiB. A [full-capacity raw-core proof](FULL_CAPACITY_HASH_RESULTS.md)
+now observed5.504GiB RSS; it excludes pads/joins and does not establish this full allocation policy.
 
 | Controlled category | Proposed MiB cap |
 | --- | ---: |
