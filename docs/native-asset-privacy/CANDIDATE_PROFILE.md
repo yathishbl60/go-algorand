@@ -3,6 +3,8 @@
 Updated 2026-10-25. Implementation choice, not a frozen network suite or security
 approval. The user authorized implementation without supplying a reviewed profile.
 The 128-bit post-quantum target remains; this document does not establish it.
+The [compact replacement investigation](COMPACT_PROFILE_ASSESSMENT.md) is separate;
+it has not replaced this implemented candidate or closed whole-operation budgets.
 
 ## Pinned proof backend
 
@@ -42,7 +44,7 @@ wraparound from satisfying a false conservation equation. Witness construction
 uses uint128 sums. These bits must also feed the note/encryption constraints.
 
 This component does not establish membership, ownership, nullifiers, encryption
-correctness, policies or group binding. There is no native spend acceptance path.
+correctness, policies or group binding. No native spend acceptance is demonstrated.
 Input/output counts and final resource limits await the complete relation.
 
 ## Note openings and ownership

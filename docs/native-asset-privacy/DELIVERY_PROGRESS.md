@@ -56,6 +56,9 @@ Expand other features only after the critical path has credible evidence.
 The [full workload](PROOF_WORKLOAD.md) and [WHIR assessment](WHIR_ASSESSMENT.md)
 now quantify design costs. The [private-join draft](PRIVATE_JOIN_DRAFT.md) contains
 only a limited ideal-view argument and public algebra checks; no complete replacement has been selected.
+The [compact FRI assessment](COMPACT_PROFILE_ASSESSMENT.md) records checked field
+metadata and conditional narrow-table costs. Its complete 8 GiB/5 MB gates remain
+open; it changes no implemented profile and is not native acceptance evidence.
 
 Bounded proof/setup and isolated-node execution are now authorized. The first
 Owner primitive passed; static transport/memory bounds block the full candidate.

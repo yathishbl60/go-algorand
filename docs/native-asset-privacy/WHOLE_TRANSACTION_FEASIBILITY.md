@@ -86,7 +86,7 @@ retain all privacy roles and current cryptographic security parameters.
 Shield is the first milestone; the final 8GiB/wire gate also covers viewing-key
 registration, spends, recovery and all roles, with finite full-pipeline/PQ bounds.
 Typed artifacts, preprocessing, codecs and native verifier routing must match.
-No such complete replacement design or accepted native result is established.
+The [compact FRI investigation](COMPACT_PROFILE_ASSESSMENT.md) also has open resource/privacy gates; no replacement or accepted native result is established.
 
 ## Pinned source basis
 
