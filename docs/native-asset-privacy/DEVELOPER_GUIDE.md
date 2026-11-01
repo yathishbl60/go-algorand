@@ -36,7 +36,7 @@ writable `GOCACHE` or Cargo target/cache directory when using a sandbox.
 | Policy identity, shrinking powers and NAPL1 lifecycle ingress | [policy records](POLICY_RECORDS.md), [ingress contract](LIFECYCLE_INGRESS.md) |
 | Recipient envelope with current viewing/spending membership | [AuthorizedRecipientAir](../../internal/assetprivacy/stark/src/authorized_recipient_air/README.md) |
 | Required output roles and expected verifier vectors | [Proof planning](PROOF_PLANNING.md) |
-| Typed Go HTTP queries and libgoal entry point | [Go query client](GO_QUERY_CLIENT.md) |
+| Typed Go HTTP queries and libgoal entry point | [Go query client](GO_QUERY_CLIENT.md), [goal queries](GO_QUERY_CLI.md) |
 | Current key records and stable-index authorization root | [Registry and native interfaces](KEY_AUTHORIZATION.md) |
 | Key epochs and new Falcon admin possession | [keys](../../internal/assetprivacy/keys/README.md), [NAPR](../../internal/assetprivacy/registrationproof/README.md) |
 | Atomic freeze snapshots and private recipient eligibility | [Current eligibility](ELIGIBILITY.md) |
