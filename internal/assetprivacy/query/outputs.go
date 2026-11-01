@@ -37,7 +37,9 @@ type NoteWitness struct {
 	Witness      tree.Witness
 }
 
-func CheckOutputState(snapshot Snapshot) error {
+func CheckOutputState(snapshot Snapshot) error { return CheckLiveState(snapshot) }
+
+func CheckLiveState(snapshot Snapshot) error {
 	if snapshot.Retired != nil || snapshot.Closure != nil {
 		return ErrUnavailable
 	}

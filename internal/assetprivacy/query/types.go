@@ -27,7 +27,7 @@ import (
 )
 
 var ErrReadOnly = errors.New("native privacy query cannot write ledger state")
-var ErrUnavailable = errors.New("native privacy outputs are unavailable after retirement or destruction")
+var ErrUnavailable = errors.New("native privacy query records are unavailable after retirement or destruction")
 
 var ErrConfig = errors.New("invalid native privacy snapshot configuration")
 var ErrState = errors.New("inconsistent native privacy snapshot state")

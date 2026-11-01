@@ -17,7 +17,7 @@ transaction, runtime proof or real-node demo has been demonstrated.
 | NAP-07 lifecycle | Policy/key lifecycle, effective freeze, PQ/admin guards, creation, possession, ordinary shielded/confidential operations, authority synchronization and retirement/cleanup/destruction source-integrated; supported-arity atomic final reconciliation/charged post-destroy cleanup source-integrated; artifacts, runtime acceptance, general note-count closure and complete lifecycle missing |
 | NAP-08 groups/pool/AVM | Group binding, signed framing and native verifier helper wiring implemented; native dispatch and accepted-block proof counting implemented; failed-attempt/pool scheduling and gated AVM inspection missing |
 | NAP-09 recovery | Existing KV path reused; privacy replay/restart/catchpoint/catchup behavior unverified |
-| NAP-10 APIs | Pinned ledger snapshots, bounded output pages/cursors, public note witnesses and JSON MBR reporting source-integrated; read-only REST/OpenAPI and error routing source-integrated; key/eligibility queries, decoding, simulation, client delivery and runtime evidence missing |
+| NAP-10 APIs | Pinned ledger snapshots, bounded output pages/cursors, public note witnesses and JSON MBR reporting source-integrated; read-only REST/OpenAPI and error routing source-integrated; key/eligibility ledger records and witnesses source-integrated; their HTTP mapping, decoding, simulation, client delivery and runtime evidence missing |
 | NAP-11 SDK/wallet | Local note/encryption/output-recovery primitives exist; SDK, scanning, proving, receipts and wallet backup/recovery missing |
 | NAP-12 demo | All six real-node scenarios missing |
 | NAP-13 validation | Tests intentionally deferred; adversarial/benchmark/recovery/upgrade evidence missing |
@@ -57,7 +57,7 @@ retirement/cleanup and minimum-balance release have source integration; runtime 
 - [Ordinary ASA authority synchronization and atomic-group key readiness](AUTHORITY_SYNCHRONIZATION.md).
 - [Native ASA creation and private-only creator inventory conversion](NATIVE_CREATION.md).
 - [Confidential modes](CONFIDENTIAL_MODE.md), [final reconciliation](FINAL_RECONCILIATION.md), [inventory](NATIVE_INVENTORY.md), and [retirement/cleanup](RETIREMENT_CLEANUP.md).
-- [Current eligibility snapshots, atomic hooks and private recipient binding](ELIGIBILITY.md).
+- [Current eligibility and native hooks](ELIGIBILITY.md); [public authorization/key/eligibility queries](AUTHORIZATION_QUERIES.md).
 - [Bounded outer witness framing](../../internal/assetprivacy/witness/README.md).
 - [Rust verification boundary, trusted artifacts and bounded codec](VERIFICATION_BOUNDARY.md).
 - [Typed relations, source fingerprints and pinned artifact registries](ARTIFACT_SELECTION.md).

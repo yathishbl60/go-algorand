@@ -34,5 +34,12 @@ all64-byte values; an all-zero hash is not rejected as a placeholder.
 The [ledger contract](../../../docs/native-asset-privacy/LEDGER_QUERIES.md) covers
 locking, historical retention, suite gates and cursor behavior. The ledger rejects
 writes through its read adapter and discards partial results on storage failures.
-No REST endpoint, SDK, live query, tests, vectors, proof or node execution has run.
+REST routing exists for the earlier query methods; SDK, live queries, tests, vectors, proofs and node execution remain pending.
 Every consensus version remains disabled with no approved suite catalog.
+
+AuthorizationSnapshot, KeySnapshot and EligibilitySnapshot expose only public
+current registry/assignment/effective-freeze data. Registration membership does
+not imply live issuer assignment; missing records imply no membership permission.
+ReadOnly[T] adapts a Getter to each store's typed rejecting Apply method.
+The [authorization query contract](../../../docs/native-asset-privacy/AUTHORIZATION_QUERIES.md)
+describes role flags, current roots, retained views and freeze-source reconciliation.
