@@ -7,6 +7,7 @@ output-options:
   - experimental
   - public
   exclude-tags:
+  - native-privacy
   - common
   - private
   - participating

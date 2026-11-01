@@ -2462,6 +2462,259 @@
           }
         }
       }
+    },
+    "/v2/assets/{asset-id}/privacy": {
+      "get": {
+        "operationId": "GetNativeAssetPrivacy",
+        "summary": "Get pinned native privacy lifecycle state.",
+        "description": "Requires the algorand_native_privacy build and an enabled consensus version. Public data only; no proof execution or transaction authorization. Responses pin one round.",
+        "tags": [
+          "public",
+          "nonparticipating",
+          "native-privacy"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/asset-id"
+          },
+          {
+            "in": "query",
+            "name": "round",
+            "required": false,
+            "type": "integer",
+            "format": "uint64",
+            "description": "Exact ledger state round. Defaults to latest; unavailable historical state never falls back."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/NativeAssetPrivacySnapshot"
+            }
+          },
+          "400": {
+            "description": "Invalid parameters or cursor.",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "401": {
+            "description": "Invalid API token.",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "404": {
+            "description": "Feature disabled, asset absent, or no native privacy policy.",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "410": {
+            "description": "Requested historical state or output stream no longer available.",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "500": {
+            "description": "Inconsistent native state.",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "503": {
+            "description": "Ledger temporarily unavailable.",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/v2/assets/{asset-id}/privacy/outputs": {
+      "get": {
+        "operationId": "GetNativeAssetPrivacyOutputs",
+        "summary": "Get a bounded encrypted note page.",
+        "description": "Requires the algorand_native_privacy build and an enabled consensus version. Public data only; no proof execution or transaction authorization. Responses pin one round.",
+        "tags": [
+          "public",
+          "nonparticipating",
+          "native-privacy"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/asset-id"
+          },
+          {
+            "in": "query",
+            "name": "round",
+            "required": false,
+            "type": "integer",
+            "format": "uint64",
+            "description": "Exact ledger state round. Defaults to latest; unavailable historical state never falls back."
+          },
+          {
+            "in": "query",
+            "name": "start",
+            "required": false,
+            "type": "integer",
+            "format": "uint64",
+            "description": "First index, default0, at most2^32. Cannot combine with next.",
+            "maximum": 4294967296
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "required": false,
+            "type": "integer",
+            "format": "uint64",
+            "description": "Page size, default32, range1..64.",
+            "minimum": 1,
+            "maximum": 64
+          },
+          {
+            "in": "query",
+            "name": "next",
+            "required": false,
+            "type": "string",
+            "minLength": 215,
+            "maxLength": 215,
+            "description": "Public snapshot cursor from the preceding page. Cannot combine with round or start; must match the path asset."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/NativeAssetPrivacyOutputPage"
+            }
+          },
+          "400": {
+            "description": "Invalid parameters or cursor.",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "401": {
+            "description": "Invalid API token.",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "404": {
+            "description": "Feature disabled, asset absent, or no native privacy policy.",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "410": {
+            "description": "Requested historical state or output stream no longer available.",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "500": {
+            "description": "Inconsistent native state.",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "503": {
+            "description": "Ledger temporarily unavailable.",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/v2/assets/{asset-id}/privacy/notes/{note-index}/witness": {
+      "get": {
+        "operationId": "GetNativeAssetPrivacyWitness",
+        "summary": "Get a public note membership path.",
+        "description": "Requires the algorand_native_privacy build and an enabled consensus version. Public data only; no proof execution or transaction authorization. Responses pin one round.",
+        "tags": [
+          "public",
+          "nonparticipating",
+          "native-privacy"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/asset-id"
+          },
+          {
+            "in": "path",
+            "name": "note-index",
+            "required": true,
+            "type": "integer",
+            "format": "uint64",
+            "description": "Zero-based note index; does not prove ownership.",
+            "maximum": 4294967295
+          },
+          {
+            "in": "query",
+            "name": "round",
+            "required": false,
+            "type": "integer",
+            "format": "uint64",
+            "description": "Exact ledger state round. Defaults to latest; unavailable historical state never falls back."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/NativeAssetPrivacyNoteWitness"
+            }
+          },
+          "400": {
+            "description": "Invalid parameters or cursor.",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "401": {
+            "description": "Invalid API token.",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "404": {
+            "description": "Feature disabled, asset absent, or no native privacy policy.",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "410": {
+            "description": "Requested historical state or output stream no longer available.",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "500": {
+            "description": "Inconsistent native state.",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "503": {
+            "description": "Ledger temporarily unavailable.",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
     }
   },
   "definitions": {
@@ -4081,6 +4334,454 @@
           "description": "Connection type",
           "type": "string",
           "enum": ["inbound", "outbound"]
+        }
+      }
+    },
+    "NativeAssetPrivacyPolicy": {
+      "type": "object",
+      "required": [
+        "policy-id",
+        "suite",
+        "created-round",
+        "modes",
+        "capabilities",
+        "initial-capabilities",
+        "disclosures"
+      ],
+      "properties": {
+        "policy-id": {
+          "type": "string",
+          "format": "byte",
+          "description": "Immutable native policy identity.",
+          "minLength": 88,
+          "maxLength": 88
+        },
+        "suite": {
+          "type": "string",
+          "format": "byte",
+          "description": "Consensus-selected candidate suite identity.",
+          "minLength": 88,
+          "maxLength": 88
+        },
+        "created-round": {
+          "type": "integer",
+          "format": "uint64",
+          "description": "Policy creation round."
+        },
+        "modes": {
+          "type": "integer",
+          "format": "uint64",
+          "description": "Mode bitset: Public1, Confidential2, Shielded4."
+        },
+        "capabilities": {
+          "type": "integer",
+          "format": "uint64",
+          "description": "Current issuer capability bits."
+        },
+        "initial-capabilities": {
+          "type": "integer",
+          "format": "uint64",
+          "description": "Immutable initial issuer capability bits."
+        },
+        "disclosures": {
+          "type": "integer",
+          "format": "uint64",
+          "description": "Mandatory disclosure bitset."
+        }
+      }
+    },
+    "NativeAssetPrivacyRetirement": {
+      "type": "object",
+      "required": [
+        "manager",
+        "policy-id",
+        "suite",
+        "created-round",
+        "epoch"
+      ],
+      "properties": {
+        "manager": {
+          "type": "string",
+          "description": "Checksummed Algorand account address; the zero address denotes no authority."
+        },
+        "policy-id": {
+          "type": "string",
+          "format": "byte",
+          "description": "Retired policy identity.",
+          "minLength": 88,
+          "maxLength": 88
+        },
+        "suite": {
+          "type": "string",
+          "format": "byte",
+          "description": "Retired suite identity.",
+          "minLength": 88,
+          "maxLength": 88
+        },
+        "created-round": {
+          "type": "integer",
+          "format": "uint64",
+          "description": "Retirement round."
+        },
+        "epoch": {
+          "type": "integer",
+          "format": "uint64",
+          "description": "Cleanup compare-and-swap epoch."
+        }
+      }
+    },
+    "NativeAssetPrivacyClosure": {
+      "type": "object",
+      "required": [
+        "manager",
+        "creator",
+        "policy-id",
+        "suite",
+        "group",
+        "destroy-transaction",
+        "total",
+        "created-round",
+        "epoch"
+      ],
+      "properties": {
+        "manager": {
+          "type": "string",
+          "description": "Checksummed Algorand account address; the zero address denotes no authority."
+        },
+        "creator": {
+          "type": "string",
+          "description": "Checksummed Algorand account address; the zero address denotes no authority."
+        },
+        "policy-id": {
+          "type": "string",
+          "format": "byte",
+          "description": "Destroyed policy identity.",
+          "minLength": 88,
+          "maxLength": 88
+        },
+        "suite": {
+          "type": "string",
+          "format": "byte",
+          "description": "Destroyed suite identity.",
+          "minLength": 88,
+          "maxLength": 88
+        },
+        "group": {
+          "type": "string",
+          "format": "byte",
+          "description": "Final proof group context.",
+          "minLength": 88,
+          "maxLength": 88
+        },
+        "destroy-transaction": {
+          "type": "string",
+          "format": "byte",
+          "description": "Exact authorized destruction transaction ID bytes.",
+          "minLength": 44,
+          "maxLength": 44
+        },
+        "total": {
+          "type": "integer",
+          "format": "uint64",
+          "description": "Destroyed ASA fixed total."
+        },
+        "created-round": {
+          "type": "integer",
+          "format": "uint64",
+          "description": "Final reconciliation round."
+        },
+        "epoch": {
+          "type": "integer",
+          "format": "uint64",
+          "description": "Cleanup compare-and-swap epoch."
+        }
+      }
+    },
+    "NativeAssetPrivacyInventory": {
+      "type": "object",
+      "required": [
+        "items",
+        "bytes"
+      ],
+      "properties": {
+        "items": {
+          "type": "integer",
+          "format": "uint64",
+          "description": "Indexed data record count; excludes index overhead."
+        },
+        "bytes": {
+          "type": "integer",
+          "format": "uint64",
+          "description": "Indexed data footprint; excludes index overhead."
+        }
+      }
+    },
+    "NativeAssetPrivacySnapshot": {
+      "type": "object",
+      "required": [
+        "round",
+        "asset-id",
+        "exists",
+        "creator",
+        "manager",
+        "total",
+        "private-supply"
+      ],
+      "properties": {
+        "round": {
+          "type": "integer",
+          "format": "uint64",
+          "description": "Pinned ledger round."
+        },
+        "asset-id": {
+          "type": "integer",
+          "format": "uint64",
+          "description": "ASA identifier."
+        },
+        "exists": {
+          "type": "boolean",
+          "description": "Whether ASA parameters exist at this round."
+        },
+        "creator": {
+          "type": "string",
+          "description": "Checksummed Algorand account address; the zero address denotes no authority."
+        },
+        "manager": {
+          "type": "string",
+          "description": "Checksummed Algorand account address; the zero address denotes no authority."
+        },
+        "total": {
+          "type": "integer",
+          "format": "uint64",
+          "description": "ASA fixed total, retained in closure after destruction."
+        },
+        "creator-holding": {
+          "type": "integer",
+          "format": "uint64",
+          "description": "Creator public holding amount when that holding exists."
+        },
+        "private-supply": {
+          "type": "integer",
+          "format": "uint64",
+          "description": "Public aggregate private supply."
+        },
+        "policy": {
+          "$ref": "#/definitions/NativeAssetPrivacyPolicy"
+        },
+        "retirement": {
+          "$ref": "#/definitions/NativeAssetPrivacyRetirement"
+        },
+        "closure": {
+          "$ref": "#/definitions/NativeAssetPrivacyClosure"
+        },
+        "inventory": {
+          "$ref": "#/definitions/NativeAssetPrivacyInventory"
+        }
+      }
+    },
+    "NativeAssetPrivacyOutput": {
+      "type": "object",
+      "required": [
+        "index",
+        "round",
+        "transaction-id",
+        "nonce",
+        "output",
+        "commitment",
+        "disclosures",
+        "recipient"
+      ],
+      "properties": {
+        "index": {
+          "type": "integer",
+          "format": "uint64",
+          "description": "Global zero-based note index."
+        },
+        "round": {
+          "type": "integer",
+          "format": "uint64",
+          "description": "Output inclusion round."
+        },
+        "transaction-id": {
+          "type": "string",
+          "format": "byte",
+          "description": "Output transaction ID bytes.",
+          "minLength": 44,
+          "maxLength": 44
+        },
+        "nonce": {
+          "type": "string",
+          "format": "byte",
+          "description": "Public output nonce.",
+          "minLength": 44,
+          "maxLength": 44
+        },
+        "output": {
+          "type": "integer",
+          "format": "uint64",
+          "description": "Zero-based output ordinal in its transaction."
+        },
+        "commitment": {
+          "type": "string",
+          "format": "byte",
+          "description": "Public note commitment.",
+          "minLength": 88,
+          "maxLength": 88
+        },
+        "disclosures": {
+          "type": "integer",
+          "format": "uint64",
+          "description": "Disclosure envelope bitset."
+        },
+        "recipient": {
+          "type": "string",
+          "format": "byte",
+          "description": "Canonical encrypted recipient envelope.",
+          "minLength": 2172,
+          "maxLength": 2172
+        },
+        "auditor": {
+          "type": "string",
+          "format": "byte",
+          "description": "Canonical encrypted auditor envelope when required.",
+          "minLength": 2172,
+          "maxLength": 2172
+        },
+        "controller": {
+          "type": "string",
+          "format": "byte",
+          "description": "Canonical encrypted controller envelope when required.",
+          "minLength": 2172,
+          "maxLength": 2172
+        }
+      }
+    },
+    "NativeAssetPrivacyOutputPage": {
+      "type": "object",
+      "required": [
+        "round",
+        "asset-id",
+        "policy-id",
+        "root",
+        "count",
+        "next",
+        "outputs"
+      ],
+      "properties": {
+        "round": {
+          "type": "integer",
+          "format": "uint64",
+          "description": "Pinned ledger round."
+        },
+        "asset-id": {
+          "type": "integer",
+          "format": "uint64",
+          "description": "ASA identifier."
+        },
+        "policy-id": {
+          "type": "string",
+          "format": "byte",
+          "description": "Immutable policy identity.",
+          "minLength": 88,
+          "maxLength": 88
+        },
+        "root": {
+          "type": "string",
+          "format": "byte",
+          "description": "Generation2 note root at the selected round.",
+          "minLength": 88,
+          "maxLength": 88
+        },
+        "count": {
+          "type": "integer",
+          "format": "uint64",
+          "description": "Snapshot output count, up to2^32."
+        },
+        "next": {
+          "type": "integer",
+          "format": "uint64",
+          "description": "Next output index, including terminal2^32."
+        },
+        "next-token": {
+          "type": "string",
+          "minLength": 215,
+          "maxLength": 215,
+          "description": "Public canonical cursor; omitted on terminal pages. No retention or authorization guarantee."
+        },
+        "outputs": {
+          "type": "array",
+          "maxItems": 64,
+          "items": {
+            "$ref": "#/definitions/NativeAssetPrivacyOutput"
+          }
+        }
+      }
+    },
+    "NativeAssetPrivacyNoteWitness": {
+      "type": "object",
+      "required": [
+        "round",
+        "asset-id",
+        "policy-id",
+        "root",
+        "count",
+        "index",
+        "leaf",
+        "siblings"
+      ],
+      "properties": {
+        "round": {
+          "type": "integer",
+          "format": "uint64",
+          "description": "Pinned ledger round."
+        },
+        "asset-id": {
+          "type": "integer",
+          "format": "uint64",
+          "description": "ASA identifier."
+        },
+        "policy-id": {
+          "type": "string",
+          "format": "byte",
+          "description": "Immutable policy identity.",
+          "minLength": 88,
+          "maxLength": 88
+        },
+        "root": {
+          "type": "string",
+          "format": "byte",
+          "description": "Selected note-tree root; later spending must recheck accepted roots.",
+          "minLength": 88,
+          "maxLength": 88
+        },
+        "count": {
+          "type": "integer",
+          "format": "uint64",
+          "description": "Selected tree leaf count."
+        },
+        "index": {
+          "type": "integer",
+          "format": "uint64",
+          "description": "Zero-based leaf index."
+        },
+        "leaf": {
+          "type": "string",
+          "format": "byte",
+          "description": "Public leaf commitment.",
+          "minLength": 88,
+          "maxLength": 88
+        },
+        "siblings": {
+          "type": "array",
+          "minItems": 32,
+          "maxItems": 32,
+          "items": {
+            "type": "string",
+            "format": "byte",
+            "description": "Bottom-up public sibling hash.",
+            "minLength": 88,
+            "maxLength": 88
+          }
         }
       }
     }

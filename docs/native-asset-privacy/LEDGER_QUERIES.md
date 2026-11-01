@@ -2,7 +2,7 @@
 
 Updated 2026-11-01. The opt-in ledger exposes owned public state, bounded encrypted
 output pages and public note membership witnesses at one explicitly selected
-round. It registers no REST route or SDK method. All consensus activation flags
+round. [REST routing](REST_QUERIES.md) now exists; SDK methods remain pending. All consensus activation flags
 remain false and suite catalogs empty. No runtime query, proof or node has run.
 
 ## Methods and the round contract
@@ -88,7 +88,7 @@ cleanup can remove their historical records. Historical queries work only while
 that exact state remains available. Wallets still need encrypted backups, old
 viewing epochs, receipts and retained block/indexer data for long-term restoration.
 
-REST/OpenAPI routing, error/status contracts, account-key/eligibility witnesses,
+REST runtime/error evidence, account-key/eligibility witnesses,
 transaction decoding/simulation, SDK/wallet callers and all six demos remain in
 [the delivery checklist](END_TO_END_STATUS.md). Builds, vet, linking, formatting
 and source limits establish compilation properties. Tests, retention/race cases,

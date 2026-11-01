@@ -7,6 +7,7 @@ output-options:
   - nonparticipating
   - private
   exclude-tags:
+  - native-privacy
   - public
   - participating
   - data

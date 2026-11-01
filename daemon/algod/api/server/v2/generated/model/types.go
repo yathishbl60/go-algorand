@@ -699,6 +699,201 @@ type LightBlockHeaderProof struct {
 	Treedepth int `json:"treedepth"`
 }
 
+// NativeAssetPrivacyClosure defines model for NativeAssetPrivacyClosure.
+type NativeAssetPrivacyClosure struct {
+	// CreatedRound Final reconciliation round.
+	CreatedRound uint64 `json:"created-round"`
+
+	// Creator Checksummed Algorand account address; the zero address denotes no authority.
+	Creator string `json:"creator"`
+
+	// DestroyTransaction Exact authorized destruction transaction ID bytes.
+	DestroyTransaction []byte `json:"destroy-transaction"`
+
+	// Epoch Cleanup compare-and-swap epoch.
+	Epoch uint64 `json:"epoch"`
+
+	// Group Final proof group context.
+	Group []byte `json:"group"`
+
+	// Manager Checksummed Algorand account address; the zero address denotes no authority.
+	Manager string `json:"manager"`
+
+	// PolicyId Destroyed policy identity.
+	PolicyId []byte `json:"policy-id"`
+
+	// Suite Destroyed suite identity.
+	Suite []byte `json:"suite"`
+
+	// Total Destroyed ASA fixed total.
+	Total uint64 `json:"total"`
+}
+
+// NativeAssetPrivacyInventory defines model for NativeAssetPrivacyInventory.
+type NativeAssetPrivacyInventory struct {
+	// Bytes Indexed data footprint; excludes index overhead.
+	Bytes uint64 `json:"bytes"`
+
+	// Items Indexed data record count; excludes index overhead.
+	Items uint64 `json:"items"`
+}
+
+// NativeAssetPrivacyNoteWitness defines model for NativeAssetPrivacyNoteWitness.
+type NativeAssetPrivacyNoteWitness struct {
+	// AssetId ASA identifier.
+	AssetId uint64 `json:"asset-id"`
+
+	// Count Selected tree leaf count.
+	Count uint64 `json:"count"`
+
+	// Index Zero-based leaf index.
+	Index uint64 `json:"index"`
+
+	// Leaf Public leaf commitment.
+	Leaf []byte `json:"leaf"`
+
+	// PolicyId Immutable policy identity.
+	PolicyId []byte `json:"policy-id"`
+
+	// Root Selected note-tree root; later spending must recheck accepted roots.
+	Root []byte `json:"root"`
+
+	// Round Pinned ledger round.
+	Round    uint64   `json:"round"`
+	Siblings [][]byte `json:"siblings"`
+}
+
+// NativeAssetPrivacyOutput defines model for NativeAssetPrivacyOutput.
+type NativeAssetPrivacyOutput struct {
+	// Auditor Canonical encrypted auditor envelope when required.
+	Auditor *[]byte `json:"auditor,omitempty"`
+
+	// Commitment Public note commitment.
+	Commitment []byte `json:"commitment"`
+
+	// Controller Canonical encrypted controller envelope when required.
+	Controller *[]byte `json:"controller,omitempty"`
+
+	// Disclosures Disclosure envelope bitset.
+	Disclosures uint64 `json:"disclosures"`
+
+	// Index Global zero-based note index.
+	Index uint64 `json:"index"`
+
+	// Nonce Public output nonce.
+	Nonce []byte `json:"nonce"`
+
+	// Output Zero-based output ordinal in its transaction.
+	Output uint64 `json:"output"`
+
+	// Recipient Canonical encrypted recipient envelope.
+	Recipient []byte `json:"recipient"`
+
+	// Round Output inclusion round.
+	Round uint64 `json:"round"`
+
+	// TransactionId Output transaction ID bytes.
+	TransactionId []byte `json:"transaction-id"`
+}
+
+// NativeAssetPrivacyOutputPage defines model for NativeAssetPrivacyOutputPage.
+type NativeAssetPrivacyOutputPage struct {
+	// AssetId ASA identifier.
+	AssetId uint64 `json:"asset-id"`
+
+	// Count Snapshot output count, up to2^32.
+	Count uint64 `json:"count"`
+
+	// Next Next output index, including terminal2^32.
+	Next uint64 `json:"next"`
+
+	// NextToken Public canonical cursor; omitted on terminal pages. No retention or authorization guarantee.
+	NextToken *string                    `json:"next-token,omitempty"`
+	Outputs   []NativeAssetPrivacyOutput `json:"outputs"`
+
+	// PolicyId Immutable policy identity.
+	PolicyId []byte `json:"policy-id"`
+
+	// Root Generation2 note root at the selected round.
+	Root []byte `json:"root"`
+
+	// Round Pinned ledger round.
+	Round uint64 `json:"round"`
+}
+
+// NativeAssetPrivacyPolicy defines model for NativeAssetPrivacyPolicy.
+type NativeAssetPrivacyPolicy struct {
+	// Capabilities Current issuer capability bits.
+	Capabilities uint64 `json:"capabilities"`
+
+	// CreatedRound Policy creation round.
+	CreatedRound uint64 `json:"created-round"`
+
+	// Disclosures Mandatory disclosure bitset.
+	Disclosures uint64 `json:"disclosures"`
+
+	// InitialCapabilities Immutable initial issuer capability bits.
+	InitialCapabilities uint64 `json:"initial-capabilities"`
+
+	// Modes Mode bitset: Public1, Confidential2, Shielded4.
+	Modes uint64 `json:"modes"`
+
+	// PolicyId Immutable native policy identity.
+	PolicyId []byte `json:"policy-id"`
+
+	// Suite Consensus-selected candidate suite identity.
+	Suite []byte `json:"suite"`
+}
+
+// NativeAssetPrivacyRetirement defines model for NativeAssetPrivacyRetirement.
+type NativeAssetPrivacyRetirement struct {
+	// CreatedRound Retirement round.
+	CreatedRound uint64 `json:"created-round"`
+
+	// Epoch Cleanup compare-and-swap epoch.
+	Epoch uint64 `json:"epoch"`
+
+	// Manager Checksummed Algorand account address; the zero address denotes no authority.
+	Manager string `json:"manager"`
+
+	// PolicyId Retired policy identity.
+	PolicyId []byte `json:"policy-id"`
+
+	// Suite Retired suite identity.
+	Suite []byte `json:"suite"`
+}
+
+// NativeAssetPrivacySnapshot defines model for NativeAssetPrivacySnapshot.
+type NativeAssetPrivacySnapshot struct {
+	// AssetId ASA identifier.
+	AssetId uint64                     `json:"asset-id"`
+	Closure *NativeAssetPrivacyClosure `json:"closure,omitempty"`
+
+	// Creator Checksummed Algorand account address; the zero address denotes no authority.
+	Creator string `json:"creator"`
+
+	// CreatorHolding Creator public holding amount when that holding exists.
+	CreatorHolding *uint64 `json:"creator-holding,omitempty"`
+
+	// Exists Whether ASA parameters exist at this round.
+	Exists    bool                         `json:"exists"`
+	Inventory *NativeAssetPrivacyInventory `json:"inventory,omitempty"`
+
+	// Manager Checksummed Algorand account address; the zero address denotes no authority.
+	Manager string                    `json:"manager"`
+	Policy  *NativeAssetPrivacyPolicy `json:"policy,omitempty"`
+
+	// PrivateSupply Public aggregate private supply.
+	PrivateSupply uint64                        `json:"private-supply"`
+	Retirement    *NativeAssetPrivacyRetirement `json:"retirement,omitempty"`
+
+	// Round Pinned ledger round.
+	Round uint64 `json:"round"`
+
+	// Total ASA fixed total, retained in closure after destruction.
+	Total uint64 `json:"total"`
+}
+
 // ParticipationKey Represents a participation key used by the node.
 type ParticipationKey struct {
 	// Address Address the key was generated for.
@@ -1571,6 +1766,33 @@ type GetApplicationBoxesParams struct {
 
 // GetApplicationBoxesParamsInclude defines parameters for GetApplicationBoxes.
 type GetApplicationBoxesParamsInclude string
+
+// GetNativeAssetPrivacyParams defines parameters for GetNativeAssetPrivacy.
+type GetNativeAssetPrivacyParams struct {
+	// Round Exact ledger state round. Defaults to latest; unavailable historical state never falls back.
+	Round *uint64 `form:"round,omitempty" json:"round,omitempty"`
+}
+
+// GetNativeAssetPrivacyWitnessParams defines parameters for GetNativeAssetPrivacyWitness.
+type GetNativeAssetPrivacyWitnessParams struct {
+	// Round Exact ledger state round. Defaults to latest; unavailable historical state never falls back.
+	Round *uint64 `form:"round,omitempty" json:"round,omitempty"`
+}
+
+// GetNativeAssetPrivacyOutputsParams defines parameters for GetNativeAssetPrivacyOutputs.
+type GetNativeAssetPrivacyOutputsParams struct {
+	// Round Exact ledger state round. Defaults to latest; unavailable historical state never falls back.
+	Round *uint64 `form:"round,omitempty" json:"round,omitempty"`
+
+	// Start First index, default0, at most2^32. Cannot combine with next.
+	Start *uint64 `form:"start,omitempty" json:"start,omitempty"`
+
+	// Limit Page size, default32, range1..64.
+	Limit *uint64 `form:"limit,omitempty" json:"limit,omitempty"`
+
+	// Next Public snapshot cursor from the preceding page. Cannot combine with round or start; must match the path asset.
+	Next *string `form:"next,omitempty" json:"next,omitempty"`
+}
 
 // GetBlockParams defines parameters for GetBlock.
 type GetBlockParams struct {

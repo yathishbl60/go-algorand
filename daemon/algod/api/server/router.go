@@ -141,6 +141,7 @@ func NewRouter(logger logging.Logger, node APINodeInterface, shutdown <-chan str
 		KeygenLimiter: semaphore.NewWeighted(1),
 	}
 	nppublic.RegisterHandlers(e, &v2Handler, publicMiddleware...)
+	registerNativePrivacyRoutes(e, &v2Handler, publicMiddleware...)
 	npprivate.RegisterHandlers(e, &v2Handler, adminMiddleware...)
 	ppublic.RegisterHandlers(e, &v2Handler, publicMiddleware...)
 	pprivate.RegisterHandlers(e, &v2Handler, adminMiddleware...)
