@@ -17,7 +17,7 @@ transaction, runtime proof or real-node demo has been demonstrated.
 | NAP-07 lifecycle | Policy/key lifecycle, effective freeze, PQ/admin guards, creation, possession, ordinary shielded/confidential operations, authority synchronization and retirement/cleanup/destruction source-integrated; supported-arity atomic final reconciliation/charged post-destroy cleanup source-integrated; artifacts, runtime acceptance, general note-count closure and complete lifecycle missing |
 | NAP-08 groups/pool/AVM | Group binding, signed framing and native verifier helper wiring implemented; native dispatch and accepted-block proof counting implemented; failed-attempt/pool scheduling and gated AVM inspection missing |
 | NAP-09 recovery | Existing KV path reused; privacy replay/restart/catchpoint/catchup behavior unverified |
-| NAP-10 APIs | Bounded internal output pages and JSON native MBR reporting exist; REST streams, witness queries, decoding, simulation and error contracts missing |
+| NAP-10 APIs | Pinned ledger snapshots, bounded output pages/cursors, public note witnesses and JSON MBR reporting source-integrated; REST/OpenAPI, key/eligibility queries, decoding, simulation and error contracts missing |
 | NAP-11 SDK/wallet | Local note/encryption/output-recovery primitives exist; SDK, scanning, proving, receipts and wallet backup/recovery missing |
 | NAP-12 demo | All six real-node scenarios missing |
 | NAP-13 validation | Tests intentionally deferred; adversarial/benchmark/recovery/upgrade evidence missing |
@@ -68,7 +68,7 @@ retirement/cleanup and minimum-balance release have source integration; runtime 
 - [Local note API](../../internal/assetprivacy/note/README.md).
 - [Envelope API](../../internal/assetprivacy/envelope/README.md).
 - [Bounded matrix relation and matching key-admission rule](MATRIX_SAMPLING.md).
-- [Encrypted output stream and local recovery](../../internal/assetprivacy/outputs/README.md).
+- [Pinned ledger snapshots, pagination and public witnesses](LEDGER_QUERIES.md); [encrypted outputs and local recovery](../../internal/assetprivacy/outputs/README.md).
 - [Pinned Rust backend/build commands](../../internal/assetprivacy/stark/README.md).
 - [Evidence bundle preparation](../../cmd/algoprivacybundle/README.md) and
   [integrity checking](../../cmd/algoprivacy/README.md), support tooling only.
