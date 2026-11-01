@@ -1,8 +1,9 @@
 # Native encrypted output stream
 
-Opt-in Go package `outputs` persists public encrypted notes for future scanning.
+Opt-in Go package `outputs` persists public encrypted notes for local scanning.
 It is compiled only with `algorand_native_privacy`; no consensus version enables
-the feature. There is no accepted private transaction or registered REST route.
+the feature. Ledger/REST pages and a libgoal scanner have source integration;
+no accepted private transaction or runtime scan has been demonstrated.
 
 `Open(kv, domain, disclosures)` loads a snapshot using the trusted immutable
 policy declaration. `Record.Encode`/`Decode` enforce canonical fixed fields and
@@ -34,26 +35,33 @@ These are local consistency checks, not an exhaustive database integrity audit.
 `CheckAppend`/`Append` require the exact next index, nondecreasing round, matching
 domain/declarations, a current snapshot and an unused record key. A serialized KV
 must copy writes and atomically apply the record/metadata batch or roll it back.
-All records remain immutable; retention/pruning and storage prices are pending.
+Records are immutable while live. Authorized retirement/closed-asset cleanup can
+remove them through the coupled native inventory path. Retention/runtime recovery
+and calibrated storage prices remain unverified.
 
 `Page(start, limit)` accepts 1–64 records and start at most snapshot count. The
 returned `Next`/`Count` are uint64 so the terminal cursor represents 2^32.
 Start=count returns an empty page. Missing records fail the page, never skip it.
-The 64-record limit bounds this component's allocation; it is not a finalized
-consensus or REST contract. Reopen the store after external writes.
+The 64-record limit bounds this component's allocation and the current REST page
+contract; it is not a calibrated execution-resource budget. Reopen after writes.
 
 Native `AppendAssetPrivacyOutput` derives the domain/declaration from current
 policy, requires record round=current round and matching tree/stream counts,
 then appends the tree leaf/root history and stream record in one child COW.
-Any error discards both. Future transaction handlers must use this coupled path.
+Any error discards both. Native transaction execution uses this coupled path.
 The older standalone commitment helper is a primitive and does not populate the
 stream. Mixing those paths is rejected when counts no longer match.
 
 The caller still verifies complete proofs, all role/key/epoch bindings, current
 eligibility, group/transaction binding, supply/nullifiers, authority, fees and
 storage funding. Query helper `AssetPrivacyOutputPage` checks the native domain,
-counts and current round. REST, SDK, scanning cursors, witness queries, replay,
-catchpoints and real-node scenarios remain pending.
+counts and current round. [REST queries](../../../docs/native-asset-privacy/REST_QUERIES.md),
+round-pinned cursors, note witnesses and
+[local libgoal scanning](../../../docs/native-asset-privacy/LOCAL_SCANNING.md) now exist
+as source. Full SDK/wallet delivery, replay/catchpoints and real-node scenarios
+remain pending. A note Merkle root does not authenticate output ciphertext
+metadata; the local scanner requires a trusted, complete RPC output source and
+grants no balance, receipt-finality, unspent-state or spending-authority claim.
 
 Feature-enabled builds/vet and default native builds passed. Formatting and
 authored file/function limits passed. No tests, encryption recovery runs, proof

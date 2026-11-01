@@ -95,3 +95,5 @@ changes. Full local proving, wallet backups/scanning, CLI transfer support,
 standalone SDK/indexer updates and all six demos remain in
 [the delivery checklist](END_TO_END_STATUS.md). Tests, HTTP execution, vectors,
 redirect/cancellation cases, signatures and proof runs remain deferred.
+
+[Local historical-key scanning](LOCAL_SCANNING.md) composes this client; it never uploads viewing keys or openings.

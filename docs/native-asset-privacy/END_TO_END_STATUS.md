@@ -18,7 +18,7 @@ transaction, runtime proof or real-node demo has been demonstrated.
 | NAP-08 groups/pool/AVM | Group binding, signed framing and native verifier helper wiring implemented; native dispatch, accepted-block proof counting and gated AVM public-field inspection source-integrated; single-bundle local admission, transient pool retention and proposal retries source-integrated; per-peer/failed-attempt scheduling and resource calibration missing |
 | NAP-09 recovery | Existing KV path reused; privacy replay/restart/catchpoint/catchup behavior unverified |
 | NAP-10 APIs | Pinned ledger snapshots, bounded output pages/cursors, public note witnesses and JSON MBR reporting source-integrated; read-only REST/OpenAPI and error routing source-integrated; authorization/key/eligibility records and witnesses have ledger+HTTP source integration; raw pending/simulate wire propagation and early synthetic-signer rejection source-integrated; rollback-retained simulation work diagnostics source-integrated; typed semantic decoding and runtime evidence missing |
-| NAP-11 SDK/wallet | Local note/encryption/output recovery and typed node-repository Go query client/libgoal facade and goal query commands source-integrated; standalone SDK, wallet scanning/proving/receipts and backup/recovery missing |
+| NAP-11 SDK/wallet | Local note/encryption/output recovery and typed node-repository Go query client/libgoal facade and goal query commands source-integrated; bounded local multi-epoch scanning and keyset-bound resume source-integrated; standalone SDK, proving/receipts, encrypted storage and complete backup/recovery missing |
 | NAP-12 demo | All six real-node scenarios missing |
 | NAP-13 validation | Tests intentionally deferred; adversarial/benchmark/recovery/upgrade evidence missing |
 | NAP-14 release | Coordinated specs/node/SDK/indexer package and external review evidence missing |
@@ -66,7 +66,7 @@ retirement/cleanup and minimum-balance release have source integration; runtime 
 - [Current consensus suite catalog, references and retention](NATIVE_SUITE_CATALOG.md).
 - [Canonical native body contract](NATIVE_TRANSACTION_BODY.md) and [partial integration boundaries](NATIVE_TRANSACTION_INTEGRATION.md).
 - [Exact main/output bundles and typed Rust verification](PROOF_BUNDLES.md).
-- [goal JSON queries](GO_QUERY_CLI.md); [typed Go query client and libgoal composition](GO_QUERY_CLIENT.md); [local note API](../../internal/assetprivacy/note/README.md).
+- [Local historical-key scanning](LOCAL_SCANNING.md); [goal JSON queries](GO_QUERY_CLI.md); [typed Go query client and libgoal composition](GO_QUERY_CLIENT.md); [local note API](../../internal/assetprivacy/note/README.md).
 - [Envelope API](../../internal/assetprivacy/envelope/README.md).
 - [Bounded matrix relation and matching key-admission rule](MATRIX_SAMPLING.md).
 - [REST query schemas and errors](REST_QUERIES.md); [pinned ledger queries](LEDGER_QUERIES.md); [encrypted outputs and local recovery](../../internal/assetprivacy/outputs/README.md).
