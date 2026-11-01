@@ -49,4 +49,5 @@ type Verifier struct {
 	encoded  [artifactregistry.EncodedSize]byte
 	pin      artifactregistry.Pin
 	limits   Limits
+	observer VerificationObserver
 }

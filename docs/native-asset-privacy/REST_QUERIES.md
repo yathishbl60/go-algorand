@@ -88,7 +88,7 @@ tag is excluded from generated route packages; small handwritten tagged handlers
 and a default no-op registration bridge keep runtime availability feature-gated.
 The main router passes exactly the existing public middleware to this bridge.
 
-[Authorization/key/eligibility HTTP contracts](AUTHORIZATION_QUERIES.md) also exist. Transaction decoding/simulation, SDK/wallet callers,
+[Authorization/key/eligibility HTTP contracts](AUTHORIZATION_QUERIES.md) and [simulation work counters](SIMULATION_WORK.md) exist. Typed semantic transaction decoding, full SDK/wallet callers,
 rate/resource calibration, validation and all six demos remain in
 [the delivery checklist](END_TO_END_STATUS.md). Tests, HTTP execution, cursor
 vectors, race/retention cases and proof execution remain deferred.

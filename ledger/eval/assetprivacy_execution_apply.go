@@ -23,6 +23,7 @@ import (
 	"github.com/algorand/go-algorand/data/transactions/logic"
 	"github.com/algorand/go-algorand/internal/assetprivacy/lifecyclebody"
 	"github.com/algorand/go-algorand/internal/assetprivacy/policy"
+	"github.com/algorand/go-algorand/ledger/ledgercore"
 )
 
 func (eval *BlockEvaluator) applyNativeAssetPrivacy(cow *roundCowState, params *logic.EvalParams, gi int) error {
@@ -33,6 +34,7 @@ func (eval *BlockEvaluator) applyNativeAssetPrivacy(cow *roundCowState, params *
 		return policy.ErrDisabled
 	}
 	child := cow.child(0)
+	child.nativePrivacyWorkObserver, _ = eval.Tracer.(ledgercore.NativePrivacyWorkObserver)
 	defer child.recycle()
 	if err := eval.executeNativeAssetPrivacy(child, params, gi); err != nil {
 		return err

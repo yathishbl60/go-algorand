@@ -1500,6 +1500,7 @@ func (v2 *Handlers) AccountApplicationsInformation(ctx echo.Context, address bas
 
 // PreEncodedSimulateTxnResult mirrors model.SimulateTransactionResult
 type PreEncodedSimulateTxnResult struct {
+	NativePrivacyWork        *model.NativeAssetPrivacyWork           `codec:"native-privacy-work,omitempty"`
 	Txn                      PreEncodedTxInfo                        `codec:"txn-result"`
 	AppBudgetConsumed        *int                                    `codec:"app-budget-consumed,omitempty"`
 	LogicSigBudgetConsumed   *int                                    `codec:"logic-sig-budget-consumed,omitempty"`
@@ -1511,6 +1512,7 @@ type PreEncodedSimulateTxnResult struct {
 
 // PreEncodedSimulateTxnGroupResult mirrors model.SimulateTransactionGroupResult
 type PreEncodedSimulateTxnGroupResult struct {
+	NativePrivacyWork        *model.NativeAssetPrivacyWork           `codec:"native-privacy-work,omitempty"`
 	AppBudgetAdded           *int                                    `codec:"app-budget-added,omitempty"`
 	AppBudgetConsumed        *int                                    `codec:"app-budget-consumed,omitempty"`
 	GroupUsage               *uint64                                 `codec:"group-usage,omitempty"`

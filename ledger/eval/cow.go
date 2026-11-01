@@ -101,6 +101,7 @@ type roundCowState struct {
 
 	feesCollected                 basics.MicroAlgos
 	nativePrivacyProofChecks      uint64
+	nativePrivacyWorkObserver     ledgercore.NativePrivacyWorkObserver
 	nativePrivacyDestructionAsset basics.AssetIndex
 }
 
@@ -290,6 +291,7 @@ func (cb *roundCowState) child(hint int) *roundCowState {
 	ch.commitParent = cb
 	ch.proto = cb.proto
 	ch.nativePrivacyProofChecks = 0
+	ch.nativePrivacyWorkObserver = cb.nativePrivacyWorkObserver
 	ch.nativePrivacyDestructionAsset = 0
 	ch.mods.PopulateStateDelta(cb.mods.Hdr, cb.mods.PrevTimestamp, hint, cb.mods.StateProofNext)
 
@@ -362,6 +364,7 @@ func (cb *roundCowState) reset() {
 	cb.prevTotals = ledgercore.AccountTotals{}
 	cb.feesCollected = basics.MicroAlgos{}
 	cb.nativePrivacyProofChecks = 0
+	cb.nativePrivacyWorkObserver = nil
 	cb.nativePrivacyDestructionAsset = 0
 }
 

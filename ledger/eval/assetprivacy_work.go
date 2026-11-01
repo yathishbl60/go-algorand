@@ -21,6 +21,7 @@ package eval
 import (
 	"errors"
 	"github.com/algorand/go-algorand/internal/assetprivacy/nativebody"
+	"github.com/algorand/go-algorand/ledger/ledgercore"
 )
 
 var errAssetPrivacyWork = errors.New("native privacy proof work budget exceeded or unconfigured")
@@ -40,6 +41,7 @@ func (cs *roundCowState) reserveAssetPrivacyProofChecks(checks uint64) error {
 		return errAssetPrivacyWork
 	}
 	cs.nativePrivacyProofChecks += checks
+	cs.observeAssetPrivacyWork(ledgercore.NativePrivacyWork{ReservedUnits: checks})
 	return nil
 }
 

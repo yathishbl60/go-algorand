@@ -4094,6 +4094,9 @@
         },
         "unnamed-resources-accessed": {
           "$ref": "#/definitions/SimulateUnnamedResourcesAccessed"
+        },
+        "native-privacy-work": {
+          "$ref": "#/definitions/NativeAssetPrivacyWork"
         }
       }
     },
@@ -4128,6 +4131,9 @@
           "description": "The account that needed to sign this transaction when no signature was provided and the provided signer was incorrect.",
           "type": "string",
           "x-algorand-format": "Address"
+        },
+        "native-privacy-work": {
+          "$ref": "#/definitions/NativeAssetPrivacyWork"
         }
       }
     },
@@ -5388,6 +5394,44 @@
         },
         "witness": {
           "$ref": "#/definitions/NativeAssetPrivacyMembershipPath"
+        }
+      }
+    },
+    "NativeAssetPrivacyWork": {
+      "type": "object",
+      "description": "Attempted native privacy simulation work. Optional and feature-gated; retained after transaction/group rollback. Diagnostic counters, not proof of acceptance or a benchmark.",
+      "required": [
+        "reserved-units",
+        "bundle-verification-calls",
+        "bundle-verification-successes",
+        "admin-possession-calls",
+        "admin-possession-successes"
+      ],
+      "properties": {
+        "reserved-units": {
+          "type": "integer",
+          "format": "uint64",
+          "description": "Successful native COW work-admission reservations, including cleanup units. Retained after rollback; not a count of actual proof checks."
+        },
+        "bundle-verification-calls": {
+          "type": "integer",
+          "format": "uint64",
+          "description": "Actual single-bundle backend calls after native preflight. Does not count rejected preflight attempts or account PQ consent checks."
+        },
+        "bundle-verification-successes": {
+          "type": "integer",
+          "format": "uint64",
+          "description": "Bundle backend calls returning nil. Does not establish transaction acceptance or consensus finality."
+        },
+        "admin-possession-calls": {
+          "type": "integer",
+          "format": "uint64",
+          "description": "Go registrationproof.Verify calls, including calls that may fail its preflight. Excludes account PQ consent checks."
+        },
+        "admin-possession-successes": {
+          "type": "integer",
+          "format": "uint64",
+          "description": "Go registrationproof.Verify calls returning nil. Does not establish transaction acceptance or consensus finality."
         }
       }
     }

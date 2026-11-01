@@ -39,6 +39,11 @@ decode quota violations reject proofs; physical allocation failure does not.
 Native admission also classifies missing/incorrect local registry installation
 as unavailable. Callers must not cache local failures as invalid transactions.
 
+`WithObserver` returns a verifier copy with synchronous numeric start/outcome
+callbacks around the backend call, after Go preflight. It changes no pins,
+validation or backend result. Shared observers must synchronize concurrent callers.
+[Simulation diagnostics](../../../docs/native-asset-privacy/SIMULATION_WORK.md) distinguish bundle calls from reservations and constituent proofs.
+
 Caller input must stay stable during decoding/copy. Go-owned payload/request buffers
 are immutable for FFI and held with runtime.KeepAlive until return. Rust never
 retains/frees either Go range. The separate thin FFI crate has the unsafe pointer

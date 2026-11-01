@@ -2901,6 +2901,44 @@
         ],
         "type": "object"
       },
+      "NativeAssetPrivacyWork": {
+        "description": "Attempted native privacy simulation work. Optional and feature-gated; retained after transaction/group rollback. Diagnostic counters, not proof of acceptance or a benchmark.",
+        "properties": {
+          "admin-possession-calls": {
+            "description": "Go registrationproof.Verify calls, including calls that may fail its preflight. Excludes account PQ consent checks.",
+            "format": "uint64",
+            "type": "integer"
+          },
+          "admin-possession-successes": {
+            "description": "Go registrationproof.Verify calls returning nil. Does not establish transaction acceptance or consensus finality.",
+            "format": "uint64",
+            "type": "integer"
+          },
+          "bundle-verification-calls": {
+            "description": "Actual single-bundle backend calls after native preflight. Does not count rejected preflight attempts or account PQ consent checks.",
+            "format": "uint64",
+            "type": "integer"
+          },
+          "bundle-verification-successes": {
+            "description": "Bundle backend calls returning nil. Does not establish transaction acceptance or consensus finality.",
+            "format": "uint64",
+            "type": "integer"
+          },
+          "reserved-units": {
+            "description": "Successful native COW work-admission reservations, including cleanup units. Retained after rollback; not a count of actual proof checks.",
+            "format": "uint64",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "reserved-units",
+          "bundle-verification-calls",
+          "bundle-verification-successes",
+          "admin-possession-calls",
+          "admin-possession-successes"
+        ],
+        "type": "object"
+      },
       "ParticipationKey": {
         "description": "Represents a participation key used by the node.",
         "properties": {
@@ -3214,6 +3252,9 @@
             "type": "integer",
             "x-go-type": "basics.Micros"
           },
+          "native-privacy-work": {
+            "$ref": "#/components/schemas/NativeAssetPrivacyWork"
+          },
           "txn-results": {
             "description": "Simulation result for individual transactions",
             "items": {
@@ -3253,6 +3294,9 @@
           "logic-sig-budget-consumed": {
             "description": "Budget used during execution of a logic sig transaction.",
             "type": "integer"
+          },
+          "native-privacy-work": {
+            "$ref": "#/components/schemas/NativeAssetPrivacyWork"
           },
           "txn-result": {
             "$ref": "#/components/schemas/PendingTransactionResponse"

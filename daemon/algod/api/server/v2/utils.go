@@ -476,6 +476,7 @@ func convertTxnTrace(txnTrace *simulation.TransactionTrace) *model.SimulationTra
 
 func convertTxnResult(txnResult simulation.TxnResult) PreEncodedSimulateTxnResult {
 	result := PreEncodedSimulateTxnResult{
+		NativePrivacyWork:        nativePrivacySimulationWork(txnResult.NativePrivacyWork),
 		Txn:                      ConvertInnerTxn(&txnResult.Txn),
 		AppBudgetConsumed:        omitEmpty(txnResult.AppBudgetConsumed),
 		LogicSigBudgetConsumed:   omitEmpty(txnResult.LogicSigBudgetConsumed),
@@ -572,6 +573,7 @@ func convertTxnGroupResult(txnGroupResult simulation.TxnGroupResult) PreEncodedS
 	txnResults := util.Map(txnGroupResult.Txns, convertTxnResult)
 
 	encoded := PreEncodedSimulateTxnGroupResult{
+		NativePrivacyWork:        nativePrivacySimulationWork(txnGroupResult.NativePrivacyWork),
 		Txns:                     txnResults,
 		FailureMessage:           omitEmpty(txnGroupResult.FailureMessage),
 		AppBudgetAdded:           omitEmpty(txnGroupResult.AppBudgetAdded),

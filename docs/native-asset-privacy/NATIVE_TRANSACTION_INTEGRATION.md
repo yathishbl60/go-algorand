@@ -85,7 +85,7 @@ Simulator.check uses ordinary group verification; its evaluator runs the same
 native consent/proof path. Empty-signature/fix-signer options do not supply native
 PQ consent or valid proofs; synthetic native signers reject before mutation.
 MaxSimulateBytes remains 1,000,000, potentially below a future proof bundle. Existing group fee usage includes native factors;
-native proof-work diagnostics and typed semantic decoding remain missing.
+[Native work diagnostics](SIMULATION_WORK.md) retain reservations/calls after rollback; typed semantic decoding remains pending.
 
 ## Remaining native delivery
 

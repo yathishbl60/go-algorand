@@ -40,7 +40,7 @@ func (cs *roundCowState) registerAssetPrivacyAdmin(body lifecyclebody.Body, bind
 	if err = cs.reserveAssetPrivacyProofChecks(1); err != nil {
 		return err
 	}
-	if err = registrationproof.Verify(record.PublicKey, binding, framed); err != nil {
+	if err = cs.verifyObservedAssetPrivacyAdmin(record.PublicKey, binding, framed); err != nil {
 		return err
 	}
 	return cs.PutAssetPrivacyKey(record)

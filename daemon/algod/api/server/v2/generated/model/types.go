@@ -1066,6 +1066,24 @@ type NativeAssetPrivacyViewTargets struct {
 	UpdatedRound uint64 `json:"updated-round"`
 }
 
+// NativeAssetPrivacyWork Attempted native privacy simulation work. Optional and feature-gated; retained after transaction/group rollback. Diagnostic counters, not proof of acceptance or a benchmark.
+type NativeAssetPrivacyWork struct {
+	// AdminPossessionCalls Go registrationproof.Verify calls, including calls that may fail its preflight. Excludes account PQ consent checks.
+	AdminPossessionCalls uint64 `json:"admin-possession-calls"`
+
+	// AdminPossessionSuccesses Go registrationproof.Verify calls returning nil. Does not establish transaction acceptance or consensus finality.
+	AdminPossessionSuccesses uint64 `json:"admin-possession-successes"`
+
+	// BundleVerificationCalls Actual single-bundle backend calls after native preflight. Does not count rejected preflight attempts or account PQ consent checks.
+	BundleVerificationCalls uint64 `json:"bundle-verification-calls"`
+
+	// BundleVerificationSuccesses Bundle backend calls returning nil. Does not establish transaction acceptance or consensus finality.
+	BundleVerificationSuccesses uint64 `json:"bundle-verification-successes"`
+
+	// ReservedUnits Successful native COW work-admission reservations, including cleanup units. Retained after rollback; not a count of actual proof checks.
+	ReservedUnits uint64 `json:"reserved-units"`
+}
+
 // ParticipationKey Represents a participation key used by the node.
 type ParticipationKey struct {
 	// Address Address the key was generated for.
@@ -1239,6 +1257,9 @@ type SimulateTransactionGroupResult struct {
 	// GroupUsage Fee usage for the transaction group, including all descendant inner transactions, in millionths of a basic transaction fee unit.
 	GroupUsage *basics.Micros `json:"group-usage,omitempty"`
 
+	// NativePrivacyWork Attempted native privacy simulation work. Optional and feature-gated; retained after transaction/group rollback. Diagnostic counters, not proof of acceptance or a benchmark.
+	NativePrivacyWork *NativeAssetPrivacyWork `json:"native-privacy-work,omitempty"`
+
 	// TxnResults Simulation result for individual transactions
 	TxnResults []SimulateTransactionResult `json:"txn-results"`
 
@@ -1262,6 +1283,9 @@ type SimulateTransactionResult struct {
 
 	// LogicSigBudgetConsumed Budget used during execution of a logic sig transaction.
 	LogicSigBudgetConsumed *int `json:"logic-sig-budget-consumed,omitempty"`
+
+	// NativePrivacyWork Attempted native privacy simulation work. Optional and feature-gated; retained after transaction/group rollback. Diagnostic counters, not proof of acceptance or a benchmark.
+	NativePrivacyWork *NativeAssetPrivacyWork `json:"native-privacy-work,omitempty"`
 
 	// TxnResult Details about a pending transaction. If the transaction was recently confirmed, includes confirmation details like the round and reward details.
 	TxnResult PendingTransactionResponse `json:"txn-result"`

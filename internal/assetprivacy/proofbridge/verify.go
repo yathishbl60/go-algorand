@@ -41,7 +41,7 @@ func (v *Verifier) Verify(plan *proofbundle.Plan, context Context, framedNAPW []
 	if err != nil {
 		return err
 	}
-	return verifyBackend(request, bundle)
+	return v.verifyObservedBackend(request, bundle)
 }
 
 func (v *Verifier) ready(context Context) error {

@@ -40,6 +40,9 @@ type TxnResult struct {
 	FeesPaid               basics.MicroAlgos
 	Trace                  *TransactionTrace
 
+	// NativePrivacyWork is present only after native work is observed, including failed work.
+	NativePrivacyWork *ledgercore.NativePrivacyWork
+
 	// UnnamedResourcesAccessed is present if all of the following are true:
 	//  * AllowUnnamedResources is true
 	//  * The transaction cannot use shared resources (pre-v9 program)
@@ -69,6 +72,9 @@ type TxnGroupResult struct {
 	GroupUsage basics.Micros
 	// GroupFeesPaid is the total fee paid by this group and all descendant inner transaction groups.
 	GroupFeesPaid basics.MicroAlgos
+
+	// NativePrivacyWork totals observed work independently of ledger rollback.
+	NativePrivacyWork *ledgercore.NativePrivacyWork
 
 	// UnnamedResourcesAccessed will be present if AllowUnnamedResources is true. In that case, it
 	// will be populated with the unnamed resources accessed by this transaction group from

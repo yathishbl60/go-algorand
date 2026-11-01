@@ -36,5 +36,8 @@ func (cs *roundCowState) assetPrivacySuiteVerifier(suite [64]byte, registry []by
 	if err != nil {
 		return nil, fmt.Errorf("%w: registry installation: %v", proofbridge.ErrUnavailable, err)
 	}
+	if cs.nativePrivacyWorkObserver != nil {
+		verifier = verifier.WithObserver(cs)
+	}
 	return verifier, nil
 }
