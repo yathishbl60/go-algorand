@@ -71,8 +71,9 @@ queue, fee estimate or resource-calibration measurement. Native fee-factor
 reporting already follows the ordinary simulation group-usage path and is a
 separate quantity. Backend successes do not prove accepted-block inclusion.
 
-Failed-attempt scheduling, peer admission, aggregate memory limits and denial-of-
-service resistance remain unresolved. Numeric diagnostics alone establish none
+[Local single-bundle admission](LOCAL_VERIFIER_ADMISSION.md) now limits overlap; busy calls emit
+no backend-call event. Per-peer scheduling, aggregate memory and denial-of-service
+resistance remain unresolved. Numeric diagnostics alone establish none
 of those properties and do not make the candidate proof configuration feasible.
 The complete pending scope remains in [delivery status](END_TO_END_STATUS.md).
 Tests, vectors, signatures, proofs and runtime evidence remain deferred.

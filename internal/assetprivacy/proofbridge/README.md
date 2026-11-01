@@ -39,6 +39,11 @@ decode quota violations reject proofs; physical allocation failure does not.
 Native admission also classifies missing/incorrect local registry installation
 as unavailable. Callers must not cache local failures as invalid transactions.
 
+A process-wide nonblocking lease covers owned payload copying through backend
+return. Contention is `ErrBusy`, wrapping local `ErrResource`, never proof rejection.
+[Local admission and retry handling](../../../docs/native-asset-privacy/LOCAL_VERIFIER_ADMISSION.md) preserve failed work for later validation. The lease bounds concurrent bundles,
+not heap retention, backend peaks, CPU per attempt or per-peer fairness.
+
 `WithObserver` returns a verifier copy with synchronous numeric start/outcome
 callbacks around the backend call, after Go preflight. It changes no pins,
 validation or backend result. Shared observers must synchronize concurrent callers.

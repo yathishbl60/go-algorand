@@ -1282,7 +1282,7 @@ func (v2 *Handlers) RawTransaction(ctx echo.Context, params model.RawTransaction
 
 	err = v2.Node.BroadcastSignedTxGroup(txgroup)
 	if err != nil {
-		return badRequest(ctx, err, err.Error(), v2.Log)
+		return v2.nativePrivacySubmissionError(ctx, err)
 	}
 
 	// For backwards compatibility, return txid of first tx in group

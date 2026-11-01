@@ -427,7 +427,12 @@ func (handler *TxHandler) postProcessCheckedTxn(wi *txBacklogMsg) {
 	// save the transaction, if it has high enough fee and not already in the cache
 	err := handler.txPool.Remember(verifiedTxGroup)
 	if err != nil {
-		if handler.appLimiter != nil && !wi.rawmsg.Outgoing && wi.rawmsg.Sender != nil {
+		localFailure := verify.IsLocalNativePrivacyFailure(err)
+		if localFailure {
+			// Local verifier pressure/unavailability is retryable and says nothing about this peer.
+			handler.deleteFromCaches(wi.rawmsgDataHash, wi.unverifiedTxGroupHash)
+		}
+		if !localFailure && handler.appLimiter != nil && !wi.rawmsg.Outgoing && wi.rawmsg.Sender != nil {
 			var tde *bookkeeping.TxnDeadError
 			// explicitly avoid penalizing for TxDeadError since another node can be out of sync
 			if !errors.As(err, &tde) && !errors.Is(err, ledgercore.ErrEvaluatorCorruptedState) {
@@ -914,6 +919,9 @@ func (handler *TxHandler) checkAlreadyCommitted(tx *txBacklogMsg) (processingDon
 	// do a quick test to check that this transaction could potentially be committed, to reject dup pending transactions
 	err := handler.txPool.Test(tx.unverifiedTxGroup)
 	if err != nil {
+		if verify.IsLocalNativePrivacyFailure(err) {
+			handler.deleteFromCaches(tx.rawmsgDataHash, tx.unverifiedTxGroupHash)
+		}
 		transactionMessageTxPoolCheckCounter.Add(pools.ClassifyTxPoolError(err), 1)
 		logging.Base().Debugf("txPool rejected transaction: %v", err)
 		return true

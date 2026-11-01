@@ -70,8 +70,8 @@ group, proposal and block limits still hold. TX gossip remains 5000000 bytes;
 existing frame/proposal/block limits have not been raised for candidate proofs.
 
 Coarse accepted-block proof counting and proof/byte fees exist, with zero,
-uncalibrated capacities/prices. Failed-attempt/peer scheduling and aggregate memory
-metering remain missing; large proof/trace feasibility remains unresolved.
+uncalibrated capacities/prices. [Local single-bundle admission/retries](LOCAL_VERIFIER_ADMISSION.md) exist.
+Per-peer/failed-attempt scheduling, aggregate memory and proof feasibility remain unresolved.
 
 ## Pending and simulation wire propagation
 

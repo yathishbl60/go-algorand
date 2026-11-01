@@ -30,6 +30,14 @@ func (v *Verifier) Verify(plan *proofbundle.Plan, context Context, framedNAPW []
 	if err := v.ready(context); err != nil {
 		return err
 	}
+	if err := acquireNativeVerification(); err != nil {
+		return err
+	}
+	defer releaseNativeVerification()
+	return v.verifyAdmitted(plan, context, framedNAPW)
+}
+
+func (v *Verifier) verifyAdmitted(plan *proofbundle.Plan, context Context, framedNAPW []byte) error {
 	bundle, err := v.decode(framedNAPW, context)
 	if err != nil {
 		return err

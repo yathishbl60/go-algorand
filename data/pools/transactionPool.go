@@ -67,6 +67,7 @@ type TransactionPool struct {
 	feePerByte             atomic.Uint64
 	feeThresholdMultiplier uint64
 	statusCache            *statusCache
+	nativePrivacyState     nativePrivacyPoolState
 
 	assemblyMu       deadlock.Mutex
 	assemblyCond     sync.Cond
@@ -392,6 +393,10 @@ func (pool *TransactionPool) Test(txgroup []transactions.SignedTxn) error {
 		return fmt.Errorf("Test: pendingBlockEvaluator is nil")
 	}
 
+	if err := pool.nativePrivacyAdmissionError(); err != nil {
+		return err
+	}
+
 	return pool.pendingBlockEvaluator.TestTransactionGroup(txgroup)
 }
 
@@ -447,6 +452,10 @@ func (pool *TransactionPool) ingest(txgroup []transactions.SignedTxn, params poo
 			if pool.shutdown {
 				return errPoolShutdown
 			}
+		}
+
+		if err := pool.nativePrivacyAdmissionError(); err != nil {
+			return err
 		}
 
 		err := pool.checkSufficientFee(txgroup)
@@ -666,9 +675,11 @@ func (pool *TransactionPool) addToPendingBlockEvaluator(txgroup []transactions.S
 }
 
 // recomputeBlockEvaluator constructs a new BlockEvaluator and feeds all
-// in-pool transactions to it (removing any transactions that are rejected
-// by the BlockEvaluator). Expects that the pool.mu mutex would be already taken.
+// in-pool transactions to it. Rejected groups are removed, except local native
+// verifier failures defer the remaining queue for a later recompute.
+// Expects that the pool.mu mutex would be already taken.
 func (pool *TransactionPool) recomputeBlockEvaluator(committedTxIDs map[transactions.Txid]ledgercore.IncludedTransactions, knownCommitted uint) (stats telemetryspec.ProcessBlockMetrics) {
+	pool.resetNativePrivacyDeferral()
 	pool.pendingBlockEvaluator = nil
 
 	latest := pool.ledger.Latest()
@@ -746,7 +757,10 @@ func (pool *TransactionPool) recomputeBlockEvaluator(committedTxIDs map[transact
 			txPoolReevalCommitted.Inc(nil)
 			continue
 		}
-		err := pool.add(txgroup, &asmStats)
+		err, deferred := pool.readdNativePrivacyGroup(txgroup, &asmStats)
+		if deferred {
+			continue
+		}
 		if err != nil {
 			for _, tx := range txgroup {
 				pool.statusCache.put(tx, err.Error())

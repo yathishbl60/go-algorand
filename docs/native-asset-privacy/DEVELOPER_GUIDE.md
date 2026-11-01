@@ -52,7 +52,7 @@ writable `GOCACHE` or Cargo target/cache directory when using a sandbox.
 | Consensus suite metadata, references and admission | [Native suite catalog](NATIVE_SUITE_CATALOG.md) |
 | Single committed-note envelope | [EnvelopeAir typed context and witness API](../../internal/assetprivacy/stark/src/envelope_air/README.md) |
 | Private candidate key derivation | [HKDF constraints](../../internal/assetprivacy/stark/src/hkdf_air/README.md) |
-| Native proof checking, ABI2 failures and diagnostic counters | [Bridge entrypoints](NATIVE_VERIFIER_BRIDGE.md), [simulation work](SIMULATION_WORK.md) |
+| Native proof checking, ABI2 failures and diagnostic counters | [Bridge entrypoints](NATIVE_VERIFIER_BRIDGE.md), [simulation work](SIMULATION_WORK.md), [local admission](LOCAL_VERIFIER_ADMISSION.md) |
 | Practical private trace layout | [Scheduling direction](TRACE_ARCHITECTURE.md) |
 | Private vertical field multiplication | [GHASH product](../../internal/assetprivacy/stark/src/ghash_vertical/README.md) |
 | Complete vertical GHASH stage | [Fixed chain](../../internal/assetprivacy/stark/src/ghash_chain/README.md) |

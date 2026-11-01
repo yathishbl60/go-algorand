@@ -374,14 +374,10 @@ func (c *poolCryptoVerifier) proposalVerifyWorker() {
 
 func (c *poolCryptoVerifier) verifyProposalPayload(request cryptoProposalRequest) cryptoResult {
 	m := request.message
-	up := request.UnauthenticatedProposal
-
-	p, err := up.validate(request.ctx, request.Round, c.ledger, c.validator)
-	select {
-	case <-request.ctx.Done():
+	p, err := c.validateProposalWithLocalRetry(request)
+	if cancelled := c.nativePrivacyProposalCancellation(request.ctx); cancelled != nil {
 		m.Proposal = p
-		return cryptoResult{message: m, TaskIndex: request.TaskIndex, Err: makeSerErr(request.ctx.Err()), Cancelled: true}
-	default:
+		return cryptoResult{message: m, TaskIndex: request.TaskIndex, Err: makeSerErr(cancelled), Cancelled: true}
 	}
 
 	if err != nil {
