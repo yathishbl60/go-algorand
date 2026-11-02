@@ -26,22 +26,35 @@ pub const WORDS: usize = STATE_BITS / 16;
 #[derive(Clone)]
 pub struct CompactKeccakAir<F: PrimeField64> {
     count: usize,
+    rows: usize,
     field: PhantomData<F>,
 }
 
 impl<F: PrimeField64> CompactKeccakAir<F> {
     pub fn new(permutations: usize) -> Option<Self> {
-        if !(1..=1365).contains(&permutations) || F::ORDER_U64 <= 65535 {
+        if !(1..=2730).contains(&permutations) || F::ORDER_U64 <= 65535 {
             return None;
         }
         Some(Self {
             count: permutations,
+            rows: (permutations * ROUNDS).next_power_of_two().max(512),
             field: PhantomData,
         })
     }
 
     pub fn rows(&self) -> usize {
-        (self.count * ROUNDS).next_power_of_two().max(512)
+        self.rows
+    }
+
+    /// Returns a new fixed scope; rejects invalid or undersized padded heights.
+    pub fn padded_to(&self, rows: usize) -> Option<Self> {
+        let minimum = (self.count * ROUNDS).next_power_of_two().max(512);
+        if !rows.is_power_of_two() || rows < minimum || rows > 65536 {
+            return None;
+        }
+        let mut padded = self.clone();
+        padded.rows = rows;
+        Some(padded)
     }
 
     pub fn permutation_count(&self) -> usize {

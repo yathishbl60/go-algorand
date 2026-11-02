@@ -1,6 +1,11 @@
 # Compact FRI candidate assessment
 
-Updated 2026-11-01. The full replacement profile is **not selected or composed**.
+Updated 2026-11-02. The full replacement profile is **not selected or composed**.
+Preferred direction: [one universal AIR](UNIVERSAL_PROOF_PLAN.md) preserves the
+existing SHA3/envelope contracts. [Joint ownership proofs](OWNED_NOTES_RESULTS.md)
+verified using the published compact factory in18.438s/353.844MiB sampled RSS.
+The historical cSHAKE/multi-AIR budgets below are unselected and must not be
+combined with the universal plan's stock wire estimate or treated as requirements.
 Optional field arithmetic and generic byte/hash components now exist, with
 [bounded primitive proofs](COMPACT_PRIMITIVE_RESULTS.md). No native transaction,
 artifact approval or end-to-end result follows. The complete local prover must
@@ -28,14 +33,15 @@ It checks canonical opening bytes with immutable asset/policy/note-count scope.
 `compact_keccak_air` has1920 raw columns,11 trusted preprocessing columns and
 degree5. Boolean post-Theta/parity state reconstructs the original input words;
 Rho/Pi/Chi/Iota define output expressions and fixed round continuations.
-Neither component implements the required private lookup or whole statement.
+Neither primitive alone implements a whole statement. `compact_owned_notes_air`
+joins both with indexed private buses,57 periodic columns and20 auxiliary cells.
 
 Unmodified pinned P3 panics during D10 opening compression because a matrix
 kernel assumes at most eight coordinates. The validated nine-line fallback is
 now vendored with pinned provenance and included in implementation fingerprinting.
 See [runtime evidence and limitations](COMPACT_PRIMITIVE_RESULTS.md).
 
-## Conditional hash profile and private binding
+## Historical alternative hash profile (unselected)
 
 Standard cSHAKE256 with64-byte output could precompute public customization S;
 N must be empty, private X follows the byte-padded prefix, suffix0x04/final0x80.
@@ -63,9 +69,9 @@ across each role pair. Public prefix work is additional. Metadata/chunk counts
 must not leak private reuse. AES can tentatively fit64272 rows for six envelopes,
 including word/byte bridges; its fixed linear ports/program remain unimplemented.
 
-## Whole-proof resource gates
+## Historical multi-table resource sketch (unselected)
 
-The latest [conditional wire ledger](COMPACT_WIRE_BUDGET.md) totals4971705 proof
+The earlier [conditional wire ledger](COMPACT_WIRE_BUDGET.md) totals4971705 proof
 bytes plus15463 transaction wrapping, leaving12832 below5MB. It depends on exact
 public-polynomial reevaluation, per-height shared salts,8-ary FRI, correct derived
 query deduplication, a packed global quotient and all assumed table widths.

@@ -14,7 +14,8 @@ FUNCTION = re.compile(r'(?m)^[ \t]*(?:pub(?:\([^)]*\))?[ \t]+)?(?:const[ \t]+)?(
 def sources():
     roots = (Path("internal/assetprivacy"), Path("docs/native-asset-privacy"))
     files = [p for root in roots for p in root.rglob("*")
-             if p.suffix in (".go", ".rs", ".md") and "target" not in p.parts]
+             if p.suffix in (".go", ".rs", ".md")
+             and "target" not in p.parts and "vendor" not in p.parts]
     for root in ("ledger", "node", "config", "agreement", "data/pools", "data/transactions", "daemon/algod/api/server", "daemon/algod/api/client", "libgoal", "cmd/goal"):
         files.extend(Path(root).rglob("assetprivacy*.go"))
     files.extend(Path("scripts").glob("native_privacy*.py"))

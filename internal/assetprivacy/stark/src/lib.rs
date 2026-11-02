@@ -8,6 +8,8 @@
 mod amount_witness;
 #[cfg(feature = "native-privacy-compact")]
 pub mod compact;
+#[cfg(feature = "native-privacy-compact")]
+pub mod compact_owned_notes_air;
 #[cfg(feature = "native-privacy")]
 mod config;
 #[cfg(feature = "native-privacy")]
@@ -28,6 +30,8 @@ mod prefix_builder;
 mod private_output_builder;
 #[cfg(feature = "native-privacy")]
 mod public_segment_builder;
+#[cfg(feature = "native-privacy-compact")]
+mod relay_builder;
 #[cfg(feature = "native-privacy")]
 mod segment_builder;
 #[cfg(feature = "native-privacy")]

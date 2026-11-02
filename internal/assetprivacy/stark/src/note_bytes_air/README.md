@@ -7,8 +7,9 @@ nullifier, eligibility or authorization relation is implemented here.
 
 `NoteBytesAir<F>::new(asset,policy,count)` fixes nonzero public asset/policy and
 one to four notes. It rejects fields with modulus at most65535. Every complete
-512-byte note is processed, including its reserved tail; height is512,1024 or
-2048. Three notes receive512 zero dummy rows. Each note has:
+512-byte note is processed, including its reserved tail; default height is512,
+1024 or2048. Three notes receive512 zero dummy rows. Immutable `padded_to(rows)`
+supports a larger power-of-two scope up to65536, with zero dummy rows. Each note has:
 
 - Eight Boolean current-byte bits, one previous byte, one bit-count accumulator
   and one nonzero end inverse:11 main columns, without pads or lookup auxiliaries.

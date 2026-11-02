@@ -1,6 +1,6 @@
 # Native privacy delivery gates and risks
 
-Updated 2026-11-01 after reviewing code volume and feasibility. The earlier 45%
+Updated 2026-11-02 after reviewing code volume and feasibility. The earlier 45%
 figure was a subjective work-package score. It is withdrawn as a delivery metric:
 there is not enough runtime evidence for a reliable overall completion percentage.
 The complete [north-star scope](IMPLEMENTATION.md) remains the intended end state.
@@ -23,6 +23,7 @@ pipeline, including preprocessing, FFTs, auxiliary proofs and assembly.
 | Builds, static analysis and selected generation checks | Passed for completed slices |
 | Owner primitive proofs | Earlier and [serial-layout bounded runs](SERIAL_OWNER_RESULTS.md) verified |
 | Compact field/note/hash primitives | [Bounded Fp31 proofs](COMPACT_PRIMITIVE_RESULTS.md) verified with the vendored compatibility fix; no complete profile |
+| Private ownership composition | [One/two-note joint proofs](OWNED_NOTES_RESULTS.md) verified; mismatched private links rejected; complete spending absent |
 | Largest hash-table capacity | [1365-permutation proof](FULL_CAPACITY_HASH_RESULTS.md) verified in68s, sampled peak5.504GiB; excludes complete statement |
 | Accepted end-to-end native private transactions | None demonstrated |
 | Six real-node scenarios | 0/6 |
@@ -56,10 +57,11 @@ Record proof size, time and peak memory; exercise invalid-proof rejection and
 atomic rollback. This must use the actual protocol path and cryptography.
 Expand other features only after the critical path has credible evidence.
 The [full workload](PROOF_WORKLOAD.md) and [WHIR assessment](WHIR_ASSESSMENT.md)
-now quantify design costs. The [private-join draft](PRIVATE_JOIN_DRAFT.md) contains
-only a limited ideal-view argument and public algebra checks; no complete replacement has been selected.
-The [compact FRI assessment](COMPACT_PROFILE_ASSESSMENT.md) records implemented
-primitives, a conditional sub-5MB wire budget and an unmeasured allocation draft.
+now quantify design costs. The historical [private-join draft](PRIVATE_JOIN_DRAFT.md)
+is superseded as a direction by [one universal AIR](UNIVERSAL_PROOF_PLAN.md),
+which preserves existing SHA3 contracts and avoids cross-AIR terminal pads.
+The [compact FRI assessment](COMPACT_PROFILE_ASSESSMENT.md) records joint ownership
+proofs, a conditional sub-5MB wire budget and an unmeasured allocation draft.
 Its complete 8 GiB/5 MB gates remain open; current profile/defaults are unchanged.
 
 Bounded proof/setup and isolated-node execution are now authorized. The first

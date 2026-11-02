@@ -1,12 +1,22 @@
 // Copyright (C) 2026 Algorand Foundation Ltd.
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
-use super::{CompactKeccakAir, PREPROCESSED, ProgramColumn as P, WIDTH, WORDS};
+use super::{CompactKeccakAir, PREPROCESSED, ProgramColumn as P, STATE_BITS, WIDTH, WORDS};
 use crate::serial_keccak::{RC_POSITIONS, parity_index, rho_source, state_index};
 use p3_field::{Algebra, PrimeCharacteristicRing, PrimeField64};
 
 impl<F: PrimeField64> CompactKeccakAir<F> {
+    /// Reconstructed pre-Theta bit; row Boolean/parity constraints are external.
+    pub fn input_bit<E: Algebra<F>, T: Copy + Into<E>>(
+        &self,
+        row: &[T],
+        index: usize,
+    ) -> Option<E> {
+        (row.len() == WIDTH && index < STATE_BITS).then(|| input_bit::<E, T>(row, index))
+    }
+
     /// Little-endian uint16 of the reconstructed private pre-Theta input.
+    /// Multiplication by TWO avoids duplicated symbolic prefixes during lookup resolution.
     pub fn input_word<E: Algebra<F>, T: Copy + Into<E>>(
         &self,
         row: &[T],
@@ -14,12 +24,13 @@ impl<F: PrimeField64> CompactKeccakAir<F> {
     ) -> Option<E> {
         (row.len() == WIDTH && word < WORDS).then(|| {
             (0..16).rev().fold(E::ZERO, |v, bit| {
-                v.double() + input_bit::<E, T>(row, word * 16 + bit)
+                v * E::TWO + input_bit::<E, T>(row, word * 16 + bit)
             })
         })
     }
 
     /// Program must be this AIR's trusted preprocessing row, never witness data.
+    /// Keep constant multiplication: symbolic doubling expands under the pinned resolver.
     pub fn output_word<E: Algebra<F>, T: Copy + Into<E>>(
         &self,
         row: &[T],
@@ -28,7 +39,7 @@ impl<F: PrimeField64> CompactKeccakAir<F> {
     ) -> Option<E> {
         (row.len() == WIDTH && program.len() == PREPROCESSED && word < WORDS).then(|| {
             (0..16).rev().fold(E::ZERO, |v, bit| {
-                v.double() + output_bit::<E, T>(row, program, word * 16 + bit)
+                v * E::TWO + output_bit::<E, T>(row, program, word * 16 + bit)
             })
         })
     }

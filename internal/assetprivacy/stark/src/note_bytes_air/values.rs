@@ -17,10 +17,11 @@ impl<F: PrimeField64> NoteBytesAir<F> {
     }
 }
 
+// Constant multiplication keeps recursive symbolic lookup resolution linear.
 pub(super) fn byte<E: PrimeCharacteristicRing, T: Copy + Into<E>>(bits: &[T]) -> E {
     bits.iter()
         .rev()
-        .fold(E::ZERO, |value, &bit| value.double() + bit.into())
+        .fold(E::ZERO, |value, &bit| value * E::TWO + bit.into())
 }
 
 pub(super) fn count<E: PrimeCharacteristicRing, T: Copy + Into<E>>(bits: &[T]) -> E {

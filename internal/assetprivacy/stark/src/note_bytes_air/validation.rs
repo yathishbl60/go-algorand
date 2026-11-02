@@ -13,7 +13,7 @@ impl<F: PrimeField64> NoteBytesAir<F> {
         }
     }
 
-    pub(super) fn valid_opening(&self, opening: &[u8; ENCODED_SIZE]) -> bool {
+    pub(crate) fn valid_opening(&self, opening: &[u8; ENCODED_SIZE]) -> bool {
         opening[..PREFIX_SIZE] == self.prefix
             && opening[CONTENT_SIZE..].iter().all(|&byte| byte == 0)
             && NONZERO

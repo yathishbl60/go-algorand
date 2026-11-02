@@ -1,6 +1,6 @@
 # Native asset privacy: end-to-end delivery status
 
-Updated 2026-11-01. **Not end-to-end yet.** Native evaluator proof routing and
+Updated 2026-11-02. **Not end-to-end yet.** Native evaluator proof routing and
 atomic application now exist as inactive source integration; [whole-operation resource gates](WHOLE_TRANSACTION_FEASIBILITY.md) still fail. No accepted private
 transaction or real-node demo has been demonstrated; [bounded serial Owner primitive validation passed](SERIAL_OWNER_RESULTS.md). [Delivery gates and rework risks](DELIVERY_PROGRESS.md).
 
@@ -28,8 +28,8 @@ transaction or real-node demo has been demonstrated; [bounded serial Owner primi
 Necessary existing-file integration edits are authorized. The user also waived a
 supplied cryptographer-reviewed profile as an implementation prerequisite. Work
 continues using a pinned, explicitly unreviewed candidate; no security approval or
-no-defects claim is made. Generated lockfiles may exceed the 100-line limit.
-Other new authored files remain at most 100 lines and new functions at most 20.
+no-defects claim is made. Generated lockfiles and third-party vendoring are exempt
+from size limits. Our new files remain at most100 lines and functions at most20.
 
 Go uses `algorand_native_privacy`; Rust uses opt-in `native-privacy`. No consensus
 version, including `ConsensusFuture`, sets `EnableNativeAssetPrivacy` to true;
@@ -40,7 +40,7 @@ retirement/cleanup and minimum-balance release have source integration; runtime 
 
 ## Useful entry points
 
-- [Candidate profile and outstanding crypto obligations](CANDIDATE_PROFILE.md); [optional compact primitive evidence](COMPACT_PRIMITIVE_RESULTS.md).
+- [Candidate obligations](CANDIDATE_PROFILE.md); [compact primitive](COMPACT_PRIMITIVE_RESULTS.md) and [joint ownership evidence](OWNED_NOTES_RESULTS.md); [universal plan](UNIVERSAL_PROOF_PLAN.md).
 - [Implemented proof components and their limits](PROOF_COMPONENTS.md).
 - [Developer and agent implementation guide](DEVELOPER_GUIDE.md).
 - [Native tree](../../internal/assetprivacy/tree/README.md), [spent markers](../../internal/assetprivacy/nullifier/README.md), and [group context](../../internal/assetprivacy/statement/README.md).

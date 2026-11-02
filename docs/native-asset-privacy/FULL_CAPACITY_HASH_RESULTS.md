@@ -1,7 +1,8 @@
-# Full-capacity compact hash result
+# 32,768-row compact hash result
 
-Updated 2026-11-01. Actual standalone primitive proving at maximum supported
-capacity. **Not** a full private transaction, selected profile, native acceptance
+Updated 2026-11-02. This run reached the then-supported32768-row limit. The
+component now permits65536-row schedules; that larger geometry is unmeasured.
+**Not** a full private transaction, selected profile, native acceptance
 or proof that the complete local prover meets its8GiB limit.
 
 ## Executed configuration and outcome

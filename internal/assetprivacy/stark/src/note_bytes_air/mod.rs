@@ -32,6 +32,7 @@ const NONZERO: [(usize, usize); 4] = [(73, 137), (137, 169), (177, 209), (209, 2
 pub struct NoteBytesAir<F: PrimeField64> {
     prefix: [u8; PREFIX_SIZE],
     count: usize,
+    rows: usize,
     field: PhantomData<F>,
 }
 
@@ -48,12 +49,24 @@ impl<F: PrimeField64> NoteBytesAir<F> {
         Some(Self {
             prefix,
             count,
+            rows: (count * ENCODED_SIZE).next_power_of_two(),
             field: PhantomData,
         })
     }
 
     pub fn rows(&self) -> usize {
-        (self.count * ENCODED_SIZE).next_power_of_two()
+        self.rows
+    }
+
+    /// Returns a new fixed scope; rejects invalid or undersized padded heights.
+    pub fn padded_to(&self, rows: usize) -> Option<Self> {
+        let minimum = (self.count * ENCODED_SIZE).next_power_of_two();
+        if !rows.is_power_of_two() || rows < minimum || rows > 65536 {
+            return None;
+        }
+        let mut padded = self.clone();
+        padded.rows = rows;
+        Some(padded)
     }
 
     pub fn note_count(&self) -> usize {

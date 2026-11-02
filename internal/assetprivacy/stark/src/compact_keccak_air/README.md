@@ -3,12 +3,14 @@
 This generic component is behind the existing native-privacy feature. It is not
 a selected profile, native verifier, approved artifact, or complete hash proof.
 
-`CompactKeccakAir::<F>::new(permutations)` accepts 1–1365 independent Keccak-f
+`CompactKeccakAir::<F>::new(permutations)` accepts 1–2730 independent Keccak-f
 permutations and a prime field with order greater than 65535. Its 1920 main
 columns contain 1600 Boolean post-Theta bits and 320 Boolean original column
 parities. The constructor fixes 24 rounds per permutation, actual pinned round
 constants, continuation flags, and row identities. Rows are the next power of
-two of 24 times the count, with a minimum of 512 and maximum of 32768.
+two of 24 times the count, with a minimum of 512 and maximum of 65536.
+Immutable `padded_to(rows)` clones the scope at a power-of-two height between
+its count-derived minimum and65536, for composition with a larger public program.
 
 Ungated parity constraints equate each post-Theta column's XOR5 to the XOR3 of
 original column parity and the two Theta correction parities. This ensures the
@@ -25,6 +27,7 @@ permutation and round identities, returning `None` for padding. The checked
 little-endian 16-bit boundary expressions for word indices 0–99. The output
 helper's program must be the corresponding row of this constructor's trusted
 preprocessing, never witness-selected constants or row metadata.
+`input_bit` exposes a checked reconstructed bit expression for containing AIRs.
 
 Private lookup buses, consumer multiplicities, sponge absorption, SHA3 padding,
 message binding, final digest binding, private masks and lookup auxiliaries are
