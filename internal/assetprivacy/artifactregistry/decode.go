@@ -35,5 +35,8 @@ func decodeEntry(encoded []byte, expected layout) (Entry, error) {
 	for index := range entry.Root {
 		entry.Root[index] = binary.LittleEndian.Uint64(encoded[18+index*8 : 26+index*8])
 	}
+	if !entry.validScope() {
+		return Entry{}, ErrLayout
+	}
 	return entry, nil
 }

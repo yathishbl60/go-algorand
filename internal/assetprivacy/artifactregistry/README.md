@@ -1,7 +1,7 @@
 # Independently pinned preprocessing registry reader
 
 `artifactregistry` is opt-in Go code under `algorand_native_privacy`. It reads an
-exact candidate registry of twenty public preprocessing commitments. It does not
+exact candidate registry of twenty physical capability slots. It does not
 approve a cryptographic suite, authenticate a proof or enable native acceptance.
 There is no default approved registry or fallback to proof-advertised metadata.
 
@@ -28,19 +28,19 @@ sizes, aliases or optional records. The header occupies134 bytes:
 | Byte interval, end excluded | Encoding |
 | --- | --- |
 | 0..4 | ASCII `NAPK` |
-| 4 | Version6 |
+| 4 | Version7 |
 | 5..69 | Profile64, identical to independent Pin.Profile |
 | 69..133 | Selected reference64, identical to legacy Pin.Implementation |
 | 133 | Count20 |
 
 Exactly twenty82-byte records follow in order kinds1..14,17..22. Each
 record contains kind1, rowsu32LE, mainWidthu32LE, preprocessingWidthu32LE,
-publicCountu32LE, flags1 and eight rawu64LE root words (64 bytes). Flags must
-be3: bit0 main-next and bit1 preprocessing-next. Unknown bits fail closed.
+publicCountu32LE, flags1 and eight rawu64LE root words (64 bytes). Present flags
+are3: bit0 main-next and bit1 preprocessing-next. Absent flags are0 with root0.
 Root words are SHA3 commitment digest words, not Goldilocks field cells. They
-are never reduced or range-checked as field representatives. All64-byte root
-outputs, including zero, are permitted; independent pins and provenance determine
-trust. Missing keys or placeholders never create an approved registry implicitly.
+are never reduced as field representatives. Present roots must be nonzero; absent
+slots retain exact dimensions. Empty scopes and inconsistent flags/roots reject.
+Missing capabilities cannot bind proofs. Independent pins/provenance remain required.
 
 | Kind | Native layout | Rows | Main | Preprocessing | Public |
 | --- | --- | ---: | ---: | ---: | ---: |
@@ -65,7 +65,7 @@ trust. Missing keys or placeholders never create an approved registry implicitly
 | 21 | Serial Owner registration | 512 | 1953 | 11 | 64 |
 | 22 | Viewing registration | 16384 | 9394 | 723 | 1216 |
 
-Version6 supersedes unapproved versions1..5. Serial Owner keeps kind21 but changes
+Version7 supersedes unapproved versions1..6. Serial Owner keeps kind21 and retains
 its compiled main/preprocessing widths to1953/11 and source fingerprint. Earlier
 3540/4 entries/pins fail closed; there are no approved historical references. Kind alone
 selects a public schedule, not an entire transaction-specific relation. The Rust
@@ -76,7 +76,7 @@ public relation identity. Role, output ordinal, body/group context, current root
 and applicable authority remain native statement/authentication obligations.
 
 The independent registry Digest is SHA3-512 of ASCII
-`Algorand/AssetPrivacy/Candidate1/ArtifactRegistryV6/` followed by the entire
+`Algorand/AssetPrivacy/Candidate1/ArtifactRegistryV7/` followed by the entire
 1774-byte file. `Digest(encoded)` is a fixed-size offline integrity helper only:
 it checks length and computes that digest, without checking header/layouts,
 provenance or approval. A digest read from the same file is not an independent pin.
@@ -94,5 +94,6 @@ were1.719s/168.828MiB and1.694s/187.578MiB observed RSS; the expanded run reject
 seven corrupted traces and three changed public/proof cases. They did not
 exercise this registry/native codec or establish approved artifacts. The
 [conditional4,226,753-byte complete-proof bound](../../../docs/native-asset-privacy/SERIAL_OWNER_LAYOUT.md) is not measured serialized size.
-No automated suite ran or repository test files were added; no native transaction
-was accepted and defaults remain disabled. Primitive results do not establish soundness or native delivery.
+[Scoped artifact-bound regression](../../../docs/native-asset-privacy/SCOPED_SUITE_REGISTRIES.md)
+now passes. [Native Owner registration](../../../docs/native-asset-privacy/NATIVE_OWNER_E2E_RESULTS.md) passes;
+defaults remain disabled and full private-value delivery is pending.

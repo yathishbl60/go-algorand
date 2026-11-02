@@ -14,7 +14,7 @@ Keep the original list stable during the call. Returned Suite values contain onl
 private value fields, so later caller-buffer edits cannot alter the selection.
 
 Every record must have a nonzero64-byte ID, Reference and RegistryDigest. IDs
-must be unique, including rejecting identical duplicate records. All records
+must be unique. ProofKinds must be a nonzero subset of bits1..14,17..22. All records
 are validated before lookup selects a match: a malformed later entry cannot hide
 behind a valid earlier prefix. No record is skipped. Malformed/oversized lists
 return ErrCatalog. An enabled empty list passes Validate; Lookup returns
@@ -35,8 +35,8 @@ reference/relation identity remains checked by the Rust verifier; the wire
 field name does not authorize caller-selected implementations. `Suite.Limits()`
 returns the three selected budget values by value. Neither getter changes state.
 
-`Suite.Verifier(registryBytes)` revalidates the selected record, then calls only
-proofbridge.NewVerifier. This checks exact owned1774-byte registry encoding,
+`Suite.Verifier(registryBytes)` revalidates the record and requires its ProofKinds
+to exactly match the pinned registry, then calls proofbridge.NewVerifier. It checks
 independently pinned digest/profile/reference and linked backend ABI/compatibility.
 The bytes may come from an untrusted source but must match the selected pins.
 The input buffer must remain stable while NewVerifier copies it. The zero Suite
@@ -52,6 +52,7 @@ upgrades or preceding group changes. Required signatures, mode/authority checks,
 current roots/nullifiers, public balances, funding and atomic execution remain
 separate. Successful catalog validation alone proves none of them.
 
-Go builds/vet, formatting and authored size checks establish source properties
-only. No tests, traces, preprocessing, constraint evaluations, proofs or runtime
-cryptography have run as part of this component's implementation.
+`Suite.CheckPolicy` permits a partial scope only for exactlyPublic mode; any
+private mode requires all twenty kinds. Evaluator reads/writes and snapshot queries
+enforce it. [Scope integration evidence](../../../docs/native-asset-privacy/SCOPED_SUITE_REGISTRIES.md)
+does not establish full native privacy delivery or artifact approval.

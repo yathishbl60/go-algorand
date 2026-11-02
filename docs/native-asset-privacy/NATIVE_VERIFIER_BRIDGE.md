@@ -25,7 +25,7 @@ helper. Its immutable snapshot supplies Domain/Suite/Group and exact vectors,
 including zero-output operations. Go checks suite equality, NAPW profile/group,
 bounds and every NAPB descriptor, then constructs a small trusted NAPV request.
 **NAPV is not transaction/witness/RPC data** and peers cannot select its context,
-registry or budgets. NAPV6 has a2152-byte header with NAPK6/1774-byte registry;
+registry or budgets. NAPV7 has a2152-byte header with NAPK7/1774-byte registry;
 old unapproved v1 bytes/pins reject. No historical approved references exist.
 
 Rust derives concrete AIRs from native domain/values: conversion amounts, recovery

@@ -70,5 +70,5 @@ func outputLayouts() [6]layout {
 
 func (e Entry) matches(expected layout) bool {
 	return e.Kind == expected.kind && e.Rows == expected.rows && e.MainWidth == expected.width &&
-		e.PreWidth == expected.preprocessing && e.PublicCount == expected.public && e.Flags == 3
+		e.PreWidth == expected.preprocessing && e.PublicCount == expected.public
 }

@@ -24,7 +24,7 @@ generic public constructor or mutable AIR accessor. `air()` borrows for proving;
 `Registry::load(bytes, Pin{profile,implementation,digest})` requires independent
 trusted pins and a supported reference identity. The current build fingerprint is
 supported; the explicit historical compatibility list is empty. It validates the fixed
-1774-byte NAPK version6 format, exact twenty layout records and file digest before publishing keys.
+1774-byte NAPK version7 format, twenty physical slots and pinned digest before publishing present keys.
 Unknown kinds, reordered records, incorrect dimensions/next-row flags or trailing
 bytes fail. Versions1..5 registries are rejected. Kinds8/9/10 are confidential
 transfer/unshield/shield with392/324/228 public cells. Their unchanged ordinary

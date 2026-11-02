@@ -23,13 +23,13 @@ func (r *Registry) Implementation() [64]byte   { return r.pin.Implementation }
 func (r *Registry) Digest() [64]byte           { return r.pin.Digest }
 func (r *Registry) Entries() [EntryCount]Entry { return r.entries }
 
-// Entry returns a value copy for a supported native layout; it never selects a proof.
+// Entry returns only a present capability; canonical absent slots are unsupported.
 func (r *Registry) Entry(kind Kind) (Entry, bool) {
 	if r == nil || kind == 0 {
 		return Entry{}, false
 	}
 	for _, entry := range r.entries {
-		if entry.Kind == kind {
+		if entry.Kind == kind && entry.Flags == 3 {
 			return entry, true
 		}
 	}

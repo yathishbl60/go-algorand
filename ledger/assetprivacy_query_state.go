@@ -80,8 +80,11 @@ func (l *Ledger) nativePrivacyQueryProtocol(round basics.Round) (config.Consensu
 
 func validateNativePrivacyQuerySuite(proto config.ConsensusParams, snapshot query.Snapshot) error {
 	if snapshot.Policy != nil {
-		_, err := suitecatalog.Lookup(proto, snapshot.Policy.Suite)
-		return err
+		suite, err := suitecatalog.Lookup(proto, snapshot.Policy.Suite)
+		if err != nil {
+			return err
+		}
+		return suite.CheckPolicy(snapshot.Policy.Policy)
 	}
 	if snapshot.Closure != nil {
 		_, err := suitecatalog.Lookup(proto, snapshot.Closure.Suite)

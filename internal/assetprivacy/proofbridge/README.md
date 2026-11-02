@@ -17,7 +17,7 @@ value-copy Domain/Suite/Group. The generic `Verifier.Verify(plan, context, frame
 requires the same authoritative provenance. It compares Suite with the configured
 profile, validates the outer NAPW binding, copies the bounded payload, checks the
 complete expected NAPB framing, and sends exact public vectors/context to Rust.
-Trusted NAPV version6 has a2152-byte header including the1774-byte NAPK version6
+Trusted NAPV version7 has a2152-byte header including the1774-byte NAPK version7
 registry and is at most16576 bytes; it is not a network format. Versions1..5 reject.
 
 Rust rebuilds the concrete AIR constructors and relation/artifact IDs, checks main

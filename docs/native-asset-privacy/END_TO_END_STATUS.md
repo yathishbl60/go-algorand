@@ -2,7 +2,7 @@
 
 Updated 2026-11-02. **Not end-to-end yet.** Native evaluator proof routing and
 atomic application now exist as inactive source integration; [whole-operation resource gates](WHOLE_TRANSACTION_FEASIBILITY.md) still fail. No accepted private
-transaction or real-node demo has been demonstrated; [bounded serial Owner primitive validation passed](SERIAL_OWNER_RESULTS.md). [Delivery gates and rework risks](DELIVERY_PROGRESS.md).
+value transaction or complete privacy demo exists; [native Owner registration/rollback/restart passes](NATIVE_OWNER_E2E_RESULTS.md). [Delivery gates and rework risks](DELIVERY_PROGRESS.md).
 
 ## Work-package evidence
 
@@ -20,7 +20,7 @@ transaction or real-node demo has been demonstrated; [bounded serial Owner primi
 | NAP-10 APIs | Pinned ledger snapshots, bounded output pages/cursors, public note witnesses and JSON MBR reporting source-integrated; read-only REST/OpenAPI and error routing source-integrated; authorization/key/eligibility records and witnesses have ledger+HTTP source integration; raw pending/simulate wire propagation and early synthetic-signer rejection source-integrated; rollback-retained simulation work diagnostics source-integrated; typed semantic decoding and runtime evidence missing |
 | NAP-11 SDK/wallet | Local note/encryption/output recovery and typed node-repository Go query client/libgoal facade and goal query commands source-integrated; bounded local multi-epoch scanning and keyset-bound resume source-integrated; fixed-size encrypted scan-page archives/offline restore source-integrated; standalone SDK, proving/receipts, wallet-wide storage and complete backup/recovery missing |
 | NAP-12 demo | All six real-node scenarios missing |
-| NAP-13 validation | Ownership proof-pipeline regression passes; native end-to-end, recovery/upgrade and broader adversarial evidence missing |
+| NAP-13 validation | Native Owner registration/rollback/peer restart and proof regressions pass; private-value end-to-end, recovery/upgrade and broader evidence missing |
 | NAP-14 release | Coordinated specs/node/SDK/indexer package and external review evidence missing |
 
 ## Current authorization and defaults

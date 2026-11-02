@@ -64,7 +64,7 @@ Missing viewing keys do not grant recipient membership.
 
 Registration pays proof, complete signed-byte and ordinary PQ/transaction fees.
 A fee bound grants no admission; finalize fees/group before constructing a proof.
-NAPK6 remains20 entries/1774 bytes, including kinds21/22. NAPV6 retains its2152-byte
+NAPK7 has20 physical slots/1774 bytes, including kinds21/22. NAPV7 retains its2152-byte
 header/16576-byte cap. Serial Owner changes compiled kind21 dimensions and source
 fingerprint; stale layouts/pins fail closed. No approved compatibility reference,
 suite artifact or production migration has been added.
@@ -82,7 +82,7 @@ These are bounded worker observations, not deployment budgets or a security audi
 canonical proof upper bound of4,226,753 bytes. Actual serialized native proof size
 has not been established here. Direct pinned-P3 setup/prove/verify does not exercise
 Prepared, the canonical native codec, independent registry pins or node admission.
-No automated test suite ran and no repository test files were added. See [feasibility](FEASIBILITY_RESULTS.md).
+Subsequent [artifact-bound and native node regressions](NATIVE_OWNER_E2E_RESULTS.md) now pass, including rollback and restart.
 
 Recipient/encryption feasibility, approved artifacts, complete lifecycle/arities,
 SDK/wallet flows, recovery and all six node scenarios remain in

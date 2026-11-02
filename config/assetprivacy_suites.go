@@ -28,6 +28,7 @@ type NativeAssetPrivacySuite struct {
 	ID                 [64]byte
 	Reference          [64]byte
 	RegistryDigest     [64]byte
+	ProofKinds         uint32
 	MaxBundleBytes     uint32
 	MaxProofBytes      uint32
 	MaxAllocationBytes uint32

@@ -7,7 +7,7 @@ use super::{Entry, layout::ORDER};
 pub(super) const HEADER: usize = 134;
 pub(super) const RECORD: usize = 82;
 pub(super) const SIZE: usize = HEADER + RECORD * 20;
-pub(super) const MAGIC: [u8; 5] = *b"NAPK\x06";
+pub(super) const MAGIC: [u8; 5] = *b"NAPK\x07";
 
 /// Independent approved inputs. Never obtain these values from the artifact/witness.
 #[derive(Clone, Copy)]
@@ -32,7 +32,9 @@ impl Registry {
             .try_reserve_exact(ORDER.len())
             .map_err(|_| Error::AllocationFailure)?;
         for (record, layout) in bytes[HEADER..].as_chunks::<RECORD>().0.iter().zip(ORDER) {
-            entries.push(super::registry_codec::decode_record(record, layout)?);
+            if let Some(entry) = super::registry_codec::decode_record(record, layout)? {
+                entries.push(entry);
+            }
         }
         Ok(Self {
             profile: pin.profile,
@@ -69,7 +71,20 @@ fn preflight(bytes: &[u8], pin: Pin) -> Result<(), Error> {
     for (record, layout) in bytes[HEADER..].as_chunks::<RECORD>().0.iter().zip(ORDER) {
         super::registry_codec::check_record(record, layout)?;
     }
-    Ok(())
+    check_scope(bytes)
+}
+
+fn check_scope(bytes: &[u8]) -> Result<(), Error> {
+    if bytes[HEADER..]
+        .as_chunks::<RECORD>()
+        .0
+        .iter()
+        .any(|record| record[17] == 3)
+    {
+        Ok(())
+    } else {
+        Err(Error::Artifact)
+    }
 }
 
 fn valid_pin(pin: Pin) -> bool {

@@ -10,7 +10,7 @@ Request length is2152..16576 bytes. Header fields have these exact byte interval
 
 | Interval, end excluded | Encoding |
 | --- | --- |
-| 0..5 | ASCII NAPV then version6 |
+| 0..5 | ASCII NAPV then version7 |
 | 5..69 | Independently approved profile/Suite64 |
 | 69..133 | Independently selected verifier reference64 |
 | 133..197 | Independently approved registry digest64 |
@@ -21,7 +21,7 @@ Request length is2152..16576 bytes. Header fields have these exact byte interval
 | 365..369 | Trusted maximum bundle bytesu32BE |
 | 369..373 | Trusted maximum individual proof bytesu32BE |
 | 373..377 | Trusted per-decoder canonical allocation chargeu32BE |
-| 377..2151 | Exact1774-byte NAPK version6 registry file |
+| 377..2151 | Exact1774-byte NAPK version7 registry file |
 | 2151 | Slot count byte,1..7 |
 
 Each slot follows as kindu8, outputu32BE, roleu8, scalarCountu16BE, then exactly
@@ -38,7 +38,7 @@ Viewing registration kind22 has exact public-key byte cells0..1184 and group1184
 Each key cell must fit u8; canonical polynomial decoding and bounded public matrix
 derivation precede constructing its verifier. Domain and complete public key bind
 its relation identity; group must equal the trusted header. Both registration
-proofs require one main slot and no outputs. NAPV/NAPK versions1..5 reject. Recovery public
+proofs require one main slot and no outputs. NAPV/NAPK versions1..6 reject. Recovery public
 credit starts96 for partial-public and64 for full-public; private variants use0.
 Current recovery authority is the final32 cells of the original prefix.
 Confidential recovery kinds11..14 append128 byte cells at192/160/164/132;

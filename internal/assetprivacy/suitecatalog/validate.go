@@ -18,7 +18,10 @@
 
 package suitecatalog
 
-import "github.com/algorand/go-algorand/config"
+import (
+	"github.com/algorand/go-algorand/config"
+	"github.com/algorand/go-algorand/internal/assetprivacy/artifactregistry"
+)
 
 func validateRecords(records []config.NativeAssetPrivacySuite) error {
 	for index, record := range records {
@@ -36,6 +39,9 @@ func validateRecords(records []config.NativeAssetPrivacySuite) error {
 
 func checkRecord(record config.NativeAssetPrivacySuite) error {
 	if record.ID == [64]byte{} || record.Reference == [64]byte{} || record.RegistryDigest == [64]byte{} {
+		return ErrCatalog
+	}
+	if record.ProofKinds == 0 || record.ProofKinds&^artifactregistry.AllProofKinds != 0 {
 		return ErrCatalog
 	}
 	if err := (Suite{record: record}).Limits().Validate(); err != nil {

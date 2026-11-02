@@ -56,8 +56,8 @@ publishing keys. Registry::bind(prepared) selects the expected layout and derive
 its artifact identity using that same reference. Registry::check_setup checks
 width/degree/root against a pinned key, not complete reusable prover data.
 
-The1774-byte NAPK version6 format/dimensions are in the [Go registry contract](../../internal/assetprivacy/artifactregistry/README.md).
-Its digest hashes ASCII Algorand/AssetPrivacy/Candidate1/ArtifactRegistryV6/ followed
+The1774-byte NAPK version7 format/dimensions are in the [Go registry contract](../../internal/assetprivacy/artifactregistry/README.md).
+Its digest hashes ASCII Algorand/AssetPrivacy/Candidate1/ArtifactRegistryV7/ followed
 by the entire file. Root words allow every64-byte value; approval/provenance comes
 from independent pins. Cross-language conformance remains unverified.
 
@@ -95,6 +95,6 @@ Native plans retain value-copy Domain/Suite/Group and copied statements, includi
 zero-output operations. Authoritative VerifyAssetPrivacySpend/Recovery rebuild
 those plans and select current consensus pins; generic caller-supplied Verifier
 helpers do not establish this provenance. All current catalogs remain empty.
-NAPK6/NAPV6 supersede unapproved versions1..5; no historical approved references exist.
+NAPK7/NAPV7 supersede unapproved versions1..6; [explicit scopes](SCOPED_SUITE_REGISTRIES.md) fail closed.
 Approved artifacts, practical work pricing and runtime execution remain missing. No build/source result establishes proof correctness,
 privacy or practical resource use. External specs/SDK delivery remains incomplete.

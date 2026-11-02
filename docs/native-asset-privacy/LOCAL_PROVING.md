@@ -1,16 +1,16 @@
 # Candidate local typed proving API
 
-Updated 2026-11-01. Rust feature `native-privacy` exposes local proving through
+Updated 2026-11-02. Rust feature `native-privacy` exposes local proving through
 [typed Prepared factories](../../internal/assetprivacy/stark/src/verification/selection/prepared.rs).
-This API has build/static evidence only. [Bounded Owner primitive runs](FEASIBILITY_RESULTS.md)
-used direct P3 setup/prove/verify, including the [serial layout](SERIAL_OWNER_RESULTS.md); no complete artifact-bound native proof exists.
+The [scoped Owner proof regression](SCOPED_SUITE_REGISTRIES.md) now exercises real
+setup, canonical artifact-bound proving/self-check and verification. [Native Owner registration](NATIVE_OWNER_E2E_RESULTS.md) passes; private value operations remain pending.
 Every consensus version remains disabled; there are no approved suite artifacts.
 
 ## Trusted inputs and preparation
 
 Load `selection::Registry` with independently pinned profile, implementation and
-registry digest. NAPK6 still contains all20 current layout kinds; producing a
-single proof does not permit replacing it with a one-entry/unpinned registry.
+registry digest. [NAPK7](SCOPED_SUITE_REGISTRIES.md) retains20 physical slots with
+explicit absent capabilities; only real present keys can bind proofs.
 Use the exact typed factory for the finalized operation/domain. Public statement
 values must come from the trusted finalized native group, not a proof or witness.
 
@@ -52,7 +52,7 @@ practical feasibility evidence or recommended deployment limits.
 
 ## Owner-registration caller fragment
 
-This unexecuted fragment assumes an already trusted registry, matching setup,
+This caller fragment assumes an already trusted registry, matching setup,
 limits, domain, statement and private nonzero32-byte spending secret. Statement
 is `owner_registration_air::PublicStatement { owner, group }`; both digests are
 nonzero64-byte values, with owner bound to the network/secret and group finalized.

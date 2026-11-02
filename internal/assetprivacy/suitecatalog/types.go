@@ -32,6 +32,7 @@ const MaxSuites = 16
 var (
 	ErrUnknown = errors.New("native privacy suite is not in the current catalog")
 	ErrCatalog = errors.New("invalid native privacy suite catalog")
+	ErrScope   = errors.New("native privacy suite proof capability mismatch")
 )
 
 // Suite is a value-only snapshot selected from a fully validated enabled catalog.

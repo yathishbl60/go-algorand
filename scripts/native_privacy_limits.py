@@ -12,7 +12,8 @@ FUNCTION = re.compile(r'(?m)^[ \t]*(?:pub(?:\([^)]*\))?[ \t]+)?(?:const[ \t]+)?(
 
 
 def sources():
-    roots = (Path("internal/assetprivacy"), Path("docs/native-asset-privacy"))
+    roots = (Path("internal/assetprivacy"), Path("docs/native-asset-privacy"),
+             Path("test/e2e-go/features/assetprivacy"))
     files = [p for root in roots for p in root.rglob("*")
              if p.suffix in (".go", ".rs", ".md")
              and "target" not in p.parts and "vendor" not in p.parts]

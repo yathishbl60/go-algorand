@@ -22,7 +22,7 @@ import "encoding/binary"
 
 func (v *Verifier) writeHeader(encoded []byte, context Context, slots byte) {
 	copy(encoded[:4], "NAPV")
-	encoded[4] = 6
+	encoded[4] = 7
 	copy(encoded[5:69], v.pin.Profile[:])
 	copy(encoded[69:133], v.pin.Implementation[:])
 	copy(encoded[133:197], v.pin.Digest[:])

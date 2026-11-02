@@ -64,8 +64,8 @@ the full fee/group must be finalized before proving.
 
 ## Formats, limits and outstanding evidence
 
-NAPK6 contains20 records/1774 bytes; kind22 has16384 rows,9394 main columns,
-723 preprocessing columns and1216 public values. NAPV6 has a2152-byte header
+NAPK7 contains20 physical slots/1774 bytes; kind22 has16384 rows,9394 main columns,
+723 preprocessing columns and1216 public values. NAPV7 has a2152-byte header
 and16576-byte cap. Unapproved older versions reject; no approved historical
 reference, preprocessing pin or production migration is created by these changes.
 

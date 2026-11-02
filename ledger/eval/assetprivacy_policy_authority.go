@@ -46,7 +46,7 @@ func (cs *roundCowState) privacyPolicyAuthority(asset basics.AssetIndex, manager
 }
 
 func (cs *roundCowState) writeAssetPrivacyPolicy(asset basics.AssetIndex, record policy.Record) error {
-	if _, err := suitecatalog.Lookup(cs.proto, record.Suite); err != nil {
+	if err := cs.checkAssetPrivacySuitePolicy(record); err != nil {
 		return err
 	}
 	key, err := policy.RecordKey(uint64(asset))
@@ -58,4 +58,12 @@ func (cs *roundCowState) writeAssetPrivacyPolicy(asset basics.AssetIndex, record
 		return err
 	}
 	return cs.kvPut(key, encoded)
+}
+
+func (cs *roundCowState) checkAssetPrivacySuitePolicy(record policy.Record) error {
+	suite, err := suitecatalog.Lookup(cs.proto, record.Suite)
+	if err != nil {
+		return err
+	}
+	return suite.CheckPolicy(record.Policy)
 }

@@ -49,5 +49,8 @@ func readEntries(encoded []byte) ([EntryCount]Entry, error) {
 		}
 		entries[index] = entry
 	}
+	if !anyPresent(entries) {
+		return [EntryCount]Entry{}, ErrLayout
+	}
 	return entries, nil
 }

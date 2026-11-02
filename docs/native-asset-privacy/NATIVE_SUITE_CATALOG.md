@@ -15,6 +15,7 @@ NativeAssetPrivacySuite values. Each record contains:
 | ID64 | Policy suite/profile ID |
 | Reference64 | Supported frozen implementation reference |
 | RegistryDigest64 | Independently pinned digest of the complete1774-byte NAPK file |
+| ProofKinds u32 | Exact present-kind mask, bits1..14 and17..22; zero/reserved bits reject |
 | MaxBundleBytes | Explicit bundle byte cap |
 | MaxProofBytes | Explicit individual proof byte cap |
 | MaxAllocationBytes | Go payload-copy cap and separate Rust decoder charge quota |

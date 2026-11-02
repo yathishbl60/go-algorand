@@ -52,11 +52,20 @@ go test -tags algorand_native_privacy,algorand_native_privacy_stark \
 The initial sandbox run was denied localhost socket binding. The authorized
 rerun outside the sandbox passed. No consensus flag or production network changed.
 
+## Native Owner registration
+
+[The real two-node regression](NATIVE_OWNER_E2E_RESULTS.md) passes in8.43s,
+including partial-suite private-policy rejection, actual PQ authorization,
+canonical bad-proof atomic rollback, valid block acceptance and peer restart.
+The complete signed transaction measured4,156,264 bytes; its group4,159,513 bytes.
+It checks public-only policy/key registration, without moving private value.
+See [exact build/run commands](../../test/e2e-go/features/assetprivacy/README.md).
+
 ## Remaining delivery coverage
 
-These are ownership-component proof-pipeline tests. They do not execute native
-transactions, ledger changes, wallets or nodes. The six required real-node
-scenarios remain0/6. Native proof acceptance, invalid-proof atomic rollback,
+Proof-component tests alone do not execute native transactions. The Owner node
+test covers registration, ledger changes and restart. The six required real-node
+privacy scenarios remain0/6. Full private-value proof acceptance/atomic rollback,
 supply/nullifier invariants, replay/catchup, recovery, upgrade compatibility,
 resource bounds and existing-feature regressions need actual complete coverage.
 

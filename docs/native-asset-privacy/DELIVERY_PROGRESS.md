@@ -25,6 +25,7 @@ pipeline, including preprocessing, FFTs, auxiliary proofs and assembly.
 | Compact field/note/hash primitives | [Bounded Fp31 proofs](COMPACT_PRIMITIVE_RESULTS.md) verified with the vendored compatibility fix; no complete profile |
 | Private ownership composition | [One/two-note joint proofs](OWNED_NOTES_RESULTS.md) verified; mismatched private links rejected; complete spending absent |
 | Compact coefficient storage | [Full trace-dimension storage/tile run](COMPACT_STORAGE_RESULTS.md) completed at2.740GiB sampled RSS; complete PCS/prover absent |
+| Native Owner registration | [Real two-node acceptance, bad-proof rollback and peer restart](NATIVE_OWNER_E2E_RESULTS.md) pass; public-only ASA policy |
 | Largest hash-table capacity | [1365-permutation proof](FULL_CAPACITY_HASH_RESULTS.md) verified in68s, sampled peak5.504GiB; excludes complete statement |
 | Accepted end-to-end native private transactions | None demonstrated |
 | Six real-node scenarios | 0/6 |

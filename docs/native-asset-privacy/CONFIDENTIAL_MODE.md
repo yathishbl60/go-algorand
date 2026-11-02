@@ -79,7 +79,7 @@ retained/disclosure output classes. Recovery arguments append participants after
 domain104+creditBE8+authority32; private shapes encode credit as zero. At most seven proofs
 are required. Recovery group offsets128/96/100/68 stay fixed.
 
-NAPK6 has20 entries/1774 bytes, ordered1..14,17..22. NAPV6 embeds it in a2152-byte
+NAPK7 has20 physical slots/1774 bytes, ordered1..14,17..22. NAPV7 embeds it in a2152-byte
 trusted header and has a16576-byte cap. Older unapproved formats reject; no
 approved artifact, historical reference or production migration is introduced.
 

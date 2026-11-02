@@ -41,5 +41,8 @@ func (s Suite) Verifier(registryBytes []byte) (*proofbridge.Verifier, error) {
 	if err := checkRecord(s.record); err != nil {
 		return nil, err
 	}
+	if err := s.checkRegistry(registryBytes); err != nil {
+		return nil, err
+	}
 	return proofbridge.NewVerifier(registryBytes, s.Pin(), s.Limits())
 }

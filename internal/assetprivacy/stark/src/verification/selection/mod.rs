@@ -26,6 +26,8 @@ mod reference;
 mod registry;
 mod registry_codec;
 mod registry_digest;
+mod registry_encode;
+mod registry_record;
 mod setup;
 mod shield;
 mod viewing_registration;
