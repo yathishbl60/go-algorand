@@ -83,7 +83,9 @@ Dense main LDE storage alone is 13.258GiB before relays, requiring a column
 streaming/storage adapter. A planning ledger retains roughly 2GiB masked
 coefficients, 0.8GB salts and 640MiB trees, plus FFT/hash scratch, trace builders,
 auxiliary generation, periodic evaluations and final assembly. These allocations
-and their lifetimes are not implemented or a proof of an 8GiB peak.
+and their combined lifetimes are not a proof of an8GiB peak. Coefficient storage
+and tiled FFT evaluation now exist; a [full-dimension storage run](COMPACT_STORAGE_RESULTS.md)
+observed2.740GiB sampled RSS. Commitment/opening/FRI orchestration remains pending.
 
 `compact_owned_notes_air` now proves counts 1/2: canonical notes, existing SHA3
 owner commitments, one AIR/batch, private buses and program binding. Its 34 owner
@@ -92,4 +94,4 @@ bridge/inverse cells must be counted in E unless absorbed by existing regions.
 This milestone does not establish a complete native transaction or membership.
 Source references: `compact_keccak_air`, `note_bytes_air`, `recoveryplan/kind.go`,
 `proofbundle/outputs.go`, pinned P3 `batch-stark/{prover,transcript}.rs` and
-`verifier/mod.rs`. New automated tests and full native activation remain pending.
+`verifier/mod.rs`. Proof-pipeline regressions pass; native scenario tests/activation remain pending.

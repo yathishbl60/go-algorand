@@ -10,6 +10,8 @@ mod amount_witness;
 pub mod compact;
 #[cfg(feature = "native-privacy-compact")]
 pub mod compact_owned_notes_air;
+#[cfg(feature = "native-privacy-compact")]
+pub mod compact_storage;
 #[cfg(feature = "native-privacy")]
 mod config;
 #[cfg(feature = "native-privacy")]

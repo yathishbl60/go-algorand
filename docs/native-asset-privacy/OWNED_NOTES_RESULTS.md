@@ -58,5 +58,5 @@ factory run above is the authoritative configuration result.
 Only small512/1024-row ownership programs were executed. Larger permitted heights,
 full transaction relations, exact native serialization, complete wire size and
 whole-prover8GiB remain open. No proof bytes, private openings, seeds or raw traces
-were retained in the repository. No new automated project tests were added/run.
+were retained in the repository. Subsequent [automated proof regressions](INTEGRATION_TESTS.md) pass.
 See [universal plan](UNIVERSAL_PROOF_PLAN.md) and [delivery gates](DELIVERY_PROGRESS.md).

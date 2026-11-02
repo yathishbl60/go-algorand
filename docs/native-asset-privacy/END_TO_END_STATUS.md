@@ -20,7 +20,7 @@ transaction or real-node demo has been demonstrated; [bounded serial Owner primi
 | NAP-10 APIs | Pinned ledger snapshots, bounded output pages/cursors, public note witnesses and JSON MBR reporting source-integrated; read-only REST/OpenAPI and error routing source-integrated; authorization/key/eligibility records and witnesses have ledger+HTTP source integration; raw pending/simulate wire propagation and early synthetic-signer rejection source-integrated; rollback-retained simulation work diagnostics source-integrated; typed semantic decoding and runtime evidence missing |
 | NAP-11 SDK/wallet | Local note/encryption/output recovery and typed node-repository Go query client/libgoal facade and goal query commands source-integrated; bounded local multi-epoch scanning and keyset-bound resume source-integrated; fixed-size encrypted scan-page archives/offline restore source-integrated; standalone SDK, proving/receipts, wallet-wide storage and complete backup/recovery missing |
 | NAP-12 demo | All six real-node scenarios missing |
-| NAP-13 validation | Automated test files/suites deferred; adversarial/benchmark/recovery/upgrade evidence missing |
+| NAP-13 validation | Ownership proof-pipeline regression passes; native end-to-end, recovery/upgrade and broader adversarial evidence missing |
 | NAP-14 release | Coordinated specs/node/SDK/indexer package and external review evidence missing |
 
 ## Current authorization and defaults
@@ -82,12 +82,12 @@ Clippy, release FFI and linked algod builds passed. [Serial Owner primitive proo
 Membership alone has a ~641 MB base matrix; streaming assembly reduces its
 static matrix overlap from~1.28 GB to~671 MB. Transfer assembly also releases
 each component before generating the next. AES-256 uses 78,388 field columns per
-block; [resource implications](CRYPTO_RESOURCES.md) remain unresolved. No automated tests ran.
+block; [resource implications](CRYPTO_RESOURCES.md) remain unresolved. [Ownership pipeline regression](INTEGRATION_TESTS.md) passes.
 [Complete single-envelope constraints](../../internal/assetprivacy/stark/src/envelope_air/README.md)
 now bind KEM/AAD/HKDF/GCM to one canonical opening/commitment. [Assigned disclosures](../../internal/assetprivacy/disclosure/README.md) and their envelope constraints now exist; native proof routing/application exist; runtime evidence is missing. [Recipient binding](../../internal/assetprivacy/stark/src/authorized_recipient_air/README.md) now joins current viewing/spending records.
 Formatting and authored file/function limits were checked.
 These are not proof correctness, privacy, anonymity, interoperability or protocol
-validation. No automated test files have been added or test suites run, as requested.
+validation. End-to-end regressions are now authorized; native scenario tests remain pending.
 
 ## Completion evidence still required
 

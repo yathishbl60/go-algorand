@@ -24,10 +24,11 @@ pipeline, including preprocessing, FFTs, auxiliary proofs and assembly.
 | Owner primitive proofs | Earlier and [serial-layout bounded runs](SERIAL_OWNER_RESULTS.md) verified |
 | Compact field/note/hash primitives | [Bounded Fp31 proofs](COMPACT_PRIMITIVE_RESULTS.md) verified with the vendored compatibility fix; no complete profile |
 | Private ownership composition | [One/two-note joint proofs](OWNED_NOTES_RESULTS.md) verified; mismatched private links rejected; complete spending absent |
+| Compact coefficient storage | [Full trace-dimension storage/tile run](COMPACT_STORAGE_RESULTS.md) completed at2.740GiB sampled RSS; complete PCS/prover absent |
 | Largest hash-table capacity | [1365-permutation proof](FULL_CAPACITY_HASH_RESULTS.md) verified in68s, sampled peak5.504GiB; excludes complete statement |
 | Accepted end-to-end native private transactions | None demonstrated |
 | Six real-node scenarios | 0/6 |
-| Automated tests | Not added/run; deferred |
+| Automated regression tests | [Ownership pipeline, storage differential and existing two-node ASA regression](INTEGRATION_TESTS.md) pass; native privacy node coverage pending |
 | Approved suite/artifacts and protocol activation | None; all current versions disabled |
 
 Git changes from the foundations parent through commit 2e8fa9c14 total 73,807 net

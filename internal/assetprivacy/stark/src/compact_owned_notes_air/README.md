@@ -48,6 +48,6 @@ does not authenticate a complete native transaction or impose a prover RAM bound
 
 Only512/1024-row composition was manually proved so far. Larger accepted trace
 heights require the planned bounded storage/prover adapter before full usage.
-Private trace/opening material must stay local. Automated project tests remain
-deferred. [Runtime evidence](../../../../../docs/native-asset-privacy/OWNED_NOTES_RESULTS.md)
+Private trace/opening material must stay local. Automated proof regressions now
+pass. [Runtime evidence](../../../../../docs/native-asset-privacy/OWNED_NOTES_RESULTS.md)
 records actual checks and their limits.
