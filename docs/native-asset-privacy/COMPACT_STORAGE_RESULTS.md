@@ -55,8 +55,8 @@ files/functions retain100/20 physical-line limits.
 The repeatable `compact_storage` release integration test now passes in0.12s;
 see [commands and scope](INTEGRATION_TESTS.md). The caller's `max_values` bounds
 one output tile only, not FFT scratch or all live
-buffers. Stock-compatible independent salts, streamed Merkle construction, input
-matrix FRI hooks, claimed openings/reduction and stripwise orchestration still
-need implementation and full differential proofs. The stock verifier, transcript
+buffers. [Streamed commitments](STREAMED_COMMITMENT_RESULTS.md) now pass stock
+verification. Input-matrix FRI hooks, claimed openings/reduction and stripwise
+orchestration still need implementation and full differential proofs. The verifier, transcript
 and mathematical construction should remain compatible. See the
 [universal plan](UNIVERSAL_PROOF_PLAN.md) and [delivery gates](DELIVERY_PROGRESS.md).

@@ -6,7 +6,9 @@
 mod coefficients;
 mod evaluate;
 mod masking;
+mod streamed_tree;
 mod strips;
 
 pub use coefficients::MaskedTrace;
+pub use streamed_tree::{StreamedTree, TreeCap, TreeDigest};
 pub use strips::{QUOTIENT_STRIP_COUNT, QuotientStrips};

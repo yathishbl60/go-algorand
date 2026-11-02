@@ -35,6 +35,10 @@ codeword columns, shifted-coset tiles, budget/range rejection, original-row
 recovery and actual full-versus-strip quotient values. These are backend
 integration comparisons, not native transaction tests.
 
+`--test compact_streamed_tree` also passes: exact stock caps/paths/salts across
+15 commitments and75 queries, with525 corrupted-proof/index rejections. See
+[full-dimension commitment evidence](STREAMED_COMMITMENT_RESULTS.md).
+
 ## Existing ASA behavior
 
 The existing two-node `TestAssetSend` passed in24.79s with freshly built

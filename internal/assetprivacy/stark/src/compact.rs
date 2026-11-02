@@ -14,6 +14,10 @@
 mod backend;
 
 pub use algorand_asset_privacy_field31::{Challenge32, Value32, has_full_extension_degree};
+pub use backend::hash::CompactHash;
+pub(crate) use backend::hash::{
+    compress as compact_compress, state as compact_hash_state, words as compact_hash_words,
+};
 pub use backend::{
     Config, LOG_BLOWUP, LOG_FINAL_POLY_LEN, MAX_LOG_ARITY, NUM_QUERIES, RANDOM_CODEWORDS,
     SALT_ELEMS, prover_config,

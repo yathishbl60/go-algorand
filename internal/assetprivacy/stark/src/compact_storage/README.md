@@ -34,7 +34,8 @@ Pinned batch proving doubles the actual quotient chunk count under hiding:
 degree8 yields sixteen committed chunks over a16N evaluation domain. Eight
 evaluation strips do not imply eight committed chunks. These are different axes.
 
-Integration still needs coefficient-backed commitment/opening reductions, streamed
-Merkle leaves with independent salts, FRI input access and stripwise batch-prover
-orchestration. Keep stock verifier/proof mathematics and transcript behavior.
+`StreamedTree` now builds compatible equal-height Merkle commitments through tiles;
+see its module README and differential regression. Integration still needs claimed
+openings/reductions, FRI input access and stripwise batch-prover orchestration.
+Keep stock verifier/proof mathematics and transcript behavior.
 The complete relation, wire bounds and native acceptance remain open.
