@@ -10,6 +10,9 @@ use rand::{
     distr::{Distribution, StandardUniform},
 };
 
+#[path = "masked_import.rs"]
+mod masked_import;
+
 /// Secret, uncommitted polynomial storage; contains masks and private trace data.
 /// No Clone/Debug/serialization is provided. Accessors expose PRIVATE material.
 pub struct MaskedTrace<F: TwoAdicField> {

@@ -1,7 +1,7 @@
 # Native asset privacy: end-to-end delivery status
 
-Updated 2026-11-02. **Not end-to-end yet.** Native evaluator proof routing and
-atomic application now exist as inactive source integration; [whole-operation resource gates](WHOLE_TRANSACTION_FEASIBILITY.md) still fail. No accepted private
+Updated 2026-11-03. **Not end-to-end yet.** Native evaluator proof routing and
+atomic application now exist as inactive source integration; [whole-operation resource gates](WHOLE_TRANSACTION_FEASIBILITY.md) remain open. No accepted private
 value transaction or complete privacy demo exists; [native Owner registration/rollback/restart passes](NATIVE_OWNER_E2E_RESULTS.md). [Delivery gates and rework risks](DELIVERY_PROGRESS.md).
 
 ## Work-package evidence
@@ -85,7 +85,7 @@ each component before generating the next. AES-256 uses 78,388 field columns per
 block; [resource implications](CRYPTO_RESOURCES.md) remain unresolved. [Ownership pipeline regression](INTEGRATION_TESTS.md) passes.
 [Complete single-envelope constraints](../../internal/assetprivacy/stark/src/envelope_air/README.md)
 now bind KEM/AAD/HKDF/GCM to one canonical opening/commitment. [Assigned disclosures](../../internal/assetprivacy/disclosure/README.md) and their envelope constraints now exist; native proof routing/application exist; runtime evidence is missing. [Recipient binding](../../internal/assetprivacy/stark/src/authorized_recipient_air/README.md) now joins current viewing/spending records.
-Formatting and authored file/function limits were checked.
+Formatting and authored limits pass; [candidate PCS ownership proofs](COEFFICIENT_PCS_RESULTS.md) verify against stock.
 These are not proof correctness, privacy, anonymity, interoperability or protocol
 validation. End-to-end regressions are now authorized; native scenario tests remain pending.
 

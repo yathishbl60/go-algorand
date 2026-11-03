@@ -66,8 +66,9 @@ The worker exited0 in **108.943s**, with **3053.250MiB sampled peak RSS**
 sampling can miss brief peaks. No full LDE, private user data, seed or proof
 artifact was retained. This is not a physical8GiB-host run or a complete prover.
 
-Remaining work includes production opening reduction, hiding/disclosure guards,
-quotient orchestration, full semantic AIR composition, exact compact native codecs
+The [candidate PCS](COEFFICIENT_PCS_RESULTS.md) now implements opening reduction
+and disclosure guards. Remaining work includes full-size quotient orchestration,
+full semantic AIR composition, exact compact native codecs
 and approved profiles. Whole-prover8GiB/5MB gates and six privacy scenarios remain
 open in [delivery status](DELIVERY_PROGRESS.md).
 

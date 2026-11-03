@@ -7,6 +7,8 @@
 #[cfg(feature = "native-privacy")]
 mod amount_witness;
 #[cfg(feature = "native-privacy-compact")]
+pub mod coefficient_pcs;
+#[cfg(feature = "native-privacy-compact")]
 pub mod compact;
 #[cfg(feature = "native-privacy-compact")]
 pub mod compact_owned_notes_air;

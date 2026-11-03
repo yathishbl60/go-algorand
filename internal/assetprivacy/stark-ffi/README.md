@@ -11,7 +11,9 @@ bash internal/assetprivacy/stark-ffi/build.sh debug
 ```
 
 The script installs a host static archive under ignored `lib/`; artifacts are not
-committed. An ignored Go archive-digest marker makes changed Rust archives invalidate Go link caches. Set NAP_STARK_TARGET_DIR for Cargo output storage. A cross-build must
+committed. An ignored Go archive-digest marker retains runtime data so changed
+Rust archives invalidate Go link caches. A length-only constant check folds away
+and can reuse stale links. Set NAP_STARK_TARGET_DIR for Cargo output storage. A cross-build must
 set a matching Rust CARGO_BUILD_TARGET and Go GOOS/GOARCH; mismatched archives do
 not work. The Go adapter currently supports Linux/Darwin with CGO and both privacy
 tags; unsupported/unlinked builds reject verification as unavailable.
@@ -42,7 +44,8 @@ caller trust boundary. Do not accept peer-supplied native requests. The source
 fingerprint includes this crate's manifest/sources/header and the shared workspace
 lockfile. It does not attest a compiler or approve cryptography.
 
-The core/FFI crates and tagged node build/link; symbols were inspected. No C ABI
-execution, proofs, setup, vectors or tests have run. Approved keys/pins, native
-transaction handlers, other platforms, runtime validation and practical resource
-limits remain unfinished. No consensus version enables this code.
+The [native Owner regression](../../../docs/native-asset-privacy/NATIVE_OWNER_E2E_RESULTS.md)
+executes real setup/proofs through this ABI on two nodes, including invalid-proof
+rollback and peer restart. It moves no private value. Complete private-value
+proofs, approved keys/profiles, other platforms and whole-prover resource gates
+remain unfinished. No consensus version enables this code.

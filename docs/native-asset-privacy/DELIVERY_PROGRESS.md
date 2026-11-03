@@ -24,14 +24,15 @@ pipeline, including preprocessing, FFTs, auxiliary proofs and assembly.
 | Owner primitive proofs | Earlier and [serial-layout bounded runs](SERIAL_OWNER_RESULTS.md) verified |
 | Compact field/note/hash primitives | [Bounded Fp31 proofs](COMPACT_PRIMITIVE_RESULTS.md) verified with the vendored compatibility fix; no complete profile |
 | Private ownership composition | [One/two-note joint proofs](OWNED_NOTES_RESULTS.md) verified; mismatched private links rejected; complete spending absent |
-| Compact coefficient storage | [Full trace-dimension storage/tile run](COMPACT_STORAGE_RESULTS.md) completed at2.740GiB sampled RSS; complete PCS/prover absent |
-| Streamed compact commitment | [Full-dimension commitment and stock-verified opening](STREAMED_COMMITMENT_RESULTS.md) complete at2.982GiB sampled RSS; PCS opening/FRI pending |
-| Coefficient-backed FRI inputs | [Real stock-verified FRI and full-dimension192-query openings](COEFFICIENT_FRI_INPUTS_RESULTS.md) pass; production PCS/relation composition pending |
+| Compact coefficient storage | [Full trace-dimension storage/tile run](COMPACT_STORAGE_RESULTS.md) completed at2.740GiB sampled RSS; whole semantic prover absent |
+| Streamed compact commitment | [Full-dimension commitment and stock-verified opening](STREAMED_COMMITMENT_RESULTS.md) complete at2.982GiB sampled RSS; candidate PCS below |
+| Coefficient-backed FRI inputs | [Real stock-verified FRI and full-dimension192-query openings](COEFFICIENT_FRI_INPUTS_RESULTS.md) pass; candidate PCS below |
+| Coefficient-backed PCS | [Actual one/two-note STARK proofs and disclosure guards](COEFFICIENT_PCS_RESULTS.md) pass against stock verification; full-size quotient scheduling/composition pending |
 | Native Owner registration | [Real two-node acceptance, bad-proof rollback and peer restart](NATIVE_OWNER_E2E_RESULTS.md) pass; public-only ASA policy |
 | Largest hash-table capacity | [1365-permutation proof](FULL_CAPACITY_HASH_RESULTS.md) verified in68s, sampled peak5.504GiB; excludes complete statement |
 | Accepted end-to-end native private transactions | None demonstrated |
 | Six real-node scenarios | 0/6 |
-| Automated regression tests | [Ownership pipeline, storage differential and existing two-node ASA regression](INTEGRATION_TESTS.md) pass; native privacy node coverage pending |
+| Automated regression tests | [Ownership/PCS pipelines, storage differential, native Owner and existing ASA node regressions](INTEGRATION_TESTS.md) pass; private-value coverage pending |
 | Approved suite/artifacts and protocol activation | None; all current versions disabled |
 
 Git changes from the foundations parent through commit 2e8fa9c14 total 73,807 net

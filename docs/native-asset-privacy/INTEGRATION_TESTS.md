@@ -41,8 +41,9 @@ integration comparisons, not native transaction tests.
 
 The coefficient matrix, input MMCS and FRI targets also pass; the latter executes
 actual generic FRI proving and stock verification with authenticated input rows.
-[Evidence and scope](COEFFICIENT_FRI_INPUTS_RESULTS.md) distinguish this from a
-complete production PCS or native private-value acceptance.
+`--test coefficient_pcs` passes in6.50s with stock-verified ownership AIR proofs,
+mutation rejection and shared disclosure leases. [PCS evidence](COEFFICIENT_PCS_RESULTS.md)
+separates this from complete semantic proving or native private-value acceptance.
 
 ## Existing ASA behavior
 
