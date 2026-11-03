@@ -86,7 +86,8 @@ auxiliary generation, periodic evaluations and final assembly. These allocations
 and their combined lifetimes are not a proof of an8GiB peak. Coefficient storage
 and tiled FFT evaluation now exist; a [full-dimension storage run](COMPACT_STORAGE_RESULTS.md)
 observed2.740GiB sampled RSS. [Streamed commitments](STREAMED_COMMITMENT_RESULTS.md)
-now complete at2.982GiB sampled RSS; full opening/FRI orchestration remains pending.
+now complete at2.982GiB sampled RSS. [Real streamed FRI inputs](COEFFICIENT_FRI_INPUTS_RESULTS.md)
+and192-query openings pass; complete production PCS orchestration remains pending.
 
 `compact_owned_notes_air` now proves counts 1/2: canonical notes, existing SHA3
 owner commitments, one AIR/batch, private buses and program binding. Its 34 owner

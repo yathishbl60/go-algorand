@@ -1,6 +1,7 @@
 // Copyright (C) 2026 Algorand Foundation Ltd.
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
+use super::vendor;
 use std::{
     fs, io,
     path::{Path, PathBuf},
@@ -18,13 +19,15 @@ pub fn collect(root: &Path) -> io::Result<Vec<String>> {
     Ok(names)
 }
 
-pub fn source_directories() -> [&'static str; 5] {
+pub fn source_directories() -> [&'static str; 7] {
     [
         "stark/src",
         "stark/build_support",
         "stark-ffi/src",
         "field31/src",
+        "matrix-adapter/src",
         "vendor/p3-matrix/src",
+        "vendor/p3-fri/src",
     ]
 }
 
@@ -68,23 +71,15 @@ fn fixed_inputs() -> Vec<String> {
         "stark/build.rs",
         "stark-ffi/Cargo.toml",
         "stark-ffi/include/nap_privacy.h",
+        "stark/patches/p3-fri-input-matrix.patch",
     ]
     .into_iter()
-    .chain(vendor_inputs())
+    .chain(vendor::inputs())
+    .chain(adapter_inputs())
     .map(String::from)
     .collect()
 }
 
-fn vendor_inputs() -> [&'static str; 9] {
-    [
-        "vendor/p3-matrix/Cargo.toml",
-        "vendor/p3-matrix/Cargo.upstream.toml",
-        "vendor/p3-matrix/UPSTREAM.md",
-        "vendor/p3-matrix/SHA3_512_MANIFEST.json",
-        "vendor/p3-matrix/d10.patch",
-        "vendor/p3-matrix/README.md",
-        "vendor/p3-matrix/CHANGELOG.md",
-        "vendor/p3-matrix/LICENSE-MIT",
-        "vendor/p3-matrix/LICENSE-APACHE",
-    ]
+fn adapter_inputs() -> [&'static str; 2] {
+    ["matrix-adapter/Cargo.toml", "matrix-adapter/README.md"]
 }

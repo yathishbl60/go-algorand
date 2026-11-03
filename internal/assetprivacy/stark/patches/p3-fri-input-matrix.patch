@@ -1,0 +1,58 @@
+--- a/src/prover.rs
++++ b/src/prover.rs
+@@ -6,7 +6,7 @@
+ use p3_commit::{Mmcs, OpeningRequest};
+ use p3_dft::{Radix2DFTSmallBatch, TwoAdicSubgroupDft};
+ use p3_field::{ExtensionField, Field, PrimeField64, TwoAdicField};
+-use p3_matrix::dense::RowMajorMatrix;
++use p3_matrix::{Matrix, dense::RowMajorMatrix};
+ use p3_maybe_rayon::prelude::*;
+ use p3_util::{log2_strict_usize, reverse_slice_index_bits};
+ use tracing::{debug_span, info_span, instrument};
+@@ -60,7 +60,7 @@
+     prover_data_with_opening_points: &[ProverDataWithOpeningPoints<
+         '_,
+         Challenge,
+-        InputMmcs::ProverData<RowMajorMatrix<Val>>,
++        InputMmcs::ProverData<impl Matrix<Val>>,
+     >],
+     input_mmcs: &InputMmcs,
+     batch_pow_witness: Val,
+@@ -104,7 +104,7 @@
+     prover_data_with_opening_points: &[ProverDataWithOpeningPoints<
+         '_,
+         Challenge,
+-        InputMmcs::ProverData<RowMajorMatrix<Val>>,
++        InputMmcs::ProverData<impl Matrix<Val>>,
+     >],
+     input_mmcs: &InputMmcs,
+     batch_pow_witness: Challenger::Witness,
+@@ -442,7 +442,7 @@
+     prover_data_with_opening_points: &[ProverDataWithOpeningPoints<
+         '_,
+         Challenge,
+-        InputMmcs::ProverData<RowMajorMatrix<Val>>,
++        InputMmcs::ProverData<impl Matrix<Val>>,
+     >],
+     mmcs: &InputMmcs,
+ ) -> Vec<BatchMultiOpening<Val, InputMmcs>>
+--- a/src/two_adic_pcs.rs
++++ b/src/two_adic_pcs.rs
+@@ -1291,7 +1291,7 @@
+                     .collect(),
+                 &mut challenger,
+                 max_log_height,
+-                &[],
++                &[] as &[ProverDataWithOpeningPoints<'_, EF, <ValMmcs as Mmcs<F>>::ProverData<RowMajorMatrix<F>>>],
+                 &pcs.mmcs,
+                 F::ZERO,
+             );
+@@ -1348,7 +1348,7 @@
+             vec![vec![EF::ZERO; 4]],
+             &mut challenger,
+             2,
+-            &[],
++            &[] as &[ProverDataWithOpeningPoints<'_, EF, <ValMmcs as Mmcs<F>>::ProverData<RowMajorMatrix<F>>>],
+             &pcs.mmcs,
+             F::ZERO,
+         );

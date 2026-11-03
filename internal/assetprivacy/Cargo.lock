@@ -21,10 +21,18 @@ dependencies = [
 ]
 
 [[package]]
+name = "algorand-asset-privacy-matrix-adapter"
+version = "0.1.0"
+dependencies = [
+ "p3-matrix",
+]
+
+[[package]]
 name = "algorand-asset-privacy-stark"
 version = "0.1.0"
 dependencies = [
  "algorand-asset-privacy-field31",
+ "algorand-asset-privacy-matrix-adapter",
  "p3-air",
  "p3-batch-stark",
  "p3-challenger",
@@ -339,7 +347,6 @@ dependencies = [
 [[package]]
 name = "p3-fri"
 version = "0.8.0"
-source = "git+https://github.com/Plonky3/Plonky3?rev=1abcaa0795bc30ded29d54d0bc2cf495b6a20c2f#1abcaa0795bc30ded29d54d0bc2cf495b6a20c2f"
 dependencies = [
  "itertools",
  "p3-challenger",

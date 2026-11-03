@@ -1,0 +1,86 @@
+{
+  "upstream_repository": "https://github.com/Plonky3/Plonky3",
+  "upstream_rev": "1abcaa0795bc30ded29d54d0bc2cf495b6a20c2f",
+  "status": "vendored generic input-storage hook; no profile selection or security approval",
+  "source_files": 10,
+  "upstream_source_physical_lines": 10327,
+  "vendored_source_physical_lines": 10327,
+  "changed_source_files": 2,
+  "production_edits": "one Matrix import and three input-data type projections; no body changes",
+  "test_edits": "two existing empty request slices receive explicit dense types",
+  "patch_physical_lines": 58,
+  "patch_sha3_512": "f5682dceba60f3d0265d9c3c0181536f44c1b624553d3ba478b3550e130a3262a46c8e7cf27ad1f38c97aeb0291baa7b64ca30afefdfabcc8a27a56090d77cd6",
+  "omitted": "upstream benches/external tests/dev dependencies; all src inline tests retained",
+  "files": [
+    {
+      "path": "src/config.rs",
+      "lines": 542,
+      "upstream_sha3_512": "219f8bad7823b1e09a20b51855562ae768072fc14c5f1c69e62d83b1344c99ddb792adb4e768850133e71d584c47186c92ebbc9fe0184b1273e7f47b4b2e9f85",
+      "vendored_sha3_512": "219f8bad7823b1e09a20b51855562ae768072fc14c5f1c69e62d83b1344c99ddb792adb4e768850133e71d584c47186c92ebbc9fe0184b1273e7f47b4b2e9f85"
+    },
+    {
+      "path": "src/hiding_pcs.rs",
+      "lines": 2010,
+      "upstream_sha3_512": "c1e7f42a55ff2b2b72a7e4c89cd3bb25b2321513509ebffa257272c3b024fe73f410311473282f0baf9d94facf7ac34f62811774524e14284e7bf05e2c1fa36a",
+      "vendored_sha3_512": "c1e7f42a55ff2b2b72a7e4c89cd3bb25b2321513509ebffa257272c3b024fe73f410311473282f0baf9d94facf7ac34f62811774524e14284e7bf05e2c1fa36a"
+    },
+    {
+      "path": "src/lib.rs",
+      "lines": 28,
+      "upstream_sha3_512": "5a73d01f178f33661c325a7ddadb7ef722565c22f1a14bc5e56a7263dc65cdd92f022572faaf2d18c860d50af733cab85489c00e4ac01722d0e912bcf88d32a7",
+      "vendored_sha3_512": "5a73d01f178f33661c325a7ddadb7ef722565c22f1a14bc5e56a7263dc65cdd92f022572faaf2d18c860d50af733cab85489c00e4ac01722d0e912bcf88d32a7"
+    },
+    {
+      "path": "src/pcs_transcript.rs",
+      "lines": 910,
+      "upstream_sha3_512": "1d326be833fae368c9eaa844f0887f167e6bcf3ea05f04717be853652749e26e244692ffec104047cce18f60efa542608bde881de12cbd6056aa4486a041740e",
+      "vendored_sha3_512": "1d326be833fae368c9eaa844f0887f167e6bcf3ea05f04717be853652749e26e244692ffec104047cce18f60efa542608bde881de12cbd6056aa4486a041740e"
+    },
+    {
+      "path": "src/periodic.rs",
+      "lines": 326,
+      "upstream_sha3_512": "3125961860c0cbc62735088ecfeaa8829760511acc178a6abf5ce115724fd54f695fa731df7ba38b19c57ffe437ea67aa1a39558236c57f75bfcaae780cb71d0",
+      "vendored_sha3_512": "3125961860c0cbc62735088ecfeaa8829760511acc178a6abf5ce115724fd54f695fa731df7ba38b19c57ffe437ea67aa1a39558236c57f75bfcaae780cb71d0"
+    },
+    {
+      "path": "src/proof.rs",
+      "lines": 77,
+      "upstream_sha3_512": "3f3469e16cf4ff9374ad1d7d42ed8e0c71182de2fe4da002eafb570cb758075f6b5adcbbb6aa8aa51743dc5e603db9985da5ce311ec68415f11354aef2591c16",
+      "vendored_sha3_512": "3f3469e16cf4ff9374ad1d7d42ed8e0c71182de2fe4da002eafb570cb758075f6b5adcbbb6aa8aa51743dc5e603db9985da5ce311ec68415f11354aef2591c16"
+    },
+    {
+      "path": "src/prover.rs",
+      "lines": 477,
+      "upstream_sha3_512": "c204b85f1806914c55888ebeaf5f05c69067be4bd1ee512a8b44e8366d7be5cbd235ec1a576aaa600d6540e30c914737a147cc65c99c09b989558b5097f47222",
+      "vendored_sha3_512": "54453a97c3c5426f50f42331a91c5f051d3bee6074299fd8296e487c72d8e689e2421d3c824881831749437745995043ec3b493901ff2effda534ef1bad0f01c"
+    },
+    {
+      "path": "src/transcript.rs",
+      "lines": 1105,
+      "upstream_sha3_512": "8ddb8eb406a656b4b98097fdde83e88895d2b81788af192ff191df4a3f183e3f19117262fc0a07fbdffcf1d9ea5cd6322cf898fac1bb7c40a71483b5dc54e13b",
+      "vendored_sha3_512": "8ddb8eb406a656b4b98097fdde83e88895d2b81788af192ff191df4a3f183e3f19117262fc0a07fbdffcf1d9ea5cd6322cf898fac1bb7c40a71483b5dc54e13b"
+    },
+    {
+      "path": "src/two_adic_pcs.rs",
+      "lines": 1659,
+      "upstream_sha3_512": "04ad237ae38558450d21f554820a7379d26864b9207fb03d73f2361b981574626c56519b671935402087741e30e106efcd1e52d9c2338f64d614e7aaaa71932b",
+      "vendored_sha3_512": "bd6c26e143cdd3323bbd9ca3f82add7089488a62e6376e6212547b890ce15992d803b67635b699345e641eea48298ed0d461d38363c70a9c32aace7fd1b9073e"
+    },
+    {
+      "path": "src/verifier.rs",
+      "lines": 3193,
+      "upstream_sha3_512": "90eeced535c50af905c6e17048620a0ac5f80c5f766e062a441ed49299ae2ed45eb1d91d70f5bc2a5065814b6053091ce7d682a74f8c365e63631693dc68aff8",
+      "vendored_sha3_512": "90eeced535c50af905c6e17048620a0ac5f80c5f766e062a441ed49299ae2ed45eb1d91d70f5bc2a5065814b6053091ce7d682a74f8c365e63631693dc68aff8"
+    }
+  ],
+  "metadata_files_sha3_512": {
+    "Cargo.toml": "f9838f0f746fad74bb2138f0834482e3a447beec6e0346de99bdd2bff6414e9608cb464ea2198441ba02c9046bbe40c830cffef5d949b27816fe6cb93ea7afee",
+    "Cargo.upstream.toml": "ef177f93c6b5fc8c49731b9ff0ddda9a41e508079e74dfae579ecd441df4d7c2f22532dc4ac2fd5af82fc3c7b88929d6b28cc3693dfdde816412a58e2c2a6cc8",
+    "LICENSE-MIT": "6f0ab9dd8ce4dadea70e18853c9f9b0c15534f5903e2fed5c3f01f1ff8dccbc0571ffa4116d2280884fdb68c6f7d5bb7f078d1b7c68bf23eb89868ffae3def02",
+    "LICENSE-APACHE": "7f4d7d96d5f32217d766f9632f0b9a197b0afe58828598b157924f9afaeba83e01d073dc24b65a3824c985eab3128bbc4125690ce502fe9208f4ea0625d3b3fd",
+    "README.md": "7a7d66cd19f33d840bf8f4d0f3e0a8e463340bf6de4643fdd998cdb43fa3d5374f3e364a8d48c4b603c998d0c64321225d4500bf2428396ae3de09a08586e607",
+    "CHANGELOG.md": "0afeda007ad889a75c763fb7ecd467b806f5aa1c64bc35c20d99c21f3df8b303c62931b3ec132458c8ff69a8d66cfc5dd465b83ff22c9c012e7dedc9ad97ffb3",
+    "UPSTREAM.md": "255e738b3b0302dd27e6d5808d20ec72a0243468c89dc62876f33987a71d94db98c812646ad00762d895da25069ed454b0edc8674211d21918373c982b954905",
+    "input-matrix.patch": "f5682dceba60f3d0265d9c3c0181536f44c1b624553d3ba478b3550e130a3262a46c8e7cf27ad1f38c97aeb0291baa7b64ca30afefdfabcc8a27a56090d77cd6"
+  }
+}

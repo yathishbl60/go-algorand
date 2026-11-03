@@ -1,6 +1,6 @@
 # Native privacy integration validation
 
-Updated 2026-11-02. End-to-end regression tests are now explicitly authorized and
+Updated 2026-11-03. End-to-end regression tests are now explicitly authorized and
 required for delivery. Unit tests may remain deferred during refactoring. Tests
 cannot guarantee100% safety; complete security/protocol review remains separate.
 
@@ -38,6 +38,11 @@ integration comparisons, not native transaction tests.
 `--test compact_streamed_tree` also passes: exact stock caps/paths/salts across
 15 commitments and75 queries, with525 corrupted-proof/index rejections. See
 [full-dimension commitment evidence](STREAMED_COMMITMENT_RESULTS.md).
+
+The coefficient matrix, input MMCS and FRI targets also pass; the latter executes
+actual generic FRI proving and stock verification with authenticated input rows.
+[Evidence and scope](COEFFICIENT_FRI_INPUTS_RESULTS.md) distinguish this from a
+complete production PCS or native private-value acceptance.
 
 ## Existing ASA behavior
 

@@ -10,7 +10,7 @@ publish = false
 default = []
 native-privacy-compact = [
   "native-privacy", "dep:algorand-asset-privacy-field31",
-  "dep:p3-batch-stark", "dep:p3-lookup",
+  "dep:p3-batch-stark", "dep:p3-lookup", "dep:algorand-asset-privacy-matrix-adapter",
 ]
 native-privacy = [
   "dep:p3-air",
@@ -22,6 +22,7 @@ native-privacy = [
 
 [dependencies]
 algorand-asset-privacy-field31 = { path = "../field31", optional = true }
+algorand-asset-privacy-matrix-adapter = { path = "../matrix-adapter", optional = true }
 p3-batch-stark = { git = "https://github.com/Plonky3/Plonky3", rev = "1abcaa0795bc30ded29d54d0bc2cf495b6a20c2f", optional = true }
 p3-lookup = { git = "https://github.com/Plonky3/Plonky3", rev = "1abcaa0795bc30ded29d54d0bc2cf495b6a20c2f", optional = true }
 p3-keccak = { git = "https://github.com/Plonky3/Plonky3", rev = "1abcaa0795bc30ded29d54d0bc2cf495b6a20c2f", optional = true }

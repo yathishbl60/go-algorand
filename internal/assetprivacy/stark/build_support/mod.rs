@@ -3,6 +3,7 @@
 
 mod digest;
 mod files;
+mod vendor;
 
 use std::{env, fs, io, path::PathBuf};
 

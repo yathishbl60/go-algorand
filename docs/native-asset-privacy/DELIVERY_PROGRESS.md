@@ -1,6 +1,6 @@
 # Native privacy delivery gates and risks
 
-Updated 2026-11-02 after reviewing code volume and feasibility. The earlier 45%
+Updated 2026-11-03 after reviewing code volume and feasibility. The earlier 45%
 figure was a subjective work-package score. It is withdrawn as a delivery metric:
 there is not enough runtime evidence for a reliable overall completion percentage.
 The complete [north-star scope](IMPLEMENTATION.md) remains the intended end state.
@@ -26,6 +26,7 @@ pipeline, including preprocessing, FFTs, auxiliary proofs and assembly.
 | Private ownership composition | [One/two-note joint proofs](OWNED_NOTES_RESULTS.md) verified; mismatched private links rejected; complete spending absent |
 | Compact coefficient storage | [Full trace-dimension storage/tile run](COMPACT_STORAGE_RESULTS.md) completed at2.740GiB sampled RSS; complete PCS/prover absent |
 | Streamed compact commitment | [Full-dimension commitment and stock-verified opening](STREAMED_COMMITMENT_RESULTS.md) complete at2.982GiB sampled RSS; PCS opening/FRI pending |
+| Coefficient-backed FRI inputs | [Real stock-verified FRI and full-dimension192-query openings](COEFFICIENT_FRI_INPUTS_RESULTS.md) pass; production PCS/relation composition pending |
 | Native Owner registration | [Real two-node acceptance, bad-proof rollback and peer restart](NATIVE_OWNER_E2E_RESULTS.md) pass; public-only ASA policy |
 | Largest hash-table capacity | [1365-permutation proof](FULL_CAPACITY_HASH_RESULTS.md) verified in68s, sampled peak5.504GiB; excludes complete statement |
 | Accepted end-to-end native private transactions | None demonstrated |
