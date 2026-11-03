@@ -66,16 +66,17 @@ conversion; all cases assert the actual20 auxiliary base-polynomial claims.
 
 A bounded release worker completed a two-note/65536-row ownership proof with
 1988 main columns,57 periodic columns,20 auxiliary base columns and16 quotient
-chunks. All eight actual131072-row strips ran; unchanged stock verification
-accepted the complete proof. Worker time was299.787s; supervisor wall time
-**300.488s**, with **5391.922MiB sampled peak RSS** (~5.266GiB). Limits were600s
+chunks. All eight actual131072-row strips ran; both candidate configuration and
+unchanged stock verification accepted the complete proof. Worker time was292.877s;
+supervisor wall time **293.306s**, with **5653.062MiB sampled peak RSS**
+(~5.521GiB). Limits were600s
 CPU/wall,7GiB sampled RSS and disabled core dumps, on a64GiB host. Sampling can
 miss brief peaks. No seed, private trace or proof artifact was retained.
 
 The first worker stopped on an incorrect auxiliary-count assertion after proof
 generation; the assertion was corrected and moved into normal small regressions.
-The completed run checked stock verification. A further bounded run checks both
-candidate and stock configurations. The optional ignored full-height integration
+The final completed run checked both candidate and stock configurations.
+The optional ignored full-height integration
 case compiles with [repeat instructions](../../internal/assetprivacy/stark/tests/support/coefficient_quotient_strips/README.md);
 it has not yet been executed as a test target.
 

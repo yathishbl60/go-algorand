@@ -35,7 +35,7 @@ Callbacks returning one too few or one too many strip values must reject with
 An optional ignored case uses two notes at 65,536 rows with the full worker's
 limits: 64 tile columns, 67,108,864 tile values, 261,881,856 coefficient values,
 400,000,000 evaluation values, 2,000,000 claim values, and 5,000,000 query values.
-It verifies the full proof with the stock configuration and rejects a different
+It verifies with both candidate and stock configurations and rejects a different
 one-note program at the same height. The small test limits remain unchanged.
 Run this heavy case only under an external process monitor that enforces an
 8 GiB process-tree RSS cap and a time limit; these scalar limits do not guarantee
