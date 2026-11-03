@@ -1,5 +1,9 @@
 # Coefficient-backed hiding PCS
 
+For full-width quotient evaluation use the explicit `StripQuotient` scheduler;
+see [its API and resource boundary](strip_quotient/README.md). The ordinary batch
+prover retains its whole-domain default. This does not select a native profile.
+
 This candidate backend is available under `native-privacy-compact` through
 `coefficient_pcs::prover_config(Limits)` or `CoefficientPcs::new(Limits)`.
 It does not change default/native backend selection or activate a protocol profile.

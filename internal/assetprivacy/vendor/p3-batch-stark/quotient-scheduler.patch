@@ -1,0 +1,325 @@
+--- a/src/lib.rs
++++ b/src/lib.rs
+@@ -11,6 +11,7 @@
+ pub mod folder;
+ pub mod proof;
+ pub mod prover;
++pub mod quotient_scheduler;
+ pub mod security;
+ pub mod symbolic;
+ pub(crate) mod transcript;
+@@ -25,7 +26,7 @@
+ pub use error::BatchVerificationError;
+ pub use p3_uni_stark::{OpenedValues, ProvingError, VerificationError};
+ pub use proof::{BatchCommitments, BatchOpenedValues, BatchProof};
+-pub use prover::{StarkInstance, prove_batch};
++pub use prover::{StarkInstance, prove_batch, prove_batch_with_quotient_scheduler};
+ pub use security::num_batched_openings;
+ pub use transcript::{
+     BatchProverTranscript, BatchShape, BatchTranscriptFailure, BatchVerifierTranscript,
+--- a/src/prover.rs
++++ b/src/prover.rs
+@@ -35,6 +35,7 @@
+ };
+ use crate::folder::ProverConstraintFolderWithLookups;
+ use crate::proof::{BatchCommitments, BatchOpenedValues, BatchProof, OpenedValuesWithLookups};
++use crate::quotient_scheduler::{QuotientJob, QuotientScheduler, WholeDomainQuotient};
+ use crate::symbolic::{
+     get_constraint_layout, get_log_num_quotient_chunks_for_domain, get_symbolic_constraints,
+ };
+@@ -133,6 +134,36 @@
+     <SC::Pcs as p3_commit::Pcs<SC::Challenge, SC::Challenger>>::ProverData: Sync,
+     <SC::Pcs as p3_commit::Pcs<SC::Challenge, SC::Challenger>>::Commitment: Sync,
+ {
++    prove_batch_with_quotient_scheduler(config, instances, prover_data, &WholeDomainQuotient)
++}
++
++#[instrument(skip_all)]
++pub fn prove_batch_with_quotient_scheduler<
++    SC,
++    #[cfg(debug_assertions)] A: for<'a> Air<DebugConstraintBuilder<'a, Val<SC>, SC::Challenge>>
++        + Air<InteractionSymbolicBuilder<Val<SC>, SC::Challenge>>
++        + for<'a> Air<ProverConstraintFolderWithLookups<'a, SC>>
++        + Clone,
++    #[cfg(not(debug_assertions))] A: for<'a> Air<InteractionSymbolicBuilder<Val<SC>, SC::Challenge>>
++        + for<'a> Air<ProverConstraintFolderWithLookups<'a, SC>>
++        + Clone,
++>(
++    config: &SC,
++    instances: &[StarkInstance<'_, SC, A>],
++    prover_data: &ProverData<SC>,
++    quotient_scheduler: &impl QuotientScheduler<SC>,
++) -> Result<BatchProof<SC>, ProvingError<PcsProverError<SC>>>
++where
++    SC: SGC,
++    Val<SC>: PrimeField64,
++    SymbolicExpressionExt<Val<SC>, SC::Challenge>: Algebra<SC::Challenge>,
++    Domain<SC>: Send + Sync,
++    SC::Pcs: Sync,
++    PcsProverError<SC>: Send,
++    SC::Challenger: GrindingChallenger<Witness = Val<SC>>,
++    <SC::Pcs as p3_commit::Pcs<SC::Challenge, SC::Challenger>>::ProverData: Sync,
++    <SC::Pcs as p3_commit::Pcs<SC::Challenge, SC::Challenger>>::Commitment: Sync,
++{
+     // Public inputs reach this proof only through AIR constraints.
+     // A cell listed for backend binding would go completely unbound.
+     assert!(
+@@ -397,107 +428,109 @@
+     // Each instance's quotient chunks are independent, so compute them in
+     // parallel. `quotient_values` already parallelises over rows; with many
+     // instances this fills the cores that a single instance leaves idle.
+-    let per_instance: Result<Vec<InstanceQuotient<SC>>, PcsProverError<SC>> = (0..n_instances)
+-        .into_par_iter()
+-        .map(|i| {
+-            let _air_span = info_span!("compute quotient", air_idx = i).entered();
+-
+-            let log_chunks = log_num_quotient_chunks[i];
+-            let n_chunks = num_quotient_chunks[i];
+-            // Build the quotient domain: disjoint from the trace domain,
+-            // with size = ext_degree * num_quotient_chunks.
+-            let quotient_domain =
+-                ext_trace_domains[i].create_disjoint_domain(1 << (log_ext_degrees[i] + log_chunks));
+-
+-            let sym_layout = AirLayout {
+-                preprocessed_width: preprocessed_widths[i],
+-                main_width: airs[i].width(),
+-                num_public_values: airs[i].num_public_values(),
+-                num_periodic_columns: airs[i].num_periodic_columns(),
+-                ..Default::default()
+-            };
+-
+-            // Debug-only: verify the static constraint-count hint matches symbolic analysis.
+-            debug_assert!(
+-                airs[i].num_constraints().is_none_or(|n| {
+-                    n == get_symbolic_constraints(
+-                        airs[i],
+-                        sym_layout,
+-                        all_lookups[i],
+-                        &lookup_gadget,
+-                    )
++    let evaluate_instance = |i: usize| {
++        let _air_span = info_span!("compute quotient", air_idx = i).entered();
++
++        let log_chunks = log_num_quotient_chunks[i];
++        let n_chunks = num_quotient_chunks[i];
++        // Build the quotient domain: disjoint from the trace domain,
++        // with size = ext_degree * num_quotient_chunks.
++        let quotient_domain =
++            ext_trace_domains[i].create_disjoint_domain(1 << (log_ext_degrees[i] + log_chunks));
++
++        let sym_layout = AirLayout {
++            preprocessed_width: preprocessed_widths[i],
++            main_width: airs[i].width(),
++            num_public_values: airs[i].num_public_values(),
++            num_periodic_columns: airs[i].num_periodic_columns(),
++            ..Default::default()
++        };
++
++        // Debug-only: verify the static constraint-count hint matches symbolic analysis.
++        debug_assert!(
++            airs[i].num_constraints().is_none_or(|n| {
++                n == get_symbolic_constraints(airs[i], sym_layout, all_lookups[i], &lookup_gadget)
+                     .0
+                     .len()
+-                }),
+-                "num_constraints() = {} but symbolic evaluation found {} base constraints",
+-                airs[i].num_constraints().unwrap(),
+-                get_symbolic_constraints(airs[i], sym_layout, all_lookups[i], &lookup_gadget,)
+-                    .0
+-                    .len(),
+-            );
+-
+-            // Evaluate the committed main trace on the quotient domain via LDE.
+-            let trace_on_quotient_domain =
+-                pcs.get_evaluations_on_domain(&main_data, i, quotient_domain);
+-
+-            // Evaluate the permutation trace on the quotient domain (if lookups exist).
+-            let permutation_on_quotient_domain = permutation_data
++            }),
++            "num_constraints() = {} but symbolic evaluation found {} base constraints",
++            airs[i].num_constraints().unwrap(),
++            get_symbolic_constraints(airs[i], sym_layout, all_lookups[i], &lookup_gadget,)
++                .0
++                .len(),
++        );
++
++        let preprocessed = common
++            .preprocessed
++            .as_ref()
++            .and_then(|g| g.instances[i].as_ref())
++            .map(|meta| {
++                let data = prover_data
++                    .prover_only
++                    .preprocessed_prover_data
++                    .as_ref()
++                    .expect("preprocessed_prover_data must exist when preprocessed columns exist");
++                (data, meta.matrix_index)
++            });
++        let job = QuotientJob {
++            pcs,
++            instance_index: i,
++            trace_domain: trace_domains[i],
++            quotient_domain,
++            layout: sym_layout,
++            main: (&main_data, i),
++            preprocessed,
++            permutation: permutation_data
+                 .filter(|_| !all_lookups[i].is_empty())
+-                .map(|perm_data| {
+-                    pcs.get_evaluations_on_domain(perm_data, perm_indices[i], quotient_domain)
+-                });
+-
+-            // Evaluate preprocessed columns on the quotient domain (if present).
+-            let preprocessed_on_quotient_domain = common
+-                .preprocessed
+-                .as_ref()
+-                .and_then(|g| g.instances[i].as_ref())
+-                .map(|meta| {
+-                    let preprocessed_prover_data = prover_data
+-                        .prover_only
+-                        .preprocessed_prover_data
+-                        .as_ref()
+-                        .expect(
+-                            "preprocessed_prover_data must exist when preprocessed columns exist",
+-                        );
+-                    pcs.get_evaluations_on_domain_no_random(
+-                        preprocessed_prover_data,
+-                        meta.matrix_index,
+-                        quotient_domain,
+-                    )
+-                });
+-
+-            // Compute quotient(x) = constraints(x) / Z_H(x) on the quotient domain.
+-            let perm_vals: Vec<_> = lookup_terminals[i].iter().map(|t| t.0).collect();
+-            let q_values = quotient_values(
++                .map(|data| (data, perm_indices[i])),
++        };
++        let perm_vals: Vec<_> = lookup_terminals[i].iter().map(|t| t.0).collect();
++        let q_values = quotient_scheduler.evaluate(&job, &|evaluation_domain| {
++            let trace = pcs.get_evaluations_on_domain(job.main.0, job.main.1, evaluation_domain);
++            let permutation = job
++                .permutation
++                .map(|(data, index)| pcs.get_evaluations_on_domain(data, index, evaluation_domain));
++            let preprocessed = job.preprocessed.map(|(data, index)| {
++                pcs.get_evaluations_on_domain_no_random(data, index, evaluation_domain)
++            });
++            Ok(quotient_values(
+                 pcs,
+                 airs[i],
+                 pub_vals[i],
+                 sym_layout,
+                 trace_domains[i],
+-                quotient_domain,
+-                &trace_on_quotient_domain,
+-                permutation_on_quotient_domain.as_ref(),
++                evaluation_domain,
++                &trace,
++                permutation.as_ref(),
+                 all_lookups[i],
+                 &perm_vals,
+                 &lookup_gadget,
+                 &challenges_per_instance[i],
+-                preprocessed_on_quotient_domain.as_ref(),
++                preprocessed.as_ref(),
+                 alpha,
+-            );
+-
+-            // Flatten extension values to base field and split into degree-bounded chunks.
+-            let q_flat = RowMajorMatrix::new_col(q_values).flatten_to_base();
+-            let chunk_mats = quotient_domain.split_evals(n_chunks, q_flat);
+-            let chunk_domains = quotient_domain.split_domains(n_chunks);
+-
+-            // Compute low-degree extensions of each chunk for commitment.
+-            let evals = chunk_domains.iter().zip(chunk_mats).map(|(d, m)| (*d, m));
+-            let ldes = pcs.get_quotient_ldes(evals, n_chunks)?;
+-
+-            Ok((chunk_domains, ldes))
+-        })
+-        .collect();
++            ))
++        })?;
++
++        // Flatten extension values to base field and split into degree-bounded chunks.
++        let q_flat = RowMajorMatrix::new_col(q_values).flatten_to_base();
++        let chunk_mats = quotient_domain.split_evals(n_chunks, q_flat);
++        let chunk_domains = quotient_domain.split_domains(n_chunks);
++
++        // Compute low-degree extensions of each chunk for commitment.
++        let evals = chunk_domains.iter().zip(chunk_mats).map(|(d, m)| (*d, m));
++        let ldes = pcs.get_quotient_ldes(evals, n_chunks)?;
++
++        Ok((chunk_domains, ldes))
++    };
++    let per_instance: Result<Vec<InstanceQuotient<SC>>, PcsProverError<SC>> =
++        if quotient_scheduler.parallel_instances() {
++            (0..n_instances)
++                .into_par_iter()
++                .map(evaluate_instance)
++                .collect()
++        } else {
++            (0..n_instances).map(evaluate_instance).collect()
++        };
+ 
+     // Concatenate in instance order so the commit layout stays deterministic.
+     let mut quotient_chunk_domains = Vec::new();
+--- /dev/null
++++ b/src/quotient_scheduler.rs
+@@ -0,0 +1,58 @@
++//! Optional quotient evaluation scheduling; proof and verifier formats are unchanged.
++
++use crate::config::{Challenge, Domain, PcsProverError, StarkGenericConfig as SGC};
++use alloc::vec::Vec;
++use p3_air::symbolic::AirLayout;
++use p3_commit::Pcs;
++
++/// A committed matrix and its index; the prover retains ownership of its data.
++pub type CommittedMatrix<'a, SC> = (
++    &'a <<SC as SGC>::Pcs as Pcs<<SC as SGC>::Challenge, <SC as SGC>::Challenger>>::ProverData,
++    usize,
++);
++
++/// A fallible call to the existing PCS evaluation and AIR quotient calculation.
++pub type DomainEvaluator<'a, SC> =
++    dyn Fn(Domain<SC>) -> Result<Vec<Challenge<SC>>, PcsProverError<SC>> + 'a;
++
++/// Trusted prover context; selectors always refer to the original trace domain.
++/// `layout` includes main, preprocessing and periodic column counts.
++/// Every declared periodic column's period divides the original trace height.
++pub struct QuotientJob<'a, SC: SGC> {
++    pub pcs: &'a SC::Pcs,
++    pub instance_index: usize,
++    pub trace_domain: Domain<SC>,
++    pub quotient_domain: Domain<SC>,
++    pub layout: AirLayout,
++    pub main: CommittedMatrix<'a, SC>,
++    pub permutation: Option<CommittedMatrix<'a, SC>>,
++    pub preprocessed: Option<CommittedMatrix<'a, SC>>,
++}
++
++/// Return every full-domain quotient value in its original natural row order.
++/// Implementations must validate allocation/geometry budgets before calling the evaluator.
++pub trait QuotientScheduler<SC: SGC>: Sync {
++    /// Default preserves the original batch parallelism; bounded schedulers may opt out.
++    fn parallel_instances(&self) -> bool {
++        true
++    }
++
++    fn evaluate(
++        &self,
++        job: &QuotientJob<'_, SC>,
++        evaluate_domain: &DomainEvaluator<'_, SC>,
++    ) -> Result<Vec<Challenge<SC>>, PcsProverError<SC>>;
++}
++
++/// Default scheduling: the original single full-domain evaluator invocation.
++pub struct WholeDomainQuotient;
++
++impl<SC: SGC> QuotientScheduler<SC> for WholeDomainQuotient {
++    fn evaluate(
++        &self,
++        job: &QuotientJob<'_, SC>,
++        evaluate_domain: &DomainEvaluator<'_, SC>,
++    ) -> Result<Vec<Challenge<SC>>, PcsProverError<SC>> {
++        evaluate_domain(job.quotient_domain)
++    }
++}

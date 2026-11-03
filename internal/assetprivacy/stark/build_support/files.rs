@@ -19,7 +19,7 @@ pub fn collect(root: &Path) -> io::Result<Vec<String>> {
     Ok(names)
 }
 
-pub fn source_directories() -> [&'static str; 7] {
+pub fn source_directories() -> [&'static str; 8] {
     [
         "stark/src",
         "stark/build_support",
@@ -28,6 +28,7 @@ pub fn source_directories() -> [&'static str; 7] {
         "matrix-adapter/src",
         "vendor/p3-matrix/src",
         "vendor/p3-fri/src",
+        "vendor/p3-batch-stark/src",
     ]
 }
 
@@ -72,6 +73,7 @@ fn fixed_inputs() -> Vec<String> {
         "stark-ffi/Cargo.toml",
         "stark-ffi/include/nap_privacy.h",
         "stark/patches/p3-fri-input-matrix.patch",
+        "stark/patches/p3-batch-stark-quotient-scheduler.patch",
     ]
     .into_iter()
     .chain(vendor::inputs())

@@ -1,0 +1,123 @@
+{
+  "upstream_repository": "https://github.com/Plonky3/Plonky3",
+  "upstream_rev": "1abcaa0795bc30ded29d54d0bc2cf495b6a20c2f",
+  "status": "vendored optional quotient scheduler hook; no native/default profile activation or security approval",
+  "upstream_source_files": 13,
+  "source_files": 14,
+  "upstream_source_physical_lines": 5142,
+  "vendored_source_physical_lines": 5234,
+  "changed_source_files": 3,
+  "patch_physical_lines": 325,
+  "patch_sha3_512": "1c42e7e31f5bbd327eec0ac70404756468bcf22bc75ecc94f8dc63cf8c7f45693a4b2ac14eaeaea36665043231a75a1cd4e03fe2787190a81045e273f74955e4",
+  "omitted": "upstream benches/external tests/dev dependencies; all original src files and inline tests retained",
+  "files": [
+    {
+      "path": "src/check_constraints.rs",
+      "upstream_lines": 306,
+      "vendored_lines": 306,
+      "upstream_sha3_512": "cff6f388e39b51c2a7e5308574abdc13c321983215477b73974c389cdc4cf3a4e736c2b83807676e24e96ea61623df3dc244b776aafedd73ac26b6ccb557a755",
+      "vendored_sha3_512": "cff6f388e39b51c2a7e5308574abdc13c321983215477b73974c389cdc4cf3a4e736c2b83807676e24e96ea61623df3dc244b776aafedd73ac26b6ccb557a755"
+    },
+    {
+      "path": "src/common.rs",
+      "upstream_lines": 415,
+      "vendored_lines": 415,
+      "upstream_sha3_512": "95424f977bcc866ff7513dcf278107ef01fea464c95ad850d800e15282e18266967d87db2b8dd8819b0607493114dff3ba464cef143b788f254aeb07fc109658",
+      "vendored_sha3_512": "95424f977bcc866ff7513dcf278107ef01fea464c95ad850d800e15282e18266967d87db2b8dd8819b0607493114dff3ba464cef143b788f254aeb07fc109658"
+    },
+    {
+      "path": "src/config.rs",
+      "upstream_lines": 23,
+      "vendored_lines": 23,
+      "upstream_sha3_512": "eaa96de3493bb174e52b12c90b22a8a94d559b095eabcd47d1e23992cbf921f3cf0df1905b72ca75e2e3628f8acf14bdc606c41c73170112598adbf45124fa74",
+      "vendored_sha3_512": "eaa96de3493bb174e52b12c90b22a8a94d559b095eabcd47d1e23992cbf921f3cf0df1905b72ca75e2e3628f8acf14bdc606c41c73170112598adbf45124fa74"
+    },
+    {
+      "path": "src/error.rs",
+      "upstream_lines": 52,
+      "vendored_lines": 52,
+      "upstream_sha3_512": "0d469a36c94f6569ba1cab9602568aaa5fdc76391206849b748cf41b18f5e1c2e8623bcc9b447cf89f8ec2f85422c0c93a0448fd6c8aa9a20cb7bee81ee40803",
+      "vendored_sha3_512": "0d469a36c94f6569ba1cab9602568aaa5fdc76391206849b748cf41b18f5e1c2e8623bcc9b447cf89f8ec2f85422c0c93a0448fd6c8aa9a20cb7bee81ee40803"
+    },
+    {
+      "path": "src/folder.rs",
+      "upstream_lines": 239,
+      "vendored_lines": 239,
+      "upstream_sha3_512": "753308c8b6a35ab941c937d91d317f919e94dcc1e8b054c85516310f873c73221d033470b20b5b6b0c77fdd27e44634da667d5b78b80fdd3bf60f7e8d250d3a5",
+      "vendored_sha3_512": "753308c8b6a35ab941c937d91d317f919e94dcc1e8b054c85516310f873c73221d033470b20b5b6b0c77fdd27e44634da667d5b78b80fdd3bf60f7e8d250d3a5"
+    },
+    {
+      "path": "src/lib.rs",
+      "upstream_lines": 33,
+      "vendored_lines": 34,
+      "upstream_sha3_512": "fe1605084fab07825794b142b69e960a35da3cafc3949dba57c4eab39831ee3e0fa717889a7622158e0a6e549189712e5e468cd013250f0d78a00219a4958578",
+      "vendored_sha3_512": "e8e4f77fa7fe6cc1aa3c7b94f8bc665ac99fb148c53ef1609e2442f39bc696c7ce53f5138b58323029dbb9f628c1b846e7559ac9c4e652135cab2d96f9fecfc9"
+    },
+    {
+      "path": "src/proof.rs",
+      "upstream_lines": 71,
+      "vendored_lines": 71,
+      "upstream_sha3_512": "826b1540197c7fdb4080d58ea14024247e95f1d1b3baa5996dfa8b1aa4b7cde54e813e03354e964435623c59df3e2b8fe0f4c99835b8a9aa24ef739adac07aff",
+      "vendored_sha3_512": "826b1540197c7fdb4080d58ea14024247e95f1d1b3baa5996dfa8b1aa4b7cde54e813e03354e964435623c59df3e2b8fe0f4c99835b8a9aa24ef739adac07aff"
+    },
+    {
+      "path": "src/prover.rs",
+      "upstream_lines": 1080,
+      "vendored_lines": 1113,
+      "upstream_sha3_512": "3c555b85677c71376caba4014c39b6cf32d3c3c5d11f83c6cc39c786dae1888ceb793dca2072f57b358a191d80c168305f8d935288d90762e71311ec0909776b",
+      "vendored_sha3_512": "487ea78a71f76340d2a0a4dd02f50090628ff46af6551402c8880ef3c57d40557692c4e6030fd9cde7160f61ba6f70bab45db159534744d6039225d5dc930e89"
+    },
+    {
+      "path": "src/quotient_scheduler.rs",
+      "upstream_lines": 0,
+      "vendored_lines": 58,
+      "upstream_sha3_512": null,
+      "vendored_sha3_512": "0578a099a8275e7c7dd03b05949d193e2ead31072e455856820332e60d7b5acf83b1a358e865130752dcb50b7297ca2306c3b0e3654353b6af93cdcd827bc7db"
+    },
+    {
+      "path": "src/security.rs",
+      "upstream_lines": 99,
+      "vendored_lines": 99,
+      "upstream_sha3_512": "c7ca59a56e8c862600484c55b71367539d292848e2e0b3b9f4bf46023f51788c7b8f93dab20818e16141d3efb15991ebe54a5a6a463895396a39fd408ecc6391",
+      "vendored_sha3_512": "c7ca59a56e8c862600484c55b71367539d292848e2e0b3b9f4bf46023f51788c7b8f93dab20818e16141d3efb15991ebe54a5a6a463895396a39fd408ecc6391"
+    },
+    {
+      "path": "src/symbolic.rs",
+      "upstream_lines": 261,
+      "vendored_lines": 261,
+      "upstream_sha3_512": "f3ab0271dbc524d67938bb781aa4d8b06fb7f24465c546910b7fe553908b0fe76ad81fe86ccba66c7959e5728f65cffa40b0eeb3f60d92672b4424a4afb76da9",
+      "vendored_sha3_512": "f3ab0271dbc524d67938bb781aa4d8b06fb7f24465c546910b7fe553908b0fe76ad81fe86ccba66c7959e5728f65cffa40b0eeb3f60d92672b4424a4afb76da9"
+    },
+    {
+      "path": "src/transcript.rs",
+      "upstream_lines": 1424,
+      "vendored_lines": 1424,
+      "upstream_sha3_512": "814caae2270fe580ad021659dc720015f0225129cb7c996825fc5fbd13b7b67c2455fea99089955cf116e14043eeae2d3b7ffd72e32729110025d433b6bf9b8a",
+      "vendored_sha3_512": "814caae2270fe580ad021659dc720015f0225129cb7c996825fc5fbd13b7b67c2455fea99089955cf116e14043eeae2d3b7ffd72e32729110025d433b6bf9b8a"
+    },
+    {
+      "path": "src/verifier/data.rs",
+      "upstream_lines": 237,
+      "vendored_lines": 237,
+      "upstream_sha3_512": "8906c824cdea1285fa255f6d696ca7e504f47ddb23091958287f1e59e615b15e5a08e087dc46a846b9eae9630e112d78518cdff8ae7fe7e999c10d8d9205a417",
+      "vendored_sha3_512": "8906c824cdea1285fa255f6d696ca7e504f47ddb23091958287f1e59e615b15e5a08e087dc46a846b9eae9630e112d78518cdff8ae7fe7e999c10d8d9205a417"
+    },
+    {
+      "path": "src/verifier/mod.rs",
+      "upstream_lines": 902,
+      "vendored_lines": 902,
+      "upstream_sha3_512": "09b5f47d77b95a7734cdb352ae1c10f7ad4f1984b49ccc28fbd942fb419dc11a90df95a260ff4057e297a9b0eab4193472743a944ace6e9b0933a71c5b1872ed",
+      "vendored_sha3_512": "09b5f47d77b95a7734cdb352ae1c10f7ad4f1984b49ccc28fbd942fb419dc11a90df95a260ff4057e297a9b0eab4193472743a944ace6e9b0933a71c5b1872ed"
+    }
+  ],
+  "metadata_files_sha3_512": {
+    "Cargo.toml": "8b90e8a27b56695dc01a3fa67f848ad9083ae531270560313e709e46c356536c223045f23d26c5e40297b63e701732e4e4f497ff9ebc43b200752f793d2fead7",
+    "Cargo.upstream.toml": "b3b8058c04048bbd44a8483e09f87e3a852e122670ab5594dc483ffd6a2c9e3f6af55b0bcea97b437ff4a60ca282c48c2a1f326a6602640d1a8d2e6343a99738",
+    "LICENSE-MIT": "6f0ab9dd8ce4dadea70e18853c9f9b0c15534f5903e2fed5c3f01f1ff8dccbc0571ffa4116d2280884fdb68c6f7d5bb7f078d1b7c68bf23eb89868ffae3def02",
+    "LICENSE-APACHE": "7f4d7d96d5f32217d766f9632f0b9a197b0afe58828598b157924f9afaeba83e01d073dc24b65a3824c985eab3128bbc4125690ce502fe9208f4ea0625d3b3fd",
+    "README.md": "cbf13fa984d7536e5a6fe2ae6d29a197104a06f392a2ecc4bba65b5c5ed75e9df879935322f48c647cddc150f3bc0097e31d1e78ad47ff91634883fcaec1e011",
+    "CHANGELOG.md": "5229fc6c85a8a43fbe4d4febc7e31b238a54f044df004cff79f1d59a0b64a6906fd950ad9a53a9f0a40718677b5537acd5e9f6fd5607e9417d3c4b46bfd6c2c7",
+    "UPSTREAM.md": "715bacea59fa42cdbe154090bdce84799560a04d98fcddcf4f0e3c845e71944ddd2af36112f5c24f257a90c36f628bc8e0cd2af9cbbb271251be5009dc8ae7e6",
+    "quotient-scheduler.patch": "1c42e7e31f5bbd327eec0ac70404756468bcf22bc75ecc94f8dc63cf8c7f45693a4b2ac14eaeaea36665043231a75a1cd4e03fe2787190a81045e273f74955e4"
+  }
+}

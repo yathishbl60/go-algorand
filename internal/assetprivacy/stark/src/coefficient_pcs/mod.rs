@@ -18,6 +18,7 @@ mod randomization;
 mod stark_pcs;
 mod stark_verify;
 mod state;
+mod strip_quotient;
 mod types;
 
 use crate::compact_storage::InputMmcs;
@@ -28,6 +29,7 @@ use p3_fri::FriParameters;
 use rand::rngs::StdRng;
 pub use state::ProverData;
 use std::sync::Mutex;
+pub use strip_quotient::StripQuotient;
 pub use types::Config;
 use types::*;
 

@@ -11,7 +11,8 @@ impl UnivariateStarkPcs<E, Challenger> for CoefficientPcs {
     const ZK: bool = true;
 
     fn log_max_trace_height(&self) -> usize {
-        16
+        // The verifier bounds the extended trace: original 2^16 plus one hiding bit.
+        17
     }
     fn log_min_trace_height(&self) -> usize {
         9

@@ -27,7 +27,8 @@ pipeline, including preprocessing, FFTs, auxiliary proofs and assembly.
 | Compact coefficient storage | [Full trace-dimension storage/tile run](COMPACT_STORAGE_RESULTS.md) completed at2.740GiB sampled RSS; whole semantic prover absent |
 | Streamed compact commitment | [Full-dimension commitment and stock-verified opening](STREAMED_COMMITMENT_RESULTS.md) complete at2.982GiB sampled RSS; candidate PCS below |
 | Coefficient-backed FRI inputs | [Real stock-verified FRI and full-dimension192-query openings](COEFFICIENT_FRI_INPUTS_RESULTS.md) pass; candidate PCS below |
-| Coefficient-backed PCS | [Actual one/two-note STARK proofs and disclosure guards](COEFFICIENT_PCS_RESULTS.md) pass against stock verification; full-size quotient scheduling/composition pending |
+| Coefficient-backed PCS | [Actual one/two-note STARK proofs and disclosure guards](COEFFICIENT_PCS_RESULTS.md) pass; synthetic full-dimension PCS peak2.486GiB |
+| Stripwise quotient integration | [Exact differential checks and full65536-row ownership proof](COEFFICIENT_QUOTIENT_RESULTS.md) pass stock verification; peak5.266GiB; full spending/recipient composition pending |
 | Native Owner registration | [Real two-node acceptance, bad-proof rollback and peer restart](NATIVE_OWNER_E2E_RESULTS.md) pass; public-only ASA policy |
 | Largest hash-table capacity | [1365-permutation proof](FULL_CAPACITY_HASH_RESULTS.md) verified in68s, sampled peak5.504GiB; excludes complete statement |
 | Accepted end-to-end native private transactions | None demonstrated |

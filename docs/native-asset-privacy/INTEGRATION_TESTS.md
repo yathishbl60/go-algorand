@@ -45,9 +45,13 @@ actual generic FRI proving and stock verification with authenticated input rows.
 mutation rejection and shared disclosure leases. [PCS evidence](COEFFICIENT_PCS_RESULTS.md)
 separates this from complete semantic proving or native private-value acceptance.
 
+`--test coefficient_quotient_strips` proves four ownership cases using exact
+stripwise quotient evaluation; whole-domain equality, smaller allocation caps
+and callback failures pass. See [scope and evidence](COEFFICIENT_QUOTIENT_RESULTS.md).
+
 ## Existing ASA behavior
 
-The existing two-node `TestAssetSend` passed in24.79s with freshly built
+The existing two-node `TestAssetSend` passed in25.61s with freshly built
 `algod`, `goal` and `kmd`, compiled with native privacy and Rust FFI build tags.
 The network uses `ConsensusFuture`, where privacy remains disabled. This checks
 ordinary ASA transactions, funding and authorization against the changed tree.
@@ -64,10 +68,10 @@ rerun outside the sandbox passed. No consensus flag or production network change
 
 ## Native Owner registration
 
-[The real two-node regression](NATIVE_OWNER_E2E_RESULTS.md) passes in8.43s,
+[The real two-node regression](NATIVE_OWNER_E2E_RESULTS.md) passes in9.04s,
 including partial-suite private-policy rejection, actual PQ authorization,
 canonical bad-proof atomic rollback, valid block acceptance and peer restart.
-The complete signed transaction measured4,156,264 bytes; its group4,159,513 bytes.
+The complete signed transaction measured4,157,547 bytes; its group4,160,791 bytes.
 It checks public-only policy/key registration, without moving private value.
 See [exact build/run commands](../../test/e2e-go/features/assetprivacy/README.md).
 

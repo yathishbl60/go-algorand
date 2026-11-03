@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
 pub fn inputs() -> impl Iterator<Item = &'static str> {
-    matrix().into_iter().chain(fri())
+    matrix().into_iter().chain(fri()).chain(batch())
 }
 
 fn matrix() -> [&'static str; 9] {
@@ -30,5 +30,19 @@ fn fri() -> [&'static str; 9] {
         "vendor/p3-fri/CHANGELOG.md",
         "vendor/p3-fri/LICENSE-MIT",
         "vendor/p3-fri/LICENSE-APACHE",
+    ]
+}
+
+fn batch() -> [&'static str; 9] {
+    [
+        "vendor/p3-batch-stark/Cargo.toml",
+        "vendor/p3-batch-stark/Cargo.upstream.toml",
+        "vendor/p3-batch-stark/UPSTREAM.md",
+        "vendor/p3-batch-stark/SHA3_512_MANIFEST.json",
+        "vendor/p3-batch-stark/quotient-scheduler.patch",
+        "vendor/p3-batch-stark/README.md",
+        "vendor/p3-batch-stark/CHANGELOG.md",
+        "vendor/p3-batch-stark/LICENSE-MIT",
+        "vendor/p3-batch-stark/LICENSE-APACHE",
     ]
 }

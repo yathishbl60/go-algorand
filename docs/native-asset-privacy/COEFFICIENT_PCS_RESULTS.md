@@ -70,9 +70,9 @@ reproduces the geometry and verification path; its limits are not a RAM monitor.
 
 ## Remaining delivery gates
 
-Whole-prover8GiB and5MB signed-transaction gates remain open. The current generic
-batch prover still requests a full wide quotient-domain matrix; production
-stripwise scheduling and full semantic composition remain required. Bounded
+Whole-prover8GiB and5MB signed-transaction gates remain open. The generic batch
+prover retains whole-domain defaults; [explicit strip scheduling](COEFFICIENT_QUOTIENT_RESULTS.md)
+now passes ownership proofs. Full-height semantic measurements/composition remain. Bounded
 full-dimension PCS measurements are separate from complete semantic proving.
 No compact native proof codec/profile is approved or selected, no private value
 transaction is accepted, and the six real-node privacy scenarios remain0/6.
